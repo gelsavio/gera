@@ -1,0 +1,22 @@
+TECLADO VIRTUAL PWA v3.8.4
+
+INSTALAÇÃO
+1. Publique toda a pasta em uma hospedagem HTTPS, preservando a estrutura.
+2. Alternativamente, execute em localhost com um servidor local.
+3. Abra index.html no Chrome, Edge ou navegador compatível.
+4. Aguarde o carregamento completo das amostras.
+5. Use a opção Instalar aplicativo do navegador.
+
+TESTE OFFLINE
+1. Abra o aplicativo online pelo menos uma vez.
+2. Aguarde a bateria acústica terminar de carregar.
+3. Feche e abra novamente o aplicativo.
+4. No DevTools, abra Application > Service Workers e marque Offline, ou desconecte a rede.
+5. Recarregue o aplicativo e teste teclado, sequências, manual e bateria acústica.
+
+ATUALIZAÇÃO
+1. Altere a versão em CACHE_NAME no sw.js.
+2. Atualize os arquivos publicados mantendo o mesmo scope.
+3. Recarregue o aplicativo online.
+4. O evento activate apagará somente caches antigos iniciados por teclado-virtual-pwa-.
+5. localStorage e IndexedDB não são apagados pelo Service Worker.

@@ -1,0 +1,30 @@
+KIT ACÚSTICO SELECIONADO
+
+Seleção preliminar baseada em duração, envelope, nível e conteúdo espectral.
+A escolha final pode ser refinada após teste auditivo dentro do aplicativo.
+
+[kick]
+kick-soft.wav <- RD_K_6.wav
+kick-medium.wav <- RD_K_4.wav
+kick-hard.wav <- RD_K_1.wav
+
+[snare]
+snare-soft.wav <- RD_S_3.wav
+snare-medium.wav <- RD_S_5.wav
+snare-hard.wav <- RD_S_9.wav
+
+[hihat]
+hihat-closed-1.wav <- RD_C_HH_4.wav
+hihat-closed-2.wav <- RD_C_HH_7.wav
+hihat-semiopen.wav <- RD_C_HH_13.wav
+hihat-open.wav <- RD_C_HH_10.wav
+
+[cymbals]
+crash-1.wav <- RD_C_C_1.wav
+crash-2.wav <- RD_C_C_5.wav
+ride.wav <- RD_C_R_1.wav
+
+[toms]
+tom-high.wav <- RD_T_HT_4.wav
+tom-mid.wav <- RD_T_MT_4.wav
+tom-low.wav <- RD_T_FT_3.wav

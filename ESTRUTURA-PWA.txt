@@ -1,0 +1,34 @@
+especificacao-json-teclado-virtual-v3.md
+icons/
+  icon-192.png
+  icon-512.png
+  icon-maskable-512.png
+index.html
+kit-acustico-selecionado/
+  MAPEAMENTO.txt
+  cymbals/
+    crash-1.wav
+    crash-2.wav
+    ride.wav
+  hihat/
+    hihat-closed-1.wav
+    hihat-closed-2.wav
+    hihat-open.wav
+    hihat-semiopen.wav
+  kick/
+    kick-hard.wav
+    kick-medium.wav
+    kick-soft.wav
+  snare/
+    snare-hard.wav
+    snare-medium.wav
+    snare-soft.wav
+  toms/
+    tom-high.wav
+    tom-low.wav
+    tom-mid.wav
+manifest.json
+manual-teclado-virtual.html
+modelo-tempo-perdio-format-v3.json
+offline.html
+sw.js

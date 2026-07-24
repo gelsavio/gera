@@ -197,7 +197,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 </head>
 <body>
 <header class="topbar">
-  <div class="brand">🎹 MANUAL DO TECLADO VIRTUAL · v3.6.2</div>
+  <div class="brand">🎹 MANUAL DO TECLADO VIRTUAL · v3.8.4</div>
   <div class="actions">
     <button type="button" onclick="window.location.href='index.html'">🎹 Voltar ao teclado</button>
     <button type="button" onclick="window.print()">🖨 Imprimir</button>
@@ -234,11 +234,11 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
   <main>
     <section class="hero" id="apresentacao">
       <h1>TECLADO VIRTUAL</h1>
-      <p>Manual da versão <strong>3.6.2</strong>, com teclado sensível ao toque, acordes, círculo harmônico, acompanhamento contínuo, bateria acústica ou sintetizada, seis sequências, execução automática e biblioteca de músicas.</p>
+      <p>Manual da versão <strong>3.8.4</strong>, com teclado sensível ao toque, acordes, círculo harmônico, acompanhamento contínuo, bateria acústica ou sintetizada, oito sequências, execução automática e biblioteca de músicas.</p>
       <div class="badges">
         <span class="badge">Uso horizontal</span>
         <span class="badge">Multitoque</span>
-        <span class="badge">Seis sequências</span>
+        <span class="badge">Oito sequências</span>
         <span class="badge">Bateria com samples</span>
         <span class="badge">Músicas salvas no navegador</span>
       </div>
@@ -337,9 +337,11 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
       <p>As notas são tocadas em sequência. O padrão e o intervalo são configurados no painel avançado.</p>
       <h3>Troca de acorde</h3>
       <ul>
-        <li><strong>Imediata:</strong> troca no momento do toque.</li>
-        <li><strong>Meio compasso:</strong> aguarda o próximo limite de meio compasso.</li>
-        <li><strong>Próximo compasso:</strong> aguarda o início do próximo compasso.</li>
+        <li><strong>0:</strong> troca imediatamente.</li>
+        <li><strong>¼:</strong> troca no próximo quarto de compasso.</li>
+        <li><strong>½:</strong> troca no próximo meio compasso.</li>
+        <li><strong>¾:</strong> troca no próximo três quartos de compasso.</li>
+        <li><strong>1:</strong> troca no próximo compasso.</li>
       </ul>
     </section>
 
@@ -358,23 +360,33 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
     <section class="card" id="sequencias">
       <h2>11. Sequências</h2>
       <p>O aplicativo possui seis áreas independentes: <strong>Seq. 1</strong> até <strong>Seq. 6</strong>.</p>
-      <h3>Gravar</h3>
+      <h3>Gravar</h3><p>Cada acorde gravado guarda também o modo usado naquele momento: <strong>Juntos</strong> ou <strong>Arpejo</strong>. Durante a reprodução, o aplicativo alterna automaticamente conforme cada acorde.</p>
       <ol>
         <li>Selecione uma sequência.</li>
         <li>Pressione <strong>● Gravar</strong>.</li>
         <li>Toque nos acordes desejados.</li>
-        <li>Use <strong>⏸ 1</strong> para uma pausa de um compasso e <strong>⏸ ½</strong> para meia pausa.</li>
+        <li>Use <strong>⏸ ¼</strong>, <strong>⏸ ½</strong>, <strong>⏸ ¾</strong> ou <strong>⏸ 1</strong> para inserir pausas fracionadas.</li>
         <li>Pressione Gravar novamente para encerrar.</li>
       </ol>
       <h3>Apagar</h3>
-      <p>O botão <strong>⌫</strong> remove somente o último acorde ou pausa, um item por vez.</p>
+      <p>O botão <strong>⌫</strong> exige dois toques em até três segundos antes de remover o último item.</p>
+      
+      <h3>Exportar e importar uma música</h3>
+      <p>Use <strong>⇩ Exportar</strong> para gerar um arquivo JSON da música atual. O arquivo inclui as oito sequências, acordes, pausas, durações fracionadas, números de repetição, BPM, modo Auto e a sequência selecionada.</p>
+      <p>Use <strong>⇧ Importar</strong> para abrir uma música exportada anteriormente. A importação substitui a música atual inteira somente depois de uma confirmação.</p>
+      <div class="note"><strong>Uma música por vez</strong><br>Cada arquivo representa uma música completa. Ele não altera as demais músicas que já estejam salvas na biblioteca do navegador.</div>
+
       <h3>Reprodução</h3>
       <p>Pressione <strong>▶</strong> para tocar a sequência selecionada. Com o modo Auto desligado, ela repete indefinidamente.</p>
     </section>
 
     <section class="card" id="auto">
-      <h2>12. Modo Auto e repetições</h2>
-      <p>Cada sequência possui um campo numérico de <strong>0 a 16</strong>.</p>
+      <h2>12. Modos automáticos e repetições</h2>
+      <h3>Auto</h3>
+      <p>Executa as sequências configuradas em ciclo. Depois da última sequência válida, volta para a primeira.</p>
+      <h3>Auto Fim</h3>
+      <p>Executa as sequências configuradas apenas uma vez. Ao terminar a última repetição da última sequência válida, não volta para a primeira. Se a bateria estiver ligada, o aplicativo realiza uma virada de encerramento e para a música e a bateria.</p>
+      <p>Cada sequência possui controles <strong>− e +</strong> para ajustar de 0 a 16 sem digitação.</p>
       <ul>
         <li><strong>0:</strong> a sequência fica fora da execução automática.</li>
         <li><strong>1 a 16:</strong> define quantas vezes a sequência será executada antes de avançar.</li>
@@ -382,7 +394,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
       <p>Com <strong>Auto</strong> ativo, o aplicativo percorre somente as sequências que possuem conteúdo e valor maior que zero. Depois da última sequência válida, volta para a primeira.</p>
       <div class="success"><strong>Exemplo</strong><br>Seq. 1 = 4, Seq. 2 = 1, Seq. 3 = 2 e demais = 0 resulta em: Seq. 1 ×4 → Seq. 2 ×1 → Seq. 3 ×2 → volta para Seq. 1.</div>
       <h3>Escolha manual da próxima sequência</h3>
-      <p>Durante a reprodução, toque em outra sequência. Ela ficará marcada como próxima e terá prioridade sobre a ordem automática, entrando ao final da sequência atual.</p>
+      <p>Durante a reprodução, o botão ✦■ Fim programa a parada da sequência atual exatamente quando ela terminar. Se a bateria estiver ligada, o aplicativo executa uma virada de encerramento e para a sequência e a bateria juntas. Toque novamente para cancelar a parada programada.</p>
     </section>
 
     <section class="card" id="musicas">
@@ -393,16 +405,16 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
         <li>Defina o BPM.</li>
         <li>Pressione <strong>Salvar</strong>.</li>
         <li>Use a lista para carregar ou excluir músicas.</li>
-        <li><strong>Nova música</strong> limpa as seis sequências e inicia um novo projeto.</li>
+        <li><strong>Nova música</strong> limpa as oito sequências e inicia um novo projeto.</li>
       </ul>
-      <p>Cada música salva guarda as seis sequências, os números de repetição, o modo Auto e o BPM.</p>
+      <p>Cada música salva guarda as oito sequências, os números de repetição, o modo Auto e o BPM.</p>
       <div class="warning"><strong>Armazenamento local</strong><br>As músicas são salvas no navegador. Limpar os dados do site ou usar outro navegador pode remover a biblioteca.</div>
     </section>
 
     <section class="card" id="bateria">
       <h2>14. Bateria</h2>
       <h3>Ritmos disponíveis</h3>
-      <p>Rock, Forró, Bolero, Sertanejo, Balada, Suave e Bossa nova.</p>
+      <p>Rock, Forró, Bolero, Sertanejo, Balada, Suave e Bossa nova. A Bossa nova utiliza uma condução lenta, leve e espaçada. Os padrões foram diferenciados: Sertanejo usa abertura de chimbal no final do compasso, Suave trabalha em meio-tempo e Bossa nova utiliza condução de prato com acentos sincopados.</p>
       <h3>Camadas</h3>
       <p>Os botões de bumbo, caixa e chimbal ligam ou silenciam cada camada do ritmo programado.</p>
       <h3>Virada e encerramento</h3>
@@ -450,7 +462,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
     <section class="card" id="tablet">
       <h2>17. Tablet e teclado físico</h2>
       <ul>
-        <li>Use a tela na horizontal.</li>
+        <li>O aplicativo funciona na horizontal e também no modo retrato. Na posição vertical, alguns grupos são reorganizados em mais linhas.</li>
         <li>Ative Tela cheia quando necessário.</li>
         <li>Os pads manuais aceitam toque simultâneo.</li>
         <li>O teclado principal aceita até quatro notas simultâneas.</li>
@@ -491,8 +503,30 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
       </div>
     </section>
 
-    <footer>MANUAL DO TECLADO VIRTUAL · v3.6.2 · Seis sequências, biblioteca de músicas e bateria acústica</footer>
-  </main>
+    <footer>MANUAL DO TECLADO VIRTUAL · v3.8.4 · Oito sequências, biblioteca de músicas e bateria acústica</footer>
+  
+      <h2>Configuração de bateria por sequência</h2>
+      <p>Cada uma das oito sequências pode guardar um padrão de bateria, uma virada de entrada e um encerramento. O motor acústico ou sintético é definido globalmente para a música.</p>
+      <p>O aplicativo calcula automaticamente os compassos de cada sequência somando as durações dos acordes e das pausas.</p>
+      <p>Ao exportar uma música, o JSON versão 3 inclui <code>drumEngine</code>, <code>ordemSecoes</code>, <code>compassos</code> e <code>bateria</code>, além dos campos anteriores.</p>
+
+<h2>Capotraste digital</h2>
+<p>O controle Capotraste transpõe todo o som do teclado e dos acordes entre −12 e +12 semitons. Os acordes gravados permanecem com seus nomes originais; apenas a altura reproduzida é alterada. O botão central zera a transposição.</p>
+
+<section id="pwa">
+<h2>Instalação e uso offline</h2>
+<p>O Teclado Virtual pode ser instalado como aplicativo em navegadores compatíveis. Após o primeiro carregamento completo, a interface, o manual e as amostras da bateria acústica ficam disponíveis offline.</p>
+<p>A instalação e o Service Worker exigem hospedagem HTTPS ou execução em localhost. Abrir o arquivo diretamente pelo endereço <code>file://</code> não ativa os recursos de PWA.</p>
+</section>
+
+
+<section id="bpm-sincronizado">
+<h2>Alteração de BPM durante a execução</h2>
+<p>Quando o BPM é alterado durante a sequência ou a bateria, o novo valor é aplicado no início do próximo compasso. O compasso atual termina no andamento anterior, evitando reinício, sobreposição e perda de sincronismo.</p>
+<p>Ao abrir o aplicativo, nenhuma música da biblioteca é marcada como carregada automaticamente. O nome da música permanece vazio até que uma música seja aberta ou salva.</p>
+</section>
+
+</main>
 </div>
 </body>
 </html>
