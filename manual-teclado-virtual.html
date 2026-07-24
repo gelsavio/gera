@@ -197,7 +197,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 </head>
 <body>
 <header class="topbar">
-  <div class="brand">🎹 MANUAL DO TECLADO VIRTUAL · v3.8.4</div>
+  <div class="brand">🎹 MANUAL DO TECLADO VIRTUAL · v3.10.0</div>
   <div class="actions">
     <button type="button" onclick="window.location.href='index.html'">🎹 Voltar ao teclado</button>
     <button type="button" onclick="window.print()">🖨 Imprimir</button>
@@ -234,7 +234,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
   <main>
     <section class="hero" id="apresentacao">
       <h1>TECLADO VIRTUAL</h1>
-      <p>Manual da versão <strong>3.8.4</strong>, com teclado sensível ao toque, acordes, círculo harmônico, acompanhamento contínuo, bateria acústica ou sintetizada, oito sequências, execução automática e biblioteca de músicas.</p>
+      <p>Manual da versão <strong>3.10.0</strong>, com teclado sensível ao toque, acordes, círculo harmônico, acompanhamento contínuo, bateria acústica ou sintetizada, oito sequências, execução automática e biblioteca de músicas.</p>
       <div class="badges">
         <span class="badge">Uso horizontal</span>
         <span class="badge">Multitoque</span>
@@ -503,7 +503,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
       </div>
     </section>
 
-    <footer>MANUAL DO TECLADO VIRTUAL · v3.8.4 · Oito sequências, biblioteca de músicas e bateria acústica</footer>
+    <footer>MANUAL DO TECLADO VIRTUAL · v3.10.0 · Oito sequências, biblioteca de músicas e bateria acústica</footer>
   
       <h2>Configuração de bateria por sequência</h2>
       <p>Cada uma das oito sequências pode guardar um padrão de bateria, uma virada de entrada e um encerramento. O motor acústico ou sintético é definido globalmente para a música.</p>
@@ -524,6 +524,20 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 <h2>Alteração de BPM durante a execução</h2>
 <p>Quando o BPM é alterado durante a sequência ou a bateria, o novo valor é aplicado no início do próximo compasso. O compasso atual termina no andamento anterior, evitando reinício, sobreposição e perda de sincronismo.</p>
 <p>Ao abrir o aplicativo, nenhuma música da biblioteca é marcada como carregada automaticamente. O nome da música permanece vazio até que uma música seja aberta ou salva.</p>
+</section>
+
+
+<section id="editor-sequencias">
+<h2>Importação e edição de sequências</h2>
+<p>A importação cria uma música nova na biblioteca e não substitui a música que estava aberta. Quando necessário, o trabalho atual é preservado automaticamente como rascunho.</p>
+<p>Para editar uma sequência, toque em qualquer acorde ou pausa da faixa. O editor permite substituir o item, alterar sua duração e modo de execução, inserir outro item antes ou depois e excluir o item selecionado.</p>
+</section>
+
+
+<section id="karaoke">
+<h2>Karaokê e prévia da próxima sequência</h2>
+<p>Cada acorde ou pausa pode receber um trecho de letra pelo editor da sequência. Como o item já possui uma duração de ¼, ½, ¾ ou 1 compasso, a letra fica diretamente relacionada ao tempo musical.</p>
+<p>Durante a reprodução, o trecho atual aparece em destaque e o próximo trecho é mostrado abaixo. Os quatro primeiros acordes da próxima sequência aparecem em roxo para preparar a troca.</p>
 </section>
 
 </main>

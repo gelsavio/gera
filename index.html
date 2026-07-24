@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <meta name="screen-orientation" content="landscape">
-<title>Teclado Virtual v3.8.4</title>
+<title>Teclado Virtual v3.10.0</title>
 <style>
 :root{--bg:#111326;--panel:#0b0e1c;--panel2:#191d35;--border:#343a59;--text:#f8fafc;--muted:#9ca8c3;--accent:#4f46e5;--success:#16a34a;--danger:#dc2626;--warning:#d97706}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -129,11 +129,121 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
  }
 }
 
+
+.sequence-item{cursor:pointer}
+.sequence-item:hover{filter:brightness(1.12)}
+.sequence-item.editing{outline:2px solid #facc15;outline-offset:2px}
+.sequence-editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sequence-editor-grid label{display:flex;flex-direction:column;gap:4px;color:#b8c2d8;font-size:.72rem;font-weight:800}
+.sequence-editor-grid select{width:100%}
+.sequence-editor-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:12px}
+.sequence-editor-actions button{min-width:0}
+.sequence-editor-actions .danger{grid-column:1/4}
+.sequence-editor-help{margin:0 0 10px;color:#9aa6bf;font-size:.68rem;line-height:1.35}
+@media(max-width:650px){
+ .sequence-editor-grid{grid-template-columns:1fr}
+ .sequence-editor-actions{grid-template-columns:1fr 1fr}
+ .sequence-editor-actions .danger{grid-column:1/3}
+}
+
+
+.karaoke-panel{
+ display:grid;
+ grid-template-columns:minmax(0,1.6fr) minmax(230px,.8fr);
+ gap:6px;
+ align-items:stretch;
+}
+.karaoke-current,.next-sequence-preview{
+ min-width:0;
+ padding:7px 9px;
+ border:1px solid #35405d;
+ border-radius:9px;
+ background:#12172a;
+}
+.karaoke-caption,.next-preview-caption{
+ display:block;
+ margin-bottom:3px;
+ color:#8995ad;
+ font-size:.54rem;
+ font-weight:900;
+ text-transform:uppercase;
+ letter-spacing:.05em;
+}
+#karaoke-current-line{
+ display:block;
+ min-height:1.45em;
+ color:#f8fafc;
+ font-size:1rem;
+ font-weight:900;
+ line-height:1.25;
+ text-align:center;
+}
+#karaoke-next-line{
+ display:block;
+ min-height:1.15em;
+ margin-top:2px;
+ color:#94a3b8;
+ font-size:.67rem;
+ line-height:1.2;
+ text-align:center;
+}
+.next-preview-chords{
+ display:flex;
+ gap:4px;
+ align-items:center;
+ min-height:32px;
+ overflow:hidden;
+}
+.next-preview-chord{
+ flex:1 1 0;
+ min-width:0;
+ padding:6px 3px;
+ border:1px solid #a78bfa;
+ border-radius:7px;
+ background:#5b21b6;
+ color:#f5f3ff;
+ font-size:.72rem;
+ font-weight:900;
+ text-align:center;
+ white-space:nowrap;
+ overflow:hidden;
+ text-overflow:ellipsis;
+}
+.next-preview-empty{
+ color:#7f8aa3;
+ font-size:.65rem;
+}
+.sequence-item .sequence-item-lyric{
+ display:block;
+ max-width:120px;
+ margin-top:2px;
+ color:#fbcfe8;
+ font-size:.48rem;
+ font-weight:700;
+ overflow:hidden;
+ text-overflow:ellipsis;
+ white-space:nowrap;
+}
+.sequence-item.current .sequence-item-lyric{color:#fff}
+.sequence-editor-lyric{
+ grid-column:1/3;
+}
+.sequence-editor-lyric textarea{
+ width:100%;
+ min-height:68px;
+ resize:vertical;
+}
+@media(max-width:700px){
+ .karaoke-panel{grid-template-columns:1fr}
+ .sequence-editor-lyric{grid-column:1}
+ #karaoke-current-line{font-size:.88rem}
+}
+
 </style>
 </head>
 <body>
 <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O Teclado Virtual foi organizado para uso horizontal.</p></div>
-<header><h1>🎹 Teclado Virtual <small class="app-version">v3.8.4</small></h1><div class="header-actions"><button type="button" class="secondary" onclick="window.location.href='manual-teclado-virtual.html'">📘 Manual</button><button id="advanced-toggle" class="secondary">⚙️ Avançado</button><button id="fullscreen" class="secondary">⛶ Tela cheia</button></div></header>
+<header><h1>🎹 Teclado Virtual <small class="app-version">v3.10.0</small></h1><div class="header-actions"><button type="button" class="secondary" onclick="window.location.href='manual-teclado-virtual.html'">📘 Manual</button><button id="advanced-toggle" class="secondary">⚙️ Avançado</button><button id="fullscreen" class="secondary">⛶ Tela cheia</button></div></header>
 <main class="app">
 <section class="panel quick-controls">
 <div class="control"><label for="instrument">Instrumento</label><select id="instrument"><option value="piano">🎹 Piano</option><option value="xylophone">🪇 Xilofone</option><option value="flute">🪈 Flauta</option><option value="churchOrgan">⛪ Órgão de igreja</option><option value="accordion">🪗 Acordeom</option><option value="violin">🎻 Violino</option><option value="bassGuitar">🎸 Baixo</option><option value="acousticGuitar">🪕 Violão</option><option value="synthPad">🌌 Pad sintetizado</option></select></div>
@@ -251,6 +361,19 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
     <div class="sequence-controls"><button id="sequence-rest-quarter" class="secondary" title="Adicionar pausa de um quarto de compasso">⏸ ¼</button><button id="sequence-rest-half" class="secondary" title="Adicionar pausa de meio compasso">⏸ ½</button><button id="sequence-rest-three-quarter" class="secondary" title="Adicionar pausa de três quartos de compasso">⏸ ¾</button><button id="sequence-rest-full" class="secondary" title="Adicionar pausa de um compasso">⏸ 1</button><button id="sequence-record" class="secondary" title="Gravar acordes na parte selecionada">● Gravar</button><button id="sequence-auto" class="secondary sequence-auto" title="Executar automaticamente em ciclo todas as sequências configuradas">Auto</button><button id="sequence-auto-end" class="secondary sequence-auto" title="Executar a música uma vez e encerrar com virada de bateria">Auto Fim</button><button id="sequence-clear" class="danger" title="Toque duas vezes para apagar o último item">⌫</button></div>
   </div>
   <div id="sequence-strip" class="sequence-strip"><span class="sequence-empty">Grave os acordes da Seq. 1.</span></div>
+  <div class="karaoke-panel" aria-label="Karaokê e prévia da próxima sequência">
+    <div class="karaoke-current">
+      <span class="karaoke-caption">Karaokê</span>
+      <strong id="karaoke-current-line"></strong>
+      <span id="karaoke-next-line"></span>
+    </div>
+    <div class="next-sequence-preview">
+      <span id="next-preview-caption" class="next-preview-caption">Próxima sequência</span>
+      <div id="next-preview-chords" class="next-preview-chords">
+        <span class="next-preview-empty">Nenhuma próxima sequência</span>
+      </div>
+    </div>
+  </div>
 </div>
 </section>
 <dialog id="songs-dialog" class="songs-dialog" aria-label="Gerenciar músicas salvas">
@@ -274,7 +397,7 @@ const LABELS={piano:"Piano",xylophone:"Xilofone",flute:"Flauta",churchOrgan:"Ór
 const CHORD_INTERVALS={minor:[0,3,7],major:[0,4,7],minor7:[0,3,7,10],dominant7:[0,4,7,10],sus2:[0,2,7],sus4:[0,5,7],diminished:[0,3,6]};
 const CIRCLE_DEGREES=[{step:0,type:"major"},{step:2,type:"minor"},{step:4,type:"minor"},{step:5,type:"major"},{step:7,type:"major"},{step:9,type:"minor"},{step:11,type:"diminished"}];
 const SECONDARY_DOMINANTS=[{targetStep:2,targetType:"minor",degree:"V/ii"},{targetStep:4,targetType:"minor",degree:"V/iii"},{targetStep:5,targetType:"major",degree:"V/IV"},{targetStep:7,targetType:"major",degree:"V/V"},{targetStep:9,targetType:"minor",degree:"V/vi"}];
-let audioCtx,masterGain,limiter,drumBus,drumCompressor,openHatVoice=null,drumEngine="acoustic",drumSamplesReady=false,drumSamplesLoading=false,drumSampleBuffers={},drumRoundRobin={},drumSamplesLoadedCount=0,drumSamplesTotalCount=0,drumSamplesFailureCount=0,instrument="piano",octave=0,capoSemitones=0,sustainMode="hold",releaseMs=650,attackMs=20,chordMode="together",arpInterval=280,arpPattern="up",chordType="minor",inversion=0,bassEnabled=false,latchEnabled=false,splitEnabled=false,splitInstrument="churchOrgan",velocityEnabled=true,glissEnabled=true,metronomeOn=false,metronomeTimer=null,bpm=100,rhythmPattern="whole",chordChangeMode="nextBar",latchedRoot=null,latchedType=null,pendingRoot=null,pendingType=null,pendingButton=null,latchedButton=null,accompanimentTimer=null,accompanimentEvents=[],accompanimentHalfTimer=null,activeVoices=new Set(),pointerVoices=new Map(),pointerLastKey=new Map(),pressedKeys=new Map(),saveArmed=false,actionToken=0,alternateDirection=false,circleEnabled=false,circleRoot=null,drumMode=true,drumRunning=false,drumPattern="rock",drumManual=false,drumStep=0,drumTimer=null,drumNextTime=0,drumFillQueued=false,drumEndingQueued=false,drumQueuedAction="",drumActiveAction="",drumCompletedAction="",drumActionMuteUntil=0,sequenceEndActionInProgress="",sequenceConfiguredActionName="",drumLayers={kick:true,snare:true,hat:true},sequenceRecording=false,sequencePlaying=false,sequenceTimer=null,sequenceIndex=-1,sequenceQuarterUnitsRemaining=0,sequenceStartQueued=false,activeSequenceSection='verse',queuedSequenceSection=null,sequenceLoop=true,sequenceAuto=true,sequenceAutoEnd=false,sequencePanelVisible=true,sequenceSections={verse:[],prechorus:[],chorus:[],bridge:[],section5:[],section6:[],section7:[],section8:[]},sequenceRepeats={verse:0,prechorus:0,chorus:0,bridge:0,section5:0,section6:0,section7:0,section8:0},sequenceOrder=['verse','prechorus','chorus','bridge','section5','section6','section7','section8'],sequenceDrums={verse:{padrao:'rock',entrada:null,final:null},prechorus:{padrao:'rock',entrada:null,final:null},chorus:{padrao:'rock',entrada:null,final:null},bridge:{padrao:'rock',entrada:null,final:null},section5:{padrao:'rock',entrada:null,final:null},section6:{padrao:'rock',entrada:null,final:null},section7:{padrao:'rock',entrada:null,final:null},section8:{padrao:'rock',entrada:null,final:null}},currentSectionRepetition=1,sequencePendingTransition=null,sequencePlaybackOriginalChordMode=null,sequenceStopAtEnd=false,sequenceDeleteArmed=false,sequenceDeleteTimer=null,transportRunning=false,transportStep=0,transportNextTime=0,transportTimer=null,transportEvents=[],transportBar=0,transportTempoBpm=100,pendingBpm=null,drumStartQueued=false,accompanimentStopQueued=false,accompanimentStopEventScheduled=false;
+let audioCtx,masterGain,limiter,drumBus,drumCompressor,openHatVoice=null,drumEngine="acoustic",drumSamplesReady=false,drumSamplesLoading=false,drumSampleBuffers={},drumRoundRobin={},drumSamplesLoadedCount=0,drumSamplesTotalCount=0,drumSamplesFailureCount=0,instrument="piano",octave=0,capoSemitones=0,sustainMode="hold",releaseMs=650,attackMs=20,chordMode="together",arpInterval=280,arpPattern="up",chordType="minor",inversion=0,bassEnabled=false,latchEnabled=false,splitEnabled=false,splitInstrument="churchOrgan",velocityEnabled=true,glissEnabled=true,metronomeOn=false,metronomeTimer=null,bpm=100,rhythmPattern="whole",chordChangeMode="nextBar",latchedRoot=null,latchedType=null,pendingRoot=null,pendingType=null,pendingButton=null,latchedButton=null,accompanimentTimer=null,accompanimentEvents=[],accompanimentHalfTimer=null,activeVoices=new Set(),pointerVoices=new Map(),pointerLastKey=new Map(),pressedKeys=new Map(),saveArmed=false,actionToken=0,alternateDirection=false,circleEnabled=false,circleRoot=null,drumMode=true,drumRunning=false,drumPattern="rock",drumManual=false,drumStep=0,drumTimer=null,drumNextTime=0,drumFillQueued=false,drumEndingQueued=false,drumQueuedAction="",drumActiveAction="",drumCompletedAction="",drumActionMuteUntil=0,sequenceEndActionInProgress="",sequenceConfiguredActionName="",drumLayers={kick:true,snare:true,hat:true},sequenceRecording=false,sequencePlaying=false,sequenceTimer=null,sequenceIndex=-1,sequenceQuarterUnitsRemaining=0,sequenceStartQueued=false,activeSequenceSection='verse',queuedSequenceSection=null,sequenceLoop=true,sequenceAuto=true,sequenceAutoEnd=false,sequencePanelVisible=true,sequenceSections={verse:[],prechorus:[],chorus:[],bridge:[],section5:[],section6:[],section7:[],section8:[]},sequenceRepeats={verse:0,prechorus:0,chorus:0,bridge:0,section5:0,section6:0,section7:0,section8:0},sequenceOrder=['verse','prechorus','chorus','bridge','section5','section6','section7','section8'],sequenceDrums={verse:{padrao:'rock',entrada:null,final:null},prechorus:{padrao:'rock',entrada:null,final:null},chorus:{padrao:'rock',entrada:null,final:null},bridge:{padrao:'rock',entrada:null,final:null},section5:{padrao:'rock',entrada:null,final:null},section6:{padrao:'rock',entrada:null,final:null},section7:{padrao:'rock',entrada:null,final:null},section8:{padrao:'rock',entrada:null,final:null}},currentSectionRepetition=1,sequencePendingTransition=null,sequencePlaybackOriginalChordMode=null,sequenceStopAtEnd=false,sequenceDeleteArmed=false,sequenceDeleteTimer=null,sequenceEditIndex=-1,transportRunning=false,transportStep=0,transportNextTime=0,transportTimer=null,transportEvents=[],transportBar=0,transportTempoBpm=100,pendingBpm=null,drumStartQueued=false,accompanimentStopQueued=false,accompanimentStopEventScheduled=false;
 const MAX_SIMULTANEOUS_TOUCHES=4;
 function ensureAudio(){if(!audioCtx){audioCtx=new(AudioContext||webkitAudioContext)({latencyHint:'interactive'});masterGain=audioCtx.createGain();limiter=audioCtx.createDynamicsCompressor();drumBus=audioCtx.createGain();drumCompressor=audioCtx.createDynamicsCompressor();drumCompressor.threshold.value=-18;drumCompressor.knee.value=18;drumCompressor.ratio.value=4;drumCompressor.attack.value=.006;drumCompressor.release.value=.16;drumBus.gain.value=Number($('drum-volume').value)/100;drumBus.connect(drumCompressor);drumCompressor.connect(masterGain);limiter.threshold.value=-10;limiter.knee.value=10;limiter.ratio.value=12;limiter.attack.value=.003;limiter.release.value=.18;masterGain.gain.value=+$('master-volume').value/100;masterGain.connect(limiter);limiter.connect(audioCtx.destination)}if(audioCtx.state==='suspended')audioCtx.resume()}
 function freq(semi,oct=0){return 261.625565*Math.pow(2,(semi+oct*12)/12)}function vol(kind){return +$(kind+'-volume').value/100}
@@ -565,9 +688,14 @@ function normalizeSequenceItem(item){
  if(fraction===.25)pauseLabel='Pausa ¼';
  else if(fraction===.5)pauseLabel='Pausa ½';
  else if(fraction===.75)pauseLabel='Pausa ¾';
- if(item.pause)return {pause:true,label:item.label||pauseLabel,fraction:fraction};
+ if(item.pause){
+  const pauseItem={pause:true,label:item.label||pauseLabel,fraction:fraction};
+  if(typeof item.lyric==='string'&&item.lyric.trim())pauseItem.lyric=item.lyric.trim();
+  return pauseItem;
+ }
  if(!Number.isFinite(+item.root)||!item.type)return null;
  const normalized={root:+item.root,type:item.type,label:item.label||chordLabel(+item.root,item.type),fraction:fraction,playMode:item.playMode==='arpeggio'?'arpeggio':'together'};
+ if(typeof item.lyric==='string'&&item.lyric.trim())normalized.lyric=item.lyric.trim();
  if(item.secondary){normalized.secondary=true;normalized.targetRoot=+item.targetRoot;normalized.targetType=item.targetType}
  return normalized;
 }
@@ -828,6 +956,44 @@ function normalizeImportedSong(data){
   repeats:repeats
  };
 }
+function uniqueImportedSongName(baseName){
+ let base=String(baseName||'Música importada').trim()||'Música importada';
+ if(!songs[base])return base;
+ let number=2;
+ let candidate=base+' (importada '+number+')';
+ while(songs[candidate]){
+  number++;
+  candidate=base+' (importada '+number+')';
+ }
+ return candidate;
+}
+function uniqueDraftName(){
+ const base='Rascunho automático';
+ if(!songs[base])return base;
+ let number=2;
+ let candidate=base+' '+number;
+ while(songs[candidate]){
+  number++;
+  candidate=base+' '+number;
+ }
+ return candidate;
+}
+function preserveCurrentWorkspaceBeforeImport(){
+ const hasContent=Object.keys(sequenceSections).some(function(section){
+  return Array.isArray(sequenceSections[section])&&sequenceSections[section].length>0;
+ });
+ if(!hasContent)return '';
+
+ let preservedName=currentSongName;
+ if(!preservedName)preservedName=uniqueDraftName();
+
+ songs[preservedName]=Object.assign(
+  {},
+  snapshotCurrentSequence(),
+  {bpm:bpm}
+ );
+ return preservedName;
+}
 function importSongFromText(text){
  let data;
  try{
@@ -837,62 +1003,67 @@ function importSongFromText(text){
  }
 
  const imported=normalizeImportedSong(data);
- const currentHasContent=Object.keys(sequenceSections).some(function(section){
-  return Array.isArray(sequenceSections[section])&&sequenceSections[section].length>0;
- });
-
- if(currentHasContent){
-  const confirmed=window.confirm(
-   'A importação substituirá todas as oito sequências da música atual, '+
-   'os números de repetição, o BPM e o modo automático. Continuar?'
-  );
-  if(!confirmed){
-   setStatus('Importação cancelada');
-   return false;
-  }
- }
+ const preservedName=preserveCurrentWorkspaceBeforeImport();
+ const importedName=uniqueImportedSongName(imported.name);
 
  stopChordSequence('');
  stopDrums();
  stopAccompaniment();
 
- sequenceSections=imported.sections;
- sequenceRepeats=imported.repeats;
- sequenceOrder=imported.ordemSecoes;
- sequenceDrums=imported.bateria;
- drumEngine=imported.drumEngine;
+ const newSongState={
+  formatVersion:7,
+  capoSemitones:clampCapo(imported.capoSemitones),
+  sections:JSON.parse(JSON.stringify(imported.sections)),
+  repeats:JSON.parse(JSON.stringify(imported.repeats)),
+  auto:imported.auto,
+  autoEnd:imported.autoEnd===true,
+  ordemSecoes:imported.ordemSecoes.slice(),
+  bateria:JSON.parse(JSON.stringify(imported.bateria)),
+  drumEngine:imported.drumEngine,
+  bpm:imported.bpm
+ };
+
+ songs[importedName]=newSongState;
+ currentSongName=importedName;
+ saveSongsStore();
+
+ applySequenceState(newSongState);
+ activeSequenceSection=imported.activeSection;
  sequenceAuto=imported.auto;
  sequenceAutoEnd=imported.autoEnd===true;
  if(sequenceAutoEnd)sequenceAuto=false;
- activeSequenceSection=imported.activeSection;
  currentSectionRepetition=1;
  sequenceIndex=-1;
  queuedSequenceSection=null;
- currentSongName=imported.name;
  bpm=imported.bpm;
  capoSemitones=clampCapo(imported.capoSemitones);
 
  const bpmInput=$('bpm');
  if(bpmInput)bpmInput.value=String(bpm);
- const bpmValue=$('bpm-value');
- if(bpmValue)bpmValue.textContent=bpm+' BPM';
+ requestBpmChange(bpm);
 
  const songNameInput=$('song-name-input');
  if(songNameInput)songNameInput.value=currentSongName;
  const songBpmInput=$('song-bpm-input');
  if(songBpmInput)songBpmInput.value=String(bpm);
- const capoLabelButton=$('capo-label');if(capoLabelButton)capoLabelButton.textContent=capoLabel();
- const songNameLabel=$('song-current-name');
- if(songNameLabel)songNameLabel.textContent='🎵 '+currentSongName;
+
+ const capoLabelButton=$('capo-label');
+ if(capoLabelButton)capoLabelButton.textContent=capoLabel();
 
  resetSequenceDeleteArm();
+ sequenceEditIndex=-1;
  saveChordSequence();
  syncSequenceRepeatInputs();
  syncSequenceSectionButtons();
  syncSequenceAutoButton();
  syncSectionDrumControls();
  renderChordSequence();
- setStatus('Música '+currentSongName+' importada com todas as sequências');
+ updateSongNameDisplay();
+ renderSongsList();
+
+ let status='Música "'+currentSongName+'" criada e importada';
+ if(preservedName)status+='; a música anterior foi preservada como "'+preservedName+'"';
+ setStatus(status);
  return true;
 }
 function chooseSongImportFile(){
@@ -928,7 +1099,7 @@ function handleSongImportFile(event){
  reader.readAsText(file,'UTF-8');
 }
 
-function snapshotCurrentSequence(){return {formatVersion:6,capoSemitones:capoSemitones,sections:JSON.parse(JSON.stringify(sequenceSections)),repeats:{...sequenceRepeats},auto:sequenceAuto,autoEnd:sequenceAutoEnd,ordemSecoes:sequenceOrder.slice(),bateria:JSON.parse(JSON.stringify(sequenceDrums)),drumEngine:drumEngine}}
+function snapshotCurrentSequence(){return {formatVersion:7,capoSemitones:capoSemitones,sections:JSON.parse(JSON.stringify(sequenceSections)),repeats:{...sequenceRepeats},auto:sequenceAuto,autoEnd:sequenceAutoEnd,ordemSecoes:sequenceOrder.slice(),bateria:JSON.parse(JSON.stringify(sequenceDrums)),drumEngine:drumEngine}}
 function applySequenceState(state){
  const keys=Object.keys(sequenceSections);
  keys.forEach(function(key){
@@ -1074,6 +1245,7 @@ function syncSequenceSectionButtons(){
  syncSequenceRepeatInputs();
  syncSequenceAutoButton();
  syncSectionDrumControls();
+ renderNextSequencePreview();
 }
 function syncSequenceRecordButton(){const b=$('sequence-record');if(!b)return;b.classList.toggle('sequence-recording',sequenceRecording);b.textContent=sequenceRecording?'■ Gravando':'● Gravar'}
 function clearChordLatchState(releaseTime=180){clearAccompanimentSchedule();latchedRoot=null;latchedType=null;latchedButton=null;pendingRoot=null;pendingType=null;pendingButton=null;document.querySelectorAll('.chord.latched,.chord.queued').forEach(b=>b.classList.remove('latched','queued'));if(releaseTime>0)releaseAll(releaseTime)}
@@ -1093,9 +1265,204 @@ function selectSequenceSection(section){
  if(sequenceRecording){sequenceRecording=false;syncSequenceRecordButton()}
  activeSequenceSection=section;queuedSequenceSection=null;currentSectionRepetition=1;sequenceIndex=-1;saveChordSequence();syncSequenceSectionButtons();renderChordSequence();syncSectionDrumControls();setStatus(SEQUENCE_SECTION_LABELS[section]+' selecionado');
 }
+
+function syncSequenceEditorKind(){
+ const kind=$('sequence-edit-kind').value;
+ const disabled=kind==='pause';
+ $('sequence-edit-root').disabled=disabled;
+ $('sequence-edit-type').disabled=disabled;
+ $('sequence-edit-mode').disabled=disabled;
+}
+function sequenceEditorItemFromControls(){
+ const fraction=Number($('sequence-edit-fraction').value);
+ if($('sequence-edit-kind').value==='pause'){
+  const pauseItem={
+   pause:true,
+   label:'Pausa '+durationLabel(fraction),
+   fraction:fraction
+  };
+  const pauseLyric=$('sequence-edit-lyric').value.trim();
+  if(pauseLyric)pauseItem.lyric=pauseLyric;
+  return pauseItem;
+ }
+ const root=Number($('sequence-edit-root').value);
+ const type=$('sequence-edit-type').value;
+ const chordItem={
+  root:root,
+  type:type,
+  label:chordLabel(root,type),
+  fraction:fraction,
+  playMode:$('sequence-edit-mode').value==='arpeggio'?'arpeggio':'together'
+ };
+ const chordLyric=$('sequence-edit-lyric').value.trim();
+ if(chordLyric)chordItem.lyric=chordLyric;
+ return chordItem;
+}
+function openSequenceEditor(index){
+ if(sequencePlaying){
+  setStatus('Pare a sequência antes de editar os acordes');
+  return;
+ }
+ const sequence=currentChordSequence();
+ const item=sequence[index];
+ if(!item)return;
+ sequenceEditIndex=index;
+ $('sequence-edit-kind').value=isSequencePause(item)?'pause':'chord';
+ $('sequence-edit-root').value=String(Number.isFinite(Number(item.root))?Number(item.root):0);
+ $('sequence-edit-type').value=item.type||'major';
+ $('sequence-edit-fraction').value=String(item.fraction||1);
+ $('sequence-edit-mode').value=item.playMode==='arpeggio'?'arpeggio':'together';
+ $('sequence-edit-lyric').value=typeof item.lyric==='string'?item.lyric:'';
+ syncSequenceEditorKind();
+ renderChordSequence();
+ $('sequence-editor-dialog').showModal();
+}
+function closeSequenceEditor(){
+ sequenceEditIndex=-1;
+ const dialog=$('sequence-editor-dialog');
+ if(dialog&&dialog.open)dialog.close();
+ renderChordSequence();
+}
+function commitSequenceEditor(action){
+ const sequence=currentChordSequence();
+ if(sequenceEditIndex<0||sequenceEditIndex>=sequence.length)return;
+ const item=sequenceEditorItemFromControls();
+ let message='';
+
+ if(action==='replace'){
+  sequence.splice(sequenceEditIndex,1,item);
+  message='Item substituído';
+ }else if(action==='before'){
+  sequence.splice(sequenceEditIndex,0,item);
+  sequenceEditIndex++;
+  message='Novo item inserido antes';
+ }else if(action==='after'){
+  sequence.splice(sequenceEditIndex+1,0,item);
+  message='Novo item inserido depois';
+ }else if(action==='delete'){
+  sequence.splice(sequenceEditIndex,1);
+  message='Item excluído';
+  closeSequenceEditor();
+  saveChordSequence();
+  renderChordSequence();
+  setStatus(message+' em '+SEQUENCE_SECTION_LABELS[activeSequenceSection]);
+  return;
+ }
+
+ saveChordSequence();
+ renderChordSequence();
+ setStatus(message+' em '+SEQUENCE_SECTION_LABELS[activeSequenceSection]);
+}
+
+function lyricText(item){
+ if(!item||typeof item.lyric!=='string')return '';
+ return item.lyric.trim();
+}
+function nextSectionForPreview(){
+ if(queuedSequenceSection&&(sequenceSections[queuedSequenceSection]||[]).length){
+  return queuedSequenceSection;
+ }
+
+ if(sequenceAutoEnd){
+  return nextAutomaticSectionWithoutLoop(activeSequenceSection);
+ }
+
+ if(sequenceAuto){
+  return nextAutomaticSection(activeSequenceSection);
+ }
+
+ const currentIndex=sequenceOrder.indexOf(activeSequenceSection);
+ if(currentIndex<0)return '';
+ for(let offset=1;offset<sequenceOrder.length;offset++){
+  const index=currentIndex+offset;
+  if(index>=sequenceOrder.length)break;
+  const section=sequenceOrder[index];
+  if((sequenceSections[section]||[]).length)return section;
+ }
+ return '';
+}
+function firstChordsOfSection(section,limit){
+ const result=[];
+ const source=sequenceSections[section]||[];
+ for(let index=0;index<source.length;index++){
+  const item=source[index];
+  if(isSequencePause(item))continue;
+  result.push(item.label||chordLabel(+item.root,item.type));
+  if(result.length>=limit)break;
+ }
+ return result;
+}
+function renderNextSequencePreview(){
+ const caption=$('next-preview-caption');
+ const box=$('next-preview-chords');
+ if(!caption||!box)return;
+
+ const nextSection=nextSectionForPreview();
+ box.innerHTML='';
+
+ if(!nextSection){
+  caption.textContent='Próxima sequência';
+  box.innerHTML='<span class="next-preview-empty">Nenhuma próxima sequência</span>';
+  return;
+ }
+
+ caption.textContent='Próxima: '+SEQUENCE_SECTION_LABELS[nextSection];
+ const chords=firstChordsOfSection(nextSection,4);
+ if(!chords.length){
+  box.innerHTML='<span class="next-preview-empty">Sem acordes</span>';
+  return;
+ }
+
+ chords.forEach(function(label){
+  const item=document.createElement('span');
+  item.className='next-preview-chord';
+  item.textContent=label;
+  box.appendChild(item);
+ });
+}
+function nextLyricAfter(section,index){
+ const sequence=sequenceSections[section]||[];
+ for(let itemIndex=index+1;itemIndex<sequence.length;itemIndex++){
+  const text=lyricText(sequence[itemIndex]);
+  if(text)return text;
+ }
+
+ const nextSection=nextSectionForPreview();
+ if(nextSection){
+  const nextItems=sequenceSections[nextSection]||[];
+  for(let nextIndex=0;nextIndex<nextItems.length;nextIndex++){
+   const text=lyricText(nextItems[nextIndex]);
+   if(text)return text;
+  }
+ }
+ return '';
+}
+function updateKaraokeDisplay(item,index){
+ const current=$('karaoke-current-line');
+ const next=$('karaoke-next-line');
+ if(!current||!next)return;
+
+ const currentText=lyricText(item);
+ const nextText=nextLyricAfter(activeSequenceSection,index);
+
+ current.textContent=currentText;
+ next.textContent=nextText?('Próximo: '+nextText):'';
+}
+function clearKaraokeDisplay(){
+ const current=$('karaoke-current-line');
+ const next=$('karaoke-next-line');
+ if(current)current.textContent='';
+ if(next)next.textContent='';
+}
 function renderChordSequence(){
  const box=$('sequence-strip');if(!box)return;box.innerHTML='';const sequence=currentChordSequence();
- if(!sequence.length){box.innerHTML=`<span class="sequence-empty">Grave os acordes de ${SEQUENCE_SECTION_LABELS[activeSequenceSection]}.</span>`;syncSequenceSectionButtons();return}
+ if(!sequence.length){
+  box.innerHTML=`<span class="sequence-empty">Grave os acordes de ${SEQUENCE_SECTION_LABELS[activeSequenceSection]}.</span>`;
+  syncSequenceSectionButtons();
+  clearKaraokeDisplay();
+  renderNextSequencePreview();
+  return;
+ }
  sequence.forEach(function(item,i){
   const el=document.createElement('span');
   let durationClass='full';
@@ -1103,14 +1470,33 @@ function renderChordSequence(){
   if(item.fraction===.25){durationClass='quarter';durationText='Um quarto de compasso';}
   else if(item.fraction===.5){durationClass='half';durationText='Meio compasso';}
   else if(item.fraction===.75){durationClass='three-quarter';durationText='Três quartos de compasso';}
-  el.className='sequence-item '+durationClass+(isSequencePause(item)?' pause':'')+(sequencePlaying&&i===sequenceIndex?' current':'');
+  el.className='sequence-item '+durationClass+(isSequencePause(item)?' pause':'')+(sequencePlaying&&i===sequenceIndex?' current':'')+(i===sequenceEditIndex?' editing':'');
   let itemText=item.label||(isSequencePause(item)?'Pausa':chordLabel(+item.root,item.type));
   if(!isSequencePause(item))itemText+=' · '+(item.playMode==='arpeggio'?'A':'J');
-  el.textContent=itemText;
+  const chordText=document.createElement('span');
+  chordText.textContent=itemText;
+  el.appendChild(chordText);
+  const itemLyric=lyricText(item);
+  if(itemLyric){
+   const lyric=document.createElement('small');
+   lyric.className='sequence-item-lyric';
+   lyric.textContent=itemLyric;
+   el.appendChild(lyric);
+  }
   if(isSequencePause(item))el.title='Pausa de '+durationText.toLowerCase();
   else el.title=durationText+' · '+(item.playMode==='arpeggio'?'Arpejo':'Juntos');
+  el.setAttribute('role','button');
+  el.setAttribute('tabindex','0');
+  el.setAttribute('aria-label','Editar '+itemText);
+  el.onclick=function(){openSequenceEditor(i)};
+  el.onkeydown=function(event){
+   if(event.key==='Enter'||event.key===' '){
+    event.preventDefault();
+    openSequenceEditor(i);
+   }
+  };
   box.appendChild(el);
- });syncSequenceSectionButtons();syncSectionDrumControls();
+ });syncSequenceSectionButtons();syncSectionDrumControls();renderNextSequencePreview();
 }
 function durationLabel(fraction){
  if(fraction===.25)return '¼';
@@ -1202,7 +1588,7 @@ function stopChordSequence(message='Sequência parada'){
  if(sequencePlaybackOriginalChordMode==='together'||sequencePlaybackOriginalChordMode==='arpeggio')chordMode=sequencePlaybackOriginalChordMode;
  sequencePlaybackOriginalChordMode=null;
  syncChordModeButtons();
- syncInstrumentChangeLock();syncDrumActionButtons();renderChordSequence();maybeStopMasterTransport();if(message)setStatus(message)
+ syncInstrumentChangeLock();syncDrumActionButtons();clearKaraokeDisplay();renderChordSequence();maybeStopMasterTransport();if(message)setStatus(message)
 }
 function durationLabelForStatus(fraction){
  if(fraction===.25)return 'um quarto de compasso';
@@ -1335,6 +1721,8 @@ function loadSequenceItem(index,boundaryAudioTime){
 
  sequenceIndex=index;
  const item=sequence[sequenceIndex];
+ updateKaraokeDisplay(item,sequenceIndex);
+ renderNextSequencePreview();
  sequenceQuarterUnitsRemaining=Math.max(1,Math.round(Number(item.fraction)*4));
  const isLastItem=sequenceIndex===sequence.length-1;
  prepareSectionDrumTransition(isLastItem);
@@ -2247,7 +2635,7 @@ $('sequence-auto-end').onclick=function(){
 };
 $('sequence-clear').onclick=requestDeleteLastSequenceItem;
 $('sequence-toggle').onclick=()=>{sequencePanelVisible=!sequencePanelVisible;saveChordSequence();syncSequencePanelVisibility();setStatus(sequencePanelVisible?'Barra de sequências exibida':'Barra de sequências ocultada')};
-$('advanced-toggle').onclick=()=>{$('advanced').classList.toggle('open');$('advanced-toggle').classList.toggle('active')};$('fullscreen').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};$('stop-accompaniments').onclick=requestAccompanimentStop;$('stop-all').onclick=()=>{accompanimentStopQueued=false;accompanimentStopEventScheduled=false;syncAccompanimentStopButton();clearTimeout(sequenceTimer);sequencePlaying=false;sequenceStartQueued=false;queuedSequenceSection=null;sequenceIndex=-1;sequenceQuarterUnitsRemaining=0;stopAccompaniment();stopDrums();stopMasterTransport();releaseAll();renderChordSequence();setStatus('Todas as notas foram silenciadas')};
+$('advanced-toggle').onclick=()=>{$('advanced').classList.toggle('open');$('advanced-toggle').classList.toggle('active')};$('fullscreen').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};$('stop-accompaniments').onclick=requestAccompanimentStop;$('stop-all').onclick=()=>{accompanimentStopQueued=false;accompanimentStopEventScheduled=false;syncAccompanimentStopButton();clearTimeout(sequenceTimer);sequencePlaying=false;sequenceStartQueued=false;queuedSequenceSection=null;sequenceIndex=-1;sequenceQuarterUnitsRemaining=0;stopAccompaniment();stopDrums();stopMasterTransport();releaseAll();clearKaraokeDisplay();renderChordSequence();setStatus('Todas as notas foram silenciadas')};
 $('circle-toggle').onclick=()=>{if(circleEnabled){circleEnabled=false;circleRoot=null;$('circle-toggle').classList.remove('circle-active');$('circle-toggle').textContent='CH';applyCircleFilter();setStatus('Filtro do círculo harmônico desligado')}else openCircleDialog()};$('circle-close').onclick=()=>$('circle-dialog').close();
 const MEMORY_PREFIX='tecladoVirtualMemory';
 const FACTORY_SETTINGS={instrument:'piano',octave:0,sustainMode:'hold',releaseMs:650,attackMs:20,chordMode:'together',arpInterval:280,arpPattern:'up',inversion:0,bassEnabled:false,latchEnabled:false,splitEnabled:false,splitInstrument:'churchOrgan',velocityEnabled:true,glissEnabled:true,bpm:100,rhythmPattern:'whole',chordChangeMode:'nextBar',drumEngine:'acoustic',values:{master:'68',keyboard:'92',chord:'72',bass:'56'}};
@@ -2302,6 +2690,18 @@ document.querySelectorAll('.memory-button').forEach(button=>button.onclick=()=>{
 refreshMemoryButtons();
 document.addEventListener('keydown',e=>{if(['INPUT','SELECT','BUTTON'].includes(e.target.tagName))return;const k=e.key.toLowerCase();if(pressedKeys.has(k)||!KEYMAP.has(k))return;noteDown(KEYMAP.get(k),k,1,'keyboard')});document.addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(KEYMAP.has(k))noteUp(KEYMAP.get(k),k,'keyboard')});window.addEventListener('blur',()=>releaseAll());document.addEventListener('contextmenu',e=>{if(e.target.closest('.key,.chord'))e.preventDefault()});
 drumEngine=localStorage.getItem('tecladoVirtualDrumEngine')||'acoustic';renderKeyboard();renderChords();bindDrums();$('drum-toggle').classList.add('drum-mode-active');$('drum-toggle').setAttribute('aria-pressed','true');syncAccompanimentStopButton();syncSequenceRecordButton();syncSettingsUI();syncInstrumentChangeLock();refreshMemoryButtons();loadChordSequence();syncSequencePanelVisibility();loadSongsStore();updateSongNameDisplay();if(screen.orientation?.lock)screen.orientation.lock('landscape').catch(()=>{});
+$('sequence-edit-kind').onchange=syncSequenceEditorKind;
+$('sequence-edit-before').onclick=function(){commitSequenceEditor('before')};
+$('sequence-edit-replace').onclick=function(){commitSequenceEditor('replace')};
+$('sequence-edit-after').onclick=function(){commitSequenceEditor('after')};
+$('sequence-edit-delete').onclick=function(){
+ if(confirm('Excluir este item da sequência?'))commitSequenceEditor('delete');
+};
+$('sequence-edit-close').onclick=closeSequenceEditor;
+$('sequence-editor-dialog').addEventListener('cancel',function(event){
+ event.preventDefault();
+ closeSequenceEditor();
+});
 $('songs-open').onclick=()=>{renderSongsList();$('song-name-input').value=currentSongName||'';$('song-bpm-input').value=bpm;$('songs-dialog').showModal()};
 $('songs-close').onclick=()=>$('songs-dialog').close();
 $('song-save').onclick=()=>{
@@ -2338,5 +2738,64 @@ $('song-new').onclick=()=>{
   });
 })();
 </script>
+
+
+<dialog id="sequence-editor-dialog">
+  <form method="dialog" class="dialog-card">
+    <h2>Editar item da sequência</h2>
+    <p class="sequence-editor-help">Altere o item selecionado ou use os botões para inserir um novo item antes ou depois dele.</p>
+    <div class="sequence-editor-grid">
+      <label>Conteúdo
+        <select id="sequence-edit-kind">
+          <option value="chord">Acorde</option>
+          <option value="pause">Pausa</option>
+        </select>
+      </label>
+      <label>Nota
+        <select id="sequence-edit-root">
+          <option value="0">C</option><option value="1">C#</option><option value="2">D</option>
+          <option value="3">D#</option><option value="4">E</option><option value="5">F</option>
+          <option value="6">F#</option><option value="7">G</option><option value="8">G#</option>
+          <option value="9">A</option><option value="10">A#</option><option value="11">B</option>
+        </select>
+      </label>
+      <label>Tipo de acorde
+        <select id="sequence-edit-type">
+          <option value="major">Maior</option>
+          <option value="minor">Menor</option>
+          <option value="dominant7">Sétima</option>
+          <option value="minor7">Menor com sétima</option>
+          <option value="diminished">Diminuto</option>
+          <option value="sus2">Sus2</option>
+          <option value="sus4">Sus4</option>
+        </select>
+      </label>
+      <label>Duração
+        <select id="sequence-edit-fraction">
+          <option value="0.25">¼ de compasso</option>
+          <option value="0.5">½ compasso</option>
+          <option value="0.75">¾ de compasso</option>
+          <option value="1">1 compasso</option>
+        </select>
+      </label>
+      <label>Execução
+        <select id="sequence-edit-mode">
+          <option value="together">Juntos</option>
+          <option value="arpeggio">Arpejo</option>
+        </select>
+      </label>
+      <label class="sequence-editor-lyric">Trecho da letra neste tempo
+        <textarea id="sequence-edit-lyric" maxlength="240" placeholder="Ex.: Tenho andado distraído"></textarea>
+      </label>
+    </div>
+    <div class="sequence-editor-actions">
+      <button type="button" id="sequence-edit-before" class="secondary">＋ Antes</button>
+      <button type="button" id="sequence-edit-replace">✓ Substituir</button>
+      <button type="button" id="sequence-edit-after" class="secondary">＋ Depois</button>
+      <button type="button" id="sequence-edit-delete" class="danger">Excluir item</button>
+    </div>
+    <button type="button" id="sequence-edit-close" class="secondary">Fechar</button>
+  </form>
+</dialog>
 
 </body></html>
