@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <meta name="screen-orientation" content="landscape">
-<title>Teclado Virtual v3.10.0</title>
+<title>Teclado Virtual v3.10.2</title>
 <style>
 :root{--bg:#111326;--panel:#0b0e1c;--panel2:#191d35;--border:#343a59;--text:#f8fafc;--muted:#9ca8c3;--accent:#4f46e5;--success:#16a34a;--danger:#dc2626;--warning:#d97706}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -33,7 +33,7 @@ header{width:100%;max-width:1280px;display:flex;align-items:center;justify-conte
 h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58rem;color:var(--muted);font-weight:700;vertical-align:middle;margin-left:4px}.header-actions{display:flex;gap:6px}.header-actions button{min-height:38px;padding:6px 10px;font-size:.76rem}
 .app{width:100%;max-width:1280px;display:flex;flex-direction:column;gap:8px}
 .panel{width:100%;padding:9px;border:1px solid var(--border);border-radius:14px;background:rgba(11,14,28,.96);box-shadow:0 8px 24px rgba(0,0,0,.24)}
-.quick-controls{display:grid;grid-template-columns:1.35fr repeat(5,1fr);gap:7px}.control{min-width:0;padding:7px;border:1px solid var(--border);border-radius:10px;background:var(--panel2)}
+.quick-controls{display:grid;grid-template-columns:1.35fr repeat(4,1fr);gap:7px}.control{min-width:0;padding:7px;border:1px solid var(--border);border-radius:10px;background:var(--panel2)}
 .control label,.control-title{display:block;margin-bottom:5px;color:var(--muted);font-size:.68rem;font-weight:800}.metronome-line{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:5px}.metronome-line .fine-line{min-width:0}.metronome-line button{width:36px;min-width:36px;height:34px;min-height:34px;padding:2px;font-size:.9rem;line-height:1}.fine-line{display:grid;grid-template-columns:30px 58px 30px minmax(42px,1fr);align-items:center;gap:4px}.fine-stack{display:grid;grid-template-columns:30px 58px 30px;grid-template-rows:30px auto;align-items:center;justify-content:start;gap:3px 4px}.fine-stack .fine-caption{grid-column:1/4;text-align:center;color:#aeb8cf;font-size:.58rem;line-height:1.05;white-space:nowrap}.fine-btn{width:30px;min-width:30px;height:30px;min-height:30px;padding:0;border-radius:7px;background:#38405f;border-color:#58617f;font-size:1rem;line-height:1}.fine-line .value{min-width:0;text-align:center;white-space:nowrap}.button-pair,.button-triple,.button-five{display:grid;gap:5px}.button-pair{grid-template-columns:1fr 1fr}.button-triple{grid-template-columns:repeat(3,1fr)}.button-five{grid-template-columns:repeat(5,minmax(0,1fr))}.button-five button{min-width:0;padding-left:2px;padding-right:2px}.compact button{min-height:39px;padding:6px;font-size:.72rem}.range-line{display:flex;align-items:center;gap:7px}.value{min-width:50px;color:#e2e8f0;font-size:.72rem;text-align:right}
 .advanced{display:none}.advanced.open{display:block}.advanced-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}.advanced .control{min-height:83px}
 #keyboard{display:flex;flex-direction:column;gap:3px;touch-action:none}.key-row{display:flex;width:100%;gap:3px}.key-cell{flex:1;min-width:0;display:flex}.sharp-cell{justify-content:flex-end}
@@ -147,113 +147,103 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 }
 
 
-.karaoke-panel{
- display:grid;
- grid-template-columns:minmax(0,1.6fr) minmax(230px,.8fr);
- gap:6px;
- align-items:stretch;
+
+.karaoke-current,
+
+
+
+
+@media(max-width:700px){
+ 
+ 
+ 
 }
-.karaoke-current,.next-sequence-preview{
- min-width:0;
- padding:7px 9px;
- border:1px solid #35405d;
- border-radius:9px;
- background:#12172a;
-}
-.karaoke-caption,.next-preview-caption{
- display:block;
- margin-bottom:3px;
- color:#8995ad;
- font-size:.54rem;
- font-weight:900;
- text-transform:uppercase;
- letter-spacing:.05em;
-}
-#karaoke-current-line{
- display:block;
- min-height:1.45em;
- color:#f8fafc;
- font-size:1rem;
- font-weight:900;
- line-height:1.25;
- text-align:center;
-}
-#karaoke-next-line{
- display:block;
- min-height:1.15em;
- margin-top:2px;
- color:#94a3b8;
- font-size:.67rem;
- line-height:1.2;
- text-align:center;
-}
-.next-preview-chords{
- display:flex;
- gap:4px;
- align-items:center;
- min-height:32px;
- overflow:hidden;
-}
-.next-preview-chord{
- flex:1 1 0;
- min-width:0;
- padding:6px 3px;
- border:1px solid #a78bfa;
- border-radius:7px;
+
+
+.sequence-item.next-sequence-item{
+ border-color:#a78bfa;
  background:#5b21b6;
  color:#f5f3ff;
+ box-shadow:inset 0 0 0 1px rgba(196,181,253,.35);
+}
+.sequence-item.next-sequence-item::before{
+ content:'Próx. ';
+ color:#ddd6fe;
+ font-size:.46rem;
+ font-weight:900;
+}
+.sequence-item.next-sequence-item .sequence-item-lyric{display:none}
+
+
+.sequence-editor-dialog{
+ width:min(680px,calc(100vw - 24px));
+ max-width:680px;
+ padding:0;
+ border:1px solid #47516f;
+ border-radius:16px;
+ background:#171c31;
+ color:#f8fafc;
+ box-shadow:0 24px 70px rgba(0,0,0,.55);
+}
+.sequence-editor-dialog::backdrop{
+ background:rgba(3,7,18,.72);
+ backdrop-filter:blur(3px);
+}
+.sequence-editor-card{
+ margin:0;
+ padding:16px;
+ border:0;
+ background:transparent;
+}
+.sequence-editor-header{
+ display:flex;
+ align-items:flex-start;
+ justify-content:space-between;
+ gap:12px;
+ margin-bottom:12px;
+}
+.sequence-editor-header h2{
+ margin:0 0 4px;
+ font-size:1.05rem;
+}
+.sequence-editor-close{
+ width:34px;
+ min-width:34px;
+ height:34px;
+ min-height:34px;
+ padding:0;
+ border-radius:50%;
+ font-size:1.3rem;
+ line-height:1;
+}
+.sequence-editor-grid{
+ padding:12px;
+ border:1px solid #343d5b;
+ border-radius:11px;
+ background:#11162a;
+}
+.sequence-editor-actions button{
+ min-height:40px;
  font-size:.72rem;
  font-weight:900;
- text-align:center;
- white-space:nowrap;
- overflow:hidden;
- text-overflow:ellipsis;
-}
-.next-preview-empty{
- color:#7f8aa3;
- font-size:.65rem;
-}
-.sequence-item .sequence-item-lyric{
- display:block;
- max-width:120px;
- margin-top:2px;
- color:#fbcfe8;
- font-size:.48rem;
- font-weight:700;
- overflow:hidden;
- text-overflow:ellipsis;
- white-space:nowrap;
-}
-.sequence-item.current .sequence-item-lyric{color:#fff}
-.sequence-editor-lyric{
- grid-column:1/3;
-}
-.sequence-editor-lyric textarea{
- width:100%;
- min-height:68px;
- resize:vertical;
-}
-@media(max-width:700px){
- .karaoke-panel{grid-template-columns:1fr}
- .sequence-editor-lyric{grid-column:1}
- #karaoke-current-line{font-size:.88rem}
 }
 
 </style>
 </head>
 <body>
 <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O Teclado Virtual foi organizado para uso horizontal.</p></div>
-<header><h1>🎹 Teclado Virtual <small class="app-version">v3.10.0</small></h1><div class="header-actions"><button type="button" class="secondary" onclick="window.location.href='manual-teclado-virtual.html'">📘 Manual</button><button id="advanced-toggle" class="secondary">⚙️ Avançado</button><button id="fullscreen" class="secondary">⛶ Tela cheia</button></div></header>
+<header><h1>🎹 Teclado Virtual <small class="app-version">v3.10.2</small></h1><div class="header-actions"><button type="button" class="secondary" onclick="window.location.href='manual-teclado-virtual.html'">📘 Manual</button><button id="advanced-toggle" class="secondary">⚙️ Avançado</button><button id="fullscreen" class="secondary">⛶ Tela cheia</button></div></header>
 <main class="app">
 <section class="panel quick-controls">
 <div class="control"><label for="instrument">Instrumento</label><select id="instrument"><option value="piano">🎹 Piano</option><option value="xylophone">🪇 Xilofone</option><option value="flute">🪈 Flauta</option><option value="churchOrgan">⛪ Órgão de igreja</option><option value="accordion">🪗 Acordeom</option><option value="violin">🎻 Violino</option><option value="bassGuitar">🎸 Baixo</option><option value="acousticGuitar">🪕 Violão</option><option value="synthPad">🌌 Pad sintetizado</option></select></div>
 <div class="control compact"><span class="control-title">Oitava</span><div class="button-triple"><button id="oct-down">−</button><button id="oct-label" class="secondary">0</button><button id="oct-up">+</button></div></div>
 <div class="control compact"><span class="control-title">Capotraste</span><div class="button-triple"><button id="capo-down" title="Descer meio tom">−</button><button id="capo-label" class="secondary" title="Zerar transposição">0</button><button id="capo-up" title="Subir meio tom">+</button></div></div>
-<div class="control compact"><span class="control-title">Sustain</span><div class="button-pair"><button id="sustain-hold" class="active">Ao segurar</button><button id="sustain-next">Até próxima</button></div></div>
+
 <div class="control"><label for="release">Liberação</label><div class="fine-stack"><button type="button" class="fine-btn" data-step-target="release" data-direction="-1" aria-label="Diminuir liberação">−</button><input id="release" type="number" min="40" max="5000" value="650" step="20" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="release" data-direction="1" aria-label="Aumentar liberação">+</button><small id="release-value" class="fine-caption">0,7 s</small></div></div>
 <div class="control"><label for="bpm">Metrônomo</label><div class="fine-stack"><button type="button" class="fine-btn" data-step-target="bpm" data-direction="-1" aria-label="Diminuir BPM">−</button><input id="bpm" type="number" min="40" max="220" value="100" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="bpm" data-direction="1" aria-label="Aumentar BPM">+</button><small id="bpm-value" class="fine-caption">100 BPM</small></div></div>
 </section>
 <section id="advanced" class="panel advanced"><div class="advanced-grid">
+<div class="control compact"><span class="control-title">Sustain</span><div class="button-pair"><button id="sustain-hold" class="active">Ao segurar</button><button id="sustain-next">Até próxima</button></div></div>
 <div class="control"><label for="attack">Ataque</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="attack" data-direction="-1" aria-label="Diminuir ataque">−</button><input id="attack" type="number" min="2" max="1200" value="20" step="2" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="attack" data-direction="1" aria-label="Aumentar ataque">+</button><span id="attack-value" class="value">20 ms</span></div></div>
 <div class="control"><label for="keyboard-volume">Teclado</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="keyboard-volume" data-direction="-1" aria-label="Diminuir volume do teclado">−</button><input id="keyboard-volume" type="number" min="0" max="100" value="100" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="keyboard-volume" data-direction="1" aria-label="Aumentar volume do teclado">+</button><span id="keyboard-value" class="value">100%</span></div></div>
 <div class="control"><label for="chord-volume">Acordes</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="chord-volume" data-direction="-1" aria-label="Diminuir volume dos acordes">−</button><input id="chord-volume" type="number" min="0" max="100" value="78" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="chord-volume" data-direction="1" aria-label="Aumentar volume dos acordes">+</button><span id="chord-value" class="value">78%</span></div></div>
@@ -361,19 +351,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
     <div class="sequence-controls"><button id="sequence-rest-quarter" class="secondary" title="Adicionar pausa de um quarto de compasso">⏸ ¼</button><button id="sequence-rest-half" class="secondary" title="Adicionar pausa de meio compasso">⏸ ½</button><button id="sequence-rest-three-quarter" class="secondary" title="Adicionar pausa de três quartos de compasso">⏸ ¾</button><button id="sequence-rest-full" class="secondary" title="Adicionar pausa de um compasso">⏸ 1</button><button id="sequence-record" class="secondary" title="Gravar acordes na parte selecionada">● Gravar</button><button id="sequence-auto" class="secondary sequence-auto" title="Executar automaticamente em ciclo todas as sequências configuradas">Auto</button><button id="sequence-auto-end" class="secondary sequence-auto" title="Executar a música uma vez e encerrar com virada de bateria">Auto Fim</button><button id="sequence-clear" class="danger" title="Toque duas vezes para apagar o último item">⌫</button></div>
   </div>
   <div id="sequence-strip" class="sequence-strip"><span class="sequence-empty">Grave os acordes da Seq. 1.</span></div>
-  <div class="karaoke-panel" aria-label="Karaokê e prévia da próxima sequência">
-    <div class="karaoke-current">
-      <span class="karaoke-caption">Karaokê</span>
-      <strong id="karaoke-current-line"></strong>
-      <span id="karaoke-next-line"></span>
-    </div>
-    <div class="next-sequence-preview">
-      <span id="next-preview-caption" class="next-preview-caption">Próxima sequência</span>
-      <div id="next-preview-chords" class="next-preview-chords">
-        <span class="next-preview-empty">Nenhuma próxima sequência</span>
-      </div>
-    </div>
-  </div>
+
 </div>
 </section>
 <dialog id="songs-dialog" class="songs-dialog" aria-label="Gerenciar músicas salvas">
@@ -387,6 +365,66 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 <dialog id="circle-dialog" class="circle-dialog"><h2>Círculo Harmônico</h2><p>Escolha a tonalidade. Serão mostrados os acordes diatônicos, o VII grau diminuto e, em uma faixa separada, os dominantes secundários.</p><div id="circle-note-grid" class="circle-note-grid"></div><button id="circle-close" class="circle-close">Cancelar</button></dialog>
 <div class="status" id="status">Pronto para tocar.</div><div class="help">No tablet, mantenha a tecla pressionada para sustentar e deslize o dedo para fazer glissando. A intensidade varia conforme a altura do toque quando “Sensível” está ativo.</div>
 </main>
+
+<dialog id="sequence-editor-dialog" class="sequence-editor-dialog">
+  <form method="dialog" class="dialog-card sequence-editor-card">
+    <div class="sequence-editor-header">
+      <div>
+        <h2>Editar acorde ou pausa</h2>
+        <p class="sequence-editor-help">Altere o item selecionado ou insira um novo antes ou depois.</p>
+      </div>
+      <button type="button" id="sequence-edit-close" class="secondary sequence-editor-close" aria-label="Fechar">×</button>
+    </div>
+    <div class="sequence-editor-grid">
+      <label>Conteúdo
+        <select id="sequence-edit-kind">
+          <option value="chord">Acorde</option>
+          <option value="pause">Pausa</option>
+        </select>
+      </label>
+      <label>Nota
+        <select id="sequence-edit-root">
+          <option value="0">C</option><option value="1">C#</option><option value="2">D</option>
+          <option value="3">D#</option><option value="4">E</option><option value="5">F</option>
+          <option value="6">F#</option><option value="7">G</option><option value="8">G#</option>
+          <option value="9">A</option><option value="10">A#</option><option value="11">B</option>
+        </select>
+      </label>
+      <label>Tipo de acorde
+        <select id="sequence-edit-type">
+          <option value="major">Maior</option>
+          <option value="minor">Menor</option>
+          <option value="dominant7">Sétima</option>
+          <option value="minor7">Menor com sétima</option>
+          <option value="diminished">Diminuto</option>
+          <option value="sus2">Sus2</option>
+          <option value="sus4">Sus4</option>
+        </select>
+      </label>
+      <label>Duração
+        <select id="sequence-edit-fraction">
+          <option value="0.25">¼ de compasso</option>
+          <option value="0.5">½ compasso</option>
+          <option value="0.75">¾ de compasso</option>
+          <option value="1">1 compasso</option>
+        </select>
+      </label>
+      <label>Execução
+        <select id="sequence-edit-mode">
+          <option value="together">Juntos</option>
+          <option value="arpeggio">Arpejo</option>
+        </select>
+      </label>
+    </div>
+    <div class="sequence-editor-actions">
+      <button type="button" id="sequence-edit-before" class="secondary">＋ Antes</button>
+      <button type="button" id="sequence-edit-replace">✓ Substituir</button>
+      <button type="button" id="sequence-edit-after" class="secondary">＋ Depois</button>
+      <button type="button" id="sequence-edit-delete" class="danger">Excluir item</button>
+    </div>
+  </form>
+</dialog>
+
 <script>
 "use strict";
 const $=id=>document.getElementById(id);const CHORD_NAMES=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];const NOTE_NAMES=["Dó","Dó#","Ré","Ré#","Mi","Fá","Fá#","Sol","Sol#","Lá","Lá#","Si","Dó²","Dó²#","Ré²","Ré²#","Mi²","Fá²","Fá²#","Sol²","Sol²#","Lá²","Lá²#","Si²"];
@@ -690,12 +728,10 @@ function normalizeSequenceItem(item){
  else if(fraction===.75)pauseLabel='Pausa ¾';
  if(item.pause){
   const pauseItem={pause:true,label:item.label||pauseLabel,fraction:fraction};
-  if(typeof item.lyric==='string'&&item.lyric.trim())pauseItem.lyric=item.lyric.trim();
   return pauseItem;
  }
  if(!Number.isFinite(+item.root)||!item.type)return null;
  const normalized={root:+item.root,type:item.type,label:item.label||chordLabel(+item.root,item.type),fraction:fraction,playMode:item.playMode==='arpeggio'?'arpeggio':'together'};
- if(typeof item.lyric==='string'&&item.lyric.trim())normalized.lyric=item.lyric.trim();
  if(item.secondary){normalized.secondary=true;normalized.targetRoot=+item.targetRoot;normalized.targetType=item.targetType}
  return normalized;
 }
@@ -1245,7 +1281,6 @@ function syncSequenceSectionButtons(){
  syncSequenceRepeatInputs();
  syncSequenceAutoButton();
  syncSectionDrumControls();
- renderNextSequencePreview();
 }
 function syncSequenceRecordButton(){const b=$('sequence-record');if(!b)return;b.classList.toggle('sequence-recording',sequenceRecording);b.textContent=sequenceRecording?'■ Gravando':'● Gravar'}
 function clearChordLatchState(releaseTime=180){clearAccompanimentSchedule();latchedRoot=null;latchedType=null;latchedButton=null;pendingRoot=null;pendingType=null;pendingButton=null;document.querySelectorAll('.chord.latched,.chord.queued').forEach(b=>b.classList.remove('latched','queued'));if(releaseTime>0)releaseAll(releaseTime)}
@@ -1281,8 +1316,6 @@ function sequenceEditorItemFromControls(){
    label:'Pausa '+durationLabel(fraction),
    fraction:fraction
   };
-  const pauseLyric=$('sequence-edit-lyric').value.trim();
-  if(pauseLyric)pauseItem.lyric=pauseLyric;
   return pauseItem;
  }
  const root=Number($('sequence-edit-root').value);
@@ -1294,8 +1327,6 @@ function sequenceEditorItemFromControls(){
   fraction:fraction,
   playMode:$('sequence-edit-mode').value==='arpeggio'?'arpeggio':'together'
  };
- const chordLyric=$('sequence-edit-lyric').value.trim();
- if(chordLyric)chordItem.lyric=chordLyric;
  return chordItem;
 }
 function openSequenceEditor(index){
@@ -1312,7 +1343,6 @@ function openSequenceEditor(index){
  $('sequence-edit-type').value=item.type||'major';
  $('sequence-edit-fraction').value=String(item.fraction||1);
  $('sequence-edit-mode').value=item.playMode==='arpeggio'?'arpeggio':'together';
- $('sequence-edit-lyric').value=typeof item.lyric==='string'?item.lyric:'';
  syncSequenceEditorKind();
  renderChordSequence();
  $('sequence-editor-dialog').showModal();
@@ -1354,10 +1384,7 @@ function commitSequenceEditor(action){
  setStatus(message+' em '+SEQUENCE_SECTION_LABELS[activeSequenceSection]);
 }
 
-function lyricText(item){
- if(!item||typeof item.lyric!=='string')return '';
- return item.lyric.trim();
-}
+
 function nextSectionForPreview(){
  if(queuedSequenceSection&&(sequenceSections[queuedSequenceSection]||[]).length){
   return queuedSequenceSection;
@@ -1392,75 +1419,49 @@ function firstChordsOfSection(section,limit){
  }
  return result;
 }
-function renderNextSequencePreview(){
- const caption=$('next-preview-caption');
- const box=$('next-preview-chords');
- if(!caption||!box)return;
+function isLastRepetitionForPreview(){
+ if(!sequencePlaying)return false;
+ if(queuedSequenceSection)return true;
+ if(sequenceAuto||sequenceAutoEnd){
+  const target=sectionRepeatValue(activeSequenceSection);
+  return target>0&&currentSectionRepetition>=target;
+ }
+ return false;
+}
+function appendNextSequencePreview(box){
+ if(!box||!isLastRepetitionForPreview())return;
 
  const nextSection=nextSectionForPreview();
- box.innerHTML='';
+ if(!nextSection)return;
 
- if(!nextSection){
-  caption.textContent='Próxima sequência';
-  box.innerHTML='<span class="next-preview-empty">Nenhuma próxima sequência</span>';
-  return;
+ const source=sequenceSections[nextSection]||[];
+ let added=0;
+
+ for(let index=0;index<source.length&&added<4;index++){
+  const item=source[index];
+  if(isSequencePause(item))continue;
+
+  const preview=document.createElement('span');
+  let durationClass='full';
+  if(item.fraction===.25)durationClass='quarter';
+  else if(item.fraction===.5)durationClass='half';
+  else if(item.fraction===.75)durationClass='three-quarter';
+
+  preview.className='sequence-item next-sequence-item '+durationClass;
+  preview.textContent=item.label||chordLabel(+item.root,item.type);
+  preview.title='Próxima sequência: '+SEQUENCE_SECTION_LABELS[nextSection];
+  box.appendChild(preview);
+  added++;
  }
-
- caption.textContent='Próxima: '+SEQUENCE_SECTION_LABELS[nextSection];
- const chords=firstChordsOfSection(nextSection,4);
- if(!chords.length){
-  box.innerHTML='<span class="next-preview-empty">Sem acordes</span>';
-  return;
- }
-
- chords.forEach(function(label){
-  const item=document.createElement('span');
-  item.className='next-preview-chord';
-  item.textContent=label;
-  box.appendChild(item);
- });
 }
-function nextLyricAfter(section,index){
- const sequence=sequenceSections[section]||[];
- for(let itemIndex=index+1;itemIndex<sequence.length;itemIndex++){
-  const text=lyricText(sequence[itemIndex]);
-  if(text)return text;
- }
 
- const nextSection=nextSectionForPreview();
- if(nextSection){
-  const nextItems=sequenceSections[nextSection]||[];
-  for(let nextIndex=0;nextIndex<nextItems.length;nextIndex++){
-   const text=lyricText(nextItems[nextIndex]);
-   if(text)return text;
-  }
- }
- return '';
-}
-function updateKaraokeDisplay(item,index){
- const current=$('karaoke-current-line');
- const next=$('karaoke-next-line');
- if(!current||!next)return;
 
- const currentText=lyricText(item);
- const nextText=nextLyricAfter(activeSequenceSection,index);
 
- current.textContent=currentText;
- next.textContent=nextText?('Próximo: '+nextText):'';
-}
-function clearKaraokeDisplay(){
- const current=$('karaoke-current-line');
- const next=$('karaoke-next-line');
- if(current)current.textContent='';
- if(next)next.textContent='';
-}
 function renderChordSequence(){
  const box=$('sequence-strip');if(!box)return;box.innerHTML='';const sequence=currentChordSequence();
  if(!sequence.length){
   box.innerHTML=`<span class="sequence-empty">Grave os acordes de ${SEQUENCE_SECTION_LABELS[activeSequenceSection]}.</span>`;
   syncSequenceSectionButtons();
-  clearKaraokeDisplay();
-  renderNextSequencePreview();
   return;
  }
  sequence.forEach(function(item,i){
@@ -1476,13 +1477,6 @@ function renderChordSequence(){
   const chordText=document.createElement('span');
   chordText.textContent=itemText;
   el.appendChild(chordText);
-  const itemLyric=lyricText(item);
-  if(itemLyric){
-   const lyric=document.createElement('small');
-   lyric.className='sequence-item-lyric';
-   lyric.textContent=itemLyric;
-   el.appendChild(lyric);
-  }
   if(isSequencePause(item))el.title='Pausa de '+durationText.toLowerCase();
   else el.title=durationText+' · '+(item.playMode==='arpeggio'?'Arpejo':'Juntos');
   el.setAttribute('role','button');
@@ -1496,7 +1490,10 @@ function renderChordSequence(){
    }
   };
   box.appendChild(el);
- });syncSequenceSectionButtons();syncSectionDrumControls();renderNextSequencePreview();
+ });
+ appendNextSequencePreview(box);
+ syncSequenceSectionButtons();
+ syncSectionDrumControls();
 }
 function durationLabel(fraction){
  if(fraction===.25)return '¼';
@@ -1588,7 +1585,7 @@ function stopChordSequence(message='Sequência parada'){
  if(sequencePlaybackOriginalChordMode==='together'||sequencePlaybackOriginalChordMode==='arpeggio')chordMode=sequencePlaybackOriginalChordMode;
  sequencePlaybackOriginalChordMode=null;
  syncChordModeButtons();
- syncInstrumentChangeLock();syncDrumActionButtons();clearKaraokeDisplay();renderChordSequence();maybeStopMasterTransport();if(message)setStatus(message)
+ syncInstrumentChangeLock();syncDrumActionButtons();renderChordSequence();maybeStopMasterTransport();if(message)setStatus(message)
 }
 function durationLabelForStatus(fraction){
  if(fraction===.25)return 'um quarto de compasso';
@@ -1721,8 +1718,7 @@ function loadSequenceItem(index,boundaryAudioTime){
 
  sequenceIndex=index;
  const item=sequence[sequenceIndex];
- updateKaraokeDisplay(item,sequenceIndex);
- renderNextSequencePreview();
+ renderChordSequence();
  sequenceQuarterUnitsRemaining=Math.max(1,Math.round(Number(item.fraction)*4));
  const isLastItem=sequenceIndex===sequence.length-1;
  prepareSectionDrumTransition(isLastItem);
@@ -2635,7 +2631,7 @@ $('sequence-auto-end').onclick=function(){
 };
 $('sequence-clear').onclick=requestDeleteLastSequenceItem;
 $('sequence-toggle').onclick=()=>{sequencePanelVisible=!sequencePanelVisible;saveChordSequence();syncSequencePanelVisibility();setStatus(sequencePanelVisible?'Barra de sequências exibida':'Barra de sequências ocultada')};
-$('advanced-toggle').onclick=()=>{$('advanced').classList.toggle('open');$('advanced-toggle').classList.toggle('active')};$('fullscreen').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};$('stop-accompaniments').onclick=requestAccompanimentStop;$('stop-all').onclick=()=>{accompanimentStopQueued=false;accompanimentStopEventScheduled=false;syncAccompanimentStopButton();clearTimeout(sequenceTimer);sequencePlaying=false;sequenceStartQueued=false;queuedSequenceSection=null;sequenceIndex=-1;sequenceQuarterUnitsRemaining=0;stopAccompaniment();stopDrums();stopMasterTransport();releaseAll();clearKaraokeDisplay();renderChordSequence();setStatus('Todas as notas foram silenciadas')};
+$('advanced-toggle').onclick=()=>{$('advanced').classList.toggle('open');$('advanced-toggle').classList.toggle('active')};$('fullscreen').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};$('stop-accompaniments').onclick=requestAccompanimentStop;$('stop-all').onclick=()=>{accompanimentStopQueued=false;accompanimentStopEventScheduled=false;syncAccompanimentStopButton();clearTimeout(sequenceTimer);sequencePlaying=false;sequenceStartQueued=false;queuedSequenceSection=null;sequenceIndex=-1;sequenceQuarterUnitsRemaining=0;stopAccompaniment();stopDrums();stopMasterTransport();releaseAll();renderChordSequence();setStatus('Todas as notas foram silenciadas')};
 $('circle-toggle').onclick=()=>{if(circleEnabled){circleEnabled=false;circleRoot=null;$('circle-toggle').classList.remove('circle-active');$('circle-toggle').textContent='CH';applyCircleFilter();setStatus('Filtro do círculo harmônico desligado')}else openCircleDialog()};$('circle-close').onclick=()=>$('circle-dialog').close();
 const MEMORY_PREFIX='tecladoVirtualMemory';
 const FACTORY_SETTINGS={instrument:'piano',octave:0,sustainMode:'hold',releaseMs:650,attackMs:20,chordMode:'together',arpInterval:280,arpPattern:'up',inversion:0,bassEnabled:false,latchEnabled:false,splitEnabled:false,splitInstrument:'churchOrgan',velocityEnabled:true,glissEnabled:true,bpm:100,rhythmPattern:'whole',chordChangeMode:'nextBar',drumEngine:'acoustic',values:{master:'68',keyboard:'92',chord:'72',bass:'56'}};
@@ -2690,15 +2686,23 @@ document.querySelectorAll('.memory-button').forEach(button=>button.onclick=()=>{
 refreshMemoryButtons();
 document.addEventListener('keydown',e=>{if(['INPUT','SELECT','BUTTON'].includes(e.target.tagName))return;const k=e.key.toLowerCase();if(pressedKeys.has(k)||!KEYMAP.has(k))return;noteDown(KEYMAP.get(k),k,1,'keyboard')});document.addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(KEYMAP.has(k))noteUp(KEYMAP.get(k),k,'keyboard')});window.addEventListener('blur',()=>releaseAll());document.addEventListener('contextmenu',e=>{if(e.target.closest('.key,.chord'))e.preventDefault()});
 drumEngine=localStorage.getItem('tecladoVirtualDrumEngine')||'acoustic';renderKeyboard();renderChords();bindDrums();$('drum-toggle').classList.add('drum-mode-active');$('drum-toggle').setAttribute('aria-pressed','true');syncAccompanimentStopButton();syncSequenceRecordButton();syncSettingsUI();syncInstrumentChangeLock();refreshMemoryButtons();loadChordSequence();syncSequencePanelVisibility();loadSongsStore();updateSongNameDisplay();if(screen.orientation?.lock)screen.orientation.lock('landscape').catch(()=>{});
-$('sequence-edit-kind').onchange=syncSequenceEditorKind;
-$('sequence-edit-before').onclick=function(){commitSequenceEditor('before')};
-$('sequence-edit-replace').onclick=function(){commitSequenceEditor('replace')};
-$('sequence-edit-after').onclick=function(){commitSequenceEditor('after')};
-$('sequence-edit-delete').onclick=function(){
+const sequenceEditKind=$('sequence-edit-kind');
+const sequenceEditBefore=$('sequence-edit-before');
+const sequenceEditReplace=$('sequence-edit-replace');
+const sequenceEditAfter=$('sequence-edit-after');
+const sequenceEditDelete=$('sequence-edit-delete');
+const sequenceEditClose=$('sequence-edit-close');
+const sequenceEditorDialog=$('sequence-editor-dialog');
+
+if(sequenceEditKind)sequenceEditKind.onchange=syncSequenceEditorKind;
+if(sequenceEditBefore)sequenceEditBefore.onclick=function(){commitSequenceEditor('before')};
+if(sequenceEditReplace)sequenceEditReplace.onclick=function(){commitSequenceEditor('replace')};
+if(sequenceEditAfter)sequenceEditAfter.onclick=function(){commitSequenceEditor('after')};
+if(sequenceEditDelete)sequenceEditDelete.onclick=function(){
  if(confirm('Excluir este item da sequência?'))commitSequenceEditor('delete');
 };
-$('sequence-edit-close').onclick=closeSequenceEditor;
-$('sequence-editor-dialog').addEventListener('cancel',function(event){
+if(sequenceEditClose)sequenceEditClose.onclick=closeSequenceEditor;
+if(sequenceEditorDialog)sequenceEditorDialog.addEventListener('cancel',function(event){
  event.preventDefault();
  closeSequenceEditor();
 });
@@ -2740,62 +2744,5 @@ $('song-new').onclick=()=>{
 </script>
 
 
-<dialog id="sequence-editor-dialog">
-  <form method="dialog" class="dialog-card">
-    <h2>Editar item da sequência</h2>
-    <p class="sequence-editor-help">Altere o item selecionado ou use os botões para inserir um novo item antes ou depois dele.</p>
-    <div class="sequence-editor-grid">
-      <label>Conteúdo
-        <select id="sequence-edit-kind">
-          <option value="chord">Acorde</option>
-          <option value="pause">Pausa</option>
-        </select>
-      </label>
-      <label>Nota
-        <select id="sequence-edit-root">
-          <option value="0">C</option><option value="1">C#</option><option value="2">D</option>
-          <option value="3">D#</option><option value="4">E</option><option value="5">F</option>
-          <option value="6">F#</option><option value="7">G</option><option value="8">G#</option>
-          <option value="9">A</option><option value="10">A#</option><option value="11">B</option>
-        </select>
-      </label>
-      <label>Tipo de acorde
-        <select id="sequence-edit-type">
-          <option value="major">Maior</option>
-          <option value="minor">Menor</option>
-          <option value="dominant7">Sétima</option>
-          <option value="minor7">Menor com sétima</option>
-          <option value="diminished">Diminuto</option>
-          <option value="sus2">Sus2</option>
-          <option value="sus4">Sus4</option>
-        </select>
-      </label>
-      <label>Duração
-        <select id="sequence-edit-fraction">
-          <option value="0.25">¼ de compasso</option>
-          <option value="0.5">½ compasso</option>
-          <option value="0.75">¾ de compasso</option>
-          <option value="1">1 compasso</option>
-        </select>
-      </label>
-      <label>Execução
-        <select id="sequence-edit-mode">
-          <option value="together">Juntos</option>
-          <option value="arpeggio">Arpejo</option>
-        </select>
-      </label>
-      <label class="sequence-editor-lyric">Trecho da letra neste tempo
-        <textarea id="sequence-edit-lyric" maxlength="240" placeholder="Ex.: Tenho andado distraído"></textarea>
-      </label>
-    </div>
-    <div class="sequence-editor-actions">
-      <button type="button" id="sequence-edit-before" class="secondary">＋ Antes</button>
-      <button type="button" id="sequence-edit-replace">✓ Substituir</button>
-      <button type="button" id="sequence-edit-after" class="secondary">＋ Depois</button>
-      <button type="button" id="sequence-edit-delete" class="danger">Excluir item</button>
-    </div>
-    <button type="button" id="sequence-edit-close" class="secondary">Fechar</button>
-  </form>
-</dialog>
 
 </body></html>
