@@ -1,7 +1,7 @@
 'use strict';
 
 const CACHE_PREFIX = 'teclado-virtual-pwa-';
-const CACHE_NAME = CACHE_PREFIX + 'v3.11.1';
+const CACHE_NAME = CACHE_PREFIX + 'v3.12.3';
 const OFFLINE_URL = './offline.html';
 
 const PRECACHE_URLS = [

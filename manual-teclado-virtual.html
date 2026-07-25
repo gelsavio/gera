@@ -197,7 +197,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 </head>
 <body>
 <header class="topbar">
-  <div class="brand">🎹 MANUAL DO TECLADO VIRTUAL · v3.11.1</div>
+  <div class="brand">🎹 MANUAL DO TECLADO VIRTUAL · v3.12.3</div>
   <div class="actions">
     <button type="button" onclick="window.location.href='index.html'">🎹 Voltar ao teclado</button>
     <button type="button" onclick="window.print()">🖨 Imprimir</button>
@@ -234,7 +234,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
   <main>
     <section class="hero" id="apresentacao">
       <h1>TECLADO VIRTUAL</h1>
-      <p>Manual da versão <strong>3.11.1</strong>, com teclado sensível ao toque, acordes, círculo harmônico, acompanhamento contínuo, bateria acústica ou sintetizada, dezesseis sequências, execução automática e biblioteca de músicas.</p>
+      <p>Manual da versão <strong>3.12.3</strong>, com teclado sensível ao toque, acordes, círculo harmônico, acompanhamento contínuo, bateria acústica ou sintetizada, dezesseis sequências, execução automática e biblioteca de músicas.</p>
       <div class="badges">
         <span class="badge">Uso horizontal</span>
         <span class="badge">Multitoque</span>
@@ -503,7 +503,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
       </div>
     </section>
 
-    <footer>MANUAL DO TECLADO VIRTUAL · v3.11.1 · Oito sequências, biblioteca de músicas e bateria acústica</footer>
+    <footer>MANUAL DO TECLADO VIRTUAL · v3.12.3 · Oito sequências, biblioteca de músicas e bateria acústica</footer>
   
       <h2>Configuração de bateria por sequência</h2>
       <p>Cada uma das dezesseis sequências pode guardar um padrão de bateria, uma virada de entrada e um encerramento. O motor acústico ou sintético é definido globalmente para a música.</p>
@@ -542,6 +542,36 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 <h2>Virada na saída da seção</h2>
 <p>Cada seção pode configurar uma virada de saída de 1 compasso ou de meio compasso. Essa virada prepara a passagem para a próxima seção e não encerra a execução.</p>
 <p>A saída da seção atual tem prioridade sobre a entrada da próxima seção. O campo Final continua reservado aos encerramentos que param a música.</p>
+</section>
+
+
+<section id="notas-unicas">
+<h2>Notas únicas nas sequências</h2>
+<p>Além de acordes e pausas, as sequências aceitam notas únicas. A nota armazena altura, oitava, duração e instrumento. Corda e casa podem ser informadas como referência para baixo ou violão.</p>
+<p>Durante a gravação, tocar uma tecla adiciona uma nota única com a duração selecionada no controle de troca.</p>
+</section>
+<section id="xilofone-tres-oitavas">
+<h2>Xilofone com três oitavas</h2>
+<p>Ao selecionar o Xilofone, o teclado passa a mostrar três oitavas completas. Em telas menores, o teclado pode ser deslocado horizontalmente.</p>
+</section>
+
+
+<section id="oitavo-compasso">
+<h2>Duração de ⅛ de compasso</h2>
+<p>Acordes, notas únicas e pausas podem usar duração de um oitavo de compasso. O relógio da sequência trabalha com oito limites por compasso, mantendo as notas rápidas sincronizadas com a bateria.</p>
+</section>
+
+
+<section id="troca-instrumento-musica">
+<h2>Troca de instrumento após salvar ou carregar</h2>
+<p>Salvar uma música não bloqueia a escolha de instrumento. Ao carregar outra música ou iniciar uma nova, acompanhamentos e sequências em execução são interrompidos e o seletor é atualizado.</p>
+<p>A troca continua bloqueada somente enquanto houver acompanhamento contínuo ou sequência em execução.</p>
+</section>
+
+
+<section id="instrumento-notas-naturais">
+<h2>Instrumento das notas únicas</h2>
+<p>As notas únicas da sequência usam o instrumento atualmente selecionado no painel, assim como os acordes. O instrumento eventualmente armazenado no JSON permanece apenas como referência e não impede a troca global.</p>
 </section>
 
 </main>
