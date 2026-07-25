@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <meta name="screen-orientation" content="landscape">
-<title>Teclado Virtual v3.10.2</title>
+<title>Teclado Virtual v3.11.1</title>
 <style>
 :root{--bg:#111326;--panel:#0b0e1c;--panel2:#191d35;--border:#343a59;--text:#f8fafc;--muted:#9ca8c3;--accent:#4f46e5;--success:#16a34a;--danger:#dc2626;--warning:#d97706}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -42,7 +42,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 .exec-drum-row{display:flex;gap:8px;align-items:flex-start;width:100%}.exec-drum-row>.chord-toolbar{flex:1 1 0;min-width:0;margin:0}.drum-panel{display:none;flex-direction:column;gap:3px;flex:1 1 0;min-width:0;margin:0;padding-left:8px;border-left:1px solid rgba(100,116,139,.25)}.drum-panel.visible{display:flex}.drum-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(34px,1fr));gap:3px}.drum-panel button{height:30px;min-height:30px;padding:1px 3px;border-radius:7px;font-size:.78rem;line-height:1}.drum-pad{background:linear-gradient(180deg,#475569,#1e293b);border-color:#64748b}.drum-pad.layer-on{background:linear-gradient(180deg,#15803d,#14532d);border-color:#4ade80}.drum-pattern{background:linear-gradient(180deg,#4338ca,#312e81);border-color:#818cf8}.drum-pattern.active{background:linear-gradient(180deg,#16a34a,#166534)}.drum-fill{background:linear-gradient(180deg,#b45309,#7c2d12);border-color:#fb923c}.drum-ending{background:linear-gradient(180deg,#be123c,#881337);border-color:#fb7185}.drum-fill.active,.drum-ending.active{box-shadow:0 0 0 2px rgba(250,204,21,.3) inset}.drum-stop{background:linear-gradient(180deg,#dc2626,#7f1d1d)}.drum-note{display:none}.drum-mode-active{background:#7c3aed!important;border-color:#c4b5fd!important}
 .transport{display:grid;grid-template-columns:1.12fr .84fr .84fr .7fr repeat(6,minmax(40px,.52fr)) 1fr 1fr;gap:5px}.transport button{font-size:.69rem}.memory-button{background:var(--success);border-color:#4ade80}.memory-button.custom{background:var(--danger);border-color:#f87171}.accompaniment-stop-pending{background:#b45309!important;border-color:#facc15!important;box-shadow:0 0 0 2px rgba(250,204,21,.3) inset}.memory-button.save-target{outline:3px solid #facc15;outline-offset:1px}.save-armed{background:var(--warning)!important;box-shadow:0 0 0 3px rgba(250,204,21,.25)}.circle-active{background:#0f766e!important;border-color:#2dd4bf!important}.chord.filtered-out{display:none}.circle-dialog{border:1px solid var(--border);border-radius:16px;background:#111529;color:var(--text);padding:16px;max-width:min(680px,92vw);box-shadow:0 24px 70px rgba(0,0,0,.55)}.circle-dialog::backdrop{background:rgba(0,0,0,.72)}.circle-dialog h2{font-size:1.05rem;margin-bottom:6px}.circle-dialog p{color:var(--muted);font-size:.78rem;margin-bottom:12px}.circle-note-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}.circle-note-grid button{min-height:48px}.circle-close{width:100%;margin-top:10px;background:#38405f;border-color:#58617f}.songs-dialog{border:1px solid var(--border);border-radius:16px;background:#111529;color:var(--text);padding:16px;max-width:min(480px,92vw);width:100%;box-shadow:0 24px 70px rgba(0,0,0,.55)}.songs-dialog::backdrop{background:rgba(0,0,0,.72)}.songs-dialog h2{font-size:1.05rem;margin-bottom:6px}.songs-hint{color:var(--muted);font-size:.72rem;line-height:1.35;margin-bottom:12px}.songs-current-row{display:flex;gap:6px;margin-bottom:10px}.songs-current-row input{flex:1 1 auto;min-width:0;height:38px;border-radius:8px;border:1px solid #58617f;background:#1c2338;color:var(--text);padding:0 10px;font-size:.82rem}.songs-current-row input#song-bpm-input{flex:0 0 64px;text-align:center;padding:0 4px}.songs-current-row button{flex:0 0 auto;height:38px;padding:0 12px;font-size:.72rem;border-radius:8px}.songs-list{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;margin-bottom:12px}.songs-empty{color:var(--muted);font-size:.74rem;text-align:center;padding:8px 0}.song-item{display:flex;gap:6px;align-items:stretch}.song-item .song-load{flex:1 1 auto;min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;height:38px;border-radius:8px;font-size:.76rem;padding:0 10px}.song-item.song-active .song-load{background:#0f766e;border-color:#2dd4bf}.song-item .song-delete{flex:0 0 auto;width:38px;height:38px;border-radius:8px;font-size:.85rem}.songs-actions{display:flex;gap:6px}.songs-actions button{flex:1 1 0;height:38px;border-radius:8px;font-size:.74rem}.status{min-height:20px;color:#b5bfd5;font-size:.76rem;text-align:center}.help{color:#7f8aa3;font-size:.65rem;line-height:1.3;text-align:center}
 
-.sequence-panel{display:flex;flex-direction:column;gap:6px;padding:5px 6px;border:1px solid #35405d;border-radius:10px;background:#171c31}.song-bar{display:flex;align-items:center;gap:4px;padding:2px 2px 4px;border-bottom:1px solid rgba(100,116,139,.25)}.song-bar #song-current-name{flex:1 1 auto;min-width:0;font-size:.78rem;font-weight:700;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.song-bar button{flex:0 0 auto;height:28px;min-height:28px;padding:2px 7px;font-size:.62rem;border-radius:7px}.sequence-file-button{background:#38405f;border-color:#58617f}.song-play-wait.active{background:#7c3aed;border-color:#c4b5fd}.sequence-top{display:flex;flex-direction:column;align-items:stretch;gap:5px;width:100%;min-width:0}.sequence-sections{display:flex;flex-wrap:nowrap;gap:3px;width:100%;min-width:0}.sequence-section-control{display:flex;align-items:center;gap:2px;flex:1 1 0;min-width:0}.sequence-section-control>button{flex:1 1 auto;min-width:0;height:30px;min-height:30px;padding:2px 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-radius:7px;font-size:.56rem}.repeat-stepper{display:grid;grid-template-columns:16px 20px 16px;gap:1px;flex:0 0 54px;height:30px}.repeat-stepper button{width:16px;min-width:16px;height:30px;min-height:30px;padding:0;border-radius:6px;background:#38405f;border-color:#58617f;font-size:.72rem;line-height:1}.repeat-value{display:flex;align-items:center;justify-content:center;width:20px;height:30px;border:1.5px solid #7d8bab;border-radius:6px;background:#22293f;color:#f8fafc;font-size:.62rem;font-weight:900}.sequence-sections button.active-section{background:#0f766e;border-color:#2dd4bf}.sequence-sections button.queued-section{background:#7c3aed;border-color:#c4b5fd;box-shadow:0 0 0 2px rgba(196,181,253,.18)}.sequence-sections button.queued-section::before{content:'Próx. ';font-size:.48rem;color:#ede9fe}.sequence-sections button.has-content::after{content:' •';color:#86efac}.sequence-controls{display:grid;grid-template-columns:repeat(4,.58fr) .82fr .62fr .78fr .52fr;gap:4px;width:100%;min-width:0}.sequence-controls button{width:100%;min-width:0;height:30px;min-height:30px;padding:2px 3px;border-radius:7px;font-size:.62rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sequence-auto.active{background:#0f766e;border-color:#2dd4bf}.sequence-section-control.playing-repeat>button{box-shadow:0 0 0 2px rgba(74,222,128,.35) inset}.sequence-strip{display:grid;grid-template-rows:repeat(2,25px);grid-auto-flow:column;grid-auto-columns:max-content;align-items:stretch;gap:3px;min-height:53px;max-height:53px;overflow-x:auto;overflow-y:hidden;padding:1px 2px;scrollbar-width:thin}.sequence-empty{grid-row:1/3;align-self:center;color:var(--muted);font-size:.64rem;white-space:nowrap}.sequence-item{display:flex;align-items:center;justify-content:center;min-width:36px;height:25px;padding:2px 5px;border-radius:6px;background:#303858;border:1px solid #596482;font-size:.58rem;line-height:1;text-align:center;white-space:nowrap}.sequence-item.quarter::after{content:' ¼';color:#fbbf24}.sequence-item.half::after{content:' ½';color:#facc15}.sequence-item.three-quarter::after{content:' ¾';color:#c4b5fd}.sequence-item.full::after{content:' 1';color:#93c5fd}.sequence-item.current{background:#166534;border-color:#4ade80}.sequence-item.pause{background:#1f2937;border-color:#94a3b8}.sequence-item.pause::before{content:"⏸ ";color:#e2e8f0}.sequence-recording{background:#991b1b!important;border-color:#f87171!important;box-shadow:0 0 0 2px rgba(248,113,113,.2)}.sequence-panel.sequence-hidden{display:none}.sequence-toggle-active{background:#0f766e!important;border-color:#2dd4bf!important}
+.sequence-panel{display:flex;flex-direction:column;gap:6px;padding:5px 6px;border:1px solid #35405d;border-radius:10px;background:#171c31}.song-bar{display:flex;align-items:center;gap:4px;padding:2px 2px 4px;border-bottom:1px solid rgba(100,116,139,.25)}.song-bar #song-current-name{flex:1 1 auto;min-width:0;font-size:.78rem;font-weight:700;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.song-bar button{flex:0 0 auto;height:28px;min-height:28px;padding:2px 7px;font-size:.62rem;border-radius:7px}.sequence-file-button{background:#38405f;border-color:#58617f}.song-play-wait.active{background:#7c3aed;border-color:#c4b5fd}.sequence-top{display:flex;flex-direction:column;align-items:stretch;gap:5px;width:100%;min-width:0}.sequence-sections{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px;width:100%;min-width:0}.sequence-section-control{display:flex;align-items:center;gap:2px;flex:1 1 0;min-width:0}.sequence-section-control>button{flex:1 1 auto;min-width:0;height:30px;min-height:30px;padding:2px 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-radius:7px;font-size:.56rem}.repeat-stepper{display:grid;grid-template-columns:16px 20px 16px;gap:1px;flex:0 0 54px;height:30px}.repeat-stepper button{width:16px;min-width:16px;height:30px;min-height:30px;padding:0;border-radius:6px;background:#38405f;border-color:#58617f;font-size:.72rem;line-height:1}.repeat-value{display:flex;align-items:center;justify-content:center;width:20px;height:30px;border:1.5px solid #7d8bab;border-radius:6px;background:#22293f;color:#f8fafc;font-size:.62rem;font-weight:900}.sequence-sections button.active-section{background:#0f766e;border-color:#2dd4bf}.sequence-sections button.queued-section{background:#7c3aed;border-color:#c4b5fd;box-shadow:0 0 0 2px rgba(196,181,253,.18)}.sequence-sections button.has-content::after{content:' •';color:#86efac}.sequence-controls{display:grid;grid-template-columns:repeat(4,.58fr) .82fr .62fr .78fr .52fr;gap:4px;width:100%;min-width:0}.sequence-controls button{width:100%;min-width:0;height:30px;min-height:30px;padding:2px 3px;border-radius:7px;font-size:.62rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sequence-auto.active{background:#0f766e;border-color:#2dd4bf}.sequence-section-control.playing-repeat>button{box-shadow:0 0 0 2px rgba(74,222,128,.35) inset}.sequence-strip{display:grid;grid-template-rows:repeat(2,25px);grid-auto-flow:column;grid-auto-columns:max-content;align-items:stretch;gap:3px;min-height:53px;max-height:53px;overflow-x:auto;overflow-y:hidden;padding:1px 2px;scrollbar-width:thin}.sequence-empty{grid-row:1/3;align-self:center;color:var(--muted);font-size:.64rem;white-space:nowrap}.sequence-item{display:flex;align-items:center;justify-content:center;min-width:36px;height:25px;padding:2px 5px;border-radius:6px;background:#303858;border:1px solid #596482;font-size:.58rem;line-height:1;text-align:center;white-space:nowrap}.sequence-item.quarter::after{content:' ¼';color:#fbbf24}.sequence-item.half::after{content:' ½';color:#facc15}.sequence-item.three-quarter::after{content:' ¾';color:#c4b5fd}.sequence-item.full::after{content:' 1';color:#93c5fd}.sequence-item.current{background:#166534;border-color:#4ade80}.sequence-item.pause{background:#1f2937;border-color:#94a3b8}.sequence-item.pause::before{content:"⏸ ";color:#e2e8f0}.sequence-recording{background:#991b1b!important;border-color:#f87171!important;box-shadow:0 0 0 2px rgba(248,113,113,.2)}.sequence-panel.sequence-hidden{display:none}.sequence-toggle-active{background:#0f766e!important;border-color:#2dd4bf!important}
 @media(max-width:980px){body{padding:6px}.quick-controls{grid-template-columns:1.25fr repeat(4,minmax(105px,1fr));overflow-x:auto}.advanced-grid{grid-template-columns:repeat(5,minmax(120px,1fr));overflow-x:auto}.panel{padding:7px}.key.natural{height:40px}.key.sharp{height:28px}.chord{height:38px;min-height:38px;font-size:.62rem;padding:3px 1px}.drum-panel button{height:26px;min-height:26px;font-size:.72rem;padding:1px}.sequence-sections{gap:2px}.sequence-section-control{flex:1 1 0;min-width:0;gap:2px}.sequence-section-control>button{height:29px;min-height:29px;padding:2px 2px;font-size:.52rem}.repeat-stepper{grid-template-columns:16px 20px 16px;flex-basis:54px;height:29px}.repeat-stepper button{width:16px;min-width:16px;height:29px;min-height:29px;font-size:.66rem}.repeat-value{width:20px;height:29px;font-size:.58rem}.sequence-controls{grid-template-columns:repeat(4,.54fr) .78fr .58fr .72fr .48fr;gap:3px}.sequence-controls button{height:29px;min-height:29px;padding:2px 3px;font-size:.58rem}.transport{grid-template-columns:1fr .63fr .72fr .48fr repeat(6,minmax(28px,.40fr)) .84fr .84fr}.transport button{min-height:36px;padding:4px 2px;font-size:.6rem}.help{display:none}}
 @media(max-height:600px){h1{font-size:1rem}.key.natural{height:36px}.key.sharp{height:24px}.quick-controls .control{padding:5px}.chord{height:34px;min-height:34px}.status{font-size:.68rem}}
 
@@ -98,7 +98,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 
 .sequence-drum-config{
  display:grid;
- grid-template-columns:repeat(4,minmax(110px,1fr));
+ grid-template-columns:repeat(5,minmax(100px,1fr));
  gap:4px;
  align-items:end;
  padding:3px 0 2px 0;
@@ -166,11 +166,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
  color:#f5f3ff;
  box-shadow:inset 0 0 0 1px rgba(196,181,253,.35);
 }
-.sequence-item.next-sequence-item::before{
- color:#ddd6fe;
- font-size:.46rem;
- font-weight:900;
-}
+
 .sequence-item.next-sequence-item .sequence-item-lyric{display:none}
 
 
@@ -227,11 +223,19 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
  font-weight:900;
 }
 
+
+@media(max-width:760px){
+ .sequence-sections{grid-template-columns:repeat(8,minmax(54px,1fr));overflow-x:auto;padding-bottom:2px}
+ .sequence-section-control>button{font-size:.5rem}
+ .repeat-stepper{grid-template-columns:14px 18px 14px;flex-basis:48px}
+ .repeat-stepper button{width:14px;min-width:14px}
+ .repeat-value{width:18px}
+}
 </style>
 </head>
 <body>
 <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O Teclado Virtual foi organizado para uso horizontal.</p></div>
-<header><h1>🎹 Teclado Virtual <small class="app-version">v3.10.2</small></h1><div class="header-actions"><button type="button" class="secondary" onclick="window.location.href='manual-teclado-virtual.html'">📘 Manual</button><button id="advanced-toggle" class="secondary">⚙️ Avançado</button><button id="fullscreen" class="secondary">⛶ Tela cheia</button></div></header>
+<header><h1>🎹 Teclado Virtual <small class="app-version">v3.11.1</small></h1><div class="header-actions"><button type="button" class="secondary" onclick="window.location.href='manual-teclado-virtual.html'">📘 Manual</button><button id="advanced-toggle" class="secondary">⚙️ Avançado</button><button id="fullscreen" class="secondary">⛶ Tela cheia</button></div></header>
 <main class="app">
 <section class="panel quick-controls">
 <div class="control"><label for="instrument">Instrumento</label><select id="instrument"><option value="piano">🎹 Piano</option><option value="xylophone">🪇 Xilofone</option><option value="flute">🪈 Flauta</option><option value="churchOrgan">⛪ Órgão de igreja</option><option value="accordion">🪗 Acordeom</option><option value="violin">🎻 Violino</option><option value="bassGuitar">🎸 Baixo</option><option value="acousticGuitar">🪕 Violão</option><option value="synthPad">🌌 Pad sintetizado</option></select></div>
@@ -312,6 +316,14 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
       <div class="sequence-section-control" data-section-control="section6"><button class="secondary" data-sequence-section="section6">Seq. 6</button><div class="repeat-stepper" aria-label="Repetições da Seq. 6"><button type="button" class="secondary" data-repeat-adjust="section6" data-delta="-1" title="Diminuir repetições da Seq. 6">−</button><span class="repeat-value" data-section-repeat-display="section6" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section6" data-delta="1" title="Aumentar repetições da Seq. 6">+</button></div></div>
       <div class="sequence-section-control" data-section-control="section7"><button class="secondary" data-sequence-section="section7">Seq. 7</button><div class="repeat-stepper" aria-label="Repetições da Seq. 7"><button type="button" class="secondary" data-repeat-adjust="section7" data-delta="-1" title="Diminuir repetições da Seq. 7">−</button><span class="repeat-value" data-section-repeat-display="section7" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section7" data-delta="1" title="Aumentar repetições da Seq. 7">+</button></div></div>
       <div class="sequence-section-control" data-section-control="section8"><button class="secondary" data-sequence-section="section8">Seq. 8</button><div class="repeat-stepper" aria-label="Repetições da Seq. 8"><button type="button" class="secondary" data-repeat-adjust="section8" data-delta="-1" title="Diminuir repetições da Seq. 8">−</button><span class="repeat-value" data-section-repeat-display="section8" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section8" data-delta="1" title="Aumentar repetições da Seq. 8">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section9"><button class="secondary" data-sequence-section="section9">Seq. 9</button><div class="repeat-stepper" aria-label="Repetições da Seq. 9"><button type="button" class="secondary" data-repeat-adjust="section9" data-delta="-1" title="Diminuir repetições da Seq. 9">−</button><span class="repeat-value" data-section-repeat-display="section9" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section9" data-delta="1" title="Aumentar repetições da Seq. 9">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section10"><button class="secondary" data-sequence-section="section10">Seq. 10</button><div class="repeat-stepper" aria-label="Repetições da Seq. 10"><button type="button" class="secondary" data-repeat-adjust="section10" data-delta="-1" title="Diminuir repetições da Seq. 10">−</button><span class="repeat-value" data-section-repeat-display="section10" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section10" data-delta="1" title="Aumentar repetições da Seq. 10">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section11"><button class="secondary" data-sequence-section="section11">Seq. 11</button><div class="repeat-stepper" aria-label="Repetições da Seq. 11"><button type="button" class="secondary" data-repeat-adjust="section11" data-delta="-1" title="Diminuir repetições da Seq. 11">−</button><span class="repeat-value" data-section-repeat-display="section11" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section11" data-delta="1" title="Aumentar repetições da Seq. 11">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section12"><button class="secondary" data-sequence-section="section12">Seq. 12</button><div class="repeat-stepper" aria-label="Repetições da Seq. 12"><button type="button" class="secondary" data-repeat-adjust="section12" data-delta="-1" title="Diminuir repetições da Seq. 12">−</button><span class="repeat-value" data-section-repeat-display="section12" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section12" data-delta="1" title="Aumentar repetições da Seq. 12">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section13"><button class="secondary" data-sequence-section="section13">Seq. 13</button><div class="repeat-stepper" aria-label="Repetições da Seq. 13"><button type="button" class="secondary" data-repeat-adjust="section13" data-delta="-1" title="Diminuir repetições da Seq. 13">−</button><span class="repeat-value" data-section-repeat-display="section13" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section13" data-delta="1" title="Aumentar repetições da Seq. 13">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section14"><button class="secondary" data-sequence-section="section14">Seq. 14</button><div class="repeat-stepper" aria-label="Repetições da Seq. 14"><button type="button" class="secondary" data-repeat-adjust="section14" data-delta="-1" title="Diminuir repetições da Seq. 14">−</button><span class="repeat-value" data-section-repeat-display="section14" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section14" data-delta="1" title="Aumentar repetições da Seq. 14">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section15"><button class="secondary" data-sequence-section="section15">Seq. 15</button><div class="repeat-stepper" aria-label="Repetições da Seq. 15"><button type="button" class="secondary" data-repeat-adjust="section15" data-delta="-1" title="Diminuir repetições da Seq. 15">−</button><span class="repeat-value" data-section-repeat-display="section15" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section15" data-delta="1" title="Aumentar repetições da Seq. 15">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section16"><button class="secondary" data-sequence-section="section16">Seq. 16</button><div class="repeat-stepper" aria-label="Repetições da Seq. 16"><button type="button" class="secondary" data-repeat-adjust="section16" data-delta="-1" title="Diminuir repetições da Seq. 16">−</button><span class="repeat-value" data-section-repeat-display="section16" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section16" data-delta="1" title="Aumentar repetições da Seq. 16">+</button></div></div>
     </div>
     <div class="sequence-drum-config" aria-label="Configuração da bateria">
       <label>Motor
@@ -339,6 +351,13 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
           <option value="fillHalf">Virada ½</option>
         </select>
       </label>
+      <label>Saída
+        <select id="section-drum-exit">
+          <option value="">Sem virada</option>
+          <option value="fill">Virada 1</option>
+          <option value="fillHalf">Virada ½</option>
+        </select>
+      </label>
       <label>Final
         <select id="section-drum-final">
           <option value="">Sem encerramento</option>
@@ -355,7 +374,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 </section>
 <dialog id="songs-dialog" class="songs-dialog" aria-label="Gerenciar músicas salvas">
   <h2>Minhas músicas</h2>
-  <p class="songs-hint">Salve a música atual (Seq. 1 a 8), com suas repetições e BPM. Só a música atual aparece na tela principal — as demais ficam guardadas aqui.</p>
+  <p class="songs-hint">Salve a música atual (Seq. 1 a 16), com suas repetições e BPM. Só a música atual aparece na tela principal — as demais ficam guardadas aqui.</p>
   <div class="songs-current-row"><input id="song-name-input" type="text" placeholder="Nome da música" maxlength="40" aria-label="Nome da música"><input id="song-bpm-input" type="number" min="40" max="220" step="1" value="100" placeholder="BPM" title="Andamento (BPM) da música" aria-label="BPM da música"><button id="song-save" class="secondary" title="Salvar a sequência atual com este nome">💾 Salvar</button></div>
   <div id="songs-list" class="songs-list"><span class="songs-empty">Nenhuma música salva ainda.</span></div>
   <div class="songs-actions"><button id="song-new" class="secondary" title="Começar uma música em branco">🆕 Nova música</button><button id="songs-close" class="secondary">Fechar</button></div>
@@ -434,7 +453,7 @@ const LABELS={piano:"Piano",xylophone:"Xilofone",flute:"Flauta",churchOrgan:"Ór
 const CHORD_INTERVALS={minor:[0,3,7],major:[0,4,7],minor7:[0,3,7,10],dominant7:[0,4,7,10],sus2:[0,2,7],sus4:[0,5,7],diminished:[0,3,6]};
 const CIRCLE_DEGREES=[{step:0,type:"major"},{step:2,type:"minor"},{step:4,type:"minor"},{step:5,type:"major"},{step:7,type:"major"},{step:9,type:"minor"},{step:11,type:"diminished"}];
 const SECONDARY_DOMINANTS=[{targetStep:2,targetType:"minor",degree:"V/ii"},{targetStep:4,targetType:"minor",degree:"V/iii"},{targetStep:5,targetType:"major",degree:"V/IV"},{targetStep:7,targetType:"major",degree:"V/V"},{targetStep:9,targetType:"minor",degree:"V/vi"}];
-let audioCtx,masterGain,limiter,drumBus,drumCompressor,openHatVoice=null,drumEngine="acoustic",drumSamplesReady=false,drumSamplesLoading=false,drumSampleBuffers={},drumRoundRobin={},drumSamplesLoadedCount=0,drumSamplesTotalCount=0,drumSamplesFailureCount=0,instrument="piano",octave=0,capoSemitones=0,sustainMode="hold",releaseMs=650,attackMs=20,chordMode="together",arpInterval=280,arpPattern="up",chordType="minor",inversion=0,bassEnabled=false,latchEnabled=false,splitEnabled=false,splitInstrument="churchOrgan",velocityEnabled=true,glissEnabled=true,metronomeOn=false,metronomeTimer=null,bpm=100,rhythmPattern="whole",chordChangeMode="nextBar",latchedRoot=null,latchedType=null,pendingRoot=null,pendingType=null,pendingButton=null,latchedButton=null,accompanimentTimer=null,accompanimentEvents=[],accompanimentHalfTimer=null,activeVoices=new Set(),pointerVoices=new Map(),pointerLastKey=new Map(),pressedKeys=new Map(),saveArmed=false,actionToken=0,alternateDirection=false,circleEnabled=false,circleRoot=null,drumMode=true,drumRunning=false,drumPattern="rock",drumManual=false,drumStep=0,drumTimer=null,drumNextTime=0,drumFillQueued=false,drumEndingQueued=false,drumQueuedAction="",drumActiveAction="",drumCompletedAction="",drumActionMuteUntil=0,sequenceEndActionInProgress="",sequenceConfiguredActionName="",drumLayers={kick:true,snare:true,hat:true},sequenceRecording=false,sequencePlaying=false,sequenceTimer=null,sequenceIndex=-1,sequenceQuarterUnitsRemaining=0,sequenceStartQueued=false,activeSequenceSection='verse',queuedSequenceSection=null,sequenceLoop=true,sequenceAuto=true,sequenceAutoEnd=false,sequencePanelVisible=true,sequenceSections={verse:[],prechorus:[],chorus:[],bridge:[],section5:[],section6:[],section7:[],section8:[]},sequenceRepeats={verse:0,prechorus:0,chorus:0,bridge:0,section5:0,section6:0,section7:0,section8:0},sequenceOrder=['verse','prechorus','chorus','bridge','section5','section6','section7','section8'],sequenceDrums={verse:{padrao:'rock',entrada:null,final:null},prechorus:{padrao:'rock',entrada:null,final:null},chorus:{padrao:'rock',entrada:null,final:null},bridge:{padrao:'rock',entrada:null,final:null},section5:{padrao:'rock',entrada:null,final:null},section6:{padrao:'rock',entrada:null,final:null},section7:{padrao:'rock',entrada:null,final:null},section8:{padrao:'rock',entrada:null,final:null}},currentSectionRepetition=1,sequencePendingTransition=null,sequencePlaybackOriginalChordMode=null,sequenceStopAtEnd=false,sequenceDeleteArmed=false,sequenceDeleteTimer=null,sequenceEditIndex=-1,transportRunning=false,transportStep=0,transportNextTime=0,transportTimer=null,transportEvents=[],transportBar=0,transportTempoBpm=100,pendingBpm=null,drumStartQueued=false,accompanimentStopQueued=false,accompanimentStopEventScheduled=false;
+let audioCtx,masterGain,limiter,drumBus,drumCompressor,openHatVoice=null,drumEngine="acoustic",drumSamplesReady=false,drumSamplesLoading=false,drumSampleBuffers={},drumRoundRobin={},drumSamplesLoadedCount=0,drumSamplesTotalCount=0,drumSamplesFailureCount=0,instrument="piano",octave=0,capoSemitones=0,sustainMode="hold",releaseMs=650,attackMs=20,chordMode="together",arpInterval=280,arpPattern="up",chordType="minor",inversion=0,bassEnabled=false,latchEnabled=false,splitEnabled=false,splitInstrument="churchOrgan",velocityEnabled=true,glissEnabled=true,metronomeOn=false,metronomeTimer=null,bpm=100,rhythmPattern="whole",chordChangeMode="nextBar",latchedRoot=null,latchedType=null,pendingRoot=null,pendingType=null,pendingButton=null,latchedButton=null,accompanimentTimer=null,accompanimentEvents=[],accompanimentHalfTimer=null,activeVoices=new Set(),pointerVoices=new Map(),pointerLastKey=new Map(),pressedKeys=new Map(),saveArmed=false,actionToken=0,alternateDirection=false,circleEnabled=false,circleRoot=null,drumMode=true,drumRunning=false,drumPattern="rock",drumManual=false,drumStep=0,drumTimer=null,drumNextTime=0,drumFillQueued=false,drumEndingQueued=false,drumQueuedAction="",drumActiveAction="",drumCompletedAction="",drumActionMuteUntil=0,sequenceEndActionInProgress="",sequenceConfiguredActionName="",drumLayers={kick:true,snare:true,hat:true},sequenceRecording=false,sequencePlaying=false,sequenceTimer=null,sequenceIndex=-1,sequenceQuarterUnitsRemaining=0,sequenceStartQueued=false,activeSequenceSection='verse',queuedSequenceSection=null,sequenceLoop=true,sequenceAuto=true,sequenceAutoEnd=false,sequencePanelVisible=true,sequenceSections={verse:[],prechorus:[],chorus:[],bridge:[],section5:[],section6:[],section7:[],section8:[],section9:[],section10:[],section11:[],section12:[],section13:[],section14:[],section15:[],section16:[]},sequenceRepeats={verse:0,prechorus:0,chorus:0,bridge:0,section5:0,section6:0,section7:0,section8:0,section9:0,section10:0,section11:0,section12:0,section13:0,section14:0,section15:0,section16:0},sequenceOrder=['verse','prechorus','chorus','bridge','section5','section6','section7','section8','section9','section10','section11','section12','section13','section14','section15','section16'],sequenceDrums={verse:{padrao:'rock',entrada:null,saida:null,final:null},prechorus:{padrao:'rock',entrada:null,saida:null,final:null},chorus:{padrao:'rock',entrada:null,saida:null,final:null},bridge:{padrao:'rock',entrada:null,saida:null,final:null},section5:{padrao:'rock',entrada:null,saida:null,final:null},section6:{padrao:'rock',entrada:null,saida:null,final:null},section7:{padrao:'rock',entrada:null,saida:null,final:null},section8:{padrao:'rock',entrada:null,saida:null,final:null},section9:{padrao:'rock',entrada:null,saida:null,final:null},section10:{padrao:'rock',entrada:null,saida:null,final:null},section11:{padrao:'rock',entrada:null,saida:null,final:null},section12:{padrao:'rock',entrada:null,saida:null,final:null},section13:{padrao:'rock',entrada:null,saida:null,final:null},section14:{padrao:'rock',entrada:null,saida:null,final:null},section15:{padrao:'rock',entrada:null,saida:null,final:null},section16:{padrao:'rock',entrada:null,saida:null,final:null}},currentSectionRepetition=1,sequencePendingTransition=null,sequencePlaybackOriginalChordMode=null,sequenceStopAtEnd=false,sequenceDeleteArmed=false,sequenceDeleteTimer=null,sequenceEditIndex=-1,transportRunning=false,transportStep=0,transportNextTime=0,transportTimer=null,transportEvents=[],transportBar=0,transportTempoBpm=100,pendingBpm=null,drumStartQueued=false,accompanimentStopQueued=false,accompanimentStopEventScheduled=false;
 const MAX_SIMULTANEOUS_TOUCHES=4;
 function ensureAudio(){if(!audioCtx){audioCtx=new(AudioContext||webkitAudioContext)({latencyHint:'interactive'});masterGain=audioCtx.createGain();limiter=audioCtx.createDynamicsCompressor();drumBus=audioCtx.createGain();drumCompressor=audioCtx.createDynamicsCompressor();drumCompressor.threshold.value=-18;drumCompressor.knee.value=18;drumCompressor.ratio.value=4;drumCompressor.attack.value=.006;drumCompressor.release.value=.16;drumBus.gain.value=Number($('drum-volume').value)/100;drumBus.connect(drumCompressor);drumCompressor.connect(masterGain);limiter.threshold.value=-10;limiter.knee.value=10;limiter.ratio.value=12;limiter.attack.value=.003;limiter.release.value=.18;masterGain.gain.value=+$('master-volume').value/100;masterGain.connect(limiter);limiter.connect(audioCtx.destination)}if(audioCtx.state==='suspended')audioCtx.resume()}
 function freq(semi,oct=0){return 261.625565*Math.pow(2,(semi+oct*12)/12)}function vol(kind){return +$(kind+'-volume').value/100}
@@ -708,7 +727,7 @@ function startAccompaniment(root,type,button){requestAccompaniment(root,type,but
 
 
 const SEQUENCE_KEY='tecladoVirtualSongSections';
-const SEQUENCE_SECTION_LABELS={verse:'Seq. 1',prechorus:'Seq. 2',chorus:'Seq. 3',bridge:'Seq. 4',section5:'Seq. 5',section6:'Seq. 6',section7:'Seq. 7',section8:'Seq. 8'};
+const SEQUENCE_SECTION_LABELS={verse:'Seq. 1',prechorus:'Seq. 2',chorus:'Seq. 3',bridge:'Seq. 4',section5:'Seq. 5',section6:'Seq. 6',section7:'Seq. 7',section8:'Seq. 8',section9:'Seq. 9',section10:'Seq. 10',section11:'Seq. 11',section12:'Seq. 12',section13:'Seq. 13',section14:'Seq. 14',section15:'Seq. 15',section16:'Seq. 16'};
 function currentChordSequence(){return sequenceSections[activeSequenceSection]||[]}
 function sequenceEntryDuration(){
  if(chordChangeMode==='quarterBar')return .25;
@@ -736,20 +755,23 @@ function normalizeSequenceItem(item){
 }
 
 function defaultSectionDrum(){
- return {padrao:'rock',entrada:null,final:null};
+ return {padrao:'rock',entrada:null,saida:null,final:null};
 }
 function normalizeSectionDrum(value){
  const allowedPatterns=['rock','forro','bolero','sertanejo','balada','suave','bossa'];
  const allowedEntries=['fill','fillHalf'];
+ const allowedExits=['fill','fillHalf'];
  const allowedFinals=['ending','endingHalf'];
  const source=value&&typeof value==='object'?value:{};
  let padrao=null;
  if(allowedPatterns.indexOf(source.padrao)>=0)padrao=source.padrao;
  let entrada=null;
  if(allowedEntries.indexOf(source.entrada)>=0)entrada=source.entrada;
+ let saida=null;
+ if(allowedExits.indexOf(source.saida)>=0)saida=source.saida;
  let finalAction=null;
  if(allowedFinals.indexOf(source.final)>=0)finalAction=source.final;
- return {padrao:padrao,entrada:entrada,final:finalAction};
+ return {padrao:padrao,entrada:entrada,saida:saida,final:finalAction};
 }
 function calculateSectionBars(section){
  const items=sequenceSections[section]||[];
@@ -773,21 +795,25 @@ function syncSectionDrumControls(){
  const engine=$('song-drum-engine');
  const pattern=$('section-drum-pattern');
  const entry=$('section-drum-entry');
+ const exitAction=$('section-drum-exit');
  const finalAction=$('section-drum-final');
  const bars=$('section-bars-display');
  if(engine)engine.value=drumEngine==='synth'?'synth':'acoustic';
  if(pattern)pattern.value=config.padrao||'';
  if(entry)entry.value=config.entrada||'';
+ if(exitAction)exitAction.value=config.saida||'';
  if(finalAction)finalAction.value=config.final||'';
  if(bars)bars.textContent=String(calculateSectionBars(activeSequenceSection));
 }
 function saveActiveSectionDrumControls(){
  const pattern=$('section-drum-pattern');
  const entry=$('section-drum-entry');
+ const exitAction=$('section-drum-exit');
  const finalAction=$('section-drum-final');
  sequenceDrums[activeSequenceSection]=normalizeSectionDrum({
   padrao:pattern&&pattern.value?pattern.value:null,
   entrada:entry&&entry.value?entry.value:null,
+  saida:exitAction&&exitAction.value?exitAction.value:null,
   final:finalAction&&finalAction.value?finalAction.value:null
  });
  saveChordSequence();
@@ -832,8 +858,13 @@ function prepareSectionDrumTransition(isLastItem){
 
  if(nextSection){
   const nextConfig=normalizeSectionDrum(sequenceDrums[nextSection]);
-  if(nextConfig.entrada&&(drumRunning||drumStartQueued)){
-   sequenceConfiguredActionName=nextConfig.entrada;
+  let transitionAction=null;
+
+  if(currentConfig.saida)transitionAction=currentConfig.saida;
+  else if(nextConfig.entrada)transitionAction=nextConfig.entrada;
+
+  if(transitionAction&&(drumRunning||drumStartQueued)){
+   sequenceConfiguredActionName=transitionAction;
    drumEndingQueued=false;
    drumFillQueued=true;
    syncDrumActionButtons();
@@ -934,14 +965,14 @@ function exportCurrentSong(){
  link.click();
  link.remove();
  setTimeout(function(){URL.revokeObjectURL(url)},1200);
- setStatus('Música '+payload.name+' exportada com as oito sequências');
+ setStatus('Música '+payload.name+' exportada com as dezesseis sequências');
 }
 function normalizeImportedSong(data){
  if(!data||typeof data!=='object')throw new Error('Arquivo inválido');
  if(data.format!=='teclado-virtual-song')throw new Error('Este arquivo não é uma música completa do Teclado Virtual');
  if(!data.sections||typeof data.sections!=='object')throw new Error('O arquivo não contém sequências válidas');
 
- const keys=['verse','prechorus','chorus','bridge','section5','section6','section7','section8'];
+ const keys=['verse','prechorus','chorus','bridge','section5','section6','section7','section8','section9','section10','section11','section12','section13','section14','section15','section16'];
  const sections={};
  const repeats={};
  const bateria={};
@@ -1046,7 +1077,7 @@ function importSongFromText(text){
  stopAccompaniment();
 
  const newSongState={
-  formatVersion:7,
+  formatVersion:9,
   capoSemitones:clampCapo(imported.capoSemitones),
   sections:JSON.parse(JSON.stringify(imported.sections)),
   repeats:JSON.parse(JSON.stringify(imported.repeats)),
@@ -1134,7 +1165,7 @@ function handleSongImportFile(event){
  reader.readAsText(file,'UTF-8');
 }
 
-function snapshotCurrentSequence(){return {formatVersion:7,capoSemitones:capoSemitones,sections:JSON.parse(JSON.stringify(sequenceSections)),repeats:{...sequenceRepeats},auto:sequenceAuto,autoEnd:sequenceAutoEnd,ordemSecoes:sequenceOrder.slice(),bateria:JSON.parse(JSON.stringify(sequenceDrums)),drumEngine:drumEngine}}
+function snapshotCurrentSequence(){return {formatVersion:9,capoSemitones:capoSemitones,sections:JSON.parse(JSON.stringify(sequenceSections)),repeats:{...sequenceRepeats},auto:sequenceAuto,autoEnd:sequenceAutoEnd,ordemSecoes:sequenceOrder.slice(),bateria:JSON.parse(JSON.stringify(sequenceDrums)),drumEngine:drumEngine}}
 function applySequenceState(state){
  const keys=Object.keys(sequenceSections);
  keys.forEach(function(key){
@@ -2582,6 +2613,7 @@ $('song-drum-engine').onchange=function(){
 };
 $('section-drum-pattern').onchange=saveActiveSectionDrumControls;
 $('section-drum-entry').onchange=saveActiveSectionDrumControls;
+$('section-drum-exit').onchange=saveActiveSectionDrumControls;
 $('section-drum-final').onchange=saveActiveSectionDrumControls;
 $('song-export').onclick=exportCurrentSong;
 $('song-import').onclick=chooseSongImportFile;
@@ -2718,8 +2750,8 @@ $('song-save').onclick=()=>{
  setStatus('Música "'+name+'" salva a '+songBpm+' BPM');
 };
 $('song-new').onclick=()=>{
- if(!confirm('Começar uma música em branco? As Seq. 1 a 8 na tela serão limpas (a música atual, se já tiver nome salvo, continua guardada).'))return;
- applySequenceState({sections:{verse:[],prechorus:[],chorus:[],bridge:[],section5:[],section6:[]},repeats:{verse:0,prechorus:0,chorus:0,bridge:0,section5:0,section6:0}});
+ if(!confirm('Começar uma música em branco? As Seq. 1 a 16 na tela serão limpas (a música atual, se já tiver nome salvo, continua guardada).'))return;
+ applySequenceState({sections:{verse:[],prechorus:[],chorus:[],bridge:[],section5:[],section6:[],section7:[],section8:[],section9:[],section10:[],section11:[],section12:[],section13:[],section14:[],section15:[],section16:[]},repeats:{verse:0,prechorus:0,chorus:0,bridge:0,section5:0,section6:0,section7:0,section8:0,section9:0,section10:0,section11:0,section12:0,section13:0,section14:0,section15:0,section16:0}});
  currentSongName=null;saveSongsStore();updateSongNameDisplay();
  const input=$('song-name-input');if(input)input.value='';
  setStatus('Nova música em branco pronta para gravar');

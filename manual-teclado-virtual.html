@@ -197,7 +197,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 </head>
 <body>
 <header class="topbar">
-  <div class="brand">🎹 MANUAL DO TECLADO VIRTUAL · v3.10.2</div>
+  <div class="brand">🎹 MANUAL DO TECLADO VIRTUAL · v3.11.1</div>
   <div class="actions">
     <button type="button" onclick="window.location.href='index.html'">🎹 Voltar ao teclado</button>
     <button type="button" onclick="window.print()">🖨 Imprimir</button>
@@ -234,7 +234,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
   <main>
     <section class="hero" id="apresentacao">
       <h1>TECLADO VIRTUAL</h1>
-      <p>Manual da versão <strong>3.10.2</strong>, com teclado sensível ao toque, acordes, círculo harmônico, acompanhamento contínuo, bateria acústica ou sintetizada, oito sequências, execução automática e biblioteca de músicas.</p>
+      <p>Manual da versão <strong>3.11.1</strong>, com teclado sensível ao toque, acordes, círculo harmônico, acompanhamento contínuo, bateria acústica ou sintetizada, dezesseis sequências, execução automática e biblioteca de músicas.</p>
       <div class="badges">
         <span class="badge">Uso horizontal</span>
         <span class="badge">Multitoque</span>
@@ -372,7 +372,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
       <p>O botão <strong>⌫</strong> exige dois toques em até três segundos antes de remover o último item.</p>
       
       <h3>Exportar e importar uma música</h3>
-      <p>Use <strong>⇩ Exportar</strong> para gerar um arquivo JSON da música atual. O arquivo inclui as oito sequências, acordes, pausas, durações fracionadas, números de repetição, BPM, modo Auto e a sequência selecionada.</p>
+      <p>Use <strong>⇩ Exportar</strong> para gerar um arquivo JSON da música atual. O arquivo inclui as dezesseis sequências, acordes, pausas, durações fracionadas, números de repetição, BPM, modo Auto e a sequência selecionada.</p>
       <p>Use <strong>⇧ Importar</strong> para abrir uma música exportada anteriormente. A importação substitui a música atual inteira somente depois de uma confirmação.</p>
       <div class="note"><strong>Uma música por vez</strong><br>Cada arquivo representa uma música completa. Ele não altera as demais músicas que já estejam salvas na biblioteca do navegador.</div>
 
@@ -405,9 +405,9 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
         <li>Defina o BPM.</li>
         <li>Pressione <strong>Salvar</strong>.</li>
         <li>Use a lista para carregar ou excluir músicas.</li>
-        <li><strong>Nova música</strong> limpa as oito sequências e inicia um novo projeto.</li>
+        <li><strong>Nova música</strong> limpa as dezesseis sequências e inicia um novo projeto.</li>
       </ul>
-      <p>Cada música salva guarda as oito sequências, os números de repetição, o modo Auto e o BPM.</p>
+      <p>Cada música salva guarda as dezesseis sequências, os números de repetição, o modo Auto e o BPM.</p>
       <div class="warning"><strong>Armazenamento local</strong><br>As músicas são salvas no navegador. Limpar os dados do site ou usar outro navegador pode remover a biblioteca.</div>
     </section>
 
@@ -503,10 +503,10 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
       </div>
     </section>
 
-    <footer>MANUAL DO TECLADO VIRTUAL · v3.10.2 · Oito sequências, biblioteca de músicas e bateria acústica</footer>
+    <footer>MANUAL DO TECLADO VIRTUAL · v3.11.1 · Oito sequências, biblioteca de músicas e bateria acústica</footer>
   
       <h2>Configuração de bateria por sequência</h2>
-      <p>Cada uma das oito sequências pode guardar um padrão de bateria, uma virada de entrada e um encerramento. O motor acústico ou sintético é definido globalmente para a música.</p>
+      <p>Cada uma das dezesseis sequências pode guardar um padrão de bateria, uma virada de entrada e um encerramento. O motor acústico ou sintético é definido globalmente para a música.</p>
       <p>O aplicativo calcula automaticamente os compassos de cada sequência somando as durações dos acordes e das pausas.</p>
       <p>Ao exportar uma música, o JSON versão 3 inclui <code>drumEngine</code>, <code>ordemSecoes</code>, <code>compassos</code> e <code>bateria</code>, além dos campos anteriores.</p>
 
@@ -535,6 +535,14 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 
 
 
+
+<section id="dezesseis-sequencias"><h2>Dezesseis sequências</h2><p>O painel possui 16 seções organizadas em duas linhas de oito. Cada seção mantém acordes, pausas, repetições e configuração própria de bateria.</p></section>
+
+<section id="virada-saida">
+<h2>Virada na saída da seção</h2>
+<p>Cada seção pode configurar uma virada de saída de 1 compasso ou de meio compasso. Essa virada prepara a passagem para a próxima seção e não encerra a execução.</p>
+<p>A saída da seção atual tem prioridade sobre a entrada da próxima seção. O campo Final continua reservado aos encerramentos que param a música.</p>
+</section>
 
 </main>
 </div>
