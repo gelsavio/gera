@@ -197,7 +197,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 </head>
 <body>
 <header class="topbar">
-  <div class="brand">🎹 MANUAL DO TECLADO VIRTUAL · v3.12.3</div>
+  <div class="brand">🎹 MANUAL DO TECLADO VIRTUAL · v3.13.2</div>
   <div class="actions">
     <button type="button" onclick="window.location.href='index.html'">🎹 Voltar ao teclado</button>
     <button type="button" onclick="window.print()">🖨 Imprimir</button>
@@ -234,7 +234,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
   <main>
     <section class="hero" id="apresentacao">
       <h1>TECLADO VIRTUAL</h1>
-      <p>Manual da versão <strong>3.12.3</strong>, com teclado sensível ao toque, acordes, círculo harmônico, acompanhamento contínuo, bateria acústica ou sintetizada, dezesseis sequências, execução automática e biblioteca de músicas.</p>
+      <p>Manual da versão <strong>3.13.2</strong>, com teclado sensível ao toque, acordes, círculo harmônico, acompanhamento contínuo, bateria acústica ou sintetizada, dezesseis sequências, execução automática e biblioteca de músicas.</p>
       <div class="badges">
         <span class="badge">Uso horizontal</span>
         <span class="badge">Multitoque</span>
@@ -503,7 +503,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
       </div>
     </section>
 
-    <footer>MANUAL DO TECLADO VIRTUAL · v3.12.3 · Oito sequências, biblioteca de músicas e bateria acústica</footer>
+    <footer>MANUAL DO TECLADO VIRTUAL · v3.13.2 · Oito sequências, biblioteca de músicas e bateria acústica</footer>
   
       <h2>Configuração de bateria por sequência</h2>
       <p>Cada uma das dezesseis sequências pode guardar um padrão de bateria, uma virada de entrada e um encerramento. O motor acústico ou sintético é definido globalmente para a música.</p>
@@ -572,6 +572,23 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 <section id="instrumento-notas-naturais">
 <h2>Instrumento das notas únicas</h2>
 <p>As notas únicas da sequência usam o instrumento atualmente selecionado no painel, assim como os acordes. O instrumento eventualmente armazenado no JSON permanece apenas como referência e não impede a troca global.</p>
+</section>
+
+<section id="instrumento-por-sequencia"><h2>Instrumento por sequência</h2><p>Cada sequência possui um instrumento próprio ou pode ficar sem instrumental. A bateria das sequências usa o kit acústico quando disponível e recorre ao som sintético apenas quando os samples não estão disponíveis.</p></section><section id="texto-do-acorde"><h2>Texto no acorde</h2><p>Cada acorde pode receber um texto curto exibido à direita, separado por hífen, sem barra ou painel de karaokê.</p></section>
+
+<section id="texto-primeira-passagem">
+<h2>Texto na primeira passagem</h2>
+<p>Acordes e notas únicas podem receber um texto curto. Durante a execução, ele aparece somente na primeira passagem da seção.</p>
+</section>
+<section id="loop-secao">
+<h2>Pôr em Loop</h2>
+<p>O botão mantém a seção atual repetindo. O loop termina ao clicar novamente, ao usar Tocar Sequência ou ao acionar qualquer comando que pare a execução.</p>
+</section>
+
+
+<section id="texto-junto-e-previa">
+<h2>Texto junto ao acorde ou nota</h2>
+<p>O texto aparece imediatamente após o acorde ou a nota, separado somente por espaço, hífen e espaço. A mesma marcação aparece nos acordes e notas de prévia da próxima sequência.</p>
 </section>
 
 </main>
