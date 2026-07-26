@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <meta name="screen-orientation" content="landscape">
-<title>Teclado Virtual v3.14.0</title>
+<title>Teclado Virtual v3.14.1</title>
 <style>
 :root{--bg:#111326;--panel:#0b0e1c;--panel2:#191d35;--border:#343a59;--text:#f8fafc;--muted:#9ca8c3;--accent:#4f46e5;--success:#16a34a;--danger:#dc2626;--warning:#d97706}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -274,7 +274,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 .sequence-editor-text input{width:100%}
 
 
-#sequence-play,#sequence-play-wait,#sequence-hold-loop{
+#sequence-play,#sequence-play-wait,#sequence-stop-drums,#sequence-hold-loop{
  min-width:138px;
  padding-left:10px;
  padding-right:10px;
@@ -290,14 +290,15 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
  box-shadow:0 0 0 2px rgba(196,181,253,.22),0 0 14px rgba(124,58,237,.45);
 }
 
+#sequence-stop-drums{min-width:126px}
 </style>
 </head>
 <body>
 <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O Teclado Virtual foi organizado para uso horizontal.</p></div>
-<header><h1>🎹 Teclado Virtual <small class="app-version">v3.14.0</small></h1><div class="header-actions"><button type="button" class="secondary" onclick="window.location.href='manual-teclado-virtual.html'">📘 Manual</button><button id="advanced-toggle" class="secondary">⚙️ Avançado</button><button id="fullscreen" class="secondary">⛶ Tela cheia</button></div></header>
+<header><h1>🎹 Teclado Virtual <small class="app-version">v3.14.1</small></h1><div class="header-actions"><button type="button" class="secondary" onclick="window.location.href='manual-teclado-virtual.html'">📘 Manual</button><button id="advanced-toggle" class="secondary">⚙️ Avançado</button><button id="fullscreen" class="secondary">⛶ Tela cheia</button></div></header>
 <main class="app">
 <section class="panel quick-controls">
-<div class="control"><label for="instrument">Instrumento</label><select id="instrument"><option value="piano">🎹 Piano</option><option value="violin_v1">🎻 Violino v1</option><option value="violin_v2">🎻 Violino v2</option><option value="violin_v3">🎻 Violino v3</option><option value="violao">🎸 Violão</option><option value="violao6">🎸 Violão 6 cordas</option><option value="organ">⛪ Órgão de Igreja</option><option value="flute">🪈 Flauta</option><option value="sino">🔔 Sino / Glockenspiel</option><option value="synthpad">🌌 Pad Synth</option><option value="electricBass">🎸 Baixo Elétrico</option><option value="doubleBass">🎻 Contrabaixo Acústico</option></select></div>
+<div class="control"><label for="instrument">Instrumento</label><select id="instrument"><option value="piano">🎹 Piano</option><option value="violin_v1">🎻 Teclado Strings 1</option><option value="violin_v2">🎻 Teclado Strings 2</option><option value="violin_v3">🎻 Teclado Strings 3</option><option value="violao">🎸 Violão</option><option value="violao6">🎸 Violão 6 cordas</option><option value="organ">⛪ Órgão de Igreja</option><option value="flute">🪈 Flauta</option><option value="sino">🔔 Sino / Glockenspiel</option><option value="synthpad">🌌 Pad Synth</option><option value="electricBass">🎸 Baixo Elétrico</option><option value="doubleBass">🎻 Contrabaixo Acústico</option></select></div>
 <div class="control compact"><span class="control-title">Oitava</span><div class="button-triple"><button id="oct-down">−</button><button id="oct-label" class="secondary">0</button><button id="oct-up">+</button></div></div>
 <div class="control compact"><span class="control-title">Capotraste</span><div class="button-triple"><button id="capo-down" title="Descer meio tom">−</button><button id="capo-label" class="secondary" title="Zerar transposição">0</button><button id="capo-up" title="Subir meio tom">+</button></div></div>
 
@@ -310,7 +311,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 <div class="control"><label for="keyboard-volume">Teclado</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="keyboard-volume" data-direction="-1" aria-label="Diminuir volume do teclado">−</button><input id="keyboard-volume" type="number" min="0" max="100" value="100" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="keyboard-volume" data-direction="1" aria-label="Aumentar volume do teclado">+</button><span id="keyboard-value" class="value">100%</span></div></div>
 <div class="control"><label for="chord-volume">Acordes</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="chord-volume" data-direction="-1" aria-label="Diminuir volume dos acordes">−</button><input id="chord-volume" type="number" min="0" max="100" value="78" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="chord-volume" data-direction="1" aria-label="Aumentar volume dos acordes">+</button><span id="chord-value" class="value">78%</span></div></div>
 <div class="control"><label for="bass-volume">Baixo</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="bass-volume" data-direction="-1" aria-label="Diminuir volume do baixo">−</button><input id="bass-volume" type="number" min="0" max="100" value="62" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="bass-volume" data-direction="1" aria-label="Aumentar volume do baixo">+</button><span id="bass-value" class="value">62%</span></div></div>
-<div class="control compact"><span class="control-title">Divisão do teclado</span><div class="button-pair"><button id="split-toggle">Desativada</button><select id="split-instrument"><option value="piano">Piano</option><option value="violin_v1">Violino v1</option><option value="violin_v2">Violino v2</option><option value="violin_v3">Violino v3</option><option value="violao">Violão</option><option value="violao6">Violão 6 cordas</option><option value="organ">Órgão de Igreja</option><option value="flute">Flauta</option><option value="sino">Sino / Glockenspiel</option><option value="synthpad">Pad Synth</option><option value="electricBass">Baixo Elétrico</option><option value="doubleBass">Contrabaixo Acústico</option></select></div></div>
+<div class="control compact"><span class="control-title">Divisão do teclado</span><div class="button-pair"><button id="split-toggle">Desativada</button><select id="split-instrument"><option value="piano">Piano</option><option value="violin_v1">Teclado Strings 1</option><option value="violin_v2">Teclado Strings 2</option><option value="violin_v3">Teclado Strings 3</option><option value="violao">Violão</option><option value="violao6">Violão 6 cordas</option><option value="organ">Órgão de Igreja</option><option value="flute">Flauta</option><option value="sino">Sino / Glockenspiel</option><option value="synthpad">Pad Synth</option><option value="electricBass">Baixo Elétrico</option><option value="doubleBass">Contrabaixo Acústico</option></select></div></div>
 <div class="control"><label for="arpeggio-pattern">Padrão de arpejo</label><select id="arpeggio-pattern"><option value="up">Crescente</option><option value="down">Decrescente</option><option value="updown">Crescente e decrescente</option><option value="alternate">Alternado</option><option value="random">Aleatório</option></select></div>
 <div class="control"><label for="arp-interval">Intervalo</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="arp-interval" data-direction="-1" aria-label="Diminuir intervalo do arpejo">−</button><input id="arp-interval" type="number" min="60" max="1200" value="280" step="10" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="arp-interval" data-direction="1" aria-label="Aumentar intervalo do arpejo">+</button><span id="arp-value" class="value">280 ms</span></div></div>
 <div class="control"><label for="master-volume">Volume geral</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="master-volume" data-direction="-1" aria-label="Diminuir volume geral">−</button><input id="master-volume" type="number" min="0" max="100" value="72" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="master-volume" data-direction="1" aria-label="Aumentar volume geral">+</button><span id="master-value" class="value">72%</span></div></div>
@@ -364,7 +365,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 <div id="secondary-dominants-wrap" class="secondary-dominants-wrap"><div id="secondary-dominants" class="secondary-dominants-row"></div></div>
 
 <div id="sequence-panel" class="sequence-panel" aria-label="Sequências musicais do campo harmônico">
-  <div class="song-bar"><span id="song-current-name"></span><button id="sequence-play" class="secondary" title="Reproduzir a sequência selecionada">▶ Tocar Sequência</button><button id="sequence-play-wait" class="secondary song-play-wait" title="Parar a sequência ao final; com bateria ligada, executar virada de encerramento e parar os dois">⏹ Parar Sequência</button><button id="sequence-hold-loop" class="secondary" title="Manter a seção atual em repetição">🔁 Pôr em Loop</button><button id="song-export" class="secondary sequence-file-button" title="Exportar a música atual com todas as sequências">⇩ Exportar</button><button id="song-import" class="secondary sequence-file-button" title="Importar uma música completa">⇧ Importar</button><button id="songs-open" class="secondary" title="Gerenciar músicas salvas" aria-label="Gerenciar músicas salvas">📚 Músicas</button><input id="song-import-file" type="file" accept=".json,application/json" hidden></div>
+  <div class="song-bar"><span id="song-current-name"></span><button id="sequence-play" class="secondary" title="Reproduzir a sequência selecionada">▶ Tocar Sequência</button><button id="sequence-play-wait" class="secondary song-play-wait" title="Parar a sequência ao final; com bateria ligada, executar virada de encerramento e parar os dois">⏹ Parar Sequência</button><button id="sequence-stop-drums" class="secondary" title="Parar somente a bateria, mantendo a sequência em execução">🥁 Parar Bateria</button><button id="sequence-hold-loop" class="secondary" title="Manter a seção atual em repetição">🔁 Pôr em Loop</button><button id="song-export" class="secondary sequence-file-button" title="Exportar a música atual com todas as sequências">⇩ Exportar</button><button id="song-import" class="secondary sequence-file-button" title="Importar uma música completa">⇧ Importar</button><button id="songs-open" class="secondary" title="Gerenciar músicas salvas" aria-label="Gerenciar músicas salvas">📚 Músicas</button><input id="song-import-file" type="file" accept=".json,application/json" hidden></div>
   <div class="sequence-top">
     <div class="sequence-sections" role="tablist" aria-label="Partes da música">
       <div class="sequence-section-control" data-section-control="verse"><button class="secondary active-section" data-sequence-section="verse">Seq. 1</button><div class="repeat-stepper" aria-label="Repetições da Seq. 1"><button type="button" class="secondary" data-repeat-adjust="verse" data-delta="-1" title="Diminuir repetições da Seq. 1">−</button><span class="repeat-value" data-section-repeat-display="verse" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="verse" data-delta="1" title="Aumentar repetições da Seq. 1">+</button></div></div>
@@ -386,7 +387,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
     </div>
     <div class="sequence-drum-config" aria-label="Configuração da bateria">
       <label>Instrumento
-        <select id="section-instrument"><option value="">Sem instrumental</option><option value="piano">Piano</option><option value="violin_v1">Violino v1</option><option value="violin_v2">Violino v2</option><option value="violin_v3">Violino v3</option><option value="violao">Violão</option><option value="violao6">Violão 6 cordas</option><option value="organ">Órgão de Igreja</option><option value="flute">Flauta</option><option value="sino">Sino / Glockenspiel</option><option value="synthpad">Pad Synth</option><option value="electricBass">Baixo Elétrico</option><option value="doubleBass">Contrabaixo Acústico</option></select>
+        <select id="section-instrument"><option value="">Sem instrumental</option><option value="piano">Piano</option><option value="violin_v1">Teclado Strings 1</option><option value="violin_v2">Teclado Strings 2</option><option value="violin_v3">Teclado Strings 3</option><option value="violao">Violão</option><option value="violao6">Violão 6 cordas</option><option value="organ">Órgão de Igreja</option><option value="flute">Flauta</option><option value="sino">Sino / Glockenspiel</option><option value="synthpad">Pad Synth</option><option value="electricBass">Baixo Elétrico</option><option value="doubleBass">Contrabaixo Acústico</option></select>
       </label>
 
       <label>Próxima sequência
@@ -543,7 +544,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
         </select>
       </label>
       <label class="sequence-editor-note-only">Instrumento de referência
-        <select id="sequence-edit-instrument"><option value="piano">Piano</option><option value="violin_v1">Violino v1</option><option value="violin_v2">Violino v2</option><option value="violin_v3">Violino v3</option><option value="violao">Violão</option><option value="violao6">Violão 6 cordas</option><option value="organ">Órgão de Igreja</option><option value="flute">Flauta</option><option value="sino">Sino / Glockenspiel</option><option value="synthpad">Pad Synth</option><option value="electricBass">Baixo Elétrico</option><option value="doubleBass">Contrabaixo Acústico</option></select>
+        <select id="sequence-edit-instrument"><option value="piano">Piano</option><option value="violin_v1">Teclado Strings 1</option><option value="violin_v2">Teclado Strings 2</option><option value="violin_v3">Teclado Strings 3</option><option value="violao">Violão</option><option value="violao6">Violão 6 cordas</option><option value="organ">Órgão de Igreja</option><option value="flute">Flauta</option><option value="sino">Sino / Glockenspiel</option><option value="synthpad">Pad Synth</option><option value="electricBass">Baixo Elétrico</option><option value="doubleBass">Contrabaixo Acústico</option></select>
       </label>
       <label class="sequence-editor-note-only">Corda
         <select id="sequence-edit-string">
@@ -577,7 +578,7 @@ const NAT=[0,2,4,5,7,9,11,12,14,16,17,19],SHARP=[1,3,null,6,8,10,null,13,15,null
 const KEYMAP=new Map();NKEY.forEach((k,i)=>KEYMAP.set(k,NAT[i]));SKEY.forEach((k,i)=>{if(k)KEYMAP.set(k,SHARP[i])});KEYMAP.set(";",16);
 const INSTRUMENT_IDS=['piano','violin_v1','violin_v2','violin_v3','violao','violao6','organ','flute','sino','synthpad','electricBass','doubleBass'];
 const LEGACY_INSTRUMENT_MAP={xylophone:'sino',churchOrgan:'organ',accordion:'organ',violin:'violin_v1',bassGuitar:'electricBass',acousticGuitar:'violao',synthPad:'synthpad'};
-const LABELS={piano:'Piano',violin_v1:'Violino v1',violin_v2:'Violino v2',violin_v3:'Violino v3',violao:'Violão',violao6:'Violão 6 cordas',organ:'Órgão de Igreja',flute:'Flauta',sino:'Sino / Glockenspiel',synthpad:'Pad Synth',electricBass:'Baixo Elétrico',doubleBass:'Contrabaixo Acústico'};
+const LABELS={piano:'Piano',violin_v1:'Teclado Strings 1',violin_v2:'Teclado Strings 2',violin_v3:'Teclado Strings 3',violao:'Violão',violao6:'Violão 6 cordas',organ:'Órgão de Igreja',flute:'Flauta',sino:'Sino / Glockenspiel',synthpad:'Pad Synth',electricBass:'Baixo Elétrico',doubleBass:'Contrabaixo Acústico'};
 function normalizeInstrumentId(value){
  if(INSTRUMENT_IDS.indexOf(value)>=0)return value;
  if(typeof value==='string'&&LEGACY_INSTRUMENT_MAP[value])return LEGACY_INSTRUMENT_MAP[value];
@@ -1518,7 +1519,7 @@ function importSongFromText(text){
  stopAccompaniment();
 
  const newSongState={
-  formatVersion:17,
+  formatVersion:18,
   capoSemitones:clampCapo(imported.capoSemitones),
   sections:JSON.parse(JSON.stringify(imported.sections)),
   repeats:JSON.parse(JSON.stringify(imported.repeats)),
@@ -1606,7 +1607,7 @@ function handleSongImportFile(event){
  reader.readAsText(file,'UTF-8');
 }
 
-function snapshotCurrentSequence(){return {formatVersion:17,capoSemitones:capoSemitones,sections:JSON.parse(JSON.stringify(sequenceSections)),repeats:{...sequenceRepeats},auto:sequenceAuto,autoEnd:sequenceAutoEnd,ordemSecoes:sequenceOrder.slice(),bateria:JSON.parse(JSON.stringify(sequenceDrums)),drumEngine:drumEngine}}
+function snapshotCurrentSequence(){return {formatVersion:18,capoSemitones:capoSemitones,sections:JSON.parse(JSON.stringify(sequenceSections)),repeats:{...sequenceRepeats},auto:sequenceAuto,autoEnd:sequenceAutoEnd,ordemSecoes:sequenceOrder.slice(),bateria:JSON.parse(JSON.stringify(sequenceDrums)),drumEngine:drumEngine}}
 function applySequenceState(state){
  const keys=Object.keys(sequenceSections);
  keys.forEach(function(key){
@@ -2412,6 +2413,21 @@ function nextNonEmptySequence(section){
   if((sequenceSections[candidate]||[]).length>0)return candidate;
  }
  return '';
+}
+function stopSequenceDrumsOnly(){
+ if(!drumRunning&&!drumStartQueued){
+  setStatus('A bateria já está parada');
+  return;
+ }
+ drumFillQueued=false;
+ drumEndingQueued=false;
+ drumQueuedAction='';
+ drumActiveAction='';
+ drumCompletedAction='';
+ drumStartQueued=false;
+ stopDrums();
+ syncDrumActionButtons();
+ setStatus('Bateria parada; a sequência continua em execução');
 }
 function toggleStopSequenceAtEnd(){
  if(!sequencePlaying){
@@ -3279,6 +3295,7 @@ $('song-export').onclick=exportCurrentSong;
 $('song-import').onclick=chooseSongImportFile;
 $('song-import-file').onchange=handleSongImportFile;
 $('sequence-play-wait').onclick=toggleStopSequenceAtEnd;
+$('sequence-stop-drums').onclick=stopSequenceDrumsOnly;
 $('sequence-auto').onclick=function(){
  sequenceAuto=!sequenceAuto;
  if(sequenceAuto)sequenceAutoEnd=false;
