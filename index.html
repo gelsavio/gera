@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <meta name="screen-orientation" content="landscape">
-<title>Teclado Virtual v3.13.2</title>
+<title>Teclado Virtual v3.14.0</title>
 <style>
 :root{--bg:#111326;--panel:#0b0e1c;--panel2:#191d35;--border:#343a59;--text:#f8fafc;--muted:#9ca8c3;--accent:#4f46e5;--success:#16a34a;--danger:#dc2626;--warning:#d97706}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -247,17 +247,17 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
  font-size:.48rem;
  margin-left:3px;
 }
-#keyboard.xylophone-three-octaves{
+#keyboard.sino-three-octaves{
  overflow-x:auto;
  padding-bottom:4px;
 }
-#keyboard.xylophone-three-octaves .key-row{
+#keyboard.sino-three-octaves .key-row{
  min-width:1080px;
 }
-#keyboard.xylophone-three-octaves .key{
+#keyboard.sino-three-octaves .key{
  min-width:48px;
 }
-#keyboard.xylophone-three-octaves .hint{
+#keyboard.sino-three-octaves .hint{
  display:none;
 }
 .sequence-editor-note-only{
@@ -282,14 +282,22 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 }
 
 .sequence-item.next-sequence-item .sequence-item-text{color:#ede9fe}
+
+#sequence-hold-loop.active{
+ background:#7c3aed;
+ border-color:#c4b5fd;
+ color:#fff;
+ box-shadow:0 0 0 2px rgba(196,181,253,.22),0 0 14px rgba(124,58,237,.45);
+}
+
 </style>
 </head>
 <body>
 <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O Teclado Virtual foi organizado para uso horizontal.</p></div>
-<header><h1>🎹 Teclado Virtual <small class="app-version">v3.13.2</small></h1><div class="header-actions"><button type="button" class="secondary" onclick="window.location.href='manual-teclado-virtual.html'">📘 Manual</button><button id="advanced-toggle" class="secondary">⚙️ Avançado</button><button id="fullscreen" class="secondary">⛶ Tela cheia</button></div></header>
+<header><h1>🎹 Teclado Virtual <small class="app-version">v3.14.0</small></h1><div class="header-actions"><button type="button" class="secondary" onclick="window.location.href='manual-teclado-virtual.html'">📘 Manual</button><button id="advanced-toggle" class="secondary">⚙️ Avançado</button><button id="fullscreen" class="secondary">⛶ Tela cheia</button></div></header>
 <main class="app">
 <section class="panel quick-controls">
-<div class="control"><label for="instrument">Instrumento</label><select id="instrument"><option value="piano">🎹 Piano</option><option value="xylophone">🪇 Xilofone</option><option value="flute">🪈 Flauta</option><option value="churchOrgan">⛪ Órgão de igreja</option><option value="accordion">🪗 Acordeom</option><option value="violin">🎻 Violino</option><option value="bassGuitar">🎸 Baixo</option><option value="acousticGuitar">🪕 Violão</option><option value="synthPad">🌌 Pad sintetizado</option></select></div>
+<div class="control"><label for="instrument">Instrumento</label><select id="instrument"><option value="piano">🎹 Piano</option><option value="violin_v1">🎻 Violino v1</option><option value="violin_v2">🎻 Violino v2</option><option value="violin_v3">🎻 Violino v3</option><option value="violao">🎸 Violão</option><option value="violao6">🎸 Violão 6 cordas</option><option value="organ">⛪ Órgão de Igreja</option><option value="flute">🪈 Flauta</option><option value="sino">🔔 Sino / Glockenspiel</option><option value="synthpad">🌌 Pad Synth</option><option value="electricBass">🎸 Baixo Elétrico</option><option value="doubleBass">🎻 Contrabaixo Acústico</option></select></div>
 <div class="control compact"><span class="control-title">Oitava</span><div class="button-triple"><button id="oct-down">−</button><button id="oct-label" class="secondary">0</button><button id="oct-up">+</button></div></div>
 <div class="control compact"><span class="control-title">Capotraste</span><div class="button-triple"><button id="capo-down" title="Descer meio tom">−</button><button id="capo-label" class="secondary" title="Zerar transposição">0</button><button id="capo-up" title="Subir meio tom">+</button></div></div>
 
@@ -302,7 +310,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 <div class="control"><label for="keyboard-volume">Teclado</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="keyboard-volume" data-direction="-1" aria-label="Diminuir volume do teclado">−</button><input id="keyboard-volume" type="number" min="0" max="100" value="100" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="keyboard-volume" data-direction="1" aria-label="Aumentar volume do teclado">+</button><span id="keyboard-value" class="value">100%</span></div></div>
 <div class="control"><label for="chord-volume">Acordes</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="chord-volume" data-direction="-1" aria-label="Diminuir volume dos acordes">−</button><input id="chord-volume" type="number" min="0" max="100" value="78" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="chord-volume" data-direction="1" aria-label="Aumentar volume dos acordes">+</button><span id="chord-value" class="value">78%</span></div></div>
 <div class="control"><label for="bass-volume">Baixo</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="bass-volume" data-direction="-1" aria-label="Diminuir volume do baixo">−</button><input id="bass-volume" type="number" min="0" max="100" value="62" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="bass-volume" data-direction="1" aria-label="Aumentar volume do baixo">+</button><span id="bass-value" class="value">62%</span></div></div>
-<div class="control compact"><span class="control-title">Divisão do teclado</span><div class="button-pair"><button id="split-toggle">Desativada</button><select id="split-instrument"><option value="churchOrgan">Órgão</option><option value="accordion">Acordeom</option><option value="synthPad">Pad</option><option value="bassGuitar">Baixo</option><option value="acousticGuitar">Violão</option><option value="piano">Piano</option></select></div></div>
+<div class="control compact"><span class="control-title">Divisão do teclado</span><div class="button-pair"><button id="split-toggle">Desativada</button><select id="split-instrument"><option value="piano">Piano</option><option value="violin_v1">Violino v1</option><option value="violin_v2">Violino v2</option><option value="violin_v3">Violino v3</option><option value="violao">Violão</option><option value="violao6">Violão 6 cordas</option><option value="organ">Órgão de Igreja</option><option value="flute">Flauta</option><option value="sino">Sino / Glockenspiel</option><option value="synthpad">Pad Synth</option><option value="electricBass">Baixo Elétrico</option><option value="doubleBass">Contrabaixo Acústico</option></select></div></div>
 <div class="control"><label for="arpeggio-pattern">Padrão de arpejo</label><select id="arpeggio-pattern"><option value="up">Crescente</option><option value="down">Decrescente</option><option value="updown">Crescente e decrescente</option><option value="alternate">Alternado</option><option value="random">Aleatório</option></select></div>
 <div class="control"><label for="arp-interval">Intervalo</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="arp-interval" data-direction="-1" aria-label="Diminuir intervalo do arpejo">−</button><input id="arp-interval" type="number" min="60" max="1200" value="280" step="10" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="arp-interval" data-direction="1" aria-label="Aumentar intervalo do arpejo">+</button><span id="arp-value" class="value">280 ms</span></div></div>
 <div class="control"><label for="master-volume">Volume geral</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="master-volume" data-direction="-1" aria-label="Diminuir volume geral">−</button><input id="master-volume" type="number" min="0" max="100" value="72" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="master-volume" data-direction="1" aria-label="Aumentar volume geral">+</button><span id="master-value" class="value">72%</span></div></div>
@@ -378,17 +386,29 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
     </div>
     <div class="sequence-drum-config" aria-label="Configuração da bateria">
       <label>Instrumento
-        <select id="section-instrument">
-          <option value="">Sem instrumental</option>
-          <option value="piano">Piano</option>
-          <option value="xylophone">Xilofone</option>
-          <option value="flute">Flauta</option>
-          <option value="churchOrgan">Órgão de igreja</option>
-          <option value="accordion">Acordeom</option>
-          <option value="violin">Violino</option>
-          <option value="bassGuitar">Baixo</option>
-          <option value="acousticGuitar">Violão</option>
-          <option value="synthPad">Pad sintetizado</option>
+        <select id="section-instrument"><option value="">Sem instrumental</option><option value="piano">Piano</option><option value="violin_v1">Violino v1</option><option value="violin_v2">Violino v2</option><option value="violin_v3">Violino v3</option><option value="violao">Violão</option><option value="violao6">Violão 6 cordas</option><option value="organ">Órgão de Igreja</option><option value="flute">Flauta</option><option value="sino">Sino / Glockenspiel</option><option value="synthpad">Pad Synth</option><option value="electricBass">Baixo Elétrico</option><option value="doubleBass">Contrabaixo Acústico</option></select>
+      </label>
+
+      <label>Próxima sequência
+        <select id="section-next">
+          <option value="">Automática</option>
+          <option value="verse">Seq. 1</option>
+          <option value="prechorus">Seq. 2</option>
+          <option value="chorus">Seq. 3</option>
+          <option value="bridge">Seq. 4</option>
+          <option value="section5">Seq. 5</option>
+          <option value="section6">Seq. 6</option>
+          <option value="section7">Seq. 7</option>
+          <option value="section8">Seq. 8</option>
+          <option value="section9">Seq. 9</option>
+          <option value="section10">Seq. 10</option>
+          <option value="section11">Seq. 11</option>
+          <option value="section12">Seq. 12</option>
+          <option value="section13">Seq. 13</option>
+          <option value="section14">Seq. 14</option>
+          <option value="section15">Seq. 15</option>
+          <option value="section16">Seq. 16</option>
+          <option value="stop">Parar</option>
         </select>
       </label>
       <label>Padrão
@@ -491,6 +511,20 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
       <label class="sequence-editor-text">Texto do item
         <input id="sequence-edit-text" type="text" maxlength="80" placeholder="Ex.: Começa a voz">
       </label>
+      <label class="sequence-editor-text">Exibir texto
+        <select id="sequence-edit-text-repeat">
+          <option value="1">1ª repetição</option>
+          <option value="2">2ª repetição</option>
+          <option value="3">3ª repetição</option>
+          <option value="4">4ª repetição</option>
+          <option value="5">5ª repetição</option>
+          <option value="6">6ª repetição</option>
+          <option value="7">7ª repetição</option>
+          <option value="8">8ª repetição</option>
+          <option value="always">Sempre</option>
+        </select>
+      </label>
+
       <label>Execução
         <select id="sequence-edit-mode">
           <option value="together">Juntos</option>
@@ -509,17 +543,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
         </select>
       </label>
       <label class="sequence-editor-note-only">Instrumento de referência
-        <select id="sequence-edit-instrument">
-          <option value="piano">Piano</option>
-          <option value="xylophone">Xilofone</option>
-          <option value="flute">Flauta</option>
-          <option value="churchOrgan">Órgão de igreja</option>
-          <option value="accordion">Acordeom</option>
-          <option value="violin">Violino</option>
-          <option value="bassGuitar">Baixo</option>
-          <option value="acousticGuitar">Violão</option>
-          <option value="synthPad">Pad sintetizado</option>
-        </select>
+        <select id="sequence-edit-instrument"><option value="piano">Piano</option><option value="violin_v1">Violino v1</option><option value="violin_v2">Violino v2</option><option value="violin_v3">Violino v3</option><option value="violao">Violão</option><option value="violao6">Violão 6 cordas</option><option value="organ">Órgão de Igreja</option><option value="flute">Flauta</option><option value="sino">Sino / Glockenspiel</option><option value="synthpad">Pad Synth</option><option value="electricBass">Baixo Elétrico</option><option value="doubleBass">Contrabaixo Acústico</option></select>
       </label>
       <label class="sequence-editor-note-only">Corda
         <select id="sequence-edit-string">
@@ -551,19 +575,234 @@ const $=id=>document.getElementById(id);const CHORD_NAMES=["C","C#","D","D#","E"
 const COLORS=["#2563eb","#1d4ed8","#15803d","#166534","#d6b900","#ea8b0c","#b96a08","#dc2626","#991b1b","#7e22ce","#581c87","#e5e7eb","#2563eb","#1d4ed8","#15803d","#166534","#d6b900","#ea8b0c","#b96a08","#dc2626","#991b1b","#7e22ce","#581c87","#e5e7eb"];
 const NAT=[0,2,4,5,7,9,11,12,14,16,17,19],SHARP=[1,3,null,6,8,10,null,13,15,null,18,null],NKEY=["a","s","d","f","g","h","j","k","l","ç","z","x"],SKEY=["q","w",null,"t","y","u",null,"o","p",null,"i",null];
 const KEYMAP=new Map();NKEY.forEach((k,i)=>KEYMAP.set(k,NAT[i]));SKEY.forEach((k,i)=>{if(k)KEYMAP.set(k,SHARP[i])});KEYMAP.set(";",16);
-const LABELS={piano:"Piano",xylophone:"Xilofone",flute:"Flauta",churchOrgan:"Órgão de igreja",accordion:"Acordeom",violin:"Violino",bassGuitar:"Baixo",acousticGuitar:"Violão",synthPad:"Pad sintetizado"};
+const INSTRUMENT_IDS=['piano','violin_v1','violin_v2','violin_v3','violao','violao6','organ','flute','sino','synthpad','electricBass','doubleBass'];
+const LEGACY_INSTRUMENT_MAP={xylophone:'sino',churchOrgan:'organ',accordion:'organ',violin:'violin_v1',bassGuitar:'electricBass',acousticGuitar:'violao',synthPad:'synthpad'};
+const LABELS={piano:'Piano',violin_v1:'Violino v1',violin_v2:'Violino v2',violin_v3:'Violino v3',violao:'Violão',violao6:'Violão 6 cordas',organ:'Órgão de Igreja',flute:'Flauta',sino:'Sino / Glockenspiel',synthpad:'Pad Synth',electricBass:'Baixo Elétrico',doubleBass:'Contrabaixo Acústico'};
+function normalizeInstrumentId(value){
+ if(INSTRUMENT_IDS.indexOf(value)>=0)return value;
+ if(typeof value==='string'&&LEGACY_INSTRUMENT_MAP[value])return LEGACY_INSTRUMENT_MAP[value];
+ return 'piano';
+}
 const CHORD_INTERVALS={minor:[0,3,7],major:[0,4,7],minor7:[0,3,7,10],dominant7:[0,4,7,10],sus2:[0,2,7],sus4:[0,5,7],diminished:[0,3,6]};
 const CIRCLE_DEGREES=[{step:0,type:"major"},{step:2,type:"minor"},{step:4,type:"minor"},{step:5,type:"major"},{step:7,type:"major"},{step:9,type:"minor"},{step:11,type:"diminished"}];
 const SECONDARY_DOMINANTS=[{targetStep:2,targetType:"minor",degree:"V/ii"},{targetStep:4,targetType:"minor",degree:"V/iii"},{targetStep:5,targetType:"major",degree:"V/IV"},{targetStep:7,targetType:"major",degree:"V/V"},{targetStep:9,targetType:"minor",degree:"V/vi"}];
-let audioCtx,masterGain,limiter,drumBus,drumCompressor,openHatVoice=null,drumEngine="acoustic",drumSamplesReady=false,drumSamplesLoading=false,drumSampleBuffers={},drumRoundRobin={},drumSamplesLoadedCount=0,drumSamplesTotalCount=0,drumSamplesFailureCount=0,instrument="piano",octave=0,capoSemitones=0,sustainMode="hold",releaseMs=650,attackMs=20,chordMode="together",arpInterval=280,arpPattern="up",chordType="minor",inversion=0,bassEnabled=false,latchEnabled=false,splitEnabled=false,splitInstrument="churchOrgan",velocityEnabled=true,glissEnabled=true,metronomeOn=false,metronomeTimer=null,bpm=100,rhythmPattern="whole",chordChangeMode="nextBar",latchedRoot=null,latchedType=null,pendingRoot=null,pendingType=null,pendingButton=null,latchedButton=null,accompanimentTimer=null,accompanimentEvents=[],accompanimentHalfTimer=null,activeVoices=new Set(),pointerVoices=new Map(),pointerLastKey=new Map(),pressedKeys=new Map(),saveArmed=false,actionToken=0,alternateDirection=false,circleEnabled=false,circleRoot=null,drumMode=true,drumRunning=false,drumPattern="rock",drumManual=false,drumStep=0,drumTimer=null,drumNextTime=0,drumFillQueued=false,drumEndingQueued=false,drumQueuedAction="",drumActiveAction="",drumCompletedAction="",drumActionMuteUntil=0,sequenceEndActionInProgress="",sequenceConfiguredActionName="",drumLayers={kick:true,snare:true,hat:true},sequenceRecording=false,sequencePlaying=false,sequenceTimer=null,sequenceIndex=-1,sequenceEighthUnitsRemaining=0,sequenceStartQueued=false,activeSequenceSection='verse',queuedSequenceSection=null,sequenceLoop=true,sequenceAuto=true,sequenceAutoEnd=false,sequenceHoldLoop=false,sequencePanelVisible=true,sequenceSections={verse:[],prechorus:[],chorus:[],bridge:[],section5:[],section6:[],section7:[],section8:[],section9:[],section10:[],section11:[],section12:[],section13:[],section14:[],section15:[],section16:[]},sequenceRepeats={verse:0,prechorus:0,chorus:0,bridge:0,section5:0,section6:0,section7:0,section8:0,section9:0,section10:0,section11:0,section12:0,section13:0,section14:0,section15:0,section16:0},sequenceOrder=['verse','prechorus','chorus','bridge','section5','section6','section7','section8','section9','section10','section11','section12','section13','section14','section15','section16'],sequenceDrums={verse:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},prechorus:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},chorus:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},bridge:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},section5:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},section6:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},section7:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},section8:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},section9:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},section10:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},section11:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},section12:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},section13:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},section14:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},section15:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'},section16:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'}},currentSectionRepetition=1,sequencePendingTransition=null,sequencePlaybackOriginalChordMode=null,sequenceStopAtEnd=false,sequenceDeleteArmed=false,sequenceDeleteTimer=null,sequenceEditIndex=-1,transportRunning=false,transportStep=0,transportNextTime=0,transportTimer=null,transportEvents=[],transportBar=0,transportTempoBpm=100,pendingBpm=null,drumStartQueued=false,accompanimentStopQueued=false,accompanimentStopEventScheduled=false;
+let audioCtx,masterGain,limiter,drumBus,drumCompressor,openHatVoice=null,drumEngine="acoustic",drumSamplesReady=false,drumSamplesLoading=false,drumSampleBuffers={},drumRoundRobin={},drumSamplesLoadedCount=0,drumSamplesTotalCount=0,drumSamplesFailureCount=0,instrument="piano",octave=0,capoSemitones=0,sustainMode="hold",releaseMs=650,attackMs=20,chordMode="together",arpInterval=280,arpPattern="up",chordType="minor",inversion=0,bassEnabled=false,latchEnabled=false,splitEnabled=false,splitInstrument="organ",velocityEnabled=true,glissEnabled=true,metronomeOn=false,metronomeTimer=null,bpm=100,rhythmPattern="whole",chordChangeMode="nextBar",latchedRoot=null,latchedType=null,pendingRoot=null,pendingType=null,pendingButton=null,latchedButton=null,accompanimentTimer=null,accompanimentEvents=[],accompanimentHalfTimer=null,activeVoices=new Set(),pointerVoices=new Map(),pointerLastKey=new Map(),pressedKeys=new Map(),saveArmed=false,actionToken=0,alternateDirection=false,circleEnabled=false,circleRoot=null,drumMode=true,drumRunning=false,drumPattern="rock",drumManual=false,drumStep=0,drumTimer=null,drumNextTime=0,drumFillQueued=false,drumEndingQueued=false,drumQueuedAction="",drumActiveAction="",drumCompletedAction="",drumActionMuteUntil=0,sequenceEndActionInProgress="",sequenceConfiguredActionName="",drumLayers={kick:true,snare:true,hat:true},sequenceRecording=false,sequencePlaying=false,sequenceTimer=null,sequenceIndex=-1,sequenceEighthUnitsRemaining=0,sequenceStartQueued=false,activeSequenceSection='verse',queuedSequenceSection=null,sequenceLoop=true,sequenceAuto=true,sequenceAutoEnd=false,sequenceHoldLoop=false,sequencePanelVisible=true,sequenceSections={verse:[],prechorus:[],chorus:[],bridge:[],section5:[],section6:[],section7:[],section8:[],section9:[],section10:[],section11:[],section12:[],section13:[],section14:[],section15:[],section16:[]},sequenceRepeats={verse:0,prechorus:0,chorus:0,bridge:0,section5:0,section6:0,section7:0,section8:0,section9:0,section10:0,section11:0,section12:0,section13:0,section14:0,section15:0,section16:0},sequenceOrder=['verse','prechorus','chorus','bridge','section5','section6','section7','section8','section9','section10','section11','section12','section13','section14','section15','section16'],sequenceDrums={verse:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},prechorus:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},chorus:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},bridge:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section5:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section6:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section7:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section8:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section9:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section10:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section11:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section12:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section13:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section14:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section15:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section16:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''}},currentSectionRepetition=1,sequencePendingTransition=null,sequencePlaybackOriginalChordMode=null,sequenceStopAtEnd=false,sequenceDeleteArmed=false,sequenceDeleteTimer=null,sequenceEditIndex=-1,transportRunning=false,transportStep=0,transportNextTime=0,transportTimer=null,transportEvents=[],transportBar=0,transportTempoBpm=100,pendingBpm=null,drumStartQueued=false,accompanimentStopQueued=false,accompanimentStopEventScheduled=false;
 const MAX_SIMULTANEOUS_TOUCHES=4;
 function ensureAudio(){if(!audioCtx){audioCtx=new(AudioContext||webkitAudioContext)({latencyHint:'interactive'});masterGain=audioCtx.createGain();limiter=audioCtx.createDynamicsCompressor();drumBus=audioCtx.createGain();drumCompressor=audioCtx.createDynamicsCompressor();drumCompressor.threshold.value=-18;drumCompressor.knee.value=18;drumCompressor.ratio.value=4;drumCompressor.attack.value=.006;drumCompressor.release.value=.16;drumBus.gain.value=Number($('drum-volume').value)/100;drumBus.connect(drumCompressor);drumCompressor.connect(masterGain);limiter.threshold.value=-10;limiter.knee.value=10;limiter.ratio.value=12;limiter.attack.value=.003;limiter.release.value=.18;masterGain.gain.value=+$('master-volume').value/100;masterGain.connect(limiter);limiter.connect(audioCtx.destination)}if(audioCtx.state==='suspended')audioCtx.resume()}
 function freq(semi,oct=0){return 261.625565*Math.pow(2,(semi+oct*12)/12)}function vol(kind){return +$(kind+'-volume').value/100}
 function osc(type,f,d=0){const o=audioCtx.createOscillator();o.type=type;o.frequency.value=f;o.detune.value=d;return o}
-function createVoice(semi,opt={}){ensureAudio();const now=audioCtx.currentTime,kind=opt.kind||'keyboard',inst=opt.instrument||instrument,isBass=kind==='bass',soundingSemi=semi+capoSemitones;let voiceOctave=octave+(isBass?-1:0);if(Number.isFinite(Number(opt.octaveOverride)))voiceOctave=Number(opt.octaveOverride);const f=freq(soundingSemi,voiceOctave);const out=audioCtx.createGain(),filter=audioCtx.createBiquadFilter(),oscs=[];let peak=(opt.velocity == null ? 1 : opt.velocity)*vol(kind),sustain=.24,decay=.12,atk=Math.max(.002,attackMs/1000);filter.type='lowpass';filter.frequency.value=8000;out.connect(filter);filter.connect(masterGain);const add=(type,ratio=1,level=1,det=0)=>{const o=osc(type,f*ratio,det),g=audioCtx.createGain();g.gain.value=level;o.connect(g);g.connect(out);oscs.push(o)};
-if(inst==='xylophone'){add('sine');add('sine',3.01,.18);peak*=.62;sustain=.035;decay=.06;atk=.002;filter.frequency.value=12000}else if(inst==='flute'){add('sine');add('sine',2,.1,4);peak*=.42;sustain=.32;decay=.15;atk=Math.max(atk,.07);filter.frequency.value=4800}else if(inst==='churchOrgan'){add('sine');add('sine',2,.42);add('sine',4,.14);add('sine',.5,.15);peak*=.38;sustain=.36;decay=.06;filter.frequency.value=6200}else if(inst==='accordion'){add('sawtooth',1,.45,-6);add('sawtooth',1,.45,6);add('square',2,.08);peak*=.34;sustain=.3;filter.frequency.value=2600}else if(inst==='violin'){add('sawtooth',1,.58,-4);add('triangle',1,.42,4);peak*=.31;sustain=.27;atk=Math.max(atk,.12);filter.frequency.value=3300}else if(inst==='bassGuitar'){add('sine',.5,.72);add('triangle',1,.42);add('sine',2,.08);peak*=.48;sustain=.2;decay=.16;atk=.006;filter.frequency.value=1050}else if(inst==='acousticGuitar'){add('triangle',1,.62);add('sine',2,.22,-3);add('sine',3,.1,4);add('sine',4,.05);peak*=.46;sustain=.1;decay=.12;atk=.003;filter.frequency.value=5200}else if(inst==='synthPad'){add('sawtooth',1,.34,-12);add('triangle',1,.5);add('sine',.5,.25,8);peak*=.28;sustain=.25;atk=Math.max(atk,.28);filter.frequency.value=2100}else{add('triangle',1,.78);add('sine',2,.2,3);add('sine',3,.08,-2);peak*=.56;sustain=.18;filter.frequency.value=7000}
-if(isBass){peak*=.8;filter.frequency.value=Math.min(filter.frequency.value,850)}out.gain.setValueAtTime(.0001,now);out.gain.exponentialRampToValueAtTime(Math.max(.001,peak),now+atk);out.gain.exponentialRampToValueAtTime(Math.max(.001,sustain*peak),now+atk+decay);oscs.forEach(o=>o.start(now));const v={oscs,out,stopped:false,semi};activeVoices.add(v);if(activeVoices.size>28){const oldest=activeVoices.values().next().value;if(oldest&&oldest!==v)releaseVoice(oldest,70)}if(opt.autoRelease)setTimeout(()=>releaseVoice(v),opt.autoRelease);return v}
-function releaseVoice(v,ms=releaseMs){if(!v||v.stopped||!audioCtx)return;v.stopped=true;const now=audioCtx.currentTime,r=Math.max(.04,ms/1000);v.out.gain.cancelScheduledValues(now);v.out.gain.setValueAtTime(Math.max(.001,v.out.gain.value),now);v.out.gain.exponentialRampToValueAtTime(.0001,now+r);v.oscs.forEach(o=>{try{o.stop(now+r+.04)}catch{}});setTimeout(()=>activeVoices.delete(v),(r+.1)*1000)}
+function createVoice(semi,opt={}){
+ ensureAudio();
+ const now=audioCtx.currentTime;
+ const kind=opt.kind||'keyboard';
+ const inst=normalizeInstrumentId(opt.instrument||instrument);
+ const isBass=kind==='bass';
+ const soundingSemi=semi+capoSemitones;
+ let voiceOctave=octave+(isBass?-1:0);
+ if(Number.isFinite(Number(opt.octaveOverride)))voiceOctave=Number(opt.octaveOverride);
+ const baseFrequency=freq(soundingSemi,voiceOctave);
+ const out=audioCtx.createGain();
+ const sources=[];
+ const oscs=[];
+ const velocity=(opt.velocity == null ? 1 : opt.velocity);
+ let peak=velocity*vol(kind);
+ let attack=Math.max(.002,attackMs/1000);
+ let decay=.12;
+ let sustain=.24;
+ let lowpass=null;
+ let body=null;
+ let releaseScale=1;
+
+ function connectOutput(lastNode){
+  lastNode.connect(masterGain);
+ }
+ function makeFilter(type,frequency,q,gain){
+  const node=audioCtx.createBiquadFilter();
+  node.type=type;
+  node.frequency.value=frequency;
+  if(Number.isFinite(q))node.Q.value=q;
+  if(Number.isFinite(gain))node.gain.value=gain;
+  return node;
+ }
+ function addOsc(type,ratio,level,detune,target){
+  const oscillator=audioCtx.createOscillator();
+  const gainNode=audioCtx.createGain();
+  oscillator.type=type;
+  oscillator.frequency.value=baseFrequency*ratio;
+  oscillator.detune.value=detune||0;
+  gainNode.gain.value=level;
+  oscillator.connect(gainNode);
+  gainNode.connect(target||out);
+  oscs.push(oscillator);
+  sources.push(oscillator);
+  return oscillator;
+ }
+ function addVibrato(targetOscs,rate,depthCents,delaySeconds){
+  const lfo=audioCtx.createOscillator();
+  const amount=audioCtx.createGain();
+  lfo.type='sine';
+  lfo.frequency.value=rate;
+  amount.gain.setValueAtTime(0,now);
+  amount.gain.setValueAtTime(0,now+Math.max(0,delaySeconds));
+  amount.gain.linearRampToValueAtTime(depthCents,now+Math.max(.02,delaySeconds+.18));
+  lfo.connect(amount);
+  targetOscs.forEach(function(oscillator){amount.connect(oscillator.detune)});
+  sources.push(lfo);
+  return lfo;
+ }
+
+ if(inst==='violin_v2'){
+  lowpass=makeFilter('lowpass',4200,1);
+  body=makeFilter('peaking',900,2,5);
+  out.connect(body);body.connect(lowpass);connectOutput(lowpass);
+ }else if(inst==='violin_v3'){
+  lowpass=makeFilter('lowpass',5000,2);
+  out.connect(lowpass);connectOutput(lowpass);
+ }else if(inst==='electricBass'){
+  lowpass=makeFilter('lowpass',1150,.8);
+  body=makeFilter('peaking',180,1.4,5);
+  out.connect(body);body.connect(lowpass);connectOutput(lowpass);
+ }else if(inst==='doubleBass'){
+  lowpass=makeFilter('lowpass',1450,1.1);
+  body=makeFilter('peaking',240,1.8,7);
+  out.connect(body);body.connect(lowpass);connectOutput(lowpass);
+ }else{
+  lowpass=makeFilter('lowpass',8000,1);
+  out.connect(lowpass);connectOutput(lowpass);
+ }
+
+ if(inst==='piano'){
+  addOsc('triangle',1,.78,0);
+  addOsc('sine',2,.20,3);
+  addOsc('sine',3,.08,-2);
+  peak*=.85;attack=.008;decay=.112;sustain=.22;lowpass.frequency.value=7000;releaseScale=.9;
+ }else if(inst==='violin_v1'){
+  addOsc('sawtooth',1,.58,-4);
+  addOsc('triangle',1,.42,4);
+  peak*=.31;attack=.12;decay=.08;sustain=.9;lowpass.frequency.value=3300;
+ }else if(inst==='violin_v2'){
+  const main=addOsc('sawtooth',1,.60,0);
+  addOsc('sawtooth',2,.18,0);
+  addOsc('triangle',3,.08,0);
+  const lfo=audioCtx.createOscillator();
+  const lfoGain=audioCtx.createGain();
+  lfo.type='sine';lfo.frequency.value=5.5;
+  lfoGain.gain.setValueAtTime(0,now);
+  lfoGain.gain.setValueAtTime(0,now+.2);
+  lfoGain.gain.linearRampToValueAtTime(baseFrequency*.012,now+.35);
+  lfo.connect(lfoGain);lfoGain.connect(main.frequency);sources.push(lfo);
+  peak*=.38;attack=.09;decay=.06;sustain=.95;
+ }else if(inst==='violin_v3'){
+  const violinOscs=[
+   addOsc('sawtooth',1,.50,-8),
+   addOsc('sawtooth',1,.50,0),
+   addOsc('sawtooth',1,.30,6)
+  ];
+  const lfo=audioCtx.createOscillator();
+  const lfoGain=audioCtx.createGain();
+  lfo.type='sine';
+  lfo.frequency.setValueAtTime(4.5,now);
+  lfo.frequency.linearRampToValueAtTime(6,now+.5);
+  lfoGain.gain.setValueAtTime(0,now);
+  lfoGain.gain.setValueAtTime(0,now+.18);
+  lfoGain.gain.linearRampToValueAtTime(15,now+.4);
+  lfo.connect(lfoGain);
+  violinOscs.forEach(function(o){lfoGain.connect(o.detune)});
+  sources.push(lfo);
+  peak*=.42;attack=.07;decay=.05;sustain=.95;
+ }else if(inst==='violao'||inst==='violao6'){
+  addOsc('triangle',1,.62,0);
+  addOsc('sine',2,.22,-3);
+  addOsc('sine',3,.10,4);
+  addOsc('sine',4,.05,0);
+  peak*=.46;attack=.003;decay=.117;sustain=.10;lowpass.frequency.value=5200;releaseScale=.75;
+ }else if(inst==='organ'){
+  addOsc('sine',1,.50,0);
+  addOsc('sine',2,.42,0);
+  addOsc('sine',4,.14,0);
+  addOsc('sine',.5,.15,0);
+  addOsc('sine',3,.08,0);
+  peak*=.38;attack=.01;decay=.04;sustain=.98;lowpass.frequency.value=6200;
+ }else if(inst==='flute'){
+  addOsc('sine',1,.70,0);
+  addOsc('sine',2,.10,4);
+  const buffer=audioCtx.createBuffer(1,Math.max(1,Math.floor(audioCtx.sampleRate*.05)),audioCtx.sampleRate);
+  const data=buffer.getChannelData(0);
+  for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*.04;
+  const noise=audioCtx.createBufferSource();
+  const noiseGain=audioCtx.createGain();
+  noise.buffer=buffer;noise.loop=true;noiseGain.gain.value=.07;
+  noise.connect(noiseGain);noiseGain.connect(out);sources.push(noise);
+  peak*=.42;attack=.07;decay=.06;sustain=.90;lowpass.frequency.value=4800;
+ }else if(inst==='sino'){
+  addOsc('sine',1,.60,0);
+  addOsc('sine',2.756,.28,0);
+  addOsc('sine',5.404,.14,0);
+  addOsc('sine',8.033,.06,0);
+  addOsc('sine',10.13,.03,0);
+  peak*=.65;attack=.002;decay=.05;sustain=.08;lowpass.frequency.value=12000;releaseScale=2.5;
+ }else if(inst==='synthpad'){
+  addOsc('sawtooth',1,.34,-12);
+  addOsc('triangle',1,.50,0);
+  addOsc('sine',.5,.25,8);
+  peak*=.28;attack=.28;decay=.10;sustain=.90;lowpass.frequency.value=2100;
+ }else if(inst==='electricBass'){
+  const bassRatio=.5;
+  addOsc('sine',bassRatio,.72,0);
+  addOsc('triangle',bassRatio,.38,-3);
+  addOsc('sine',1,.12,2);
+  addOsc('sine',1.5,.035,0);
+  peak*=.64;attack=.004;decay=.086;sustain=.44;releaseScale=.8;
+ }else if(inst==='doubleBass'){
+  const bassRatio=.25;
+  const bassOscs=[
+   addOsc('sawtooth',bassRatio,.34,-5),
+   addOsc('triangle',bassRatio,.50,4),
+   addOsc('sine',bassRatio*2,.14,0),
+   addOsc('sine',bassRatio*.5,.18,0)
+  ];
+  addVibrato(bassOscs.slice(0,2),4.7,5,.17);
+  peak*=.50;attack=.045;decay=.135;sustain=.48;
+ }
+
+ if(isBass){
+  peak*=.8;
+  if(lowpass)lowpass.frequency.value=Math.min(lowpass.frequency.value,850);
+ }
+
+ out.gain.setValueAtTime(.0001,now);
+ out.gain.exponentialRampToValueAtTime(Math.max(.001,peak),now+attack);
+ out.gain.exponentialRampToValueAtTime(Math.max(.001,sustain*peak),now+attack+decay);
+
+ sources.forEach(function(source){
+  try{source.start(now)}catch(error){}
+ });
+
+ const voice={oscs:oscs,sources:sources,out:out,stopped:false,semi:semi,releaseScale:releaseScale};
+ activeVoices.add(voice);
+
+ if(activeVoices.size>28){
+  const oldest=activeVoices.values().next().value;
+  if(oldest&&oldest!==voice)releaseVoice(oldest,70);
+ }
+ if(opt.autoRelease)setTimeout(function(){releaseVoice(voice,opt.autoRelease)},Math.max(20,opt.autoRelease));
+ return voice;
+}
+function releaseVoice(voice,ms=releaseMs){
+ if(!voice||voice.stopped||!audioCtx)return;
+ voice.stopped=true;
+ const now=audioCtx.currentTime;
+ const scale=Number.isFinite(Number(voice.releaseScale))?Number(voice.releaseScale):1;
+ const release=Math.max(.04,ms/1000*scale);
+ voice.out.gain.cancelScheduledValues(now);
+ voice.out.gain.setValueAtTime(Math.max(.001,voice.out.gain.value),now);
+ voice.out.gain.exponentialRampToValueAtTime(.0001,now+release);
+ const sources=Array.isArray(voice.sources)?voice.sources:voice.oscs;
+ sources.forEach(function(source){
+  try{source.stop(now+release+.04)}catch(error){}
+ });
+ setTimeout(function(){activeVoices.delete(voice)},(release+.1)*1000);
+}
 function releaseAll(ms=120){actionToken++;[...activeVoices].forEach(v=>releaseVoice(v,ms));pointerVoices.clear();pointerLastKey.clear();pressedKeys.clear();clearKeys()}
 function clearKeys(){document.querySelectorAll('.key.active,.chord.playing').forEach(e=>e.classList.remove('active','playing'))}
 function setStatus(t){$('status').textContent=t}function flash(semi,on=true){document.querySelectorAll(`[data-note="${semi}"]`).forEach(e=>e.classList.toggle('active',on))}
@@ -630,13 +869,49 @@ function guitarChordNotes(root,type='major'){
  return candidates[0]?.notes||genericGuitarVoicing(root,type);
 }
 function chordNotes(root,type="major",button=null){
- if(instrument==='acousticGuitar')return guitarChordNotes(root,type);
+ if(instrument==='violao'||instrument==='violao6')return guitarChordNotes(root,type);
  if(type==='dominant7'&&button?.dataset.secondary==='true')return nearestSecondaryVoicing(root,+button.dataset.targetRoot,button.dataset.targetType);
  return basicChordNotes(root,type,inversion);
 }
 function chordLabel(root,type){const suffix={minor:"m",diminished:"°",dominant7:"7",minor7:"m7",sus2:"sus2",sus4:"sus4"}[type]||"";return CHORD_NAMES[root]+suffix}
 function patternNotes(notes){if(arpPattern==='down')return [...notes].reverse();if(arpPattern==='updown')return [...notes,...notes.slice(1,-1).reverse()];if(arpPattern==='alternate'){alternateDirection=!alternateDirection;return alternateDirection?[...notes]:[...notes].reverse()}if(arpPattern==='random')return [...notes].sort(()=>Math.random()-.5);return notes}
-async function playChord(root,type="major",button=null,fromRhythm=false){ensureAudio();if(sustainMode==='next'&&!fromRhythm)releaseAll(100);const token=++actionToken,notes=chordNotes(root,type,button);button?.classList.add('playing');setTimeout(()=>button?.classList.remove('playing'),Math.max(420,arpInterval*notes.length));if(chordMode==='together'){if(instrument==='acousticGuitar')guitarStroke(root,type,'down',Math.max(420,releaseMs),button,false,1);else notes.forEach(n=>{createVoice(n,{kind:'chord',autoRelease:latchEnabled?0:Math.max(500,releaseMs)});flash(n,true);setTimeout(()=>flash(n,false),450)})}else{let bass;if(bassEnabled)bass=createVoice(root,{kind:'bass',autoRelease:latchEnabled?0:Math.max(700,releaseMs+arpInterval*notes.length)});for(const n of patternNotes(notes)){if(token!==actionToken)break;createVoice(n,{kind:'chord',autoRelease:Math.max(350,releaseMs)});flash(n,true);setTimeout(()=>flash(n,false),Math.max(180,arpInterval));await new Promise(r=>setTimeout(r,arpInterval))}if(bass&&!latchEnabled)setTimeout(()=>releaseVoice(bass),releaseMs)}setStatus(chordLabel(root,type))}
+async function playChord(root,type="major",button=null,fromRhythm=false){
+ ensureAudio();
+ if(sustainMode==='next'&&!fromRhythm)releaseAll(100);
+ const token=++actionToken;
+ const notes=chordNotes(root,type,button);
+ if(button)button.classList.add('playing');
+ setTimeout(function(){if(button)button.classList.remove('playing')},Math.max(420,arpInterval*notes.length));
+
+ if(chordMode==='together'){
+  if(instrument==='violao6'){
+   const ordered=notes.slice(0,6);
+   ordered.forEach(function(note,index){
+    scheduleInBar(function(){
+     createVoice(note,{kind:'chord',instrument:'violao6',autoRelease:latchEnabled?0:Math.max(500,releaseMs)});
+     flash(note,true);setTimeout(function(){flash(note,false)},420);
+    },index*38);
+   });
+  }else{
+   notes.forEach(function(note){
+    createVoice(note,{kind:'chord',instrument:instrument,autoRelease:latchEnabled?0:Math.max(500,releaseMs)});
+    flash(note,true);setTimeout(function(){flash(note,false)},450);
+   });
+  }
+ }else{
+  let bassVoice=null;
+  if(bassEnabled)bassVoice=createVoice(root,{kind:'bass',instrument:'electricBass',autoRelease:latchEnabled?0:Math.max(700,releaseMs+arpInterval*notes.length)});
+  const ordered=patternNotes(notes);
+  for(const note of ordered){
+   if(token!==actionToken)break;
+   createVoice(note,{kind:'chord',instrument:instrument,autoRelease:Math.max(350,releaseMs)});
+   flash(note,true);setTimeout(function(){flash(note,false)},Math.max(180,arpInterval));
+   await new Promise(function(resolve){setTimeout(resolve,arpInterval)});
+  }
+  if(bassVoice&&!latchEnabled)setTimeout(function(){releaseVoice(bassVoice)},releaseMs);
+ }
+ setStatus(chordLabel(root,type));
+}
 function clearAccompanimentSchedule(){clearTimeout(accompanimentTimer);clearTimeout(accompanimentHalfTimer);accompanimentTimer=null;accompanimentHalfTimer=null;accompanimentEvents.forEach(clearTimeout);accompanimentEvents=[]}
 function clearTransportEvents(){transportEvents.forEach(clearTimeout);transportEvents=[]}
 function transportNeeded(){return drumRunning||drumStartQueued||sequencePlaying||sequenceStartQueued||latchedRoot!==null||pendingRoot!==null||accompanimentStopQueued||!!sequencePendingTransition||drumQueuedAction!==''||drumActiveAction!==''}
@@ -865,7 +1140,7 @@ function normalizeSequenceItem(item){
   let noteOctave=Number(item.octave);
   if(!Number.isFinite(noteOctave))noteOctave=0;
   noteOctave=Math.max(-2,Math.min(4,Math.round(noteOctave)));
-  const allowedInstruments=['piano','xylophone','flute','churchOrgan','accordion','violin','bassGuitar','acousticGuitar','synthPad'];
+  const allowedInstruments=INSTRUMENT_IDS;
   const noteInstrument=allowedInstruments.indexOf(item.instrument)>=0?item.instrument:'piano';
   const normalizedNote={
    kind:'note',
@@ -875,27 +1150,38 @@ function normalizeSequenceItem(item){
    fraction:fraction,
    instrument:noteInstrument
   };
-  if(typeof item.text==='string'&&item.text.trim())normalizedNote.text=item.text.trim().slice(0,80);
+  if(typeof item.text==='string'&&item.text.trim()){
+   normalizedNote.text=item.text.trim().slice(0,80);
+   if(item.textRepeat==='always')normalizedNote.textRepeat='always';
+   else{
+    const repeatValue=Math.max(1,Math.min(16,Math.round(Number(item.textRepeat)||1)));
+    normalizedNote.textRepeat=repeatValue;
+   }
+  }
   if(typeof item.string==='string'&&item.string)normalizedNote.string=item.string;
   if(Number.isFinite(Number(item.fret)))normalizedNote.fret=Math.max(0,Math.min(24,Math.round(Number(item.fret))));
   return normalizedNote;
  }
  if(!Number.isFinite(+item.root)||!item.type)return null;
  const normalized={root:+item.root,type:item.type,label:item.label||chordLabel(+item.root,item.type),fraction:fraction,playMode:item.playMode==='arpeggio'?'arpeggio':'together'};
- if(typeof item.text==='string'&&item.text.trim())normalized.text=item.text.trim().slice(0,80);
+ if(typeof item.text==='string'&&item.text.trim()){
+  normalized.text=item.text.trim().slice(0,80);
+  if(item.textRepeat==='always')normalized.textRepeat='always';
+  else normalized.textRepeat=Math.max(1,Math.min(16,Math.round(Number(item.textRepeat)||1)));
+ }
  if(item.secondary){normalized.secondary=true;normalized.targetRoot=+item.targetRoot;normalized.targetType=item.targetType}
  return normalized;
 }
 
 function defaultSectionDrum(){
- return {padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano'};
+ return {padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''};
 }
 function normalizeSectionDrum(value){
  const allowedPatterns=['rock','forro','bolero','sertanejo','balada','suave','bossa'];
  const allowedEntries=['fill','fillHalf'];
  const allowedExits=['fill','fillHalf'];
  const allowedFinals=['ending','endingHalf'];
- const allowedInstruments=['piano','xylophone','flute','churchOrgan','accordion','violin','bassGuitar','acousticGuitar','synthPad'];
+ const allowedInstruments=INSTRUMENT_IDS;
  const source=value&&typeof value==='object'?value:{};
  let padrao=null;
  if(allowedPatterns.indexOf(source.padrao)>=0)padrao=source.padrao;
@@ -907,8 +1193,11 @@ function normalizeSectionDrum(value){
  if(allowedFinals.indexOf(source.final)>=0)finalAction=source.final;
  let instrumento='piano';
  if(source.instrumento==='')instrumento='';
- else if(allowedInstruments.indexOf(source.instrumento)>=0)instrumento=source.instrumento;
- return {padrao:padrao,entrada:entrada,saida:saida,final:finalAction,instrumento:instrumento};
+ else instrumento=normalizeInstrumentId(source.instrumento);
+ let proxima='';
+ if(source.proxima==='stop')proxima='stop';
+ else if(typeof source.proxima==='string'&&SEQUENCE_SECTION_LABELS[source.proxima])proxima=source.proxima;
+ return {padrao:padrao,entrada:entrada,saida:saida,final:finalAction,instrumento:instrumento,proxima:proxima};
 }
 function calculateSectionBars(section){
  const items=sequenceSections[section]||[];
@@ -930,12 +1219,14 @@ function syncSectionDrumControls(){
  const config=normalizeSectionDrum(sequenceDrums[activeSequenceSection]);
  sequenceDrums[activeSequenceSection]=config;
  const sectionInstrument=$('section-instrument');
+ const nextSection=$('section-next');
  const pattern=$('section-drum-pattern');
  const entry=$('section-drum-entry');
  const exitAction=$('section-drum-exit');
  const finalAction=$('section-drum-final');
  const bars=$('section-bars-display');
  if(sectionInstrument)sectionInstrument.value=config.instrumento;
+ if(nextSection)nextSection.value=config.proxima||'';
  if(pattern)pattern.value=config.padrao||'';
  if(entry)entry.value=config.entrada||'';
  if(exitAction)exitAction.value=config.saida||'';
@@ -944,6 +1235,7 @@ function syncSectionDrumControls(){
 }
 function saveActiveSectionDrumControls(){
  const sectionInstrument=$('section-instrument');
+ const nextSection=$('section-next');
  const pattern=$('section-drum-pattern');
  const entry=$('section-drum-entry');
  const exitAction=$('section-drum-exit');
@@ -951,6 +1243,7 @@ function saveActiveSectionDrumControls(){
  sequenceDrums[activeSequenceSection]=normalizeSectionDrum({
   padrao:pattern&&pattern.value?pattern.value:null,
   instrumento:sectionInstrument?sectionInstrument.value:'piano',
+  proxima:nextSection?nextSection.value:'',
   entrada:entry&&entry.value?entry.value:null,
   saida:exitAction&&exitAction.value?exitAction.value:null,
   final:finalAction&&finalAction.value?finalAction.value:null
@@ -971,8 +1264,16 @@ function applySectionDrumConfig(section,startIfNeeded){
   startDrums(config.padrao);
  }
 }
+function configuredNextSequence(section){
+ const config=normalizeSectionDrum(sequenceDrums[section]);
+ return config.proxima||'';
+}
 function plannedNextSequenceSection(){
  if(queuedSequenceSection)return queuedSequenceSection;
+ if(sequenceHoldLoop)return activeSequenceSection;
+ const configured=configuredNextSequence(activeSequenceSection);
+ if(configured==='stop')return '';
+ if(configured&&SEQUENCE_SECTION_LABELS[configured])return configured;
  if(sequenceAutoEnd)return nextAutomaticSectionWithoutLoop(activeSequenceSection);
  if(sequenceAuto)return nextAutomaticSection(activeSequenceSection);
  return '';
@@ -1217,7 +1518,7 @@ function importSongFromText(text){
  stopAccompaniment();
 
  const newSongState={
-  formatVersion:16,
+  formatVersion:17,
   capoSemitones:clampCapo(imported.capoSemitones),
   sections:JSON.parse(JSON.stringify(imported.sections)),
   repeats:JSON.parse(JSON.stringify(imported.repeats)),
@@ -1305,7 +1606,7 @@ function handleSongImportFile(event){
  reader.readAsText(file,'UTF-8');
 }
 
-function snapshotCurrentSequence(){return {formatVersion:16,capoSemitones:capoSemitones,sections:JSON.parse(JSON.stringify(sequenceSections)),repeats:{...sequenceRepeats},auto:sequenceAuto,autoEnd:sequenceAutoEnd,ordemSecoes:sequenceOrder.slice(),bateria:JSON.parse(JSON.stringify(sequenceDrums)),drumEngine:drumEngine}}
+function snapshotCurrentSequence(){return {formatVersion:17,capoSemitones:capoSemitones,sections:JSON.parse(JSON.stringify(sequenceSections)),repeats:{...sequenceRepeats},auto:sequenceAuto,autoEnd:sequenceAutoEnd,ordemSecoes:sequenceOrder.slice(),bateria:JSON.parse(JSON.stringify(sequenceDrums)),drumEngine:drumEngine}}
 function applySequenceState(state){
  const keys=Object.keys(sequenceSections);
  keys.forEach(function(key){
@@ -1349,6 +1650,7 @@ function renderSongsList(){
  });
 }
 function prepareSongWorkspaceChange(){
+ sequenceHoldLoop=false;syncSequenceHoldLoopButton();
  stopChordSequence('');
  stopDrums();
  stopAccompaniment();
@@ -1530,13 +1832,19 @@ function sequenceEditorItemFromControls(){
   if(stringValue)noteItem.string=stringValue;
   if(Number.isFinite(fretValue))noteItem.fret=Math.max(0,Math.min(24,Math.round(fretValue)));
   const noteText=$('sequence-edit-text').value.trim();
-  if(noteText)noteItem.text=noteText;
+  if(noteText){
+   noteItem.text=noteText;
+   noteItem.textRepeat=$('sequence-edit-text-repeat').value==='always'?'always':Number($('sequence-edit-text-repeat').value);
+  }
   return noteItem;
  }
  const type=$('sequence-edit-type').value;
  const chordItem={root:root,type:type,label:chordLabel(root,type),fraction:fraction,playMode:$('sequence-edit-mode').value==='arpeggio'?'arpeggio':'together'};
  const chordText=$('sequence-edit-text').value.trim();
- if(chordText)chordItem.text=chordText;
+ if(chordText){
+  chordItem.text=chordText;
+  chordItem.textRepeat=$('sequence-edit-text-repeat').value==='always'?'always':Number($('sequence-edit-text-repeat').value);
+ }
  return chordItem;
 }
 function openSequenceEditor(index){
@@ -1562,6 +1870,7 @@ function openSequenceEditor(index){
  $('sequence-edit-string').value=item.string||'';
  $('sequence-edit-fret').value=String(Number.isFinite(Number(item.fret))?Number(item.fret):0);
  $('sequence-edit-text').value=typeof item.text==='string'?item.text:'';
+ $('sequence-edit-text-repeat').value=item.textRepeat==='always'?'always':String(Number(item.textRepeat)||1);
  syncSequenceEditorKind();
  renderChordSequence();
  $('sequence-editor-dialog').showModal();
@@ -1672,7 +1981,7 @@ function appendNextSequencePreview(box){
   const previewChord=document.createElement('span');
   previewChord.textContent=isSequenceNote(item)?'♪ '+previewLabel:previewLabel;
   preview.appendChild(previewChord);
-  if(item.text){
+  if(item.text&&(item.textRepeat==='always'||Number(item.textRepeat||1)===1)){
    const previewText=document.createElement('span');
    previewText.className='sequence-item-text';
    previewText.textContent=' - '+item.text;
@@ -1686,9 +1995,12 @@ function appendNextSequencePreview(box){
 
 
 
-function shouldShowSequenceItemText(){
+function shouldShowSequenceItemText(item){
+ if(!item||!item.text)return false;
  if(!sequencePlaying)return true;
- return currentSectionRepetition===1;
+ if(item.textRepeat==='always')return true;
+ const target=Math.max(1,Math.min(16,Math.round(Number(item.textRepeat)||1)));
+ return currentSectionRepetition===target;
 }
 function renderChordSequence(){
  const box=$('sequence-strip');if(!box)return;box.innerHTML='';const sequence=currentChordSequence();
@@ -1712,7 +2024,7 @@ function renderChordSequence(){
   const chordText=document.createElement('span');
   chordText.textContent=itemText;
   el.appendChild(chordText);
-  if(!isSequencePause(item)&&item.text&&shouldShowSequenceItemText()){
+  if(!isSequencePause(item)&&item.text&&shouldShowSequenceItemText(item)){
    const textEl=document.createElement('span');
    textEl.className='sequence-item-text';
    textEl.textContent=' - '+item.text;
@@ -1949,7 +2261,27 @@ function loadSequenceItem(index,boundaryAudioTime){
    applySectionDrumConfig(nextSection,true);
    syncSectionDrumControls();
    setStatus('Entrou '+SEQUENCE_SECTION_LABELS[nextSection]+' por escolha manual');
-  }else if(sequenceAuto||sequenceAutoEnd){
+  }else{
+   const configuredNext=configuredNextSequence(activeSequenceSection);
+   if(configuredNext==='stop'){
+    stopChordSequence(SEQUENCE_SECTION_LABELS[activeSequenceSection]+' concluída');
+    return false;
+   }
+   if(configuredNext&&SEQUENCE_SECTION_LABELS[configuredNext]){
+    activeSequenceSection=configuredNext;
+    currentSectionRepetition=1;
+    sequence=currentChordSequence();
+    if(!sequence.length){
+     stopChordSequence(SEQUENCE_SECTION_LABELS[configuredNext]+' está vazia');
+     return false;
+    }
+    index=0;
+    saveChordSequence();
+    syncSequenceSectionButtons();
+    applySectionDrumConfig(configuredNext,true);
+    syncSectionDrumControls();
+    setStatus('Entrou '+SEQUENCE_SECTION_LABELS[configuredNext]+' pela configuração da sequência');
+   }else if(sequenceAuto||sequenceAutoEnd){
    const targetRepeats=sectionRepeatValue(activeSequenceSection);
    if(targetRepeats>0&&currentSectionRepetition<targetRepeats){
     currentSectionRepetition++;
@@ -1988,6 +2320,7 @@ function loadSequenceItem(index,boundaryAudioTime){
    index=0;
    renderChordSequence();
    setStatus(SEQUENCE_SECTION_LABELS[activeSequenceSection]+' · repetição contínua ('+currentSectionRepetition+')');
+  }
   }
  }
 
@@ -2650,7 +2983,7 @@ function bindDrums(){
  syncDrumActionButtons();
 }
 
-function xylophoneNaturalNotes(){
+function sinoNaturalNotes(){
  const result=[];
  const naturalPcs=[0,2,4,5,7,9,11];
  for(let oct=0;oct<3;oct++){
@@ -2658,7 +2991,7 @@ function xylophoneNaturalNotes(){
  }
  return result;
 }
-function xylophoneSharpNotes(){
+function sinoSharpNotes(){
  const result=[];
  const sharpPcs=[1,3,null,6,8,10,null];
  for(let oct=0;oct<3;oct++){
@@ -2672,10 +3005,10 @@ function renderKeyboard(){
  sharpRow.innerHTML='';
  naturalRow.innerHTML='';
  const keyboard=$('keyboard');
- const xylophoneMode=instrument==='xylophone';
- keyboard.classList.toggle('xylophone-three-octaves',xylophoneMode);
- const naturalNotes=xylophoneMode?xylophoneNaturalNotes():NAT;
- const sharpNotes=xylophoneMode?xylophoneSharpNotes():SHARP;
+ const xylophoneMode=instrument==='sino';
+ keyboard.classList.toggle('sino-three-octaves',xylophoneMode);
+ const naturalNotes=xylophoneMode?sinoNaturalNotes():NAT;
+ const sharpNotes=xylophoneMode?sinoSharpNotes():SHARP;
  const total=naturalNotes.length;
 
  for(let c=0;c<total;c++){
@@ -2882,7 +3215,7 @@ function updateRanges(){
 function clampFineInput(input){const min=Number(input.min),max=Number(input.max);let value=Number(input.value);if(!Number.isFinite(value))value=Number(input.defaultValue||min||0);value=Math.min(max,Math.max(min,value));input.value=value;return value}
 document.querySelectorAll('.fine-btn').forEach(button=>button.addEventListener('click',()=>{const input=$(button.dataset.stepTarget);if(!input)return;const step=Number(input.step)||1,direction=Number(button.dataset.direction)||1;clampFineInput(input);input.value=Number(input.value)+step*direction;clampFineInput(input);input.dispatchEvent(new Event('input',{bubbles:true}))}));
 ['release','attack','arp-interval','bpm','master-volume','drum-volume','keyboard-volume','chord-volume','bass-volume'].forEach(id=>{const input=$(id);input.addEventListener('change',()=>{clampFineInput(input);updateRanges()});input.addEventListener('blur',()=>{clampFineInput(input);updateRanges()})});
-$('instrument').onchange=e=>{if(isInstrumentChangeLocked()){e.target.value=instrument;setStatus('Pare o acompanhamento contínuo ou a sequência em execução antes de trocar o instrumento');return}instrument=e.target.value;releaseAll();renderKeyboard();setStatus('Instrumento: '+LABELS[instrument]+(instrument==='xylophone'?' · teclado com 3 oitavas':''))};$('oct-down').onclick=()=>{octave=Math.max(-2,octave-1);$('oct-label').textContent=octave>0?'+'+octave:octave};$('oct-up').onclick=()=>{octave=Math.min(2,octave+1);$('oct-label').textContent=octave>0?'+'+octave:octave};$('capo-down').onclick=function(){setCapo(capoSemitones-1)};$('capo-label').onclick=function(){setCapo(0)};$('capo-up').onclick=function(){setCapo(capoSemitones+1)};
+$('instrument').onchange=e=>{if(isInstrumentChangeLocked()){e.target.value=instrument;setStatus('Pare o acompanhamento contínuo ou a sequência em execução antes de trocar o instrumento');return}instrument=e.target.value;releaseAll();renderKeyboard();setStatus('Instrumento: '+LABELS[instrument]+(instrument==='sino'?' · teclado com 3 oitavas':''))};$('oct-down').onclick=()=>{octave=Math.max(-2,octave-1);$('oct-label').textContent=octave>0?'+'+octave:octave};$('oct-up').onclick=()=>{octave=Math.min(2,octave+1);$('oct-label').textContent=octave>0?'+'+octave:octave};$('capo-down').onclick=function(){setCapo(capoSemitones-1)};$('capo-label').onclick=function(){setCapo(0)};$('capo-up').onclick=function(){setCapo(capoSemitones+1)};
 $('sustain-hold').onclick=()=>{sustainMode='hold';$('sustain-hold').classList.add('active');$('sustain-next').classList.remove('active');releaseAll()};$('sustain-next').onclick=()=>{sustainMode='next';$('sustain-next').classList.add('active');$('sustain-hold').classList.remove('active');releaseAll()};
 $('chord-together').onclick=function(){chordMode='together';syncChordModeButtons()};$('chord-arpeggio').onclick=function(){chordMode='arpeggio';syncChordModeButtons()};
 function selectChordChangeMode(mode){
@@ -2937,6 +3270,7 @@ $('sequence-play').onclick=function(){
 };
 $('sequence-hold-loop').onclick=toggleSequenceHoldLoop;
 $('section-instrument').onchange=saveActiveSectionDrumControls;
+$('section-next').onchange=saveActiveSectionDrumControls;
 $('section-drum-pattern').onchange=saveActiveSectionDrumControls;
 $('section-drum-entry').onchange=saveActiveSectionDrumControls;
 $('section-drum-exit').onchange=saveActiveSectionDrumControls;
@@ -2988,17 +3322,17 @@ $('sequence-auto-end').onclick=function(){
 };
 $('sequence-clear').onclick=requestDeleteLastSequenceItem;
 $('sequence-toggle').onclick=()=>{sequencePanelVisible=!sequencePanelVisible;saveChordSequence();syncSequencePanelVisibility();setStatus(sequencePanelVisible?'Barra de sequências exibida':'Barra de sequências ocultada')};
-$('advanced-toggle').onclick=()=>{$('advanced').classList.toggle('open');$('advanced-toggle').classList.toggle('active')};$('fullscreen').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};$('stop-accompaniments').onclick=requestAccompanimentStop;$('stop-all').onclick=()=>{accompanimentStopQueued=false;accompanimentStopEventScheduled=false;syncAccompanimentStopButton();clearTimeout(sequenceTimer);sequencePlaying=false;sequenceStartQueued=false;queuedSequenceSection=null;sequenceIndex=-1;sequenceEighthUnitsRemaining=0;stopAccompaniment();stopDrums();stopMasterTransport();releaseAll();renderChordSequence();setStatus('Todas as notas foram silenciadas')};
+$('advanced-toggle').onclick=()=>{$('advanced').classList.toggle('open');$('advanced-toggle').classList.toggle('active')};$('fullscreen').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};$('stop-accompaniments').onclick=requestAccompanimentStop;$('stop-all').onclick=()=>{sequenceHoldLoop=false;syncSequenceHoldLoopButton();accompanimentStopQueued=false;accompanimentStopEventScheduled=false;syncAccompanimentStopButton();clearTimeout(sequenceTimer);sequencePlaying=false;sequenceStartQueued=false;queuedSequenceSection=null;sequenceIndex=-1;sequenceEighthUnitsRemaining=0;stopAccompaniment();stopDrums();stopMasterTransport();releaseAll();renderChordSequence();setStatus('Todas as notas foram silenciadas')};
 $('circle-toggle').onclick=()=>{if(circleEnabled){circleEnabled=false;circleRoot=null;$('circle-toggle').classList.remove('circle-active');$('circle-toggle').textContent='CH';applyCircleFilter();setStatus('Filtro do círculo harmônico desligado')}else openCircleDialog()};$('circle-close').onclick=()=>$('circle-dialog').close();
 const MEMORY_PREFIX='tecladoVirtualMemory';
-const FACTORY_SETTINGS={instrument:'piano',octave:0,sustainMode:'hold',releaseMs:650,attackMs:20,chordMode:'together',arpInterval:280,arpPattern:'up',inversion:0,bassEnabled:false,latchEnabled:false,splitEnabled:false,splitInstrument:'churchOrgan',velocityEnabled:true,glissEnabled:true,bpm:100,rhythmPattern:'whole',chordChangeMode:'nextBar',drumEngine:'acoustic',values:{master:'68',keyboard:'92',chord:'72',bass:'56'}};
+const FACTORY_SETTINGS={instrument:'piano',octave:0,sustainMode:'hold',releaseMs:650,attackMs:20,chordMode:'together',arpInterval:280,arpPattern:'up',inversion:0,bassEnabled:false,latchEnabled:false,splitEnabled:false,splitInstrument:'organ',velocityEnabled:true,glissEnabled:true,bpm:100,rhythmPattern:'whole',chordChangeMode:'nextBar',drumEngine:'acoustic',values:{master:'68',keyboard:'92',chord:'72',bass:'56'}};
 const DEFAULT_PRESETS={
- 1:{name:'Salmos na igreja',settings:{...FACTORY_SETTINGS,instrument:'churchOrgan',sustainMode:'next',releaseMs:2200,attackMs:90,chordMode:'together',inversion:1,bassEnabled:false,latchEnabled:true,bpm:72,rhythmPattern:'whole',chordChangeMode:'nextBar',values:{master:'62',keyboard:'88',chord:'64',bass:'40'}}},
- 2:{name:'Forró pé de serra',settings:{...FACTORY_SETTINGS,instrument:'accordion',releaseMs:280,attackMs:8,chordMode:'together',arpInterval:150,arpPattern:'alternate',bassEnabled:true,latchEnabled:false,bpm:124,rhythmPattern:'quarters',chordChangeMode:'nextBar',values:{master:'64',keyboard:'88',chord:'68',bass:'62'}}},
+ 1:{name:'Salmos na igreja',settings:{...FACTORY_SETTINGS,instrument:'organ',sustainMode:'next',releaseMs:2200,attackMs:90,chordMode:'together',inversion:1,bassEnabled:false,latchEnabled:true,bpm:72,rhythmPattern:'whole',chordChangeMode:'nextBar',values:{master:'62',keyboard:'88',chord:'64',bass:'40'}}},
+ 2:{name:'Forró pé de serra',settings:{...FACTORY_SETTINGS,instrument:'organ',releaseMs:280,attackMs:8,chordMode:'together',arpInterval:150,arpPattern:'alternate',bassEnabled:true,latchEnabled:false,bpm:124,rhythmPattern:'quarters',chordChangeMode:'nextBar',values:{master:'64',keyboard:'88',chord:'68',bass:'62'}}},
  3:{name:'Rock — estilo LEGIÃO URBANA',settings:{...FACTORY_SETTINGS,instrument:'piano',releaseMs:520,attackMs:12,chordMode:'together',bassEnabled:true,latchEnabled:false,bpm:112,rhythmPattern:'quarters',chordChangeMode:'nextBar',values:{master:'66',keyboard:'94',chord:'72',bass:'58'}}},
  4:{name:'MPB',settings:{...FACTORY_SETTINGS,instrument:'piano',releaseMs:900,attackMs:28,chordMode:'arpeggio',arpInterval:300,arpPattern:'updown',inversion:1,bassEnabled:true,latchEnabled:false,bpm:88,rhythmPattern:'broken',chordChangeMode:'nextBar',values:{master:'64',keyboard:'90',chord:'68',bass:'50'}}},
- 5:{name:'Bolero',settings:{...FACTORY_SETTINGS,instrument:'accordion',sustainMode:'next',releaseMs:1300,attackMs:45,chordMode:'arpeggio',arpInterval:420,arpPattern:'updown',inversion:1,bassEnabled:true,latchEnabled:true,bpm:72,rhythmPattern:'broken',chordChangeMode:'nextBar',values:{master:'60',keyboard:'84',chord:'64',bass:'52'}}},
- 6:{name:'Música sertaneja',settings:{...FACTORY_SETTINGS,instrument:'accordion',releaseMs:520,attackMs:15,chordMode:'arpeggio',arpInterval:220,arpPattern:'alternate',bassEnabled:true,latchEnabled:false,bpm:96,rhythmPattern:'halves',chordChangeMode:'nextBar',values:{master:'64',keyboard:'90',chord:'70',bass:'58'}}}
+ 5:{name:'Bolero',settings:{...FACTORY_SETTINGS,instrument:'organ',sustainMode:'next',releaseMs:1300,attackMs:45,chordMode:'arpeggio',arpInterval:420,arpPattern:'updown',inversion:1,bassEnabled:true,latchEnabled:true,bpm:72,rhythmPattern:'broken',chordChangeMode:'nextBar',values:{master:'60',keyboard:'84',chord:'64',bass:'52'}}},
+ 6:{name:'Música sertaneja',settings:{...FACTORY_SETTINGS,instrument:'organ',releaseMs:520,attackMs:15,chordMode:'arpeggio',arpInterval:220,arpPattern:'alternate',bassEnabled:true,latchEnabled:false,bpm:96,rhythmPattern:'halves',chordChangeMode:'nextBar',values:{master:'64',keyboard:'90',chord:'70',bass:'58'}}}
 };
 function clampCapo(value){
  let number=Math.round(Number(value));
@@ -3034,7 +3368,7 @@ function syncSettingsUI(){syncInstrumentChangeLock();
  $('bass-toggle').classList.toggle('active',bassEnabled);$('bass-toggle').textContent=bassEnabled?'Baixo ligado':'Baixo';$('latch-toggle').classList.toggle('active',latchEnabled);$('latch-toggle').textContent=latchEnabled?'Contínuo ligado':'Contínuo';$('split-toggle').classList.toggle('active',splitEnabled);$('split-toggle').textContent=splitEnabled?'Ativada':'Desativada';$('velocity-toggle').classList.toggle('active',velocityEnabled);$('velocity-toggle').textContent=velocityEnabled?'Sensível':'Uniforme';$('gliss-toggle').classList.toggle('active',glissEnabled);$('gliss-toggle').textContent=glissEnabled?'Glissando':'Sem glissando';updateRanges();
 }
 function applySettings(s){
- stopAccompaniment();releaseAll();instrument=s.instrument||FACTORY_SETTINGS.instrument;octave=Number.isFinite(+s.octave)?+s.octave:0;capoSemitones=clampCapo(s.capoSemitones);sustainMode=s.sustainMode||'hold';releaseMs=+s.releaseMs||650;attackMs=+s.attackMs||20;chordMode=s.chordMode||'together';arpInterval=+s.arpInterval||280;arpPattern=s.arpPattern||'up';inversion=+s.inversion||0;bassEnabled=!!s.bassEnabled;latchEnabled=!!s.latchEnabled;splitEnabled=!!s.splitEnabled;splitInstrument=s.splitInstrument||'churchOrgan';velocityEnabled=s.velocityEnabled!==false;glissEnabled=s.glissEnabled!==false;bpm=+s.bpm||100;rhythmPattern=s.rhythmPattern||'whole';chordChangeMode=s.chordChangeMode||'nextBar';drumEngine=s.drumEngine||localStorage.getItem('tecladoVirtualDrumEngine')||'acoustic';const v=s.values||FACTORY_SETTINGS.values;$('master-volume').value=(v.master == null ? 68 : v.master);$('drum-volume').value=(v.drum == null ? 70 : v.drum);$('keyboard-volume').value=(v.keyboard == null ? 92 : v.keyboard);$('chord-volume').value=(v.chord == null ? 72 : v.chord);$('bass-volume').value=(v.bass == null ? 56 : v.bass);syncSettingsUI();
+ stopAccompaniment();releaseAll();instrument=normalizeInstrumentId(s.instrument||FACTORY_SETTINGS.instrument);octave=Number.isFinite(+s.octave)?+s.octave:0;capoSemitones=clampCapo(s.capoSemitones);sustainMode=s.sustainMode||'hold';releaseMs=+s.releaseMs||650;attackMs=+s.attackMs||20;chordMode=s.chordMode||'together';arpInterval=+s.arpInterval||280;arpPattern=s.arpPattern||'up';inversion=+s.inversion||0;bassEnabled=!!s.bassEnabled;latchEnabled=!!s.latchEnabled;splitEnabled=!!s.splitEnabled;splitInstrument=normalizeInstrumentId(s.splitInstrument||'organ');velocityEnabled=s.velocityEnabled!==false;glissEnabled=s.glissEnabled!==false;bpm=+s.bpm||100;rhythmPattern=s.rhythmPattern||'whole';chordChangeMode=s.chordChangeMode||'nextBar';drumEngine=s.drumEngine||localStorage.getItem('tecladoVirtualDrumEngine')||'acoustic';const v=s.values||FACTORY_SETTINGS.values;$('master-volume').value=(v.master == null ? 68 : v.master);$('drum-volume').value=(v.drum == null ? 70 : v.drum);$('keyboard-volume').value=(v.keyboard == null ? 92 : v.keyboard);$('chord-volume').value=(v.chord == null ? 72 : v.chord);$('bass-volume').value=(v.bass == null ? 56 : v.bass);syncSettingsUI();
 }
 function memoryKey(n){return MEMORY_PREFIX+n}
 function refreshMemoryButtons(){document.querySelectorAll('.memory-button').forEach(b=>{const n=b.dataset.memory,custom=localStorage.getItem(memoryKey(n))!==null,preset=DEFAULT_PRESETS[n];b.classList.toggle('custom',custom);b.title=(custom?'Memória personalizada':'Padrão: '+preset.name)+' — toque para recuperar';b.setAttribute('aria-label',b.title)})}
