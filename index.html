@@ -4,18 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#131426">
-<meta name="application-name" content="Teclado Virtual">
+<meta name="application-name" content="GERA — Gerador de Acompanhamentos">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Teclado Virtual">
-<meta name="description" content="Teclado virtual com acordes, sequências, bateria e acompanhamento musical.">
+<meta name="apple-mobile-web-app-title" content="GERA">
+<meta name="description" content="GERA — Gerador de Acompanhamentos com acordes, sequências, bateria e instrumentos musicais.">
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <meta name="screen-orientation" content="landscape">
-<title>Teclado Virtual v3.14.1</title>
+<title>GERA — Gerador de Acompanhamentos v3.14.10</title>
+<script>
+(function(){
+ try{
+  var saved=localStorage.getItem('geraTheme');
+  if(saved==='neutral'||saved==='light'||saved==='dark'){
+   document.documentElement.setAttribute('data-theme',saved);
+  }else{
+   document.documentElement.setAttribute('data-theme','dark');
+  }
+ }catch(error){
+  document.documentElement.setAttribute('data-theme','dark');
+ }
+})();
+</script>
 <style>
 :root{--bg:#111326;--panel:#0b0e1c;--panel2:#191d35;--border:#343a59;--text:#f8fafc;--muted:#9ca8c3;--accent:#4f46e5;--success:#16a34a;--danger:#dc2626;--warning:#d97706}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -291,11 +305,392 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 }
 
 #sequence-stop-drums{min-width:126px}
+
+.song-file-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;min-width:150px}.song-file-actions .sequence-file-button{width:100%;min-width:0}.sequence-play-active{background:#0f766e!important;border-color:#2dd4bf!important}.sequence-stop-pending{background:#7c3aed!important;border-color:#c4b5fd!important}.sequence-drums-active{background:#0f766e!important;border-color:#2dd4bf!important}
+.confirm-dialog-app{width:min(430px,92vw);border:1px solid #475569;border-radius:18px;padding:0;background:linear-gradient(180deg,#172033,#0f172a);color:#f8fafc;box-shadow:0 24px 80px rgba(0,0,0,.55)}.confirm-dialog-app::backdrop{background:rgba(2,6,23,.74);backdrop-filter:blur(4px)}.confirm-card-app{padding:20px}.confirm-header-app{display:flex;align-items:center;gap:12px}.confirm-icon-app{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#7f1d1d;border:1px solid #fca5a5;font-weight:900;font-size:1.2rem}.confirm-header-app h2{margin:0;font-size:1rem}.confirm-message-app{margin:14px 0;color:#cbd5e1;font-size:.82rem;line-height:1.45}.confirm-actions-app{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.confirm-actions-app button{width:100%}@media(max-width:700px){.song-bar{flex-wrap:wrap}.song-bar #song-current-name{flex-basis:100%}.song-file-actions{flex:1 1 100%;min-width:0}.song-file-actions .sequence-file-button{height:30px}}
+
+.gera-brand-mark{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ width:32px;
+ height:32px;
+ margin-right:6px;
+ padding:0;
+ border-radius:9px;
+ overflow:hidden;
+ flex:0 0 32px;
+ box-shadow:0 0 0 1px rgba(142,160,255,.55),0 4px 12px rgba(0,0,0,.28);
+ vertical-align:middle;
+}
+.gera-brand-mark img{
+ display:block;
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ border-radius:inherit;
+}
+.gera-subtitle{
+ font-size:.72rem;
+ color:var(--muted);
+ font-weight:700;
+ margin-left:3px;
+}
+@media(max-width:700px){
+ .gera-subtitle{display:none}
+}
+
+
+/* ==========================================================
+   Temas do GERA
+   ========================================================== */
+:root,
+html[data-theme="dark"]{
+ --bg:#111326;
+ --bg-top:#24294c;
+ --panel:#0b0e1c;
+ --panel-rgb:11,14,28;
+ --panel2:#191d35;
+ --surface:#111529;
+ --surface-2:#171c31;
+ --border:#343a59;
+ --border-strong:#58617f;
+ --text:#f8fafc;
+ --heading:#e0e5f5;
+ --muted:#9ca8c3;
+ --button-secondary:#38405f;
+ --button-secondary-border:#58617f;
+ --shadow:rgba(0,0,0,.24);
+ --dialog-backdrop:rgba(0,0,0,.72);
+ --dialog-bg:#111529;
+ --input-bg:#111529;
+ --input-border:#4d5678;
+ --sequence-bg:#171c31;
+ --theme-color:#131426;
+ color-scheme:dark;
+}
+html[data-theme="neutral"]{
+ --bg:#d8cbb8;
+ --bg-top:#f1e7d7;
+ --panel:#eee4d5;
+ --panel-rgb:238,228,213;
+ --panel2:#e4d7c4;
+ --surface:#f5ecdf;
+ --surface-2:#e9ddcc;
+ --border:#b9a58b;
+ --border-strong:#9d8668;
+ --text:#3f3428;
+ --heading:#2f261d;
+ --muted:#6f604f;
+ --button-secondary:#cdbb9f;
+ --button-secondary-border:#9e8768;
+ --shadow:rgba(79,61,39,.18);
+ --dialog-backdrop:rgba(55,42,28,.46);
+ --dialog-bg:#f3eadc;
+ --input-bg:#fffaf2;
+ --input-border:#aa9477;
+ --sequence-bg:#e8dccb;
+ --theme-color:#d8cbb8;
+ color-scheme:light;
+}
+html[data-theme="light"]{
+ --bg:#dce4ef;
+ --bg-top:#ffffff;
+ --panel:#ffffff;
+ --panel-rgb:255,255,255;
+ --panel2:#e9eef5;
+ --surface:#ffffff;
+ --surface-2:#edf2f7;
+ --border:#9aa8ba;
+ --border-strong:#728198;
+ --text:#111827;
+ --heading:#0f172a;
+ --muted:#41516a;
+ --button-secondary:#d7e0eb;
+ --button-secondary-border:#8797aa;
+ --shadow:rgba(30,41,59,.18);
+ --dialog-backdrop:rgba(30,41,59,.46);
+ --dialog-bg:#ffffff;
+ --input-bg:#ffffff;
+ --input-border:#7f8ea3;
+ --sequence-bg:#e8edf4;
+ --theme-color:#f4f7fb;
+ color-scheme:light;
+}
+
+body{
+ color:var(--text);
+ background:radial-gradient(circle at top,var(--bg-top) 0,var(--bg) 45%);
+ transition:background .22s ease,color .22s ease;
+}
+h1{color:var(--heading)}
+.panel{
+ border-color:var(--border);
+ background:rgba(var(--panel-rgb),.96);
+ box-shadow:0 8px 24px var(--shadow);
+}
+.control,
+.sequence-editor-card,
+.songs-dialog,
+.circle-dialog,
+.confirm-dialog-app{
+ border-color:var(--border);
+ background:var(--panel2);
+ color:var(--text);
+}
+select,
+input[type=number],
+input[type=text]{
+ color:var(--text);
+ background:var(--input-bg);
+ border-color:var(--input-border);
+}
+button.secondary,
+.fine-btn,
+.circle-close,
+.sequence-file-button{
+ color:var(--text);
+ background:var(--button-secondary);
+ border-color:var(--button-secondary-border);
+}
+.sequence-panel,
+.song-bar,
+.sequence-strip,
+.sequence-section-control,
+.repeat-stepper{
+ background:var(--sequence-bg);
+ border-color:var(--border);
+}
+.status,.help,.songs-hint,.sequence-editor-help,.app-version,.gera-subtitle{
+ color:var(--muted);
+}
+dialog::backdrop{background:var(--dialog-backdrop)}
+.theme-control{
+ display:flex;
+ align-items:center;
+ gap:5px;
+ min-height:38px;
+ padding:3px 6px;
+ border:1px solid var(--border);
+ border-radius:9px;
+ background:var(--panel2);
+ color:var(--muted);
+ font-size:.66rem;
+ font-weight:800;
+}
+.theme-control span{white-space:nowrap}
+.theme-control select{
+ width:auto;
+ min-width:82px;
+ min-height:30px;
+ height:30px;
+ padding:2px 24px 2px 7px;
+ border-radius:7px;
+ font-size:.7rem;
+ font-weight:800;
+}
+html[data-theme="light"] button:not(.danger):not(.active):not(.drum-pattern):not(.drum-fill):not(.drum-ending):not(.drum-stop):not(.memory-button):not(.sequence-recording):not(.save-armed){
+ color:#172033;
+}
+html[data-theme="light"] button.active,
+html[data-theme="light"] .memory-button,
+html[data-theme="light"] .drum-pattern,
+html[data-theme="light"] .drum-fill,
+html[data-theme="light"] .drum-ending,
+html[data-theme="light"] .drum-stop,
+html[data-theme="light"] button.danger{
+ color:#fff;
+}
+html[data-theme="light"] .key.natural{box-shadow:inset 0 -6px 0 rgba(15,23,42,.12)}
+html[data-theme="light"] .sequence-item,
+html[data-theme="light"] .song-item .song-load{
+ color:#172033;
+}
+html[data-theme="light"] .confirm-message-app,
+html[data-theme="light"] .songs-empty,
+html[data-theme="light"] .sequence-empty{
+ color:#586579;
+}
+@media(max-width:760px){
+ .header-actions{flex-wrap:wrap;justify-content:flex-end}
+ .theme-control{order:-1}
+}
+
+
+/* Contraste refinado e acordes coloridos */
+html[data-theme="neutral"] .panel,
+html[data-theme="neutral"] .control,
+html[data-theme="neutral"] .sequence-panel,
+html[data-theme="neutral"] .sequence-editor-card,
+html[data-theme="neutral"] .songs-dialog,
+html[data-theme="neutral"] .circle-dialog,
+html[data-theme="neutral"] .confirm-dialog-app{
+ box-shadow:0 4px 14px rgba(88,66,41,.15);
+}
+html[data-theme="neutral"] button.secondary,
+html[data-theme="neutral"] .fine-btn,
+html[data-theme="neutral"] .circle-close{
+ color:#352a20;
+}
+html[data-theme="neutral"] .theme-control{
+ background:#e7dac7;
+ border-color:#ab9577;
+}
+html[data-theme="neutral"] .status,
+html[data-theme="neutral"] .help,
+html[data-theme="neutral"] .songs-hint,
+html[data-theme="neutral"] .sequence-editor-help,
+html[data-theme="neutral"] .app-version,
+html[data-theme="neutral"] .gera-subtitle,
+html[data-theme="neutral"] .control label,
+html[data-theme="neutral"] .control-title,
+html[data-theme="neutral"] .sequence-drum-config label{
+ color:#655440;
+}
+html[data-theme="light"] .panel,
+html[data-theme="light"] .control,
+html[data-theme="light"] .sequence-panel,
+html[data-theme="light"] .sequence-editor-card,
+html[data-theme="light"] .songs-dialog,
+html[data-theme="light"] .circle-dialog,
+html[data-theme="light"] .confirm-dialog-app{
+ box-shadow:0 4px 14px rgba(30,41,59,.14);
+}
+html[data-theme="light"] .control label,
+html[data-theme="light"] .control-title,
+html[data-theme="light"] .sequence-drum-config label,
+html[data-theme="light"] .status,
+html[data-theme="light"] .help,
+html[data-theme="light"] .songs-hint,
+html[data-theme="light"] .sequence-editor-help,
+html[data-theme="light"] .app-version,
+html[data-theme="light"] .gera-subtitle{
+ color:#334155;
+}
+html[data-theme="light"] select,
+html[data-theme="light"] input[type=number],
+html[data-theme="light"] input[type=text]{
+ border-width:1px;
+ box-shadow:inset 0 0 0 1px rgba(71,85,105,.08);
+}
+html[data-theme="light"] button.secondary,
+html[data-theme="light"] .fine-btn,
+html[data-theme="light"] .circle-close{
+ color:#0f172a;
+ font-weight:800;
+}
+html[data-theme="light"] .theme-control{
+ background:#e4eaf2;
+ border-color:#8797aa;
+}
+
+/* Acordes maiores e menores com cores distintas */
+#major-chords .chord{
+ background:linear-gradient(180deg,#2563eb,#1d4ed8);
+ border-color:#60a5fa;
+ color:#ffffff;
+}
+#minor-chords .chord{
+ background:linear-gradient(180deg,#7c3aed,#5b21b6);
+ border-color:#c4b5fd;
+ color:#ffffff;
+}
+#major-chords .chord:nth-child(3n+2){
+ background:linear-gradient(180deg,#0f766e,#115e59);
+ border-color:#5eead4;
+}
+#major-chords .chord:nth-child(3n){
+ background:linear-gradient(180deg,#b45309,#92400e);
+ border-color:#fbbf24;
+}
+#minor-chords .chord:nth-child(3n+2){
+ background:linear-gradient(180deg,#be185d,#9d174d);
+ border-color:#f9a8d4;
+}
+#minor-chords .chord:nth-child(3n){
+ background:linear-gradient(180deg,#4f46e5,#3730a3);
+ border-color:#a5b4fc;
+}
+
+/* Tons menos saturados para o tema neutro */
+html[data-theme="neutral"] #major-chords .chord{
+ background:linear-gradient(180deg,#8d6e4f,#6f5339);
+ border-color:#c6aa88;
+}
+html[data-theme="neutral"] #major-chords .chord:nth-child(3n+2){
+ background:linear-gradient(180deg,#6f7f62,#526147);
+ border-color:#aebd9f;
+}
+html[data-theme="neutral"] #major-chords .chord:nth-child(3n){
+ background:linear-gradient(180deg,#a66b3f,#7f4e2e);
+ border-color:#d8a477;
+}
+html[data-theme="neutral"] #minor-chords .chord{
+ background:linear-gradient(180deg,#7d657f,#604b62);
+ border-color:#baa1bc;
+}
+html[data-theme="neutral"] #minor-chords .chord:nth-child(3n+2){
+ background:linear-gradient(180deg,#9b6574,#754957);
+ border-color:#d1a1ae;
+}
+html[data-theme="neutral"] #minor-chords .chord:nth-child(3n){
+ background:linear-gradient(180deg,#6d6b87,#505069);
+ border-color:#aaa8c2;
+}
+
+/* No tema claro, cores mais firmes para leitura */
+html[data-theme="light"] #major-chords .chord,
+html[data-theme="light"] #minor-chords .chord{
+ color:#ffffff;
+ text-shadow:0 1px 1px rgba(0,0,0,.28);
+ box-shadow:0 2px 5px rgba(15,23,42,.18);
+}
+html[data-theme="light"] #major-chords .chord{
+ background:linear-gradient(180deg,#2563eb,#1e40af);
+ border-color:#1d4ed8;
+}
+html[data-theme="light"] #major-chords .chord:nth-child(3n+2){
+ background:linear-gradient(180deg,#0f766e,#0f5f59);
+ border-color:#0d9488;
+}
+html[data-theme="light"] #major-chords .chord:nth-child(3n){
+ background:linear-gradient(180deg,#c2410c,#9a3412);
+ border-color:#ea580c;
+}
+html[data-theme="light"] #minor-chords .chord{
+ background:linear-gradient(180deg,#7c3aed,#5b21b6);
+ border-color:#6d28d9;
+}
+html[data-theme="light"] #minor-chords .chord:nth-child(3n+2){
+ background:linear-gradient(180deg,#be185d,#9d174d);
+ border-color:#db2777;
+}
+html[data-theme="light"] #minor-chords .chord:nth-child(3n){
+ background:linear-gradient(180deg,#4338ca,#312e81);
+ border-color:#4f46e5;
+}
+
+/* Mantém as cores funcionais do círculo harmônico acima das cores decorativas */
+.chord.function-tonic{background:linear-gradient(180deg,#23804b,#14532d)!important;border-color:#4ade80!important;color:#fff!important}
+.chord.function-subdominant{background:linear-gradient(180deg,#2563a9,#1e3a8a)!important;border-color:#60a5fa!important;color:#fff!important}
+.chord.function-dominant{background:linear-gradient(180deg,#b45309,#7c2d12)!important;border-color:#fb923c!important;color:#fff!important}
+.chord.function-leading{background:linear-gradient(180deg,#9f1239,#701a2f)!important;border-color:#fb7185!important;color:#fff!important}
+.chord.secondary-dominant{background:linear-gradient(180deg,#7c3aed,#4c1d95)!important;border-color:#c4b5fd!important;color:#fff!important}
+
 </style>
 </head>
 <body>
-<div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O Teclado Virtual foi organizado para uso horizontal.</p></div>
-<header><h1>🎹 Teclado Virtual <small class="app-version">v3.14.1</small></h1><div class="header-actions"><button type="button" class="secondary" onclick="window.location.href='manual-teclado-virtual.html'">📘 Manual</button><button id="advanced-toggle" class="secondary">⚙️ Avançado</button><button id="fullscreen" class="secondary">⛶ Tela cheia</button></div></header>
+<div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
+<header><h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span> GERA <span class="gera-subtitle">Gerador de Acompanhamentos</span> <small class="app-version">v3.14.10</small></h1><div class="header-actions">
+<label class="theme-control" for="theme-select"><span>Tema</span><select id="theme-select" aria-label="Escolher tema do aplicativo">
+<option value="dark">Escuro</option>
+<option value="neutral">Neutro</option>
+<option value="light">Claro</option>
+</select></label>
+<button type="button" class="secondary" onclick="window.location.href='manual-gera.html'">📘 Manual</button>
+<button id="advanced-toggle" class="secondary">⚙️ Avançado</button>
+<button id="fullscreen" class="secondary">⛶ Tela cheia</button>
+</div></header>
 <main class="app">
 <section class="panel quick-controls">
 <div class="control"><label for="instrument">Instrumento</label><select id="instrument"><option value="piano">🎹 Piano</option><option value="violin_v1">🎻 Teclado Strings 1</option><option value="violin_v2">🎻 Teclado Strings 2</option><option value="violin_v3">🎻 Teclado Strings 3</option><option value="violao">🎸 Violão</option><option value="violao6">🎸 Violão 6 cordas</option><option value="organ">⛪ Órgão de Igreja</option><option value="flute">🪈 Flauta</option><option value="sino">🔔 Sino / Glockenspiel</option><option value="synthpad">🌌 Pad Synth</option><option value="electricBass">🎸 Baixo Elétrico</option><option value="doubleBass">🎻 Contrabaixo Acústico</option></select></div>
@@ -303,7 +698,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 <div class="control compact"><span class="control-title">Capotraste</span><div class="button-triple"><button id="capo-down" title="Descer meio tom">−</button><button id="capo-label" class="secondary" title="Zerar transposição">0</button><button id="capo-up" title="Subir meio tom">+</button></div></div>
 
 <div class="control"><label for="release">Liberação</label><div class="fine-stack"><button type="button" class="fine-btn" data-step-target="release" data-direction="-1" aria-label="Diminuir liberação">−</button><input id="release" type="number" min="40" max="5000" value="650" step="20" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="release" data-direction="1" aria-label="Aumentar liberação">+</button><small id="release-value" class="fine-caption">0,7 s</small></div></div>
-<div class="control"><label for="bpm">Metrônomo</label><div class="fine-stack"><button type="button" class="fine-btn" data-step-target="bpm" data-direction="-1" aria-label="Diminuir BPM">−</button><input id="bpm" type="number" min="40" max="220" value="100" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="bpm" data-direction="1" aria-label="Aumentar BPM">+</button><small id="bpm-value" class="fine-caption">100 BPM</small></div></div>
+<div class="control"><label for="bpm">Metrônomo</label><div class="fine-stack"><button type="button" class="fine-btn" data-step-target="bpm" data-direction="-1" aria-label="Diminuir BPM">−</button><input id="bpm" type="number" min="40" max="220" value="100" step="1" inputmode="numeric" enterkeyhint="done" aria-label="BPM do metrônomo" title="Digite um valor entre 40 e 220 BPM"><button type="button" class="fine-btn" data-step-target="bpm" data-direction="1" aria-label="Aumentar BPM">+</button><small id="bpm-value" class="fine-caption">100 BPM</small></div></div>
 </section>
 <section id="advanced" class="panel advanced"><div class="advanced-grid">
 <div class="control compact"><span class="control-title">Sustain</span><div class="button-pair"><button id="sustain-hold" class="active">Ao segurar</button><button id="sustain-next">Até próxima</button></div></div>
@@ -311,7 +706,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 <div class="control"><label for="keyboard-volume">Teclado</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="keyboard-volume" data-direction="-1" aria-label="Diminuir volume do teclado">−</button><input id="keyboard-volume" type="number" min="0" max="100" value="100" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="keyboard-volume" data-direction="1" aria-label="Aumentar volume do teclado">+</button><span id="keyboard-value" class="value">100%</span></div></div>
 <div class="control"><label for="chord-volume">Acordes</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="chord-volume" data-direction="-1" aria-label="Diminuir volume dos acordes">−</button><input id="chord-volume" type="number" min="0" max="100" value="78" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="chord-volume" data-direction="1" aria-label="Aumentar volume dos acordes">+</button><span id="chord-value" class="value">78%</span></div></div>
 <div class="control"><label for="bass-volume">Baixo</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="bass-volume" data-direction="-1" aria-label="Diminuir volume do baixo">−</button><input id="bass-volume" type="number" min="0" max="100" value="62" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="bass-volume" data-direction="1" aria-label="Aumentar volume do baixo">+</button><span id="bass-value" class="value">62%</span></div></div>
-<div class="control compact"><span class="control-title">Divisão do teclado</span><div class="button-pair"><button id="split-toggle">Desativada</button><select id="split-instrument"><option value="piano">Piano</option><option value="violin_v1">Teclado Strings 1</option><option value="violin_v2">Teclado Strings 2</option><option value="violin_v3">Teclado Strings 3</option><option value="violao">Violão</option><option value="violao6">Violão 6 cordas</option><option value="organ">Órgão de Igreja</option><option value="flute">Flauta</option><option value="sino">Sino / Glockenspiel</option><option value="synthpad">Pad Synth</option><option value="electricBass">Baixo Elétrico</option><option value="doubleBass">Contrabaixo Acústico</option></select></div></div>
+<div class="control compact"><span class="control-title">Divisão do teclado</span><div class="button-pair"><button id="split-toggle" type="button" title="Ativar ou desativar a divisão do teclado" aria-pressed="false">Desativada</button><select id="split-instrument"><option value="piano">Piano</option><option value="violin_v1">Teclado Strings 1</option><option value="violin_v2">Teclado Strings 2</option><option value="violin_v3">Teclado Strings 3</option><option value="violao">Violão</option><option value="violao6">Violão 6 cordas</option><option value="organ">Órgão de Igreja</option><option value="flute">Flauta</option><option value="sino">Sino / Glockenspiel</option><option value="synthpad">Pad Synth</option><option value="electricBass">Baixo Elétrico</option><option value="doubleBass">Contrabaixo Acústico</option></select></div></div>
 <div class="control"><label for="arpeggio-pattern">Padrão de arpejo</label><select id="arpeggio-pattern"><option value="up">Crescente</option><option value="down">Decrescente</option><option value="updown">Crescente e decrescente</option><option value="alternate">Alternado</option><option value="random">Aleatório</option></select></div>
 <div class="control"><label for="arp-interval">Intervalo</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="arp-interval" data-direction="-1" aria-label="Diminuir intervalo do arpejo">−</button><input id="arp-interval" type="number" min="60" max="1200" value="280" step="10" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="arp-interval" data-direction="1" aria-label="Aumentar intervalo do arpejo">+</button><span id="arp-value" class="value">280 ms</span></div></div>
 <div class="control"><label for="master-volume">Volume geral</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="master-volume" data-direction="-1" aria-label="Diminuir volume geral">−</button><input id="master-volume" type="number" min="0" max="100" value="72" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="master-volume" data-direction="1" aria-label="Aumentar volume geral">+</button><span id="master-value" class="value">72%</span></div></div>
@@ -320,8 +715,8 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 <div class="control"><label for="drum-engine">Som da bateria</label><select id="drum-engine"><option value="acoustic">Acústico (samples)</option><option value="synth">Sintético</option></select><small id="drum-engine-status" class="fine-caption">Aguardando carregamento</small></div>
 <div class="control compact"><span class="control-title">Metrônomo</span><button id="metronome-toggle" class="secondary" title="Iniciar metrônomo" aria-label="Iniciar metrônomo">▶ Iniciar</button></div>
 <div class="control"><label for="rhythm-pattern">Ritmo do acompanhamento</label><select id="rhythm-pattern"><option value="whole">Nota inteira</option><option value="halves">Duas batidas</option><option value="quarters">Quatro batidas</option><option value="waltz">Valsa</option><option value="broken">Dedilhado</option><optgroup label="Batidas de violão"><option value="guitar-down4">↓ ↓ ↓ ↓</option><option value="guitar-down8">↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓</option><option value="guitar-alternate">↓ ↑ ↓ ↑ ↓ ↑ ↓ ↑</option><option value="guitar-popular">↓ · ↓ ↑ · ↑ ↓ ↑</option><option value="guitar-waltz">Baixo · ↓ ↑ · ↓ ↑</option><option value="guitar-68">↓ · · ↓ · ↑</option><option value="guitar-muted">↓ · ↓ ↑ X ↑ ↓ ↑</option></optgroup></select></div>
-<div class="control compact"><span class="control-title">Toque no tablet</span><div class="button-pair"><button id="velocity-toggle" class="active">Sensível</button><button id="gliss-toggle" class="active">Glissando</button></div></div>
-<div class="control compact"><span class="control-title">Acompanhamento</span><div class="button-pair"><button id="latch-toggle">Contínuo</button><button id="bass-toggle">Baixo</button></div></div>
+<div class="control compact"><span class="control-title">Toque no tablet</span><div class="button-pair"><button id="velocity-toggle" type="button" class="active" title="Alternar intensidade sensível ou uniforme" aria-pressed="true">Sensível</button><button id="gliss-toggle" type="button" class="active" title="Permitir deslizar entre as teclas no tablet" aria-pressed="true">Glissando</button></div></div>
+<div class="control compact"><span class="control-title">Acompanhamento</span><div class="button-pair"><button id="latch-toggle" type="button" title="Manter o acompanhamento tocando continuamente" aria-pressed="false">Contínuo</button><button id="bass-toggle" type="button" title="Ativar ou desativar o baixo automático" aria-pressed="false">Baixo</button></div></div>
 </div></section>
 <section class="panel" id="keyboard" aria-label="Teclado musical"><div class="key-row" id="sharp-row"></div><div class="key-row" id="natural-row"></div></section>
 <section class="panel chord-section">
@@ -336,6 +731,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
     <button class="drum-pattern" data-pattern="balada" title="Balada" aria-label="Padrão Balada">🌙</button>
     <button class="drum-pattern" data-pattern="suave" title="Suave" aria-label="Padrão Suave">🍃</button>
     <button class="drum-pattern" data-pattern="bossa" title="Bossa nova" aria-label="Padrão Bossa nova">🎷</button>
+    <button class="drum-pattern" data-pattern="valsa" title="Valsa" aria-label="Padrão Valsa">💃</button>
   </div>
   <div class="drum-row drum-row-controls" id="drum-controls">
     <button class="drum-fill" id="drum-fill" title="Virada" aria-label="Executar virada">↺</button>
@@ -365,7 +761,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 <div id="secondary-dominants-wrap" class="secondary-dominants-wrap"><div id="secondary-dominants" class="secondary-dominants-row"></div></div>
 
 <div id="sequence-panel" class="sequence-panel" aria-label="Sequências musicais do campo harmônico">
-  <div class="song-bar"><span id="song-current-name"></span><button id="sequence-play" class="secondary" title="Reproduzir a sequência selecionada">▶ Tocar Sequência</button><button id="sequence-play-wait" class="secondary song-play-wait" title="Parar a sequência ao final; com bateria ligada, executar virada de encerramento e parar os dois">⏹ Parar Sequência</button><button id="sequence-stop-drums" class="secondary" title="Parar somente a bateria, mantendo a sequência em execução">🥁 Parar Bateria</button><button id="sequence-hold-loop" class="secondary" title="Manter a seção atual em repetição">🔁 Pôr em Loop</button><button id="song-export" class="secondary sequence-file-button" title="Exportar a música atual com todas as sequências">⇩ Exportar</button><button id="song-import" class="secondary sequence-file-button" title="Importar uma música completa">⇧ Importar</button><button id="songs-open" class="secondary" title="Gerenciar músicas salvas" aria-label="Gerenciar músicas salvas">📚 Músicas</button><input id="song-import-file" type="file" accept=".json,application/json" hidden></div>
+  <div class="song-bar"><span id="song-current-name"></span><button id="sequence-play" type="button" class="secondary" title="Reproduzir a sequência selecionada" aria-pressed="false">▶ Tocar Sequência</button><button id="sequence-stop-drums" class="secondary" title="Iniciar a bateria da sequência selecionada">🥁 Iniciar Bateria</button><button id="sequence-hold-loop" class="secondary" title="Manter a seção atual em repetição">🔁 Pôr em Loop</button><div class="song-file-actions"><button id="song-export" class="secondary sequence-file-button" title="Exportar a música atual com todas as sequências">⇩ Exportar</button><button id="song-import" class="secondary sequence-file-button" title="Importar uma música completa">⇧ Importar</button></div><button id="songs-open" class="secondary" title="Gerenciar músicas salvas" aria-label="Gerenciar músicas salvas">📚 Músicas</button><input id="song-import-file" type="file" accept=".json,application/json" hidden></div>
   <div class="sequence-top">
     <div class="sequence-sections" role="tablist" aria-label="Partes da música">
       <div class="sequence-section-control" data-section-control="verse"><button class="secondary active-section" data-sequence-section="verse">Seq. 1</button><div class="repeat-stepper" aria-label="Repetições da Seq. 1"><button type="button" class="secondary" data-repeat-adjust="verse" data-delta="-1" title="Diminuir repetições da Seq. 1">−</button><span class="repeat-value" data-section-repeat-display="verse" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="verse" data-delta="1" title="Aumentar repetições da Seq. 1">+</button></div></div>
@@ -422,6 +818,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
           <option value="balada">Balada</option>
           <option value="suave">Suave</option>
           <option value="bossa">Bossa nova</option>
+          <option value="valsa">Valsa</option>
         </select>
       </label>
       <label>Entrada
@@ -443,6 +840,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
           <option value="">Sem encerramento</option>
           <option value="ending">Encerramento 1</option>
           <option value="endingHalf">Encerramento ½</option>
+          <option value="plainEnding">Final sem virada</option>
         </select>
       </label>
     </div>
@@ -570,9 +968,53 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
   </form>
 </dialog>
 
+
+<dialog id="app-confirm-dialog" class="confirm-dialog-app" aria-labelledby="app-confirm-title" aria-describedby="app-confirm-message">
+  <div class="confirm-card-app">
+    <div class="confirm-header-app"><div class="confirm-icon-app">!</div><h2 id="app-confirm-title">Confirmar ação</h2></div>
+    <p id="app-confirm-message" class="confirm-message-app"></p>
+    <div class="confirm-actions-app"><button id="app-confirm-cancel" type="button" class="secondary">Cancelar</button><button id="app-confirm-ok" type="button" class="danger">Confirmar</button></div>
+  </div>
+</dialog>
 <script>
 "use strict";
-const $=id=>document.getElementById(id);const CHORD_NAMES=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];const NOTE_NAMES=["Dó","Dó#","Ré","Ré#","Mi","Fá","Fá#","Sol","Sol#","Lá","Lá#","Si","Dó²","Dó²#","Ré²","Ré²#","Mi²","Fá²","Fá²#","Sol²","Sol²#","Lá²","Lá²#","Si²"];
+const $=id=>document.getElementById(id);
+
+const GERA_THEME_KEY='geraTheme';
+const GERA_THEMES=['dark','neutral','light'];
+function normalizeGeraTheme(value){
+ return GERA_THEMES.indexOf(value)>=0?value:'dark';
+}
+function themeColorFor(value){
+ if(value==='light')return '#f4f6f9';
+ if(value==='neutral')return '#d8cbb8';
+ return '#131426';
+}
+function applyGeraTheme(value,savePreference){
+ const theme=normalizeGeraTheme(value);
+ document.documentElement.setAttribute('data-theme',theme);
+ const selector=$('theme-select');
+ if(selector)selector.value=theme;
+ const meta=document.querySelector('meta[name="theme-color"]');
+ if(meta)meta.setAttribute('content',themeColorFor(theme));
+ if(savePreference!==false){
+  try{localStorage.setItem(GERA_THEME_KEY,theme)}catch(error){}
+ }
+}
+function initializeGeraTheme(){
+ let saved='dark';
+ try{saved=localStorage.getItem(GERA_THEME_KEY)||'dark'}catch(error){}
+ applyGeraTheme(saved,false);
+ const selector=$('theme-select');
+ if(selector){
+  selector.onchange=function(){
+   applyGeraTheme(this.value,true);
+   const labels={dark:'Escuro',neutral:'Neutro',light:'Claro'};
+   setStatus('Tema '+labels[normalizeGeraTheme(this.value)]+' ativado');
+  };
+ }
+}
+const CHORD_NAMES=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];const NOTE_NAMES=["Dó","Dó#","Ré","Ré#","Mi","Fá","Fá#","Sol","Sol#","Lá","Lá#","Si","Dó²","Dó²#","Ré²","Ré²#","Mi²","Fá²","Fá²#","Sol²","Sol²#","Lá²","Lá²#","Si²"];
 const COLORS=["#2563eb","#1d4ed8","#15803d","#166534","#d6b900","#ea8b0c","#b96a08","#dc2626","#991b1b","#7e22ce","#581c87","#e5e7eb","#2563eb","#1d4ed8","#15803d","#166534","#d6b900","#ea8b0c","#b96a08","#dc2626","#991b1b","#7e22ce","#581c87","#e5e7eb"];
 const NAT=[0,2,4,5,7,9,11,12,14,16,17,19],SHARP=[1,3,null,6,8,10,null,13,15,null,18,null],NKEY=["a","s","d","f","g","h","j","k","l","ç","z","x"],SKEY=["q","w",null,"t","y","u",null,"o","p",null,"i",null];
 const KEYMAP=new Map();NKEY.forEach((k,i)=>KEYMAP.set(k,NAT[i]));SKEY.forEach((k,i)=>{if(k)KEYMAP.set(k,SHARP[i])});KEYMAP.set(";",16);
@@ -766,13 +1208,32 @@ function createVoice(semi,opt={}){
   peak*=.50;attack=.045;decay=.135;sustain=.48;
  }
 
+ const instrumentOutputTrim={
+  piano:.76,
+  violin_v1:1.02,
+  violin_v2:.96,
+  violin_v3:.88,
+  violao:1.04,
+  violao6:1.04,
+  organ:.88,
+  flute:1.02,
+  sino:.66,
+  synthpad:1.08,
+  electricBass:.72,
+  doubleBass:.78
+ };
+ if(Number.isFinite(instrumentOutputTrim[inst])){
+  peak*=instrumentOutputTrim[inst];
+ }
+
  if(isBass){
   peak*=.8;
   if(lowpass)lowpass.frequency.value=Math.min(lowpass.frequency.value,850);
  }
 
  out.gain.setValueAtTime(.0001,now);
- out.gain.exponentialRampToValueAtTime(Math.max(.001,peak),now+attack);
+ peak=Math.max(.001,Math.min(.82,peak));
+ out.gain.exponentialRampToValueAtTime(peak,now+attack);
  out.gain.exponentialRampToValueAtTime(Math.max(.001,sustain*peak),now+attack+decay);
 
  sources.forEach(function(source){
@@ -1178,10 +1639,10 @@ function defaultSectionDrum(){
  return {padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''};
 }
 function normalizeSectionDrum(value){
- const allowedPatterns=['rock','forro','bolero','sertanejo','balada','suave','bossa'];
+ const allowedPatterns=['rock','forro','bolero','sertanejo','balada','suave','bossa','valsa'];
  const allowedEntries=['fill','fillHalf'];
  const allowedExits=['fill','fillHalf'];
- const allowedFinals=['ending','endingHalf'];
+ const allowedFinals=['ending','endingHalf','plainEnding'];
  const allowedInstruments=INSTRUMENT_IDS;
  const source=value&&typeof value==='object'?value:{};
  let padrao=null;
@@ -1291,12 +1752,23 @@ function prepareSectionDrumTransition(isLastItem){
  const currentConfig=normalizeSectionDrum(sequenceDrums[activeSequenceSection]);
  const nextSection=isLastConfiguredPass()?plannedNextSequenceSection():'';
 
- if(!nextSection&&currentConfig.final&&(drumRunning||drumStartQueued)){
-  sequenceConfiguredActionName=currentConfig.final;
-  drumFillQueued=false;
-  drumEndingQueued=true;
-  syncDrumActionButtons();
-  return;
+ if(!nextSection&&currentConfig.final){
+  if(currentConfig.final==='plainEnding'){
+   sequenceConfiguredActionName='plainEnding';
+   sequenceStopAtEnd=true;
+   drumFillQueued=false;
+   drumEndingQueued=false;
+   syncDrumActionButtons();
+   syncSequencePlayButton();
+   return;
+  }
+  if(drumRunning||drumStartQueued){
+   sequenceConfiguredActionName=currentConfig.final;
+   drumFillQueued=false;
+   drumEndingQueued=true;
+   syncDrumActionButtons();
+   return;
+  }
  }
 
  if(nextSection){
@@ -1349,6 +1821,42 @@ function loadChordSequence(){
  }catch{}
  syncSequenceSectionButtons();renderChordSequence();syncSectionDrumControls();
 }
+function initializeBlankStartupWorkspace(){
+ Object.keys(sequenceSections).forEach(function(section){
+  sequenceSections[section]=[];
+  sequenceRepeats[section]=0;
+ });
+ activeSequenceSection='verse';
+ queuedSequenceSection=null;
+ sequenceIndex=-1;
+ sequenceEighthUnitsRemaining=0;
+ sequenceStartQueued=false;
+ sequencePlaying=false;
+ sequenceRecording=false;
+ sequenceStopAtEnd=false;
+ sequenceHoldLoop=false;
+ sequenceAuto=true;
+ sequenceAutoEnd=false;
+ currentSectionRepetition=1;
+ sequencePendingTransition=null;
+ sequenceEndActionInProgress='';
+ sequenceConfiguredActionName='';
+ currentSongName=null;
+ try{
+  localStorage.removeItem(SEQUENCE_KEY);
+  localStorage.removeItem('tecladoVirtualChordSequence');
+ }catch(error){}
+ syncSequenceRecordButton();
+ syncSequenceHoldLoopButton();
+ syncSequencePlayButton();
+ syncSequenceDrumButton();
+ syncSequenceRepeatInputs();
+ syncSequenceSectionButtons();
+ syncSequenceAutoButton();
+ syncSectionDrumControls();
+ renderChordSequence();
+ updateSongNameDisplay();
+}
 const SONGS_KEY='tecladoVirtualSongs';let songs={},currentSongName=null;
 function loadSongsStore(){
  try{
@@ -1370,8 +1878,8 @@ function safeSongFileName(text){
 }
 function completeSongExportPayload(){
  return {
-  app:'Teclado Virtual',
-  format:'teclado-virtual-song',
+  app:'GERA — Gerador de Acompanhamentos',
+  format:'gera-song',
   formatVersion:3,
   exportedAt:new Date().toISOString(),
   name:String(currentSongName||'Música sem nome'),
@@ -1411,7 +1919,9 @@ function exportCurrentSong(){
 }
 function normalizeImportedSong(data){
  if(!data||typeof data!=='object')throw new Error('Arquivo inválido');
- if(data.format!=='teclado-virtual-song')throw new Error('Este arquivo não é uma música completa do Teclado Virtual');
+ if(data.format!=='gera-song'&&data.format!=='teclado-virtual-song'){
+  throw new Error('Este arquivo não é uma música completa do GERA');
+ }
  if(!data.sections||typeof data.sections!=='object')throw new Error('O arquivo não contém sequências válidas');
 
  const keys=['verse','prechorus','chorus','bridge','section5','section6','section7','section8','section9','section10','section11','section12','section13','section14','section15','section16'];
@@ -1519,7 +2029,7 @@ function importSongFromText(text){
  stopAccompaniment();
 
  const newSongState={
-  formatVersion:18,
+  formatVersion:21,
   capoSemitones:clampCapo(imported.capoSemitones),
   sections:JSON.parse(JSON.stringify(imported.sections)),
   repeats:JSON.parse(JSON.stringify(imported.repeats)),
@@ -1607,7 +2117,7 @@ function handleSongImportFile(event){
  reader.readAsText(file,'UTF-8');
 }
 
-function snapshotCurrentSequence(){return {formatVersion:18,capoSemitones:capoSemitones,sections:JSON.parse(JSON.stringify(sequenceSections)),repeats:{...sequenceRepeats},auto:sequenceAuto,autoEnd:sequenceAutoEnd,ordemSecoes:sequenceOrder.slice(),bateria:JSON.parse(JSON.stringify(sequenceDrums)),drumEngine:drumEngine}}
+function snapshotCurrentSequence(){return {formatVersion:21,capoSemitones:capoSemitones,sections:JSON.parse(JSON.stringify(sequenceSections)),repeats:{...sequenceRepeats},auto:sequenceAuto,autoEnd:sequenceAutoEnd,ordemSecoes:sequenceOrder.slice(),bateria:JSON.parse(JSON.stringify(sequenceDrums)),drumEngine:drumEngine}}
 function applySequenceState(state){
  const keys=Object.keys(sequenceSections);
  keys.forEach(function(key){
@@ -1633,8 +2143,8 @@ function applySequenceState(state){
 function updateSongNameDisplay(){
  const el=$('song-current-name');
  if(!el)return;
- el.textContent=currentSongName?'🎵 '+currentSongName:'';
- el.title=currentSongName||'Nenhuma música carregada';
+ el.textContent=currentSongName?'🎵 '+currentSongName:'Nenhuma música selecionada';
+ el.title=currentSongName||'Nenhuma música selecionada';
 }
 function renderSongsList(){
  const box=$('songs-list');if(!box)return;
@@ -1672,9 +2182,28 @@ function loadSong(name){
  setStatus('Música "'+name+'" carregada'+(Number.isFinite(+songs[name].bpm)?' a '+bpm+' BPM':''));
  const dlg=$('songs-dialog');if(dlg?.open)dlg.close();
 }
-function deleteSong(name){
+let appConfirmResolver=null;
+function closeAppConfirm(result){
+ const dialog=$('app-confirm-dialog');
+ if(dialog&&dialog.open)dialog.close();
+ const resolver=appConfirmResolver;
+ appConfirmResolver=null;
+ if(resolver)resolver(result);
+}
+function appConfirm(message,title='Confirmar ação'){
+ return new Promise(function(resolve){
+  const dialog=$('app-confirm-dialog');
+  if(!dialog){resolve(false);return}
+  appConfirmResolver=resolve;
+  $('app-confirm-title').textContent=title;
+  $('app-confirm-message').textContent=String(message||'Deseja continuar?');
+  dialog.showModal();
+  setTimeout(function(){const ok=$('app-confirm-ok');if(ok)ok.focus()},20);
+ });
+}
+async function deleteSong(name){
  if(!songs[name])return;
- if(!confirm('Excluir a música "'+name+'"? Essa ação não pode ser desfeita.'))return;
+ if(!(await appConfirm('Excluir a música "'+name+'"? Essa ação não pode ser desfeita.','Excluir música')))return;
  delete songs[name];
  if(currentSongName===name)currentSongName=null;
  saveSongsStore();renderSongsList();updateSongNameDisplay();
@@ -1909,7 +2438,7 @@ function commitSequenceEditor(action){
  }
 
  saveChordSequence();
- renderChordSequence();
+ closeSequenceEditor();
  setStatus(message+' em '+SEQUENCE_SECTION_LABELS[activeSequenceSection]);
 }
 
@@ -2157,13 +2686,14 @@ function syncChordModeButtons(){
 function stopChordSequence(message='Sequência parada'){
  sequenceHoldLoop=false;
  syncSequenceHoldLoopButton();
- const waitButton=$('sequence-play-wait');if(waitButton)waitButton.classList.remove('active');
  sequenceStopAtEnd=false;
  resetSequenceDeleteArm();
  clearTimeout(sequenceTimer);sequenceTimer=null;sequencePlaying=false;sequenceStartQueued=false;queuedSequenceSection=null;sequenceIndex=-1;sequenceEighthUnitsRemaining=0;sequencePendingTransition=null;sequenceEndActionInProgress="";drumActionMuteUntil=0;drumFillQueued=false;drumEndingQueued=false;clearChordLatchState(180);
  if(sequencePlaybackOriginalChordMode==='together'||sequencePlaybackOriginalChordMode==='arpeggio')chordMode=sequencePlaybackOriginalChordMode;
  sequencePlaybackOriginalChordMode=null;
  syncChordModeButtons();
+ syncSequencePlayButton();
+ syncSequenceDrumButton();
  syncInstrumentChangeLock();syncDrumActionButtons();renderChordSequence();maybeStopMasterTransport();if(message)setStatus(message)
 }
 function durationLabelForStatus(fraction){
@@ -2236,7 +2766,10 @@ function loadSequenceItem(index,boundaryAudioTime){
 
   if(sequenceStopAtEnd){
    sequenceStopAtEnd=false;
-   stopChordSequence(SEQUENCE_SECTION_LABELS[activeSequenceSection]+' concluída');
+   const plainFinal=sequenceConfiguredActionName==='plainEnding';
+   sequenceConfiguredActionName='';
+   if(plainFinal&&(drumRunning||drumStartQueued))stopDrums();
+   stopChordSequence(plainFinal?'Final concluído sem virada':SEQUENCE_SECTION_LABELS[activeSequenceSection]+' concluída');
    return false;
   }
 
@@ -2332,11 +2865,13 @@ function loadSequenceItem(index,boundaryAudioTime){
  const isLastItem=sequenceIndex===sequence.length-1;
  prepareSectionDrumTransition(isLastItem);
 
+ const activeFinalConfig=normalizeSectionDrum(sequenceDrums[activeSequenceSection]).final;
  if(
   isLastItem&&
   !sequenceEndActionInProgress&&
   sequenceAutoEnd&&
   isFinalAutoEndPass(activeSequenceSection)&&
+  activeFinalConfig!=='plainEnding'&&
   (drumRunning||drumStartQueued)
  ){
   drumFillQueued=false;
@@ -2441,8 +2976,7 @@ function toggleStopSequenceAtEnd(){
   sequenceStopAtEnd=false;
   drumEndingQueued=false;
   syncDrumActionButtons();
-  const cancelButton=$('sequence-play-wait');
-  if(cancelButton)cancelButton.classList.remove('active');
+  syncSequencePlayButton();
   setStatus('Parada ao fim cancelada');
   return;
  }
@@ -2456,8 +2990,7 @@ function toggleStopSequenceAtEnd(){
   syncDrumActionButtons();
  }
 
- const button=$('sequence-play-wait');
- if(button)button.classList.add('active');
+ syncSequencePlayButton();
 
  if(hasBattery){
   setStatus(
@@ -2467,6 +3000,44 @@ function toggleStopSequenceAtEnd(){
  }else{
   setStatus(SEQUENCE_SECTION_LABELS[activeSequenceSection]+' será parada ao terminar');
  }
+}
+function syncSequencePlayButton(){
+ const button=$('sequence-play');
+ if(!button)return;
+ button.classList.toggle('sequence-play-active',sequencePlaying);
+ button.classList.remove('sequence-stop-pending');
+ if(sequencePlaying){
+  button.textContent='⏹ Parar Sequência';
+  button.title='Parar imediatamente a sequência em execução';
+  button.setAttribute('aria-pressed','true');
+ }else{
+  button.textContent='▶ Tocar Sequência';
+  button.title='Reproduzir a sequência selecionada';
+  button.setAttribute('aria-pressed','false');
+ }
+}
+function toggleSequencePlayback(){
+ if(sequencePlaying){
+  stopChordSequence('Sequência parada');
+  return;
+ }
+ playChordSequence();
+}
+function syncSequenceDrumButton(){
+ const button=$('sequence-stop-drums');
+ if(!button)return;
+ const active=drumRunning||drumStartQueued;
+ button.classList.toggle('sequence-drums-active',active);
+ button.textContent=active?'🥁 Parar Bateria':'🥁 Iniciar Bateria';
+ button.title=active?'Parar somente a bateria':'Iniciar a bateria configurada para a sequência selecionada';
+}
+function toggleSequenceDrums(){
+ if(drumRunning||drumStartQueued){stopSequenceDrumsOnly();syncSequenceDrumButton();return}
+ const config=normalizeSectionDrum(sequenceDrums[activeSequenceSection]);
+ if(!config.padrao){setStatus(SEQUENCE_SECTION_LABELS[activeSequenceSection]+' está configurada sem bateria');syncSequenceDrumButton();return}
+ startDrums(config.padrao);
+ syncSequenceDrumButton();
+ setStatus('Bateria '+config.padrao.toUpperCase()+' aguardando o próximo compasso');
 }
 function playChordSequence(){
  if(sequencePlaying)stopChordSequence('');
@@ -2481,7 +3052,7 @@ function playChordSequence(){
  const sequence=currentChordSequence();if(!sequence.length){setStatus(SEQUENCE_SECTION_LABELS[activeSequenceSection]+' está vazia');return}
  if(sequenceRecording){sequenceRecording=false;syncSequenceRecordButton()}
  applySectionDrumConfig(activeSequenceSection,true);
- clearTimeout(sequenceTimer);sequenceTimer=null;clearAccompanimentSchedule();queuedSequenceSection=null;sequenceStopAtEnd=false;sequencePlaybackOriginalChordMode=chordMode;currentSectionRepetition=1;sequencePendingTransition=null;sequenceEndActionInProgress="";drumActionMuteUntil=0;sequencePlaying=true;sequenceStartQueued=true;sequenceIndex=-1;sequenceEighthUnitsRemaining=0;syncDrumActionButtons();syncInstrumentChangeLock();ensureMasterTransport();renderChordSequence();
+ clearTimeout(sequenceTimer);sequenceTimer=null;clearAccompanimentSchedule();queuedSequenceSection=null;sequenceStopAtEnd=false;sequencePlaybackOriginalChordMode=chordMode;currentSectionRepetition=1;sequencePendingTransition=null;sequenceEndActionInProgress="";drumActionMuteUntil=0;sequencePlaying=true;sequenceStartQueued=true;sequenceIndex=-1;sequenceEighthUnitsRemaining=0;syncDrumActionButtons();syncSequencePlayButton();syncSequenceDrumButton();syncInstrumentChangeLock();ensureMasterTransport();renderChordSequence();
  setStatus((drumRunning||transportRunning)?SEQUENCE_SECTION_LABELS[activeSequenceSection]+' aguardando o próximo compasso':'Preparando '+SEQUENCE_SECTION_LABELS[activeSequenceSection]+((sequenceAuto||sequenceAutoEnd)?(sequenceAutoEnd?' em Auto Fim':' em modo automático'):''));
 }
 function handleChordButton(root,type,button){
@@ -2685,7 +3256,8 @@ const DRUM_PATTERNS={
  sertanejo:{kick:[0,6,8,14],snare:[4,12],hat:[0,2,4,6,8,10,12],openhat:[14],velocity:{kick:.92,snare:.88,hat:.76,openhat:.56}},
  balada:{kick:[0,8],snare:[4,12],hat:[0,2,4,6,8,10,12,14],velocity:{kick:.72,snare:.6,hat:.58}},
  suave:{kick:[0],snare:[8],hat:[0,4,8,12],velocity:{kick:.58,snare:.42,hat:.42}},
- bossa:{kick:[0,10],snare:[6,14],ride:[0,4,8,12],velocity:{kick:.42,snare:.22,ride:.24}}
+ bossa:{kick:[0,10],snare:[6,14],ride:[0,4,8,12],velocity:{kick:.42,snare:.22,ride:.24}},
+ valsa:{kick:[0],snare:[5,11],hat:[0,3,5,8,11,13],ride:[0,5,11],velocity:{kick:.90,snare:.66,hat:.54,ride:.42}}
 };
 const DRUM_ACTION_PATTERNS={
  fill:{steps:16,kick:[0,6,10],snare:[4],hat:[0,2,4,6],tomLow:[8,12],tomMid:[10,13],tomHigh:[11,14],crash:[15]},
@@ -2722,7 +3294,13 @@ function scheduleDrumStep(step,time,mode=''){
  const isAction=mode==='fill'||mode==='ending';
  const pattern=isAction?(DRUM_ACTION_PATTERNS[mode]||DRUM_ACTION_PATTERNS.fill):(DRUM_PATTERNS[drumPattern]||DRUM_PATTERNS.rock);
  let strong=1;
- if(step===0)strong=1.08;else if(step===8)strong=1.02;
+ if(drumPattern==='valsa'&&!isAction){
+  if(step===0)strong=1.12;
+  else if(step===5||step===11)strong=.96;
+ }else{
+  if(step===0)strong=1.08;
+  else if(step===8)strong=1.02;
+ }
  const velocities=pattern.velocity||{kick:1,snare:1,hat:1,openhat:1,ride:1};
  if(drumLayers.kick&&pattern.kick&&pattern.kick.includes(step)){
   let kickVelocity=strong*velocities.kick;
@@ -2732,6 +3310,7 @@ function scheduleDrumStep(step,time,mode=''){
  if(drumLayers.snare&&pattern.snare&&pattern.snare.includes(step)){
   let snareVelocity=.8*velocities.snare;
   if(isAction)snareVelocity=step>=10?1:.86;
+  else if(drumPattern==='valsa'&&(step===5||step===11))snareVelocity=.88*velocities.snare;
   else if(step===4||step===12)snareVelocity=1.04*velocities.snare;
   playDrum('snare',time,snareVelocity);
  }
@@ -2739,7 +3318,11 @@ function scheduleDrumStep(step,time,mode=''){
   let hatTime=time;
   if(step!==0)hatTime=time+(Math.random()*.0025);
   let hatVelocity=.48*velocities.hat;
-  if(step%4===0)hatVelocity=.58*velocities.hat;
+  if(drumPattern==='valsa'&&!isAction&&(step===0||step===5||step===11)){
+   hatVelocity=.62*velocities.hat;
+  }else if(step%4===0){
+   hatVelocity=.58*velocities.hat;
+  }
   if(isAction)hatVelocity=.42;
   playDrum('hat',hatTime,hatVelocity);
  }
@@ -2805,8 +3388,13 @@ function finishAccompanimentsAtBarEnd(){
  if(drumStopButton)drumStopButton.classList.remove('active');
  const drumStatus=$('drum-status');
  if(drumStatus)drumStatus.textContent='Bateria parada no fim do compasso.';
+ sequenceHoldLoop=false;
+ sequenceStopAtEnd=false;
+ syncSequenceHoldLoopButton();
  syncInstrumentChangeLock();
  syncDrumActionButtons();
+ syncSequencePlayButton();
+ syncSequenceDrumButton();
  renderChordSequence();
  syncAccompanimentStopButton();
  stopMasterTransport();
@@ -2961,9 +3549,9 @@ function transportScheduler(){
 }
 function drumScheduler(){ensureMasterTransport()}
 function startDrums(pattern=drumPattern){
- ensureAudio();drumPattern=pattern;document.querySelectorAll('.drum-pattern').forEach(b=>b.classList.toggle('active',b.dataset.pattern===pattern));$('drum-status').textContent=`${pattern.toUpperCase()} · aguardando`;drumRunning=false;drumStartQueued=true;drumFillQueued=false;drumEndingQueued=false;drumQueuedAction='';drumActiveAction='';drumCompletedAction='';drumActionMuteUntil=0;sequenceEndActionInProgress='';syncDrumActionButtons();ensureMasterTransport();
+ ensureAudio();drumPattern=pattern;document.querySelectorAll('.drum-pattern').forEach(b=>b.classList.toggle('active',b.dataset.pattern===pattern));$('drum-status').textContent=`${pattern.toUpperCase()} · aguardando`;drumRunning=false;drumStartQueued=true;drumFillQueued=false;drumEndingQueued=false;drumQueuedAction='';drumActiveAction='';drumCompletedAction='';drumActionMuteUntil=0;sequenceEndActionInProgress='';syncDrumActionButtons();syncSequenceDrumButton();ensureMasterTransport();
 }
-function stopDrums(){drumRunning=false;drumStartQueued=false;drumFillQueued=false;drumEndingQueued=false;drumQueuedAction='';drumActiveAction='';drumCompletedAction='';drumActionMuteUntil=0;sequenceEndActionInProgress='';document.querySelectorAll('.drum-pattern').forEach(b=>b.classList.remove('active'));if($('drum-stop'))$('drum-stop').classList.remove('active');if($('drum-status'))$('drum-status').textContent='Bateria parada.';syncDrumActionButtons();maybeStopMasterTransport()}
+function stopDrums(){drumRunning=false;drumStartQueued=false;drumFillQueued=false;drumEndingQueued=false;drumQueuedAction='';drumActiveAction='';drumCompletedAction='';drumActionMuteUntil=0;sequenceEndActionInProgress='';document.querySelectorAll('.drum-pattern').forEach(b=>b.classList.remove('active'));if($('drum-stop'))$('drum-stop').classList.remove('active');if($('drum-status'))$('drum-status').textContent='Bateria parada.';syncDrumActionButtons();syncSequenceDrumButton();maybeStopMasterTransport()}
 function setDrumMode(active){
  drumMode=active;$('drum-toggle').classList.toggle('drum-mode-active',active);$('drum-panel').classList.toggle('visible',active);
  $('drum-toggle').textContent='🥁';
@@ -3212,11 +3800,9 @@ function updateRanges(){
  releaseMs=+$('release').value;
  attackMs=+$('attack').value;
  arpInterval=+$('arp-interval').value;
- requestBpmChange($('bpm').value);
  $('release-value').textContent=formatSec(releaseMs);
  $('attack-value').textContent=attackMs+' ms';
  $('arp-value').textContent=arpInterval+' ms';
- updateBpmDisplay();
  ['master','keyboard','chord','bass','drum'].forEach(function(n){
   $(n+'-value').textContent=$(n+'-volume').value+'%';
  });
@@ -3227,13 +3813,120 @@ function updateRanges(){
   drumBus.gain.setTargetAtTime(Number($('drum-volume').value)/100,audioCtx.currentTime,.02);
  }
 }
-['release','attack','arp-interval','bpm','master-volume','drum-volume','keyboard-volume','chord-volume','bass-volume'].forEach(id=>$(id).addEventListener('input',updateRanges));
+['release','attack','arp-interval','master-volume','drum-volume','keyboard-volume','chord-volume','bass-volume'].forEach(function(id){
+ $(id).addEventListener('input',updateRanges);
+});
 function clampFineInput(input){const min=Number(input.min),max=Number(input.max);let value=Number(input.value);if(!Number.isFinite(value))value=Number(input.defaultValue||min||0);value=Math.min(max,Math.max(min,value));input.value=value;return value}
-document.querySelectorAll('.fine-btn').forEach(button=>button.addEventListener('click',()=>{const input=$(button.dataset.stepTarget);if(!input)return;const step=Number(input.step)||1,direction=Number(button.dataset.direction)||1;clampFineInput(input);input.value=Number(input.value)+step*direction;clampFineInput(input);input.dispatchEvent(new Event('input',{bubbles:true}))}));
-['release','attack','arp-interval','bpm','master-volume','drum-volume','keyboard-volume','chord-volume','bass-volume'].forEach(id=>{const input=$(id);input.addEventListener('change',()=>{clampFineInput(input);updateRanges()});input.addEventListener('blur',()=>{clampFineInput(input);updateRanges()})});
+
+const bpmInput=$('bpm');
+let bpmEditingValue=String(bpm);
+if(bpmInput){
+ bpmInput.addEventListener('focus',function(){
+  bpmEditingValue=this.value;
+  try{this.select()}catch(error){}
+ });
+ bpmInput.addEventListener('input',function(){
+  const raw=this.value.trim();
+  if(raw===''){
+   $('bpm-value').textContent='Digite o BPM';
+   return;
+  }
+  if(!/^\d{1,3}$/.test(raw)){
+   $('bpm-value').textContent='BPM inválido';
+   return;
+  }
+  const numeric=Number(raw);
+  $('bpm-value').textContent=numeric+' BPM';
+ });
+ function commitTypedBpm(){
+  const raw=bpmInput.value.trim();
+  let value=Number(raw);
+  if(raw===''||!Number.isFinite(value)){
+   value=Number(bpmEditingValue);
+  }
+  if(!Number.isFinite(value))value=bpm;
+  value=Math.round(Math.min(220,Math.max(40,value)));
+  bpmInput.value=String(value);
+  bpmEditingValue=String(value);
+  requestBpmChange(value);
+ }
+ bpmInput.addEventListener('change',commitTypedBpm);
+ bpmInput.addEventListener('blur',commitTypedBpm);
+ bpmInput.addEventListener('keydown',function(event){
+  if(event.key==='Enter'){
+   event.preventDefault();
+   commitTypedBpm();
+   this.blur();
+  }
+ });
+}
+
+document.querySelectorAll('.fine-btn').forEach(function(button){
+ button.addEventListener('click',function(){
+  const input=$(button.dataset.stepTarget);
+  if(!input)return;
+  const step=Number(input.step)||1;
+  const direction=Number(button.dataset.direction)||1;
+  if(input.id==='bpm'){
+   let current=Number(input.value);
+   if(!Number.isFinite(current))current=bpm;
+   current=Math.round(Math.min(220,Math.max(40,current+step*direction)));
+   input.value=String(current);
+   bpmEditingValue=String(current);
+   requestBpmChange(current);
+   return;
+  }
+  clampFineInput(input);
+  input.value=Number(input.value)+step*direction;
+  clampFineInput(input);
+  input.dispatchEvent(new Event('input',{bubbles:true}));
+ });
+});
+
+['release','attack','arp-interval','master-volume','drum-volume','keyboard-volume','chord-volume','bass-volume'].forEach(function(id){
+ const input=$(id);
+ input.addEventListener('change',function(){clampFineInput(input);updateRanges()});
+ input.addEventListener('blur',function(){clampFineInput(input);updateRanges()});
+});
 $('instrument').onchange=e=>{if(isInstrumentChangeLocked()){e.target.value=instrument;setStatus('Pare o acompanhamento contínuo ou a sequência em execução antes de trocar o instrumento');return}instrument=e.target.value;releaseAll();renderKeyboard();setStatus('Instrumento: '+LABELS[instrument]+(instrument==='sino'?' · teclado com 3 oitavas':''))};$('oct-down').onclick=()=>{octave=Math.max(-2,octave-1);$('oct-label').textContent=octave>0?'+'+octave:octave};$('oct-up').onclick=()=>{octave=Math.min(2,octave+1);$('oct-label').textContent=octave>0?'+'+octave:octave};$('capo-down').onclick=function(){setCapo(capoSemitones-1)};$('capo-label').onclick=function(){setCapo(0)};$('capo-up').onclick=function(){setCapo(capoSemitones+1)};
 $('sustain-hold').onclick=()=>{sustainMode='hold';$('sustain-hold').classList.add('active');$('sustain-next').classList.remove('active');releaseAll()};$('sustain-next').onclick=()=>{sustainMode='next';$('sustain-next').classList.add('active');$('sustain-hold').classList.remove('active');releaseAll()};
-$('chord-together').onclick=function(){chordMode='together';syncChordModeButtons()};$('chord-arpeggio').onclick=function(){chordMode='arpeggio';syncChordModeButtons()};
+$('chord-together').onclick=function(){chordMode='together';syncChordModeButtons()};
+$('chord-arpeggio').onclick=function(){chordMode='arpeggio';syncChordModeButtons()};
+
+$('split-toggle').onclick=function(){
+ splitEnabled=!splitEnabled;
+ releaseAll(90);
+ syncSettingsUI();
+ setStatus(splitEnabled?'Divisão do teclado ativada: região grave em '+LABELS[splitInstrument]:'Divisão do teclado desativada');
+};
+$('split-instrument').onchange=function(){
+ splitInstrument=normalizeInstrumentId(this.value);
+ this.value=splitInstrument;
+ if(splitEnabled)releaseAll(90);
+ syncSettingsUI();
+ setStatus('Instrumento da divisão grave: '+LABELS[splitInstrument]);
+};
+$('velocity-toggle').onclick=function(){
+ velocityEnabled=!velocityEnabled;
+ syncSettingsUI();
+ setStatus(velocityEnabled?'Toque sensível ativado: a posição do dedo altera a intensidade':'Toque uniforme ativado');
+};
+$('gliss-toggle').onclick=function(){
+ glissEnabled=!glissEnabled;
+ syncSettingsUI();
+ setStatus(glissEnabled?'Glissando no tablet ativado':'Glissando no tablet desativado');
+};
+$('latch-toggle').onclick=function(){
+ latchEnabled=!latchEnabled;
+ if(!latchEnabled)stopAccompaniment();
+ syncSettingsUI();
+ setStatus(latchEnabled?'Acompanhamento contínuo ativado':'Acompanhamento contínuo desativado');
+};
+$('bass-toggle').onclick=function(){
+ bassEnabled=!bassEnabled;
+ syncSettingsUI();
+ setStatus(bassEnabled?'Baixo automático ativado':'Baixo automático desativado');
+};
 function selectChordChangeMode(mode){
  chordChangeMode=mode;
  ['change-zero','change-eighth','change-quarter','change-half','change-three-quarter','change-full'].forEach(function(id){
@@ -3280,9 +3973,8 @@ $('sequence-rest-half').onclick=function(){addPauseToSequence(.5)};
 $('sequence-rest-three-quarter').onclick=function(){addPauseToSequence(.75)};
 $('sequence-rest-full').onclick=function(){addPauseToSequence(1)};
 $('sequence-play').onclick=function(){
- sequenceHoldLoop=false;
- syncSequenceHoldLoopButton();
- playChordSequence();
+ if(!sequencePlaying){sequenceHoldLoop=false;syncSequenceHoldLoopButton()}
+ toggleSequencePlayback();
 };
 $('sequence-hold-loop').onclick=toggleSequenceHoldLoop;
 $('section-instrument').onchange=saveActiveSectionDrumControls;
@@ -3294,8 +3986,7 @@ $('section-drum-final').onchange=saveActiveSectionDrumControls;
 $('song-export').onclick=exportCurrentSong;
 $('song-import').onclick=chooseSongImportFile;
 $('song-import-file').onchange=handleSongImportFile;
-$('sequence-play-wait').onclick=toggleStopSequenceAtEnd;
-$('sequence-stop-drums').onclick=stopSequenceDrumsOnly;
+$('sequence-stop-drums').onclick=toggleSequenceDrums;
 $('sequence-auto').onclick=function(){
  sequenceAuto=!sequenceAuto;
  if(sequenceAuto)sequenceAutoEnd=false;
@@ -3339,7 +4030,34 @@ $('sequence-auto-end').onclick=function(){
 };
 $('sequence-clear').onclick=requestDeleteLastSequenceItem;
 $('sequence-toggle').onclick=()=>{sequencePanelVisible=!sequencePanelVisible;saveChordSequence();syncSequencePanelVisibility();setStatus(sequencePanelVisible?'Barra de sequências exibida':'Barra de sequências ocultada')};
-$('advanced-toggle').onclick=()=>{$('advanced').classList.toggle('open');$('advanced-toggle').classList.toggle('active')};$('fullscreen').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};$('stop-accompaniments').onclick=requestAccompanimentStop;$('stop-all').onclick=()=>{sequenceHoldLoop=false;syncSequenceHoldLoopButton();accompanimentStopQueued=false;accompanimentStopEventScheduled=false;syncAccompanimentStopButton();clearTimeout(sequenceTimer);sequencePlaying=false;sequenceStartQueued=false;queuedSequenceSection=null;sequenceIndex=-1;sequenceEighthUnitsRemaining=0;stopAccompaniment();stopDrums();stopMasterTransport();releaseAll();renderChordSequence();setStatus('Todas as notas foram silenciadas')};
+$('advanced-toggle').onclick=()=>{$('advanced').classList.toggle('open');$('advanced-toggle').classList.toggle('active')};$('fullscreen').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};$('stop-accompaniments').onclick=requestAccompanimentStop;
+$('stop-all').onclick=function(){
+ sequenceHoldLoop=false;
+ sequenceStopAtEnd=false;
+ accompanimentStopQueued=false;
+ accompanimentStopEventScheduled=false;
+ clearTimeout(sequenceTimer);
+ sequenceTimer=null;
+ sequencePlaying=false;
+ sequenceStartQueued=false;
+ queuedSequenceSection=null;
+ sequenceIndex=-1;
+ sequenceEighthUnitsRemaining=0;
+ sequencePendingTransition=null;
+ sequenceEndActionInProgress='';
+ sequenceConfiguredActionName='';
+ stopAccompaniment();
+ stopDrums();
+ stopMasterTransport();
+ releaseAll();
+ syncSequenceHoldLoopButton();
+ syncSequencePlayButton();
+ syncSequenceDrumButton();
+ syncAccompanimentStopButton();
+ syncInstrumentChangeLock();
+ renderChordSequence();
+ setStatus('Todas as notas foram silenciadas');
+};
 $('circle-toggle').onclick=()=>{if(circleEnabled){circleEnabled=false;circleRoot=null;$('circle-toggle').classList.remove('circle-active');$('circle-toggle').textContent='CH';applyCircleFilter();setStatus('Filtro do círculo harmônico desligado')}else openCircleDialog()};$('circle-close').onclick=()=>$('circle-dialog').close();
 const MEMORY_PREFIX='tecladoVirtualMemory';
 const FACTORY_SETTINGS={instrument:'piano',octave:0,sustainMode:'hold',releaseMs:650,attackMs:20,chordMode:'together',arpInterval:280,arpPattern:'up',inversion:0,bassEnabled:false,latchEnabled:false,splitEnabled:false,splitInstrument:'organ',velocityEnabled:true,glissEnabled:true,bpm:100,rhythmPattern:'whole',chordChangeMode:'nextBar',drumEngine:'acoustic',values:{master:'68',keyboard:'92',chord:'72',bass:'56'}};
@@ -3382,7 +4100,7 @@ function syncSettingsUI(){syncInstrumentChangeLock();
  $('change-half').classList.toggle('active',chordChangeMode==='halfBar');
  $('change-three-quarter').classList.toggle('active',chordChangeMode==='threeQuarterBar');
  $('change-full').classList.toggle('active',chordChangeMode==='nextBar');$('sustain-hold').classList.toggle('active',sustainMode==='hold');$('sustain-next').classList.toggle('active',sustainMode==='next');$('chord-together').classList.toggle('active',chordMode==='together');$('chord-arpeggio').classList.toggle('active',chordMode==='arpeggio');
- $('bass-toggle').classList.toggle('active',bassEnabled);$('bass-toggle').textContent=bassEnabled?'Baixo ligado':'Baixo';$('latch-toggle').classList.toggle('active',latchEnabled);$('latch-toggle').textContent=latchEnabled?'Contínuo ligado':'Contínuo';$('split-toggle').classList.toggle('active',splitEnabled);$('split-toggle').textContent=splitEnabled?'Ativada':'Desativada';$('velocity-toggle').classList.toggle('active',velocityEnabled);$('velocity-toggle').textContent=velocityEnabled?'Sensível':'Uniforme';$('gliss-toggle').classList.toggle('active',glissEnabled);$('gliss-toggle').textContent=glissEnabled?'Glissando':'Sem glissando';updateRanges();
+ $('bass-toggle').classList.toggle('active',bassEnabled);$('bass-toggle').textContent=bassEnabled?'Baixo ligado':'Baixo';$('bass-toggle').setAttribute('aria-pressed',String(bassEnabled));$('latch-toggle').classList.toggle('active',latchEnabled);$('latch-toggle').textContent=latchEnabled?'Contínuo ligado':'Contínuo';$('latch-toggle').setAttribute('aria-pressed',String(latchEnabled));$('split-toggle').classList.toggle('active',splitEnabled);$('split-toggle').textContent=splitEnabled?'Ativada':'Desativada';$('split-toggle').setAttribute('aria-pressed',String(splitEnabled));$('split-instrument').disabled=!splitEnabled;$('velocity-toggle').classList.toggle('active',velocityEnabled);$('velocity-toggle').textContent=velocityEnabled?'Sensível':'Uniforme';$('velocity-toggle').setAttribute('aria-pressed',String(velocityEnabled));$('gliss-toggle').classList.toggle('active',glissEnabled);$('gliss-toggle').textContent=glissEnabled?'Glissando':'Sem glissando';$('gliss-toggle').setAttribute('aria-pressed',String(glissEnabled));updateRanges();
 }
 function applySettings(s){
  stopAccompaniment();releaseAll();instrument=normalizeInstrumentId(s.instrument||FACTORY_SETTINGS.instrument);octave=Number.isFinite(+s.octave)?+s.octave:0;capoSemitones=clampCapo(s.capoSemitones);sustainMode=s.sustainMode||'hold';releaseMs=+s.releaseMs||650;attackMs=+s.attackMs||20;chordMode=s.chordMode||'together';arpInterval=+s.arpInterval||280;arpPattern=s.arpPattern||'up';inversion=+s.inversion||0;bassEnabled=!!s.bassEnabled;latchEnabled=!!s.latchEnabled;splitEnabled=!!s.splitEnabled;splitInstrument=normalizeInstrumentId(s.splitInstrument||'organ');velocityEnabled=s.velocityEnabled!==false;glissEnabled=s.glissEnabled!==false;bpm=+s.bpm||100;rhythmPattern=s.rhythmPattern||'whole';chordChangeMode=s.chordChangeMode||'nextBar';drumEngine=s.drumEngine||localStorage.getItem('tecladoVirtualDrumEngine')||'acoustic';const v=s.values||FACTORY_SETTINGS.values;$('master-volume').value=(v.master == null ? 68 : v.master);$('drum-volume').value=(v.drum == null ? 70 : v.drum);$('keyboard-volume').value=(v.keyboard == null ? 92 : v.keyboard);$('chord-volume').value=(v.chord == null ? 72 : v.chord);$('bass-volume').value=(v.bass == null ? 56 : v.bass);syncSettingsUI();
@@ -3394,7 +4112,29 @@ $('save-settings').onclick=()=>setSaveMode(!saveArmed);
 document.querySelectorAll('.memory-button').forEach(button=>button.onclick=()=>{const n=button.dataset.memory;if(saveArmed){localStorage.setItem(memoryKey(n),JSON.stringify(settings()));setSaveMode(false);refreshMemoryButtons();setStatus(`Ajustes personalizados salvos na memória ${n}`);return}const raw=localStorage.getItem(memoryKey(n));if(raw){try{applySettings(JSON.parse(raw));setStatus(`Ajustes personalizados recuperados da memória ${n}`)}catch{setStatus(`Não foi possível recuperar a memória ${n}`)}}else{const preset=DEFAULT_PRESETS[n];applySettings(structuredClone(preset.settings));setStatus(`Memória ${n}: ${preset.name}`)}});
 refreshMemoryButtons();
 document.addEventListener('keydown',e=>{if(['INPUT','SELECT','BUTTON'].includes(e.target.tagName))return;const k=e.key.toLowerCase();if(pressedKeys.has(k)||!KEYMAP.has(k))return;noteDown(KEYMAP.get(k),k,1,'keyboard')});document.addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(KEYMAP.has(k))noteUp(KEYMAP.get(k),k,'keyboard')});window.addEventListener('blur',()=>releaseAll());document.addEventListener('contextmenu',e=>{if(e.target.closest('.key,.chord'))e.preventDefault()});
-drumEngine=localStorage.getItem('tecladoVirtualDrumEngine')||'acoustic';renderKeyboard();renderChords();bindDrums();$('drum-toggle').classList.add('drum-mode-active');$('drum-toggle').setAttribute('aria-pressed','true');syncAccompanimentStopButton();syncSequenceRecordButton();renderKeyboard();syncSettingsUI();syncInstrumentChangeLock();refreshMemoryButtons();loadChordSequence();syncSequencePanelVisibility();loadSongsStore();updateSongNameDisplay();if(screen.orientation?.lock)screen.orientation.lock('landscape').catch(()=>{});
+initializeGeraTheme();
+drumEngine=localStorage.getItem('tecladoVirtualDrumEngine')||'acoustic';
+renderKeyboard();
+renderChords();
+bindDrums();
+$('drum-toggle').classList.add('drum-mode-active');
+$('drum-toggle').setAttribute('aria-pressed','true');
+syncAccompanimentStopButton();
+syncSequenceRecordButton();
+renderKeyboard();
+syncSettingsUI();
+syncInstrumentChangeLock();
+refreshMemoryButtons();
+loadSongsStore();
+initializeBlankStartupWorkspace();
+syncSequencePanelVisibility();
+if(screen.orientation?.lock)screen.orientation.lock('landscape').catch(()=>{});
+const appConfirmOk=$('app-confirm-ok');
+const appConfirmCancel=$('app-confirm-cancel');
+const appConfirmDialog=$('app-confirm-dialog');
+if(appConfirmOk)appConfirmOk.onclick=function(){closeAppConfirm(true)};
+if(appConfirmCancel)appConfirmCancel.onclick=function(){closeAppConfirm(false)};
+if(appConfirmDialog)appConfirmDialog.addEventListener('cancel',function(event){event.preventDefault();closeAppConfirm(false)});
 const sequenceEditKind=$('sequence-edit-kind');
 const sequenceEditBefore=$('sequence-edit-before');
 const sequenceEditReplace=$('sequence-edit-replace');
@@ -3407,8 +4147,8 @@ if(sequenceEditKind)sequenceEditKind.onchange=syncSequenceEditorKind;
 if(sequenceEditBefore)sequenceEditBefore.onclick=function(){commitSequenceEditor('before')};
 if(sequenceEditReplace)sequenceEditReplace.onclick=function(){commitSequenceEditor('replace')};
 if(sequenceEditAfter)sequenceEditAfter.onclick=function(){commitSequenceEditor('after')};
-if(sequenceEditDelete)sequenceEditDelete.onclick=function(){
- if(confirm('Excluir este item da sequência?'))commitSequenceEditor('delete');
+if(sequenceEditDelete)sequenceEditDelete.onclick=async function(){
+ if(await appConfirm('Excluir este item da sequência?','Excluir item'))commitSequenceEditor('delete');
 };
 if(sequenceEditClose)sequenceEditClose.onclick=closeSequenceEditor;
 if(sequenceEditorDialog)sequenceEditorDialog.addEventListener('cancel',function(event){
@@ -3417,19 +4157,19 @@ if(sequenceEditorDialog)sequenceEditorDialog.addEventListener('cancel',function(
 });
 $('songs-open').onclick=()=>{renderSongsList();$('song-name-input').value=currentSongName||'';$('song-bpm-input').value=bpm;$('songs-dialog').showModal()};
 $('songs-close').onclick=()=>$('songs-dialog').close();
-$('song-save').onclick=()=>{
+$('song-save').onclick=async ()=>{
  const input=$('song-name-input'),name=(input.value||'').trim();
  if(!name){setStatus('Digite um nome para a música');return}
  const overwrite=!!songs[name]&&name!==currentSongName;
- if(overwrite&&!confirm('Já existe uma música chamada "'+name+'". Substituir?'))return;
+ if(overwrite&&!(await appConfirm('Já existe uma música chamada "'+name+'". Substituir?','Substituir música')))return;
  const songBpm=clampFineInput($('song-bpm-input'));
  requestBpmChange(songBpm);
  songs[name]={...snapshotCurrentSequence(),bpm:songBpm};currentSongName=name;saveSongsStore();renderSongsList();updateSongNameDisplay();
  syncInstrumentChangeLock();
  setStatus('Música "'+name+'" salva a '+songBpm+' BPM');
 };
-$('song-new').onclick=()=>{
- if(!confirm('Começar uma música em branco? As Seq. 1 a 16 na tela serão limpas (a música atual, se já tiver nome salvo, continua guardada).'))return;
+$('song-new').onclick=async ()=>{
+ if(!(await appConfirm('Começar uma música em branco? As Seq. 1 a 16 na tela serão limpas. A música atual, se já tiver nome salvo, continuará guardada.','Nova música')))return;
  prepareSongWorkspaceChange();
  applySequenceState({sections:{verse:[],prechorus:[],chorus:[],bridge:[],section5:[],section6:[],section7:[],section8:[],section9:[],section10:[],section11:[],section12:[],section13:[],section14:[],section15:[],section16:[]},repeats:{verse:0,prechorus:0,chorus:0,bridge:0,section5:0,section6:0,section7:0,section8:0,section9:0,section10:0,section11:0,section12:0,section13:0,section14:0,section15:0,section16:0}});
  currentSongName=null;saveSongsStore();updateSongNameDisplay();

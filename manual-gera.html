@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#111326">
-<title>Manual do Teclado Virtual</title>
+<title>Manual do GERA — Gerador de Acompanhamentos</title>
 <style>
 :root{
   --bg:#0f1222;
@@ -197,7 +197,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 </head>
 <body>
 <header class="topbar">
-  <div class="brand">🎹 MANUAL DO TECLADO VIRTUAL · v3.14.3</div>
+  <div class="brand">🎹 MANUAL DO GERA — GERADOR DE ACOMPANHAMENTOS · v3.14.10</div>
   <div class="actions">
     <button type="button" onclick="window.location.href='index.html'">🎹 Voltar ao teclado</button>
     <button type="button" onclick="window.print()">🖨 Imprimir</button>
@@ -233,7 +233,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 
   <main>
     <section class="hero" id="apresentacao">
-      <h1>TECLADO VIRTUAL</h1>
+      <h1>GERA — GERADOR DE ACOMPANHAMENTOS</h1>
       <p>Manual da versão <strong>3.14.3</strong>, com teclado sensível ao toque, acordes, círculo harmônico, acompanhamento contínuo, bateria acústica ou sintetizada, dezesseis sequências, execução automática e biblioteca de músicas.</p>
       <div class="badges">
         <span class="badge">Uso horizontal</span>
@@ -503,7 +503,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
       </div>
     </section>
 
-    <footer>MANUAL DO TECLADO VIRTUAL · v3.14.3 · Oito sequências, biblioteca de músicas e bateria acústica</footer>
+    <footer>MANUAL DO GERA — GERADOR DE ACOMPANHAMENTOS · v3.14.10 · Oito sequências, biblioteca de músicas e bateria acústica</footer>
   
       <h2>Configuração de bateria por sequência</h2>
       <p>Cada uma das dezesseis sequências pode guardar um padrão de bateria, uma virada de entrada e um encerramento. O motor acústico ou sintético é definido globalmente para a música.</p>
@@ -515,7 +515,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 
 <section id="pwa">
 <h2>Instalação e uso offline</h2>
-<p>O Teclado Virtual pode ser instalado como aplicativo em navegadores compatíveis. Após o primeiro carregamento completo, a interface, o manual e as amostras da bateria acústica ficam disponíveis offline.</p>
+<p>O GERA — Gerador de Acompanhamentos pode ser instalado como aplicativo em navegadores compatíveis. Após o primeiro carregamento completo, a interface, o manual e as amostras da bateria acústica ficam disponíveis offline.</p>
 <p>A instalação e o Service Worker exigem hospedagem HTTPS ou execução em localhost. Abrir o arquivo diretamente pelo endereço <code>file://</code> não ativa os recursos de PWA.</p>
 </section>
 
@@ -620,6 +620,44 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 </section>
 
 <section id="controles-unificados-e-confirmacoes"><h2>Controles unificados</h2><p>O botão de sequência alterna entre tocar, solicitar parada ao final e cancelar a parada. O botão de bateria alterna entre iniciar e parar a bateria da sequência atual.</p><p>As confirmações destrutivas usam um modal interno. As ações do editor fecham o modal após serem executadas. Exportar e Importar aparecem em duas colunas.</p></section>
+
+<section id="controles-tablet-final">
+<h2>Controles do tablet e final sem virada</h2>
+<p>Os controles Divisão do teclado, Toque no tablet e Acompanhamento voltaram a responder ao toque. O botão Tocar Sequência alterna para Parar Sequência durante a execução.</p>
+<p>A opção Final sem virada encerra a sequência e a bateria ao fim do último item, sem tocar virada ou prato de encerramento.</p>
+</section>
+
+
+<section id="digitacao-bpm">
+<h2>Digitação do BPM</h2>
+<p>O campo do metrônomo aceita digitação direta entre 40 e 220 BPM. Durante a edição, o aplicativo não corrige nem substitui os dígitos. A validação acontece ao pressionar Enter, sair do campo ou concluir a alteração.</p>
+</section>
+
+
+<section id="inicio-vazio-e-parada">
+<h2>Início vazio e atualização dos botões</h2>
+<p>Ao abrir o GERA, nenhuma música é selecionada automaticamente e todas as dezesseis sequências começam sem acordes, notas ou pausas. As músicas salvas continuam disponíveis em Músicas.</p>
+<p>Quando Acomp. ou Silenciar interrompem a reprodução, o botão Parar Sequência retorna imediatamente para Tocar Sequência.</p>
+</section>
+
+
+<section id="temas">
+<h2>Temas do aplicativo</h2>
+<p>O seletor Tema, no cabeçalho, oferece três aparências: Escuro, Neutro e Claro. A mudança é imediata e a escolha fica salva no dispositivo para as próximas aberturas.</p>
+<ul>
+<li><strong>Escuro:</strong> aparência original, com fundo azul-marinho.</li>
+<li><strong>Neutro:</strong> tons de cinza com contraste moderado.</li>
+<li><strong>Claro:</strong> painéis claros e textos escuros.</li>
+</ul>
+</section>
+
+
+<section id="paletas-refinadas">
+<h2>Paletas refinadas</h2>
+<p>O tema Neutro passou a usar tons bege e areia. O tema Claro recebeu bordas mais fortes, textos mais escuros e melhor separação entre os painéis.</p>
+<p>Os acordes maiores e menores agora usam grupos de cores diferentes. As cores funcionais do círculo harmônico continuam tendo prioridade quando o filtro CH está ativo.</p>
+</section>
+
 </main>
 </div>
 </body>

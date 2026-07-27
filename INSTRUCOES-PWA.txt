@@ -1,4 +1,4 @@
-TECLADO VIRTUAL PWA v3.8.4
+GERA — GERADOR DE ACOMPANHAMENTOS PWA v3.8.4
 
 INSTALAÇÃO
 1. Publique toda a pasta em uma hospedagem HTTPS, preservando a estrutura.
@@ -18,5 +18,5 @@ ATUALIZAÇÃO
 1. Altere a versão em CACHE_NAME no sw.js.
 2. Atualize os arquivos publicados mantendo o mesmo scope.
 3. Recarregue o aplicativo online.
-4. O evento activate apagará somente caches antigos iniciados por teclado-virtual-pwa-.
+4. O evento activate apagará somente caches antigos iniciados por gera-pwa-.
 5. localStorage e IndexedDB não são apagados pelo Service Worker.

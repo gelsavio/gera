@@ -1,8 +1,8 @@
 {
   "id": "./index.html",
-  "name": "Teclado Virtual",
-  "short_name": "Teclado",
-  "description": "Teclado virtual com acordes, sequências, bateria e acompanhamento musical.",
+  "name": "GERA — Gerador de Acompanhamentos",
+  "short_name": "GERA",
+  "description": "Gerador de acompanhamentos com acordes, sequências, bateria e instrumentos musicais.",
   "lang": "pt-BR",
   "start_url": "./index.html",
   "scope": "./",
@@ -39,5 +39,6 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ]
+  ],
+  "version": "3.14.10"
 }

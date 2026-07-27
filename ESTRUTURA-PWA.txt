@@ -1,4 +1,4 @@
-especificacao-json-teclado-virtual-v3.md
+especificacao-json-gera-v3.md
 icons/
   icon-192.png
   icon-512.png
@@ -28,7 +28,7 @@ kit-acustico-selecionado/
     tom-low.wav
     tom-mid.wav
 manifest.json
-manual-teclado-virtual.html
+manual-gera.html
 modelo-tempo-perdio-format-v3.json
 offline.html
 sw.js

@@ -1,12 +1,13 @@
 'use strict';
 
-const CACHE_PREFIX = 'teclado-virtual-pwa-';
-const CACHE_NAME = CACHE_PREFIX + 'v3.14.1';
+const CACHE_PREFIX = 'gera-pwa-';
+const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
+const CACHE_NAME = CACHE_PREFIX + 'v3.14.10';
 const OFFLINE_URL = './offline.html';
 
 const PRECACHE_URLS = [
   "./",
-  "./especificacao-json-teclado-virtual-v3.md",
+  "./especificacao-json-gera-v3.md",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
@@ -29,7 +30,7 @@ const PRECACHE_URLS = [
   "./kit-acustico-selecionado/toms/tom-low.wav",
   "./kit-acustico-selecionado/toms/tom-mid.wav",
   "./manifest.json",
-  "./manual-teclado-virtual.html",
+  "./manual-gera.html",
   "./modelo-tempo-perdio-format-v3.json",
   "./offline.html"
 ];
@@ -53,7 +54,10 @@ self.addEventListener('activate', function(event) {
         return Promise.all(
           cacheNames.map(function(cacheName) {
             if(
-              cacheName.indexOf(CACHE_PREFIX) === 0 &&
+              (
+                cacheName.indexOf(CACHE_PREFIX) === 0 ||
+                cacheName.indexOf(LEGACY_CACHE_PREFIX) === 0
+              ) &&
               cacheName !== CACHE_NAME
             ) {
               return caches.delete(cacheName);
