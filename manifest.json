@@ -1,44 +1,43 @@
 {
-  "id": "./index.html",
-  "name": "GERA — Gerador de Acompanhamentos",
-  "short_name": "GERA",
-  "description": "Gerador de acompanhamentos com acordes, sequências, bateria e instrumentos musicais.",
-  "lang": "pt-BR",
-  "start_url": "./index.html",
-  "scope": "./",
-  "display": "standalone",
-  "display_override": [
-    "window-controls-overlay",
-    "standalone",
-    "minimal-ui"
-  ],
-  "orientation": "any",
-  "background_color": "#111326",
-  "theme_color": "#131426",
-  "categories": [
-    "music",
-    "education",
-    "entertainment"
-  ],
-  "icons": [
-    {
-      "src": "./icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./icons/icon-maskable-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ],
-  "version": "3.14.10"
+    "id": "./index.html",
+    "name": "GERA — Gerador de Acompanhamentos",
+    "short_name": "GERA",
+    "description": "Gerador de acompanhamentos com acordes, sequências, bateria e instrumentos musicais.",
+    "lang": "pt-BR",
+    "start_url": "./index.html",
+    "scope": "./",
+    "display": "standalone",
+    "display_override": [
+        "window-controls-overlay",
+        "standalone",
+        "minimal-ui"
+    ],
+    "orientation": "any",
+    "background_color": "#111326",
+    "theme_color": "#131426",
+    "categories": [
+        "music",
+        "education",
+        "entertainment"
+    ],
+    "icons": [{
+            "src": "./icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "./icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "./icons/icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "version": "3.14.16"
 }
