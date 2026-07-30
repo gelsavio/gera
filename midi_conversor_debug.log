@@ -1,0 +1,74 @@
+[21:36:23] Programa iniciado.
+[21:36:23] Python: 3.13.7
+[21:36:23] Sistema: Windows-11-10.0.26200-SP0
+[21:36:23] Arquivo executado: C:\Desenvolvimento-Local\_PWAs\gelteclado-app\midi_para_teclado_json_quantizado_corrigido.py
+[21:36:23] Log: C:\Desenvolvimento-Local\_PWAs\gelteclado-app\midi_conversor_debug.log
+[21:36:23] Clique em 'Iniciar seleção do MIDI' para continuar.
+[21:37:21] =================================================================
+[21:37:21] Botão 'Iniciar seleção do MIDI' acionado.
+[21:37:21] Iniciando o fluxo de conversão.
+[21:37:21] Abrindo a caixa de seleção do arquivo MIDI.
+[21:37:26] Arquivo selecionado: C:/Users/savio.gsap/Downloads/somos-quem-podemos-ser.mid
+[21:37:26] Tentando abrir e interpretar o arquivo MIDI.
+[21:37:26] MIDI aberto: tipo=1, trilhas=14, ticks_por_batida=48.
+[21:37:26] Analisando canais e programas General MIDI.
+[21:37:26] Canais com notas encontrados: 6.
+[21:37:26] Canal 2: Flauta; 316 notas; app=flute.
+[21:37:26] Canal 3: Violão aço; 455 notas; app=violao.
+[21:37:26] Canal 4: Tiro; 1 notas; app=piano.
+[21:37:26] Canal 7: Trompa; 106 notas; app=organ.
+[21:37:26] Canal 9: Guitarra jazz; 610 notas; app=violao.
+[21:37:26] Canal 10: Bateria GM; 2 notas; app=drums.
+[21:37:26] Lendo andamento e fórmula de compasso.
+[21:37:26] BPM detectado=95.000; compasso=4/4.
+[21:37:26] Abrindo pergunta para o nome da música.
+[21:37:28] Abrindo pergunta para o BPM.
+[21:37:29] Perguntando sobre detecção automática de seções.
+[21:37:31] Detecção de seções: True.
+[21:37:31] Perguntando sobre inclusão de pausas.
+[21:37:32] Incluir pausas: True.
+[21:37:32] Perguntando como tratar notas simultâneas.
+[21:37:33] Configuração concluída. Política de polifonia: mais-alta.
+[21:37:33] Abrindo a janela de prévia e seleção do canal.
+[21:41:32] Canal escolhido para conversão: 2.
+[21:41:32] Prosseguindo somente com o canal escolhido.
+[21:41:32] Extraindo as notas do canal escolhido.
+[21:41:32] Notas extraídas: 316.
+[21:41:32] Abrindo a caixa para salvar o JSON.
+[21:41:38] Salvando JSON em: C:/Users/savio.gsap/Downloads/Json/somos-quem-podemos-ser-canal-02-Flauta.json
+[21:41:38] JSON salvo com sucesso.
+[21:41:39] Fluxo encerrado sem erro não tratado.
+[21:41:41] =================================================================
+[21:41:41] Botão 'Iniciar seleção do MIDI' acionado.
+[21:41:41] Iniciando o fluxo de conversão.
+[21:41:41] Abrindo a caixa de seleção do arquivo MIDI.
+[21:41:44] Arquivo selecionado: C:/Users/savio.gsap/Downloads/somos-quem-podemos-ser.mid
+[21:41:44] Tentando abrir e interpretar o arquivo MIDI.
+[21:41:44] MIDI aberto: tipo=1, trilhas=14, ticks_por_batida=48.
+[21:41:44] Analisando canais e programas General MIDI.
+[21:41:44] Canais com notas encontrados: 6.
+[21:41:44] Canal 2: Flauta; 316 notas; app=flute.
+[21:41:44] Canal 3: Violão aço; 455 notas; app=violao.
+[21:41:44] Canal 4: Tiro; 1 notas; app=piano.
+[21:41:44] Canal 7: Trompa; 106 notas; app=organ.
+[21:41:44] Canal 9: Guitarra jazz; 610 notas; app=violao.
+[21:41:44] Canal 10: Bateria GM; 2 notas; app=drums.
+[21:41:44] Lendo andamento e fórmula de compasso.
+[21:41:44] BPM detectado=95.000; compasso=4/4.
+[21:41:44] Abrindo pergunta para o nome da música.
+[21:41:45] Abrindo pergunta para o BPM.
+[21:41:46] Perguntando sobre detecção automática de seções.
+[21:41:47] Detecção de seções: True.
+[21:41:47] Perguntando sobre inclusão de pausas.
+[21:41:48] Incluir pausas: True.
+[21:41:48] Perguntando como tratar notas simultâneas.
+[21:41:49] Configuração concluída. Política de polifonia: mais-alta.
+[21:41:49] Abrindo a janela de prévia e seleção do canal.
+[21:41:52] Canal escolhido para conversão: 9.
+[21:41:52] Prosseguindo somente com o canal escolhido.
+[21:41:52] Extraindo as notas do canal escolhido.
+[21:41:52] Notas extraídas: 610.
+[21:41:52] Abrindo a caixa para salvar o JSON.
+[21:41:56] Salvando JSON em: C:/Users/savio.gsap/Downloads/Json/somos-quem-podemos-ser-canal-09-Guitarra jazz.json
+[21:41:56] JSON salvo com sucesso.
+[21:41:57] Fluxo encerrado sem erro não tratado.

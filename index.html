@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <meta name="screen-orientation" content="landscape">
-<title>GERA — Gerador de Acompanhamentos v3.14.23</title>
+<title>GERA — Gerador de Acompanhamentos v3.14.24</title>
 <script>
 (function(){
  try{
@@ -99,7 +99,8 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
  white-space:nowrap;
  overflow:hidden;
  text-overflow:ellipsis;
-}.sequence-item.eighth::after{content:' ⅛';color:#fb7185}.sequence-item.quarter::after{content:' ¼';color:#fbbf24}.sequence-item.half::after{content:' ½';color:#facc15}.sequence-item.three-quarter::after{content:' ¾';color:#c4b5fd}.sequence-item.full::after{content:' 1';color:#93c5fd}.sequence-item.current{background:#166534;border-color:#4ade80}.sequence-item.pause{background:#1f2937;border-color:#94a3b8}.sequence-item.pause::before{content:"⏸ ";color:#e2e8f0}.sequence-recording{background:#991b1b!important;border-color:#f87171!important;box-shadow:0 0 0 2px rgba(248,113,113,.2)}#sequence-clear-all{background:linear-gradient(180deg,#b91c1c,#7f1d1d);border-color:#f87171}.sequence-panel.sequence-hidden{display:none}.sequence-toggle-active{background:#0f766e!important;border-color:#2dd4bf!important}
+}.sequence-item.eighth::after{content:' ⅛';color:#fb7185}.sequence-item.quarter::after{content:' ¼';color:#fbbf24}.sequence-item.half::after{content:' ½';color:#facc15}.sequence-item.three-quarter::after{content:' ¾';color:#c4b5fd}.sequence-item.full::after{content:' 1';color:#93c5fd}.sequence-item.current{background:#166534;border-color:#4ade80}.sequence-item.pause{background:#1f2937;border-color:#94a3b8}.sequence-item.pause::before{content:"⏸ ";color:#e2e8f0}.sequence-recording{background:#991b1b!important;border-color:#f87171!important;box-shadow:0 0 0 2px rgba(248,113,113,.2)}#sequence-clear-all{background:linear-gradient(180deg,#b91c1c,#7f1d1d);border-color:#f87171}.sequence-organize-dialog{width:min(720px,94vw);max-height:90vh;border:1px solid #5b6685;border-radius:14px;background:#171c2b;color:#f8fafc;padding:0}.sequence-organize-dialog::backdrop{background:rgba(2,6,23,.72)}.sequence-organize-card{padding:14px}.sequence-organize-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.sequence-organize-header h2{margin:0 0 4px;font-size:1rem}.sequence-organize-header p{margin:0;color:#aeb9cc;font-size:.7rem;line-height:1.35}.sequence-organize-list{display:grid;gap:5px;margin-top:12px;max-height:58vh;overflow-y:auto;padding-right:3px}.sequence-order-row{display:grid;grid-template-columns:32px minmax(110px,1fr) 42px 42px 42px 42px;gap:4px;align-items:center;padding:5px;border:1px solid #46516e;border-radius:9px;background:#22293f}.sequence-order-position{display:flex;align-items:center;justify-content:center;height:30px;border-radius:7px;background:#111827;color:#93c5fd;font-size:.7rem;font-weight:900}.sequence-order-name{min-width:0}.sequence-order-name strong{display:block;font-size:.72rem}.sequence-order-name small{display:block;color:#94a3b8;font-size:.58rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sequence-order-row button{height:30px;min-height:30px;padding:2px;font-size:.7rem}.sequence-order-row.active-order{border-color:#2dd4bf;box-shadow:0 0 0 1px rgba(45,212,191,.24) inset}.sequence-order-row.empty-order{opacity:.68}.sequence-organize-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}@media(max-width:620px){.sequence-order-row{grid-template-columns:28px minmax(80px,1fr) repeat(4,34px)}.sequence-order-row button{font-size:.62rem}.sequence-organize-card{padding:9px}.sequence-organize-header p{font-size:.62rem}}
+.sequence-panel.sequence-hidden{display:none}.sequence-toggle-active{background:#0f766e!important;border-color:#2dd4bf!important}
 @media(max-width:980px){body{padding:6px}.quick-controls{grid-template-columns:1.25fr repeat(4,minmax(105px,1fr));overflow-x:auto}.advanced-grid{grid-template-columns:repeat(5,minmax(120px,1fr));overflow-x:auto}.panel{padding:7px}.key.natural{height:40px}.key.sharp{height:28px}.chord{height:38px;min-height:38px;font-size:.62rem;padding:3px 1px}.drum-panel button{height:26px;min-height:26px;font-size:.72rem;padding:1px}.sequence-sections{gap:2px}.sequence-section-control{flex:1 1 0;min-width:0;gap:2px}.sequence-section-control>button{height:29px;min-height:29px;padding:2px 2px;font-size:.52rem}.repeat-stepper{grid-template-columns:16px 20px 16px;flex-basis:54px;height:29px}.repeat-stepper button{width:16px;min-width:16px;height:29px;min-height:29px;font-size:.66rem}.repeat-value{width:20px;height:29px;font-size:.58rem}.sequence-controls{grid-template-columns:repeat(4,.54fr) .78fr .58fr .72fr .48fr .68fr;gap:3px}.sequence-controls button{height:29px;min-height:29px;padding:2px 3px;font-size:.58rem}.transport{grid-template-columns:1fr .63fr .72fr .48fr repeat(6,minmax(28px,.40fr)) .84fr .84fr}.transport button{min-height:36px;padding:4px 2px;font-size:.6rem}.help{display:none}}
 @media(max-height:600px){h1{font-size:1rem}.key.natural{height:36px}.key.sharp{height:24px}.quick-controls .control{padding:5px}.chord{height:34px;min-height:34px}.status{font-size:.68rem}}
 
@@ -732,7 +733,7 @@ html[data-theme="light"] #minor-chords .chord:nth-child(3n){
 </head>
 <body>
 <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
-<header><h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span> GERA <span class="gera-subtitle">Gerador de Acompanhamentos</span> <small class="app-version">v3.14.23</small></h1><div class="header-actions">
+<header><h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span> GERA <span class="gera-subtitle">Gerador de Acompanhamentos</span> <small class="app-version">v3.14.24</small></h1><div class="header-actions">
 <label class="theme-control" for="theme-select"><span>Tema</span><select id="theme-select" aria-label="Escolher tema do aplicativo">
 <option value="dark">Escuro</option>
 <option value="neutral">Neutro</option>
@@ -813,7 +814,7 @@ html[data-theme="light"] #minor-chords .chord:nth-child(3n){
 <div id="secondary-dominants-wrap" class="secondary-dominants-wrap"><div id="secondary-dominants" class="secondary-dominants-row"></div></div>
 
 <div id="sequence-panel" class="sequence-panel" aria-label="Sequências musicais do campo harmônico">
-  <div class="song-bar"><span id="song-current-name"></span><button id="sequence-play" type="button" class="secondary" title="Reproduzir a sequência selecionada" aria-pressed="false">▶ Tocar Sequência</button><button id="sequence-stop-drums" class="secondary" title="Iniciar a bateria da sequência selecionada">🥁 Iniciar Bateria</button><button id="sequence-hold-loop" class="secondary" title="Manter a seção atual em repetição">🔁 Pôr em Loop</button><div class="song-file-actions"><button id="song-export" class="secondary sequence-file-button" title="Exportar a música atual com todas as sequências">⇩ Exportar</button><button id="song-import" class="secondary sequence-file-button" title="Importar uma música completa">⇧ Importar</button></div><button id="songs-open" class="secondary" title="Gerenciar músicas salvas" aria-label="Gerenciar músicas salvas">📚 Músicas</button><input id="song-import-file" type="file" accept=".json,application/json" hidden></div>
+  <div class="song-bar"><span id="song-current-name"></span><button id="sequence-play" type="button" class="secondary" title="Reproduzir a sequência selecionada" aria-pressed="false">▶ Tocar Sequência</button><button id="sequence-stop-drums" class="secondary" title="Iniciar a bateria da sequência selecionada">🥁 Iniciar Bateria</button><button id="sequence-hold-loop" class="secondary" title="Manter a seção atual em repetição">🔁 Pôr em Loop</button><div class="song-file-actions"><button id="song-export" class="secondary sequence-file-button" title="Exportar a música atual com todas as sequências">⇩ Exportar</button><button id="song-import" class="secondary sequence-file-button" title="Importar uma música completa">⇧ Importar</button></div><button id="sequence-organize-open" class="secondary" title="Alterar a ordem das sequências da música">↕ Organizar</button><button id="songs-open" class="secondary" title="Gerenciar músicas salvas" aria-label="Gerenciar músicas salvas">📚 Músicas</button><input id="song-import-file" type="file" accept=".json,application/json" hidden></div>
   <div class="sequence-top">
     <div class="sequence-sections" role="tablist" aria-label="Partes da música">
       <div class="sequence-section-control" data-section-control="verse"><button class="secondary active-section" data-sequence-section="verse">Seq. 1</button><div class="repeat-stepper" aria-label="Repetições da Seq. 1"><button type="button" class="secondary" data-repeat-adjust="verse" data-delta="-1" title="Diminuir repetições da Seq. 1">−</button><span class="repeat-value" data-section-repeat-display="verse" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="verse" data-delta="1" title="Aumentar repetições da Seq. 1, até 99">+</button></div></div>
@@ -903,6 +904,19 @@ html[data-theme="light"] #minor-chords .chord:nth-child(3n){
 
 </div>
 </section>
+<dialog id="sequence-organize-dialog" class="sequence-organize-dialog" aria-label="Organizar sequências da música">
+ <div class="dialog-card sequence-organize-card">
+  <div class="sequence-organize-header">
+   <div><h2>Organizar sequências</h2><p>Altere a ordem de execução da música. O conteúdo e as referências explícitas de “Próxima sequência” permanecem ligados à sequência original.</p></div>
+   <button id="sequence-organize-close" type="button" class="secondary">Fechar</button>
+  </div>
+  <div id="sequence-organize-list" class="sequence-organize-list"></div>
+  <div class="sequence-organize-actions">
+   <button id="sequence-order-reset" type="button" class="danger">Restaurar ordem 1–16</button>
+   <button id="sequence-organize-done" type="button" class="secondary">✓ Concluir</button>
+  </div>
+ </div>
+</dialog>
 <dialog id="songs-dialog" class="songs-dialog" aria-label="Gerenciar músicas salvas">
   <h2>Minhas músicas</h2>
   <p class="songs-hint">Salve a música atual (Seq. 1 a 16), com suas repetições e BPM. Só a música atual aparece na tela principal — as demais ficam guardadas aqui.</p>
@@ -2091,6 +2105,7 @@ function initializeBlankStartupWorkspace(){
  sequenceHoldLoop=false;
  sequenceAuto=true;
  sequenceAutoEnd=false;
+ sequenceOrder=Object.keys(SEQUENCE_SECTION_LABELS);
  currentSectionRepetition=1;
  sequencePendingTransition=null;
  sequenceEndActionInProgress='';
@@ -2555,7 +2570,116 @@ function syncSequenceAutoButton(){
  }
 }
 function syncSequencePanelVisibility(){const panel=$('sequence-panel'),button=$('sequence-toggle');if(!panel||!button)return;panel.classList.toggle('sequence-hidden',!sequencePanelVisible);button.classList.toggle('sequence-toggle-active',sequencePanelVisible);button.title=sequencePanelVisible?'Ocultar barra de sequências':'Mostrar barra de sequências';}
+function normalizedSequenceOrder(order){
+ const keys=Object.keys(SEQUENCE_SECTION_LABELS);
+ const source=Array.isArray(order)?order:[];
+ const filtered=[];
+ source.forEach(function(section){
+  if(keys.indexOf(section)>=0&&filtered.indexOf(section)<0)filtered.push(section);
+ });
+ keys.forEach(function(section){if(filtered.indexOf(section)<0)filtered.push(section)});
+ return filtered;
+}
+function syncSequenceOrderDom(){
+ sequenceOrder=normalizedSequenceOrder(sequenceOrder);
+ const container=document.querySelector('.sequence-sections');
+ if(!container)return;
+ sequenceOrder.forEach(function(section){
+  const control=container.querySelector('[data-section-control="'+section+'"]');
+  if(control)container.appendChild(control);
+ });
+}
+function persistSequenceOrder(){
+ sequenceOrder=normalizedSequenceOrder(sequenceOrder);
+ saveChordSequence();
+ if(currentSongName&&songs[currentSongName]){
+  songs[currentSongName]=Object.assign({},snapshotCurrentSequence(),{bpm:bpm});
+  saveSongsStore();
+ }
+}
+function moveSequenceOrder(section,destination){
+ if(sequencePlaying||sequenceStartQueued||sequenceRecording){
+  setStatus('Pare a reprodução ou a gravação antes de reorganizar as sequências');
+  return false;
+ }
+ sequenceOrder=normalizedSequenceOrder(sequenceOrder);
+ const from=sequenceOrder.indexOf(section);
+ if(from<0)return false;
+ let to=from;
+ if(destination==='up')to=from-1;
+ else if(destination==='down')to=from+1;
+ else if(destination==='first')to=0;
+ else if(destination==='last')to=sequenceOrder.length-1;
+ if(to<0)to=0;
+ if(to>=sequenceOrder.length)to=sequenceOrder.length-1;
+ if(to===from)return false;
+ sequenceOrder.splice(from,1);
+ sequenceOrder.splice(to,0,section);
+ persistSequenceOrder();
+ syncSequenceOrderDom();
+ syncSequenceSectionButtons();
+ renderSequenceOrganizer();
+ setStatus(SEQUENCE_SECTION_LABELS[section]+' movida para a posição '+(to+1));
+ return true;
+}
+function sequenceOrderSummary(section){
+ const count=(sequenceSections[section]||[]).length;
+ const repeats=sectionRepeatValue(section);
+ const next=configuredNextSequence(section);
+ let text=count+(count===1?' item':' itens')+' · '+(repeats>0?repeats+' rep.':'fora do Auto');
+ if(next==='stop')text+=' · depois: parar';
+ else if(next&&SEQUENCE_SECTION_LABELS[next])text+=' · depois: '+SEQUENCE_SECTION_LABELS[next];
+ return text;
+}
+function renderSequenceOrganizer(){
+ const list=$('sequence-organize-list');
+ if(!list)return;
+ sequenceOrder=normalizedSequenceOrder(sequenceOrder);
+ list.innerHTML='';
+ sequenceOrder.forEach(function(section,index){
+  const row=document.createElement('div');
+  row.className='sequence-order-row'+(section===activeSequenceSection?' active-order':'')+((sequenceSections[section]||[]).length?'':' empty-order');
+  row.dataset.orderSection=section;
+  const position=document.createElement('span');
+  position.className='sequence-order-position';
+  position.textContent=String(index+1);
+  const name=document.createElement('div');
+  name.className='sequence-order-name';
+  const strong=document.createElement('strong');
+  strong.textContent=SEQUENCE_SECTION_LABELS[section];
+  const small=document.createElement('small');
+  small.textContent=sequenceOrderSummary(section);
+  name.append(strong,small);
+  const first=document.createElement('button');first.type='button';first.className='secondary';first.textContent='⇤';first.title='Levar para o início';first.disabled=index===0;first.onclick=function(){moveSequenceOrder(section,'first')};
+  const up=document.createElement('button');up.type='button';up.className='secondary';up.textContent='↑';up.title='Mover uma posição para cima';up.disabled=index===0;up.onclick=function(){moveSequenceOrder(section,'up')};
+  const down=document.createElement('button');down.type='button';down.className='secondary';down.textContent='↓';down.title='Mover uma posição para baixo';down.disabled=index===sequenceOrder.length-1;down.onclick=function(){moveSequenceOrder(section,'down')};
+  const last=document.createElement('button');last.type='button';last.className='secondary';last.textContent='⇥';last.title='Levar para o fim';last.disabled=index===sequenceOrder.length-1;last.onclick=function(){moveSequenceOrder(section,'last')};
+  row.append(position,name,first,up,down,last);
+  list.appendChild(row);
+ });
+}
+function openSequenceOrganizer(){
+ if(sequencePlaying||sequenceStartQueued||sequenceRecording){
+  setStatus('Pare a reprodução ou a gravação antes de organizar as sequências');
+  return;
+ }
+ renderSequenceOrganizer();
+ const dialog=$('sequence-organize-dialog');
+ if(dialog)dialog.showModal();
+}
+async function resetSequenceOrder(){
+ if(sequencePlaying||sequenceStartQueued||sequenceRecording)return;
+ const confirmed=await appConfirm('Restaurar a ordem padrão Seq. 1 até Seq. 16? Os conteúdos não serão apagados.','Restaurar ordem');
+ if(!confirmed)return;
+ sequenceOrder=Object.keys(SEQUENCE_SECTION_LABELS);
+ persistSequenceOrder();
+ syncSequenceOrderDom();
+ syncSequenceSectionButtons();
+ renderSequenceOrganizer();
+ setStatus('Ordem das sequências restaurada para 1–16');
+}
 function syncSequenceSectionButtons(){
+ syncSequenceOrderDom();
  document.querySelectorAll('[data-sequence-section]').forEach(b=>{
   const key=b.dataset.sequenceSection;
   b.classList.toggle('active-section',key===activeSequenceSection);
@@ -4660,6 +4784,16 @@ if(sequenceEditorDialog)sequenceEditorDialog.addEventListener('cancel',function(
  event.preventDefault();
  closeSequenceEditor();
 });
+const sequenceOrganizeOpen=$('sequence-organize-open');
+const sequenceOrganizeClose=$('sequence-organize-close');
+const sequenceOrganizeDone=$('sequence-organize-done');
+const sequenceOrderReset=$('sequence-order-reset');
+const sequenceOrganizeDialog=$('sequence-organize-dialog');
+if(sequenceOrganizeOpen)sequenceOrganizeOpen.onclick=openSequenceOrganizer;
+if(sequenceOrganizeClose)sequenceOrganizeClose.onclick=function(){sequenceOrganizeDialog.close()};
+if(sequenceOrganizeDone)sequenceOrganizeDone.onclick=function(){sequenceOrganizeDialog.close();setStatus('Ordem das sequências salva')};
+if(sequenceOrderReset)sequenceOrderReset.onclick=resetSequenceOrder;
+if(sequenceOrganizeDialog)sequenceOrganizeDialog.addEventListener('cancel',function(event){event.preventDefault();sequenceOrganizeDialog.close()});
 $('songs-open').onclick=()=>{renderSongsList();$('song-name-input').value=currentSongName||'';$('song-bpm-input').value=bpm;$('songs-dialog').showModal()};
 $('songs-close').onclick=()=>$('songs-dialog').close();
 $('song-save').onclick=async ()=>{
