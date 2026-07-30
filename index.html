@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <meta name="screen-orientation" content="landscape">
-<title>GERA — Gerador de Acompanhamentos v3.14.16</title>
+<title>GERA — Gerador de Acompanhamentos v3.14.23</title>
 <script>
 (function(){
  try{
@@ -56,8 +56,51 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 .exec-drum-row{display:flex;gap:8px;align-items:flex-start;width:100%}.exec-drum-row>.chord-toolbar{flex:1 1 0;min-width:0;margin:0}.drum-panel{display:none;flex-direction:column;gap:3px;flex:1 1 0;min-width:0;margin:0;padding-left:8px;border-left:1px solid rgba(100,116,139,.25)}.drum-panel.visible{display:flex}.drum-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(34px,1fr));gap:3px}.drum-panel button{height:30px;min-height:30px;padding:1px 3px;border-radius:7px;font-size:.78rem;line-height:1}.drum-pad{background:linear-gradient(180deg,#475569,#1e293b);border-color:#64748b}.drum-pad.layer-on{background:linear-gradient(180deg,#15803d,#14532d);border-color:#4ade80}.drum-pattern{background:linear-gradient(180deg,#4338ca,#312e81);border-color:#818cf8}.drum-pattern.active{background:linear-gradient(180deg,#16a34a,#166534)}.drum-fill{background:linear-gradient(180deg,#b45309,#7c2d12);border-color:#fb923c}.drum-ending{background:linear-gradient(180deg,#be123c,#881337);border-color:#fb7185}.drum-fill.active,.drum-ending.active{box-shadow:0 0 0 2px rgba(250,204,21,.3) inset}.drum-stop{background:linear-gradient(180deg,#dc2626,#7f1d1d)}.drum-note{display:none}.drum-mode-active{background:#7c3aed!important;border-color:#c4b5fd!important}
 .transport{display:grid;grid-template-columns:1.12fr .84fr .84fr .7fr repeat(6,minmax(40px,.52fr)) 1fr 1fr;gap:5px}.transport button{font-size:.69rem}.memory-button{background:var(--success);border-color:#4ade80}.memory-button.custom{background:var(--danger);border-color:#f87171}.accompaniment-stop-pending{background:#b45309!important;border-color:#facc15!important;box-shadow:0 0 0 2px rgba(250,204,21,.3) inset}.memory-button.save-target{outline:3px solid #facc15;outline-offset:1px}.save-armed{background:var(--warning)!important;box-shadow:0 0 0 3px rgba(250,204,21,.25)}.circle-active{background:#0f766e!important;border-color:#2dd4bf!important}.chord.filtered-out{display:none}.circle-dialog{border:1px solid var(--border);border-radius:16px;background:#111529;color:var(--text);padding:16px;max-width:min(680px,92vw);box-shadow:0 24px 70px rgba(0,0,0,.55)}.circle-dialog::backdrop{background:rgba(0,0,0,.72)}.circle-dialog h2{font-size:1.05rem;margin-bottom:6px}.circle-dialog p{color:var(--muted);font-size:.78rem;margin-bottom:12px}.circle-note-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}.circle-note-grid button{min-height:48px}.circle-close{width:100%;margin-top:10px;background:#38405f;border-color:#58617f}.songs-dialog{border:1px solid var(--border);border-radius:16px;background:#111529;color:var(--text);padding:16px;max-width:min(480px,92vw);width:100%;box-shadow:0 24px 70px rgba(0,0,0,.55)}.songs-dialog::backdrop{background:rgba(0,0,0,.72)}.songs-dialog h2{font-size:1.05rem;margin-bottom:6px}.songs-hint{color:var(--muted);font-size:.72rem;line-height:1.35;margin-bottom:12px}.songs-current-row{display:flex;gap:6px;margin-bottom:10px}.songs-current-row input{flex:1 1 auto;min-width:0;height:38px;border-radius:8px;border:1px solid #58617f;background:#1c2338;color:var(--text);padding:0 10px;font-size:.82rem}.songs-current-row input#song-bpm-input{flex:0 0 64px;text-align:center;padding:0 4px}.songs-current-row button{flex:0 0 auto;height:38px;padding:0 12px;font-size:.72rem;border-radius:8px}.songs-list{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;margin-bottom:12px}.songs-empty{color:var(--muted);font-size:.74rem;text-align:center;padding:8px 0}.song-item{display:flex;gap:6px;align-items:stretch}.song-item .song-load{flex:1 1 auto;min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;height:38px;border-radius:8px;font-size:.76rem;padding:0 10px}.song-item.song-active .song-load{background:#0f766e;border-color:#2dd4bf}.song-item .song-delete{flex:0 0 auto;width:38px;height:38px;border-radius:8px;font-size:.85rem}.songs-actions{display:flex;gap:6px}.songs-actions button{flex:1 1 0;height:38px;border-radius:8px;font-size:.74rem}.status{min-height:20px;color:#b5bfd5;font-size:.76rem;text-align:center}.help{color:#7f8aa3;font-size:.65rem;line-height:1.3;text-align:center}
 
-.sequence-panel{display:flex;flex-direction:column;gap:6px;padding:5px 6px;border:1px solid #35405d;border-radius:10px;background:#171c31}.song-bar{display:flex;align-items:center;gap:4px;padding:2px 2px 4px;border-bottom:1px solid rgba(100,116,139,.25)}.song-bar #song-current-name{flex:1 1 auto;min-width:0;font-size:.78rem;font-weight:700;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.song-bar button{flex:0 0 auto;height:28px;min-height:28px;padding:2px 7px;font-size:.62rem;border-radius:7px}.sequence-file-button{background:#38405f;border-color:#58617f}.song-play-wait.active{background:#7c3aed;border-color:#c4b5fd}.sequence-top{display:flex;flex-direction:column;align-items:stretch;gap:5px;width:100%;min-width:0}.sequence-sections{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px;width:100%;min-width:0}.sequence-section-control{display:flex;align-items:center;gap:2px;flex:1 1 0;min-width:0}.sequence-section-control>button{flex:1 1 auto;min-width:0;height:30px;min-height:30px;padding:2px 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-radius:7px;font-size:.56rem}.repeat-stepper{display:grid;grid-template-columns:16px 20px 16px;gap:1px;flex:0 0 54px;height:30px}.repeat-stepper button{width:16px;min-width:16px;height:30px;min-height:30px;padding:0;border-radius:6px;background:#38405f;border-color:#58617f;font-size:.72rem;line-height:1}.repeat-value{display:flex;align-items:center;justify-content:center;width:20px;height:30px;border:1.5px solid #7d8bab;border-radius:6px;background:#22293f;color:#f8fafc;font-size:.62rem;font-weight:900}.sequence-sections button.active-section{background:#0f766e;border-color:#2dd4bf}.sequence-sections button.queued-section{background:#7c3aed;border-color:#c4b5fd;box-shadow:0 0 0 2px rgba(196,181,253,.18)}.sequence-sections button.has-content::after{content:' •';color:#86efac}.sequence-controls{display:grid;grid-template-columns:repeat(5,.54fr) .82fr .62fr .78fr .52fr;gap:4px;width:100%;min-width:0}.sequence-controls button{width:100%;min-width:0;height:30px;min-height:30px;padding:2px 3px;border-radius:7px;font-size:.62rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sequence-auto.active{background:#0f766e;border-color:#2dd4bf}.sequence-section-control.playing-repeat>button{box-shadow:0 0 0 2px rgba(74,222,128,.35) inset}.sequence-strip{display:grid;grid-template-rows:repeat(2,25px);grid-auto-flow:column;grid-auto-columns:max-content;align-items:stretch;gap:3px;min-height:53px;max-height:53px;overflow-x:auto;overflow-y:hidden;padding:1px 2px;scrollbar-width:thin}.sequence-empty{grid-row:1/3;align-self:center;color:var(--muted);font-size:.64rem;white-space:nowrap}.sequence-item{display:flex;align-items:center;justify-content:center;min-width:36px;height:25px;padding:2px 5px;border-radius:6px;background:#303858;border:1px solid #596482;font-size:.58rem;line-height:1;text-align:center;white-space:nowrap}.sequence-item.eighth::after{content:' ⅛';color:#fb7185}.sequence-item.quarter::after{content:' ¼';color:#fbbf24}.sequence-item.half::after{content:' ½';color:#facc15}.sequence-item.three-quarter::after{content:' ¾';color:#c4b5fd}.sequence-item.full::after{content:' 1';color:#93c5fd}.sequence-item.current{background:#166534;border-color:#4ade80}.sequence-item.pause{background:#1f2937;border-color:#94a3b8}.sequence-item.pause::before{content:"⏸ ";color:#e2e8f0}.sequence-recording{background:#991b1b!important;border-color:#f87171!important;box-shadow:0 0 0 2px rgba(248,113,113,.2)}.sequence-panel.sequence-hidden{display:none}.sequence-toggle-active{background:#0f766e!important;border-color:#2dd4bf!important}
-@media(max-width:980px){body{padding:6px}.quick-controls{grid-template-columns:1.25fr repeat(4,minmax(105px,1fr));overflow-x:auto}.advanced-grid{grid-template-columns:repeat(5,minmax(120px,1fr));overflow-x:auto}.panel{padding:7px}.key.natural{height:40px}.key.sharp{height:28px}.chord{height:38px;min-height:38px;font-size:.62rem;padding:3px 1px}.drum-panel button{height:26px;min-height:26px;font-size:.72rem;padding:1px}.sequence-sections{gap:2px}.sequence-section-control{flex:1 1 0;min-width:0;gap:2px}.sequence-section-control>button{height:29px;min-height:29px;padding:2px 2px;font-size:.52rem}.repeat-stepper{grid-template-columns:16px 20px 16px;flex-basis:54px;height:29px}.repeat-stepper button{width:16px;min-width:16px;height:29px;min-height:29px;font-size:.66rem}.repeat-value{width:20px;height:29px;font-size:.58rem}.sequence-controls{grid-template-columns:repeat(4,.54fr) .78fr .58fr .72fr .48fr;gap:3px}.sequence-controls button{height:29px;min-height:29px;padding:2px 3px;font-size:.58rem}.transport{grid-template-columns:1fr .63fr .72fr .48fr repeat(6,minmax(28px,.40fr)) .84fr .84fr}.transport button{min-height:36px;padding:4px 2px;font-size:.6rem}.help{display:none}}
+.sequence-panel{display:flex;flex-direction:column;gap:6px;padding:5px 6px;border:1px solid #35405d;border-radius:10px;background:#171c31}.song-bar{display:flex;align-items:center;gap:4px;padding:2px 2px 4px;border-bottom:1px solid rgba(100,116,139,.25)}.song-bar #song-current-name{flex:1 1 auto;min-width:0;font-size:.78rem;font-weight:700;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.song-bar button{flex:0 0 auto;height:28px;min-height:28px;padding:2px 7px;font-size:.62rem;border-radius:7px}.sequence-file-button{background:#38405f;border-color:#58617f}.song-play-wait.active{background:#7c3aed;border-color:#c4b5fd}.sequence-top{display:flex;flex-direction:column;align-items:stretch;gap:5px;width:100%;min-width:0}.sequence-sections{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px;width:100%;min-width:0}.sequence-section-control{display:flex;align-items:center;gap:2px;flex:1 1 0;min-width:0}.sequence-section-control>button{flex:1 1 auto;min-width:0;height:30px;min-height:30px;padding:2px 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-radius:7px;font-size:.56rem}.repeat-stepper{display:grid;grid-template-columns:16px 20px 16px;gap:1px;flex:0 0 54px;height:30px}.repeat-stepper button{width:16px;min-width:16px;height:30px;min-height:30px;padding:0;border-radius:6px;background:#38405f;border-color:#58617f;font-size:.72rem;line-height:1}.repeat-value{display:flex;align-items:center;justify-content:center;width:20px;height:30px;border:1.5px solid #7d8bab;border-radius:6px;background:#22293f;color:#f8fafc;font-size:.62rem;font-weight:900}.sequence-sections button.active-section{background:#0f766e;border-color:#2dd4bf}.sequence-sections button.queued-section{background:#7c3aed;border-color:#c4b5fd;box-shadow:0 0 0 2px rgba(196,181,253,.18)}.sequence-sections button.has-content::after{content:' •';color:#86efac}.sequence-controls{display:grid;grid-template-columns:repeat(5,.54fr) .82fr .62fr .78fr .52fr .72fr;gap:4px;width:100%;min-width:0}.sequence-controls button{width:100%;min-width:0;height:30px;min-height:30px;padding:2px 3px;border-radius:7px;font-size:.62rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sequence-auto.active{background:#0f766e;border-color:#2dd4bf}.sequence-section-control.playing-repeat>button{box-shadow:0 0 0 2px rgba(74,222,128,.35) inset}.sequence-strip{
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ gap:3px;
+ min-height:53px;
+ max-height:53px;
+ overflow:hidden;
+ padding:1px 2px;
+}
+.sequence-subgroup{
+ display:grid;
+ grid-template-columns:repeat(var(--sequence-columns,8),minmax(36px,max-content));
+ justify-content:start;
+ gap:3px;
+ width:auto;
+ min-width:0;
+}
+.sequence-empty{
+ align-self:center;
+ color:var(--muted);
+ font-size:.64rem;
+ white-space:nowrap;
+ padding:5px 0;
+}
+.sequence-item{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ min-width:36px;
+ width:auto;
+ max-width:84px;
+ height:25px;
+ padding:2px 5px;
+ border-radius:6px;
+ background:#303858;
+ border:1px solid #596482;
+ font-size:.58rem;
+ line-height:1;
+ text-align:center;
+ white-space:nowrap;
+ overflow:hidden;
+ text-overflow:ellipsis;
+}.sequence-item.eighth::after{content:' ⅛';color:#fb7185}.sequence-item.quarter::after{content:' ¼';color:#fbbf24}.sequence-item.half::after{content:' ½';color:#facc15}.sequence-item.three-quarter::after{content:' ¾';color:#c4b5fd}.sequence-item.full::after{content:' 1';color:#93c5fd}.sequence-item.current{background:#166534;border-color:#4ade80}.sequence-item.pause{background:#1f2937;border-color:#94a3b8}.sequence-item.pause::before{content:"⏸ ";color:#e2e8f0}.sequence-recording{background:#991b1b!important;border-color:#f87171!important;box-shadow:0 0 0 2px rgba(248,113,113,.2)}#sequence-clear-all{background:linear-gradient(180deg,#b91c1c,#7f1d1d);border-color:#f87171}.sequence-panel.sequence-hidden{display:none}.sequence-toggle-active{background:#0f766e!important;border-color:#2dd4bf!important}
+@media(max-width:980px){body{padding:6px}.quick-controls{grid-template-columns:1.25fr repeat(4,minmax(105px,1fr));overflow-x:auto}.advanced-grid{grid-template-columns:repeat(5,minmax(120px,1fr));overflow-x:auto}.panel{padding:7px}.key.natural{height:40px}.key.sharp{height:28px}.chord{height:38px;min-height:38px;font-size:.62rem;padding:3px 1px}.drum-panel button{height:26px;min-height:26px;font-size:.72rem;padding:1px}.sequence-sections{gap:2px}.sequence-section-control{flex:1 1 0;min-width:0;gap:2px}.sequence-section-control>button{height:29px;min-height:29px;padding:2px 2px;font-size:.52rem}.repeat-stepper{grid-template-columns:16px 20px 16px;flex-basis:54px;height:29px}.repeat-stepper button{width:16px;min-width:16px;height:29px;min-height:29px;font-size:.66rem}.repeat-value{width:20px;height:29px;font-size:.58rem}.sequence-controls{grid-template-columns:repeat(4,.54fr) .78fr .58fr .72fr .48fr .68fr;gap:3px}.sequence-controls button{height:29px;min-height:29px;padding:2px 3px;font-size:.58rem}.transport{grid-template-columns:1fr .63fr .72fr .48fr repeat(6,minmax(28px,.40fr)) .84fr .84fr}.transport button{min-height:36px;padding:4px 2px;font-size:.6rem}.help{display:none}}
 @media(max-height:600px){h1{font-size:1rem}.key.natural{height:36px}.key.sharp{height:24px}.quick-controls .control{padding:5px}.chord{height:34px;min-height:34px}.status{font-size:.68rem}}
 
 #drum-engine-status{
@@ -256,6 +299,14 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
  color:#bfdbfe;
  font-weight:900;
 }
+.sequence-item.note.current,.sequence-item.current.note{
+ background:#166534;
+ border-color:#4ade80;
+ color:#fff;
+ box-shadow:0 0 0 2px rgba(74,222,128,.25) inset;
+}
+.sequence-item.note.current::before,.sequence-item.current.note::before{color:#dcfce7}
+
 .sequence-note-details{
  color:#bfdbfe;
  font-size:.48rem;
@@ -681,7 +732,7 @@ html[data-theme="light"] #minor-chords .chord:nth-child(3n){
 </head>
 <body>
 <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
-<header><h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span> GERA <span class="gera-subtitle">Gerador de Acompanhamentos</span> <small class="app-version">v3.14.16</small></h1><div class="header-actions">
+<header><h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span> GERA <span class="gera-subtitle">Gerador de Acompanhamentos</span> <small class="app-version">v3.14.23</small></h1><div class="header-actions">
 <label class="theme-control" for="theme-select"><span>Tema</span><select id="theme-select" aria-label="Escolher tema do aplicativo">
 <option value="dark">Escuro</option>
 <option value="neutral">Neutro</option>
@@ -765,22 +816,22 @@ html[data-theme="light"] #minor-chords .chord:nth-child(3n){
   <div class="song-bar"><span id="song-current-name"></span><button id="sequence-play" type="button" class="secondary" title="Reproduzir a sequência selecionada" aria-pressed="false">▶ Tocar Sequência</button><button id="sequence-stop-drums" class="secondary" title="Iniciar a bateria da sequência selecionada">🥁 Iniciar Bateria</button><button id="sequence-hold-loop" class="secondary" title="Manter a seção atual em repetição">🔁 Pôr em Loop</button><div class="song-file-actions"><button id="song-export" class="secondary sequence-file-button" title="Exportar a música atual com todas as sequências">⇩ Exportar</button><button id="song-import" class="secondary sequence-file-button" title="Importar uma música completa">⇧ Importar</button></div><button id="songs-open" class="secondary" title="Gerenciar músicas salvas" aria-label="Gerenciar músicas salvas">📚 Músicas</button><input id="song-import-file" type="file" accept=".json,application/json" hidden></div>
   <div class="sequence-top">
     <div class="sequence-sections" role="tablist" aria-label="Partes da música">
-      <div class="sequence-section-control" data-section-control="verse"><button class="secondary active-section" data-sequence-section="verse">Seq. 1</button><div class="repeat-stepper" aria-label="Repetições da Seq. 1"><button type="button" class="secondary" data-repeat-adjust="verse" data-delta="-1" title="Diminuir repetições da Seq. 1">−</button><span class="repeat-value" data-section-repeat-display="verse" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="verse" data-delta="1" title="Aumentar repetições da Seq. 1">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="prechorus"><button class="secondary" data-sequence-section="prechorus">Seq. 2</button><div class="repeat-stepper" aria-label="Repetições da Seq. 2"><button type="button" class="secondary" data-repeat-adjust="prechorus" data-delta="-1" title="Diminuir repetições da Seq. 2">−</button><span class="repeat-value" data-section-repeat-display="prechorus" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="prechorus" data-delta="1" title="Aumentar repetições da Seq. 2">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="chorus"><button class="secondary" data-sequence-section="chorus">Seq. 3</button><div class="repeat-stepper" aria-label="Repetições da Seq. 3"><button type="button" class="secondary" data-repeat-adjust="chorus" data-delta="-1" title="Diminuir repetições da Seq. 3">−</button><span class="repeat-value" data-section-repeat-display="chorus" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="chorus" data-delta="1" title="Aumentar repetições da Seq. 3">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="bridge"><button class="secondary" data-sequence-section="bridge">Seq. 4</button><div class="repeat-stepper" aria-label="Repetições da Seq. 4"><button type="button" class="secondary" data-repeat-adjust="bridge" data-delta="-1" title="Diminuir repetições da Seq. 4">−</button><span class="repeat-value" data-section-repeat-display="bridge" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="bridge" data-delta="1" title="Aumentar repetições da Seq. 4">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="section5"><button class="secondary" data-sequence-section="section5">Seq. 5</button><div class="repeat-stepper" aria-label="Repetições da Seq. 5"><button type="button" class="secondary" data-repeat-adjust="section5" data-delta="-1" title="Diminuir repetições da Seq. 5">−</button><span class="repeat-value" data-section-repeat-display="section5" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section5" data-delta="1" title="Aumentar repetições da Seq. 5">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="section6"><button class="secondary" data-sequence-section="section6">Seq. 6</button><div class="repeat-stepper" aria-label="Repetições da Seq. 6"><button type="button" class="secondary" data-repeat-adjust="section6" data-delta="-1" title="Diminuir repetições da Seq. 6">−</button><span class="repeat-value" data-section-repeat-display="section6" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section6" data-delta="1" title="Aumentar repetições da Seq. 6">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="section7"><button class="secondary" data-sequence-section="section7">Seq. 7</button><div class="repeat-stepper" aria-label="Repetições da Seq. 7"><button type="button" class="secondary" data-repeat-adjust="section7" data-delta="-1" title="Diminuir repetições da Seq. 7">−</button><span class="repeat-value" data-section-repeat-display="section7" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section7" data-delta="1" title="Aumentar repetições da Seq. 7">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="section8"><button class="secondary" data-sequence-section="section8">Seq. 8</button><div class="repeat-stepper" aria-label="Repetições da Seq. 8"><button type="button" class="secondary" data-repeat-adjust="section8" data-delta="-1" title="Diminuir repetições da Seq. 8">−</button><span class="repeat-value" data-section-repeat-display="section8" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section8" data-delta="1" title="Aumentar repetições da Seq. 8">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="section9"><button class="secondary" data-sequence-section="section9">Seq. 9</button><div class="repeat-stepper" aria-label="Repetições da Seq. 9"><button type="button" class="secondary" data-repeat-adjust="section9" data-delta="-1" title="Diminuir repetições da Seq. 9">−</button><span class="repeat-value" data-section-repeat-display="section9" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section9" data-delta="1" title="Aumentar repetições da Seq. 9">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="section10"><button class="secondary" data-sequence-section="section10">Seq. 10</button><div class="repeat-stepper" aria-label="Repetições da Seq. 10"><button type="button" class="secondary" data-repeat-adjust="section10" data-delta="-1" title="Diminuir repetições da Seq. 10">−</button><span class="repeat-value" data-section-repeat-display="section10" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section10" data-delta="1" title="Aumentar repetições da Seq. 10">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="section11"><button class="secondary" data-sequence-section="section11">Seq. 11</button><div class="repeat-stepper" aria-label="Repetições da Seq. 11"><button type="button" class="secondary" data-repeat-adjust="section11" data-delta="-1" title="Diminuir repetições da Seq. 11">−</button><span class="repeat-value" data-section-repeat-display="section11" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section11" data-delta="1" title="Aumentar repetições da Seq. 11">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="section12"><button class="secondary" data-sequence-section="section12">Seq. 12</button><div class="repeat-stepper" aria-label="Repetições da Seq. 12"><button type="button" class="secondary" data-repeat-adjust="section12" data-delta="-1" title="Diminuir repetições da Seq. 12">−</button><span class="repeat-value" data-section-repeat-display="section12" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section12" data-delta="1" title="Aumentar repetições da Seq. 12">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="section13"><button class="secondary" data-sequence-section="section13">Seq. 13</button><div class="repeat-stepper" aria-label="Repetições da Seq. 13"><button type="button" class="secondary" data-repeat-adjust="section13" data-delta="-1" title="Diminuir repetições da Seq. 13">−</button><span class="repeat-value" data-section-repeat-display="section13" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section13" data-delta="1" title="Aumentar repetições da Seq. 13">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="section14"><button class="secondary" data-sequence-section="section14">Seq. 14</button><div class="repeat-stepper" aria-label="Repetições da Seq. 14"><button type="button" class="secondary" data-repeat-adjust="section14" data-delta="-1" title="Diminuir repetições da Seq. 14">−</button><span class="repeat-value" data-section-repeat-display="section14" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section14" data-delta="1" title="Aumentar repetições da Seq. 14">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="section15"><button class="secondary" data-sequence-section="section15">Seq. 15</button><div class="repeat-stepper" aria-label="Repetições da Seq. 15"><button type="button" class="secondary" data-repeat-adjust="section15" data-delta="-1" title="Diminuir repetições da Seq. 15">−</button><span class="repeat-value" data-section-repeat-display="section15" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section15" data-delta="1" title="Aumentar repetições da Seq. 15">+</button></div></div>
-      <div class="sequence-section-control" data-section-control="section16"><button class="secondary" data-sequence-section="section16">Seq. 16</button><div class="repeat-stepper" aria-label="Repetições da Seq. 16"><button type="button" class="secondary" data-repeat-adjust="section16" data-delta="-1" title="Diminuir repetições da Seq. 16">−</button><span class="repeat-value" data-section-repeat-display="section16" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section16" data-delta="1" title="Aumentar repetições da Seq. 16">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="verse"><button class="secondary active-section" data-sequence-section="verse">Seq. 1</button><div class="repeat-stepper" aria-label="Repetições da Seq. 1"><button type="button" class="secondary" data-repeat-adjust="verse" data-delta="-1" title="Diminuir repetições da Seq. 1">−</button><span class="repeat-value" data-section-repeat-display="verse" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="verse" data-delta="1" title="Aumentar repetições da Seq. 1, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="prechorus"><button class="secondary" data-sequence-section="prechorus">Seq. 2</button><div class="repeat-stepper" aria-label="Repetições da Seq. 2"><button type="button" class="secondary" data-repeat-adjust="prechorus" data-delta="-1" title="Diminuir repetições da Seq. 2">−</button><span class="repeat-value" data-section-repeat-display="prechorus" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="prechorus" data-delta="1" title="Aumentar repetições da Seq. 2, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="chorus"><button class="secondary" data-sequence-section="chorus">Seq. 3</button><div class="repeat-stepper" aria-label="Repetições da Seq. 3"><button type="button" class="secondary" data-repeat-adjust="chorus" data-delta="-1" title="Diminuir repetições da Seq. 3">−</button><span class="repeat-value" data-section-repeat-display="chorus" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="chorus" data-delta="1" title="Aumentar repetições da Seq. 3, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="bridge"><button class="secondary" data-sequence-section="bridge">Seq. 4</button><div class="repeat-stepper" aria-label="Repetições da Seq. 4"><button type="button" class="secondary" data-repeat-adjust="bridge" data-delta="-1" title="Diminuir repetições da Seq. 4">−</button><span class="repeat-value" data-section-repeat-display="bridge" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="bridge" data-delta="1" title="Aumentar repetições da Seq. 4, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section5"><button class="secondary" data-sequence-section="section5">Seq. 5</button><div class="repeat-stepper" aria-label="Repetições da Seq. 5"><button type="button" class="secondary" data-repeat-adjust="section5" data-delta="-1" title="Diminuir repetições da Seq. 5">−</button><span class="repeat-value" data-section-repeat-display="section5" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section5" data-delta="1" title="Aumentar repetições da Seq. 5, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section6"><button class="secondary" data-sequence-section="section6">Seq. 6</button><div class="repeat-stepper" aria-label="Repetições da Seq. 6"><button type="button" class="secondary" data-repeat-adjust="section6" data-delta="-1" title="Diminuir repetições da Seq. 6">−</button><span class="repeat-value" data-section-repeat-display="section6" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section6" data-delta="1" title="Aumentar repetições da Seq. 6, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section7"><button class="secondary" data-sequence-section="section7">Seq. 7</button><div class="repeat-stepper" aria-label="Repetições da Seq. 7"><button type="button" class="secondary" data-repeat-adjust="section7" data-delta="-1" title="Diminuir repetições da Seq. 7">−</button><span class="repeat-value" data-section-repeat-display="section7" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section7" data-delta="1" title="Aumentar repetições da Seq. 7, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section8"><button class="secondary" data-sequence-section="section8">Seq. 8</button><div class="repeat-stepper" aria-label="Repetições da Seq. 8"><button type="button" class="secondary" data-repeat-adjust="section8" data-delta="-1" title="Diminuir repetições da Seq. 8">−</button><span class="repeat-value" data-section-repeat-display="section8" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section8" data-delta="1" title="Aumentar repetições da Seq. 8, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section9"><button class="secondary" data-sequence-section="section9">Seq. 9</button><div class="repeat-stepper" aria-label="Repetições da Seq. 9"><button type="button" class="secondary" data-repeat-adjust="section9" data-delta="-1" title="Diminuir repetições da Seq. 9">−</button><span class="repeat-value" data-section-repeat-display="section9" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section9" data-delta="1" title="Aumentar repetições da Seq. 9, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section10"><button class="secondary" data-sequence-section="section10">Seq. 10</button><div class="repeat-stepper" aria-label="Repetições da Seq. 10"><button type="button" class="secondary" data-repeat-adjust="section10" data-delta="-1" title="Diminuir repetições da Seq. 10">−</button><span class="repeat-value" data-section-repeat-display="section10" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section10" data-delta="1" title="Aumentar repetições da Seq. 10, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section11"><button class="secondary" data-sequence-section="section11">Seq. 11</button><div class="repeat-stepper" aria-label="Repetições da Seq. 11"><button type="button" class="secondary" data-repeat-adjust="section11" data-delta="-1" title="Diminuir repetições da Seq. 11">−</button><span class="repeat-value" data-section-repeat-display="section11" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section11" data-delta="1" title="Aumentar repetições da Seq. 11, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section12"><button class="secondary" data-sequence-section="section12">Seq. 12</button><div class="repeat-stepper" aria-label="Repetições da Seq. 12"><button type="button" class="secondary" data-repeat-adjust="section12" data-delta="-1" title="Diminuir repetições da Seq. 12">−</button><span class="repeat-value" data-section-repeat-display="section12" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section12" data-delta="1" title="Aumentar repetições da Seq. 12, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section13"><button class="secondary" data-sequence-section="section13">Seq. 13</button><div class="repeat-stepper" aria-label="Repetições da Seq. 13"><button type="button" class="secondary" data-repeat-adjust="section13" data-delta="-1" title="Diminuir repetições da Seq. 13">−</button><span class="repeat-value" data-section-repeat-display="section13" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section13" data-delta="1" title="Aumentar repetições da Seq. 13, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section14"><button class="secondary" data-sequence-section="section14">Seq. 14</button><div class="repeat-stepper" aria-label="Repetições da Seq. 14"><button type="button" class="secondary" data-repeat-adjust="section14" data-delta="-1" title="Diminuir repetições da Seq. 14">−</button><span class="repeat-value" data-section-repeat-display="section14" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section14" data-delta="1" title="Aumentar repetições da Seq. 14, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section15"><button class="secondary" data-sequence-section="section15">Seq. 15</button><div class="repeat-stepper" aria-label="Repetições da Seq. 15"><button type="button" class="secondary" data-repeat-adjust="section15" data-delta="-1" title="Diminuir repetições da Seq. 15">−</button><span class="repeat-value" data-section-repeat-display="section15" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section15" data-delta="1" title="Aumentar repetições da Seq. 15, até 99">+</button></div></div>
+      <div class="sequence-section-control" data-section-control="section16"><button class="secondary" data-sequence-section="section16">Seq. 16</button><div class="repeat-stepper" aria-label="Repetições da Seq. 16"><button type="button" class="secondary" data-repeat-adjust="section16" data-delta="-1" title="Diminuir repetições da Seq. 16">−</button><span class="repeat-value" data-section-repeat-display="section16" aria-live="polite">0</span><button type="button" class="secondary" data-repeat-adjust="section16" data-delta="1" title="Aumentar repetições da Seq. 16, até 99">+</button></div></div>
     </div>
     <div class="sequence-drum-config" aria-label="Configuração da bateria">
       <label>Instrumento
@@ -846,7 +897,7 @@ html[data-theme="light"] #minor-chords .chord:nth-child(3n){
         </select>
       </label>
     </div>
-    <div class="sequence-controls"><button id="sequence-rest-eighth" class="secondary" title="Adicionar pausa de um oitavo de compasso">⏸ ⅛</button><button id="sequence-rest-quarter" class="secondary" title="Adicionar pausa de um quarto de compasso">⏸ ¼</button><button id="sequence-rest-half" class="secondary" title="Adicionar pausa de meio compasso">⏸ ½</button><button id="sequence-rest-three-quarter" class="secondary" title="Adicionar pausa de três quartos de compasso">⏸ ¾</button><button id="sequence-rest-full" class="secondary" title="Adicionar pausa de um compasso">⏸ 1</button><button id="sequence-record" class="secondary" title="Gravar acordes na parte selecionada">● Gravar</button><button id="sequence-auto" class="secondary sequence-auto" title="Executar automaticamente em ciclo todas as sequências configuradas">Auto</button><button id="sequence-auto-end" class="secondary sequence-auto" title="Executar a música uma vez e encerrar com virada de bateria">Auto Fim</button><button id="sequence-clear" class="danger" title="Toque duas vezes para apagar o último item">⌫</button></div>
+    <div class="sequence-controls"><button id="sequence-rest-eighth" class="secondary" title="Adicionar pausa de um oitavo de compasso">⏸ ⅛</button><button id="sequence-rest-quarter" class="secondary" title="Adicionar pausa de um quarto de compasso">⏸ ¼</button><button id="sequence-rest-half" class="secondary" title="Adicionar pausa de meio compasso">⏸ ½</button><button id="sequence-rest-three-quarter" class="secondary" title="Adicionar pausa de três quartos de compasso">⏸ ¾</button><button id="sequence-rest-full" class="secondary" title="Adicionar pausa de um compasso">⏸ 1</button><button id="sequence-record" class="secondary" title="Gravar acordes na parte selecionada">● Gravar</button><button id="sequence-auto" class="secondary sequence-auto" title="Executar automaticamente em ciclo todas as sequências configuradas">Auto</button><button id="sequence-auto-end" class="secondary sequence-auto" title="Executar a música uma vez e encerrar com virada de bateria">Auto Fim</button><button id="sequence-clear" class="danger" title="Toque duas vezes para apagar o último item">⌫</button><button id="sequence-clear-all" class="danger" title="Apagar todos os acordes, notas e pausas da sequência ativa">Zerar Seq.</button></div>
   </div>
   <div id="sequence-strip" class="sequence-strip"><span class="sequence-empty">Grave os acordes da Seq. 1.</span></div>
 
@@ -1059,7 +1110,8 @@ function createVoice(semi,opt={}){
  let releaseScale=1;
 
  function connectOutput(lastNode){
-  lastNode.connect(masterGain);
+  const destination=opt.outputNode||masterGain;
+  lastNode.connect(destination);
  }
  function makeFilter(type,frequency,q,gain){
   const node=audioCtx.createBiquadFilter();
@@ -1284,6 +1336,96 @@ function createVoice(semi,opt={}){
  if(opt.autoRelease)setTimeout(function(){releaseVoice(voice,opt.autoRelease)},Math.max(20,opt.autoRelease));
  return voice;
 }
+
+const chordLoudnessCache=new Map();
+const CHORD_RMS_TARGET=.145;
+function clampChordGain(value){
+ const number=Number(value);
+ if(!Number.isFinite(number))return 1;
+ return Math.max(.48,Math.min(1.55,number));
+}
+function chordLoudnessKey(notes,selectedInstrument){
+ const normalized=(Array.isArray(notes)?notes:[])
+  .map(function(note){return Math.round(Number(note)||0)})
+  .sort(function(a,b){return a-b});
+ return normalizeInstrumentId(selectedInstrument||instrument)+'|'+normalized.join(',');
+}
+function chordInitialGain(notes,key){
+ const cached=chordLoudnessCache.get(key);
+ if(Number.isFinite(cached))return clampChordGain(cached);
+ const count=Math.max(1,Array.isArray(notes)?notes.length:1);
+ return clampChordGain(1.42/Math.sqrt(count));
+}
+function createChordLoudnessSession(notes,selectedInstrument,expectedDuration,measureDelay){
+ ensureAudio();
+ const analyser=audioCtx.createAnalyser();
+ const gain=audioCtx.createGain();
+ const key=chordLoudnessKey(notes,selectedInstrument);
+ const initialGain=chordInitialGain(notes,key);
+ const duration=Math.max(180,Number(expectedDuration)||600);
+ const delay=Math.max(45,Number(measureDelay)||90);
+ analyser.fftSize=2048;
+ analyser.smoothingTimeConstant=.35;
+ gain.gain.setValueAtTime(initialGain,audioCtx.currentTime);
+ analyser.connect(gain);
+ gain.connect(masterGain);
+
+ const samples=new Float32Array(analyser.fftSize);
+ const measurements=[];
+ let finished=false;
+
+ function measure(){
+  if(finished)return;
+  analyser.getFloatTimeDomainData(samples);
+  let sum=0;
+  for(let index=0;index<samples.length;index++){
+   const value=samples[index];
+   sum+=value*value;
+  }
+  const rms=Math.sqrt(sum/samples.length);
+  if(Number.isFinite(rms)&&rms>.0005)measurements.push(rms);
+ }
+
+ const timers=[];
+ [delay,delay+55,delay+120].forEach(function(wait){
+  timers.push(setTimeout(measure,wait));
+ });
+
+ timers.push(setTimeout(function(){
+  if(finished)return;
+  finished=true;
+  let measured=0;
+  if(measurements.length){
+   measured=measurements.reduce(function(total,value){return total+value},0)/measurements.length;
+  }
+  if(measured>.0005){
+   const correction=CHORD_RMS_TARGET/measured;
+   const desired=clampChordGain(initialGain*correction);
+   const previous=chordLoudnessCache.get(key);
+   const learned=Number.isFinite(previous)
+    ?clampChordGain(previous*.7+desired*.3)
+    :clampChordGain(initialGain*.45+desired*.55);
+   chordLoudnessCache.set(key,learned);
+   const now=audioCtx.currentTime;
+   gain.gain.cancelScheduledValues(now);
+   gain.gain.setValueAtTime(Math.max(.001,gain.gain.value),now);
+   gain.gain.exponentialRampToValueAtTime(Math.max(.001,learned),now+.12);
+  }
+ },delay+165));
+
+ timers.push(setTimeout(function(){
+  try{analyser.disconnect()}catch(error){}
+  try{gain.disconnect()}catch(error){}
+ },duration+900));
+
+ return {
+  input:analyser,
+  gain:gain,
+  key:key,
+  initialGain:initialGain
+ };
+}
+
 function releaseVoice(voice,ms=releaseMs){
  if(!voice||voice.stopped||!audioCtx)return;
  voice.stopped=true;
@@ -1401,17 +1543,20 @@ async function playChord(root,type="major",button=null,fromRhythm=false){
  setTimeout(function(){if(button)button.classList.remove('playing')},Math.max(420,arpInterval*notes.length));
 
  if(chordMode==='together'){
+  const chordDuration=latchEnabled?Math.max(1800,releaseMs*2):Math.max(500,releaseMs);
+  const measureDelay=instrument==='violao6'?170:95;
+  const loudnessSession=createChordLoudnessSession(notes,instrument,chordDuration,measureDelay);
   if(instrument==='violao6'){
    const ordered=notes.slice(0,6);
    ordered.forEach(function(note,index){
     scheduleInBar(function(){
-     createVoice(note,{kind:'chord',instrument:'violao6',autoRelease:latchEnabled?0:Math.max(500,releaseMs)});
+     createVoice(note,{kind:'chord',instrument:'violao6',outputNode:loudnessSession.input,autoRelease:latchEnabled?0:Math.max(500,releaseMs)});
      flash(note,true);setTimeout(function(){flash(note,false)},420);
     },index*38);
    });
   }else{
    notes.forEach(function(note){
-    createVoice(note,{kind:'chord',instrument:instrument,autoRelease:latchEnabled?0:Math.max(500,releaseMs)});
+    createVoice(note,{kind:'chord',instrument:instrument,outputNode:loudnessSession.input,autoRelease:latchEnabled?0:Math.max(500,releaseMs)});
     flash(note,true);setTimeout(function(){flash(note,false)},450);
    });
   }
@@ -1419,9 +1564,11 @@ async function playChord(root,type="major",button=null,fromRhythm=false){
   let bassVoice=null;
   if(bassEnabled)bassVoice=createVoice(root,{kind:'bass',instrument:'electricBass',autoRelease:latchEnabled?0:Math.max(700,releaseMs+arpInterval*notes.length)});
   const ordered=patternNotes(notes);
+  const arpeggioDuration=Math.max(500,releaseMs+arpInterval*ordered.length);
+  const arpeggioSession=createChordLoudnessSession(notes,instrument,arpeggioDuration,Math.max(120,Math.min(360,arpInterval*2)));
   for(const note of ordered){
    if(token!==actionToken)break;
-   createVoice(note,{kind:'chord',instrument:instrument,autoRelease:Math.max(350,releaseMs)});
+   createVoice(note,{kind:'chord',instrument:instrument,outputNode:arpeggioSession.input,autoRelease:Math.max(350,releaseMs)});
    flash(note,true);setTimeout(function(){flash(note,false)},Math.max(180,arpInterval));
    await new Promise(function(resolve){setTimeout(resolve,arpInterval)});
   }
@@ -1514,6 +1661,7 @@ function guitarStroke(root,type,direction='down',duration=420,button=null,muted=
  if(direction==='up')notes.reverse();
  const selected=direction==='up'?notes.slice(0,Math.min(3,notes.length)):notes;
  const spread=direction==='up'?14:18;
+ const guitarSession=muted?null:createChordLoudnessSession(selected,'violao',duration,90+spread*selected.length);
  if(muted){
    ensureAudio();
    const mutedTime=audioCtx ? audioCtx.currentTime : 0;
@@ -1521,7 +1669,7 @@ function guitarStroke(root,type,direction='down',duration=420,button=null,muted=
    return;
  }
  selected.forEach((n,i)=>scheduleInBar(()=>{
-   createVoice(n,{kind:'chord',instrument:'acousticGuitar',velocity:Math.max(.25,accent*(direction==='up'?.62:.9)),autoRelease:Math.max(180,duration-i*spread)});
+   createVoice(n,{kind:'chord',instrument:'acousticGuitar',outputNode:guitarSession.input,velocity:Math.max(.25,accent*(direction==='up'?.62:.9)),autoRelease:Math.max(180,duration-i*spread)});
    flash(n,true);setTimeout(()=>flash(n,false),120);
  },i*spread));
 }
@@ -1559,10 +1707,23 @@ function playRhythmHit(root,type,duration,kind='chord',button=null){
  if(instrument==='acousticGuitar'&&kind==='chord'&&chordMode==='together'){guitarStroke(root,type,'down',duration,button,false,1);return}
  if(chordMode==='arpeggio'&&kind==='chord'){
    const ordered=patternNotes(notes),step=Math.max(55,arpInterval),limit=Math.max(0,duration-20);
+   const rhythmArpSession=createChordLoudnessSession(notes,instrument,duration,Math.max(90,Math.min(280,step*2)));
    if(bassEnabled)createVoice(root,{kind:'bass',autoRelease:duration});
-   ordered.forEach((n,i)=>{const at=i*step;if(at>limit)return;scheduleInBar(()=>{createVoice(n,{kind:'chord',autoRelease:Math.max(220,Math.min(releaseMs,Math.max(220,duration-at)))});flash(n,true);setTimeout(()=>flash(n,false),Math.max(120,Math.min(220,step)))},at)});return;
+   ordered.forEach(function(note,index){
+    const at=index*step;
+    if(at>limit)return;
+    scheduleInBar(function(){
+     createVoice(note,{kind:'chord',instrument:instrument,outputNode:rhythmArpSession.input,autoRelease:Math.max(220,Math.min(releaseMs,Math.max(220,duration-at)))});
+     flash(note,true);
+     setTimeout(function(){flash(note,false)},Math.max(120,Math.min(220,step)));
+    },at);
+   });
+   return;
  }
- notes.forEach(n=>createVoice(n,{kind:'chord',autoRelease:duration}));
+ const rhythmSession=createChordLoudnessSession(notes,instrument,duration,80);
+ notes.forEach(function(note){
+  createVoice(note,{kind:'chord',instrument:instrument,outputNode:rhythmSession.input,autoRelease:duration});
+ });
 }
 function executeBarSegment(root,type,button,start,end){
  if(isGuitarRhythm())return executeGuitarSegment(root,type,button,start,end);
@@ -1803,9 +1964,14 @@ function configuredNextSequence(section){
  return config.proxima||'';
 }
 function plannedNextSequenceSection(){
- if(queuedSequenceSection)return queuedSequenceSection;
  if(sequenceHoldLoop)return activeSequenceSection;
+ const targetPasses=sectionTargetPasses(activeSequenceSection);
+ if(queuedSequenceSection){
+  if(currentSectionRepetition<targetPasses)return activeSequenceSection;
+  return queuedSequenceSection;
+ }
  const configured=configuredNextSequence(activeSequenceSection);
+ if(configured&&currentSectionRepetition<targetPasses)return activeSequenceSection;
  if(configured==='stop')return '';
  if(configured&&SEQUENCE_SECTION_LABELS[configured])return configured;
  if(sequenceAutoEnd)return nextAutomaticSectionWithoutLoop(activeSequenceSection);
@@ -1813,6 +1979,13 @@ function plannedNextSequenceSection(){
  return '';
 }
 function isLastConfiguredPass(){
+ if(queuedSequenceSection){
+  return currentSectionRepetition>=sectionTargetPasses(activeSequenceSection);
+ }
+ const configuredNext=configuredNextSequence(activeSequenceSection);
+ if(configuredNext){
+  return currentSectionRepetition>=sectionTargetPasses(activeSequenceSection);
+ }
  if(sequenceAuto||sequenceAutoEnd){
   const repeat=sectionRepeatValue(activeSequenceSection);
   return repeat>0&&currentSectionRepetition>=repeat;
@@ -1882,7 +2055,7 @@ function loadChordSequence(){
    if(saved.repeats&&typeof saved.repeats==='object'){
     Object.keys(sequenceRepeats).forEach(function(key){
      const value=Number(saved.repeats[key]);
-     if(Number.isFinite(value))sequenceRepeats[key]=Math.max(0,Math.min(16,Math.round(value)));
+     if(Number.isFinite(value))sequenceRepeats[key]=Math.max(0,Math.min(MAX_SEQUENCE_REPEATS,Math.round(value)));
     });
    }
    if(Array.isArray(saved.ordemSecoes)){
@@ -2021,7 +2194,7 @@ function normalizeImportedSong(data){
   let repeat=0;
   if(data.repeats&&typeof data.repeats==='object')repeat=Number(data.repeats[section]);
   if(!Number.isFinite(repeat))repeat=0;
-  repeats[section]=Math.max(0,Math.min(16,Math.round(repeat)));
+  repeats[section]=Math.max(0,Math.min(MAX_SEQUENCE_REPEATS,Math.round(repeat)));
   if(data.bateria&&typeof data.bateria==='object')bateria[section]=normalizeSectionDrum(data.bateria[section]);
   else bateria[section]=defaultSectionDrum();
  });
@@ -2204,7 +2377,7 @@ function applySequenceState(state){
  keys.forEach(function(key){
   sequenceSections[key]=Array.isArray(state?.sections?.[key])?state.sections[key].map(normalizeSequenceItem).filter(Boolean):[];
   const rep=Number(state?.repeats?.[key]);
-  sequenceRepeats[key]=Number.isFinite(rep)?Math.max(0,Math.min(16,Math.round(rep))):0;
+  sequenceRepeats[key]=Number.isFinite(rep)?Math.max(0,Math.min(MAX_SEQUENCE_REPEATS,Math.round(rep))):0;
  });
  if(state&&Number.isFinite(Number(state.capoSemitones)))capoSemitones=clampCapo(state.capoSemitones);
  if(state&&typeof state.auto==='boolean')sequenceAuto=state.auto;
@@ -2289,10 +2462,11 @@ async function deleteSong(name){
  if(currentSongName===name)currentSongName=null;
  saveSongsStore();renderSongsList();updateSongNameDisplay();
 }
+const MAX_SEQUENCE_REPEATS=99;
 function sectionRepeatValue(section){
  const value=Number(sequenceRepeats[section]);
  if(!Number.isFinite(value))return 0;
- return Math.max(0,Math.min(16,Math.round(value)));
+ return Math.max(0,Math.min(MAX_SEQUENCE_REPEATS,Math.round(value)));
 }
 function configuredSequenceSections(){
  return sequenceOrder.filter(function(section){
@@ -2303,6 +2477,10 @@ function sectionRepeatLabel(section){
  const value=sectionRepeatValue(section);
  if(value===0)return '—';
  return String(value);
+}
+function sectionTargetPasses(section){
+ const configured=sectionRepeatValue(section);
+ return configured>0?configured:1;
 }
 function nextAutomaticSection(section){
  const configured=configuredSequenceSections();
@@ -2399,12 +2577,26 @@ function selectSequenceSection(section){
  if(!SEQUENCE_SECTION_LABELS[section])return;
  if(sequencePlaying){
   if(section===activeSequenceSection){
-   if(queuedSequenceSection){queuedSequenceSection=null;syncSequenceSectionButtons();setStatus('Próxima seção cancelada; '+SEQUENCE_SECTION_LABELS[activeSequenceSection]+' continuará em repetição');}
+   if(queuedSequenceSection){
+    const cancelledLabel=SEQUENCE_SECTION_LABELS[queuedSequenceSection];
+    queuedSequenceSection=null;
+    syncSequenceSectionButtons();
+    renderChordSequence();
+    setStatus('Entrada manual de '+cancelledLabel+' cancelada; '+SEQUENCE_SECTION_LABELS[activeSequenceSection]+' continuará normalmente');
+   }
    return;
   }
   if(!(sequenceSections[section]||[]).length){setStatus(SEQUENCE_SECTION_LABELS[section]+' está vazia');return}
   if(queuedSequenceSection===section){queuedSequenceSection=null;syncSequenceSectionButtons();setStatus('Entrada de '+SEQUENCE_SECTION_LABELS[section]+' cancelada');return}
-  queuedSequenceSection=section;syncSequenceSectionButtons();setStatus(SEQUENCE_SECTION_LABELS[section]+' será a próxima seção e terá prioridade sobre o modo automático');return;
+  queuedSequenceSection=section;
+  syncSequenceSectionButtons();
+  const targetPasses=sectionTargetPasses(activeSequenceSection);
+  setStatus(
+   SEQUENCE_SECTION_LABELS[section]+
+   ' será a próxima seção após '+SEQUENCE_SECTION_LABELS[activeSequenceSection]+
+   ' completar '+targetPasses+(targetPasses===1?' execução':' repetições')
+  );
+  return;
  }
  if(section===activeSequenceSection)return;
  if(sequenceRecording){sequenceRecording=false;syncSequenceRecordButton()}
@@ -2560,7 +2752,13 @@ function firstChordsOfSection(section,limit){
 }
 function isLastRepetitionForPreview(){
  if(!sequencePlaying)return false;
- if(queuedSequenceSection)return true;
+ if(queuedSequenceSection){
+  return currentSectionRepetition>=sectionTargetPasses(activeSequenceSection);
+ }
+ const configured=configuredNextSequence(activeSequenceSection);
+ if(configured){
+  return currentSectionRepetition>=sectionTargetPasses(activeSequenceSection);
+ }
  if(sequenceAuto||sequenceAutoEnd){
   const target=sectionRepeatValue(activeSequenceSection);
   return target>0&&currentSectionRepetition>=target;
@@ -2569,6 +2767,7 @@ function isLastRepetitionForPreview(){
 }
 function appendNextSequencePreview(box){
  if(!box||!isLastRepetitionForPreview())return;
+ if(box.querySelectorAll('.sequence-subgroup').length>=2)return;
 
  const nextSection=nextSectionForPreview();
  if(!nextSection)return;
@@ -2599,12 +2798,74 @@ function appendNextSequencePreview(box){
    preview.appendChild(previewText);
   }
   preview.title='Próxima sequência: '+SEQUENCE_SECTION_LABELS[nextSection];
-  box.appendChild(preview);
+  let previewGroup=box.querySelector('.sequence-subgroup.next-sequence-subgroup');
+  if(!previewGroup){
+   previewGroup=document.createElement('div');
+   previewGroup.className='sequence-subgroup next-sequence-subgroup';
+   previewGroup.style.setProperty('--sequence-columns',String(Math.max(1,Math.min(4,source.length))));
+   previewGroup.setAttribute('aria-label','Prévia da próxima sequência');
+   box.appendChild(previewGroup);
+  }
+  previewGroup.appendChild(preview);
   added++;
  }
 }
 
 
+
+function splitSequenceDisplayGroups(sequence){
+ const source=Array.isArray(sequence)?sequence:[];
+ const groups=[];
+ const maxItems=8;
+ const minLastItems=4;
+ for(let index=0;index<source.length;index+=maxItems){
+  groups.push(source.slice(index,index+maxItems).map(function(item,offset){
+   return {item:item,index:index+offset};
+  }));
+ }
+ if(groups.length>1){
+  const last=groups[groups.length-1];
+  const previous=groups[groups.length-2];
+  if(last.length>0&&last.length<minLastItems){
+   const needed=minLastItems-last.length;
+   const movable=Math.max(0,previous.length-minLastItems);
+   const amount=Math.min(needed,movable);
+   if(amount>0){
+    const moved=previous.splice(previous.length-amount,amount);
+    groups[groups.length-1]=moved.concat(last);
+   }
+  }
+ }
+ return groups;
+}
+
+function sequenceGroupIndexForItem(itemIndex,groups){
+ if(!Array.isArray(groups)||!groups.length)return 0;
+ const numericIndex=Math.max(0,Math.round(Number(itemIndex)||0));
+ for(let groupIndex=0;groupIndex<groups.length;groupIndex++){
+  const group=groups[groupIndex];
+  if(!group.length)continue;
+  const first=group[0].index;
+  const last=group[group.length-1].index;
+  if(numericIndex>=first&&numericIndex<=last)return groupIndex;
+ }
+ return Math.max(0,groups.length-1);
+}
+function visibleSequenceGroupRange(groups){
+ if(!Array.isArray(groups)||groups.length<=2){
+  return {start:0,end:groups.length};
+ }
+ let focusIndex=0;
+ if(sequencePlaying&&sequenceIndex>=0){
+  focusIndex=sequenceIndex;
+ }else if(sequenceEditIndex>=0){
+  focusIndex=sequenceEditIndex;
+ }
+ const focusGroup=sequenceGroupIndexForItem(focusIndex,groups);
+ let start=focusGroup;
+ if(start>=groups.length-1)start=groups.length-2;
+ return {start:start,end:Math.min(groups.length,start+2)};
+}
 
 function shouldShowSequenceItemText(item){
  if(!item||!item.text)return false;
@@ -2614,51 +2875,68 @@ function shouldShowSequenceItemText(item){
  return currentSectionRepetition===target;
 }
 function renderChordSequence(){
- const box=$('sequence-strip');if(!box)return;box.innerHTML='';const sequence=currentChordSequence();
+ const box=$('sequence-strip');
+ if(!box)return;
+ box.innerHTML='';
+ const sequence=currentChordSequence();
  if(!sequence.length){
-  box.innerHTML=`<span class="sequence-empty">Grave os acordes de ${SEQUENCE_SECTION_LABELS[activeSequenceSection]}.</span>`;
+  box.innerHTML='<span class="sequence-empty">Grave os acordes de '+SEQUENCE_SECTION_LABELS[activeSequenceSection]+'.</span>';
   syncSequenceSectionButtons();
   return;
  }
- sequence.forEach(function(item,i){
-  const el=document.createElement('span');
-  let durationClass='full';
-  let durationText='Um compasso';
-  if(item.fraction===.125){durationClass='eighth';durationText='Um oitavo de compasso';}
-  else if(item.fraction===.25){durationClass='quarter';durationText='Um quarto de compasso';}
-  else if(item.fraction===.5){durationClass='half';durationText='Meio compasso';}
-  else if(item.fraction===.75){durationClass='three-quarter';durationText='Três quartos de compasso';}
-  el.className='sequence-item '+durationClass+(isSequencePause(item)?' pause':'')+(isSequenceNote(item)?' note':'')+(sequencePlaying&&i===sequenceIndex?' current':'')+(i===sequenceEditIndex?' editing':'');
-  let itemText=item.label||(isSequencePause(item)?'Pausa':isSequenceNote(item)?normalizedNoteName(item.note):chordLabel(+item.root,item.type));
-  if(isSequenceNote(item))itemText='♪ '+itemText;
-  else if(!isSequencePause(item))itemText+=' · '+(item.playMode==='arpeggio'?'A':'J');
-  const chordText=document.createElement('span');
-  chordText.textContent=itemText;
-  el.appendChild(chordText);
-  if(!isSequencePause(item)&&item.text&&shouldShowSequenceItemText(item)){
-   const textEl=document.createElement('span');
-   textEl.className='sequence-item-text';
-   textEl.textContent=' - '+item.text;
-   el.appendChild(textEl);
-  }
-  if(isSequencePause(item))el.title='Pausa de '+durationText.toLowerCase();
-  else if(isSequenceNote(item)){
-   let noteTitle=durationText+' · Nota única · instrumento atual: '+LABELS[instrument]+' · oitava '+item.octave;
-   if(item.string)noteTitle+=' · corda '+item.string;
-   if(Number.isFinite(Number(item.fret)))noteTitle+=' · casa '+item.fret;
-   el.title=noteTitle;
-  }else el.title=durationText+' · '+(item.playMode==='arpeggio'?'Arpejo':'Juntos');
-  el.setAttribute('role','button');
-  el.setAttribute('tabindex','0');
-  el.setAttribute('aria-label','Editar '+itemText);
-  el.onclick=function(){openSequenceEditor(i)};
-  el.onkeydown=function(event){
-   if(event.key==='Enter'||event.key===' '){
-    event.preventDefault();
-    openSequenceEditor(i);
+ const groups=splitSequenceDisplayGroups(sequence);
+ const visibleRange=visibleSequenceGroupRange(groups);
+ const visibleGroups=groups.slice(visibleRange.start,visibleRange.end);
+ visibleGroups.forEach(function(group,visibleIndex){
+  const groupIndex=visibleRange.start+visibleIndex;
+  const subgroup=document.createElement('div');
+  subgroup.className='sequence-subgroup';
+  subgroup.style.setProperty('--sequence-columns',String(Math.max(1,group.length)));
+  subgroup.dataset.sequenceSubgroup=String(groupIndex+1);
+  subgroup.setAttribute('aria-label','Subsequência '+(groupIndex+1)+' com '+group.length+' itens');
+  group.forEach(function(entry){
+   const item=entry.item;
+   const i=entry.index;
+   const el=document.createElement('span');
+   let durationClass='full';
+   let durationText='Um compasso';
+   if(item.fraction===.125){durationClass='eighth';durationText='Um oitavo de compasso'}
+   else if(item.fraction===.25){durationClass='quarter';durationText='Um quarto de compasso'}
+   else if(item.fraction===.5){durationClass='half';durationText='Meio compasso'}
+   else if(item.fraction===.75){durationClass='three-quarter';durationText='Três quartos de compasso'}
+   el.className='sequence-item '+durationClass+(isSequencePause(item)?' pause':'')+(isSequenceNote(item)?' note':'')+(sequencePlaying&&i===sequenceIndex?' current':'')+(i===sequenceEditIndex?' editing':'');
+   let itemText=item.label||(isSequencePause(item)?'Pausa':isSequenceNote(item)?normalizedNoteName(item.note):chordLabel(+item.root,item.type));
+   if(isSequenceNote(item))itemText='♪ '+itemText;
+   else if(!isSequencePause(item))itemText+=' · '+(item.playMode==='arpeggio'?'A':'J');
+   const chordText=document.createElement('span');
+   chordText.textContent=itemText;
+   el.appendChild(chordText);
+   if(!isSequencePause(item)&&item.text&&shouldShowSequenceItemText(item)){
+    const textEl=document.createElement('span');
+    textEl.className='sequence-item-text';
+    textEl.textContent=' - '+item.text;
+    el.appendChild(textEl);
    }
-  };
-  box.appendChild(el);
+   if(isSequencePause(item))el.title='Pausa de '+durationText.toLowerCase();
+   else if(isSequenceNote(item)){
+    let noteTitle=durationText+' · Nota única · instrumento atual: '+LABELS[instrument]+' · oitava '+item.octave;
+    if(item.string)noteTitle+=' · corda '+item.string;
+    if(Number.isFinite(Number(item.fret)))noteTitle+=' · casa '+item.fret;
+    el.title=noteTitle;
+   }else el.title=durationText+' · '+(item.playMode==='arpeggio'?'Arpejo':'Juntos');
+   el.setAttribute('role','button');
+   el.setAttribute('tabindex','0');
+   el.setAttribute('aria-label','Editar '+itemText);
+   el.onclick=function(){openSequenceEditor(i)};
+   el.onkeydown=function(event){
+    if(event.key==='Enter'||event.key===' '){
+     event.preventDefault();
+     openSequenceEditor(i);
+    }
+   };
+   subgroup.appendChild(el);
+  });
+  box.appendChild(subgroup);
  });
  appendNextSequencePreview(box);
  syncSequenceSectionButtons();
@@ -2758,6 +3036,49 @@ function requestDeleteLastSequenceItem(){
  renderChordSequence();
  setStatus((removed&&removed.label?removed.label:'Último item')+' removido de '+SEQUENCE_SECTION_LABELS[activeSequenceSection]);
 }
+async function clearActiveSequenceAll(){
+ const section=currentChordSequence();
+ const sectionLabel=SEQUENCE_SECTION_LABELS[activeSequenceSection]||'sequência ativa';
+
+ if(!section.length){
+  setStatus(sectionLabel+' já está vazia');
+  return false;
+ }
+
+ const itemCount=section.length;
+ const itemWord=itemCount===1?'item':'itens';
+ const confirmed=await appConfirm(
+  'Apagar todos os '+itemCount+' '+itemWord+' de '+sectionLabel+'? Serão removidos acordes, notas e pausas. Esta ação não pode ser desfeita.',
+  'Zerar '+sectionLabel
+ );
+
+ if(!confirmed)return false;
+
+ if(sequencePlaying||sequenceStartQueued){
+  stopChordSequence('');
+ }
+
+ resetSequenceDeleteArm();
+ sequenceSections[activeSequenceSection]=[];
+ sequenceRepeats[activeSequenceSection]=0;
+ sequenceIndex=-1;
+ sequenceEighthUnitsRemaining=0;
+ currentSectionRepetition=1;
+
+ if(queuedSequenceSection===activeSequenceSection){
+  queuedSequenceSection=null;
+ }
+
+ saveChordSequence();
+ syncSequenceRepeatInputs();
+ syncSequenceSectionButtons();
+ syncSectionDrumControls();
+ renderChordSequence();
+
+ setStatus(sectionLabel+' zerada; '+itemCount+' '+itemWord+' removidos');
+ return true;
+}
+
 function syncChordModeButtons(){
  const together=$('chord-together');
  const arpeggio=$('chord-arpeggio');
@@ -2867,29 +3188,56 @@ function loadSequenceItem(index,boundaryAudioTime){
    renderChordSequence();
    setStatus(SEQUENCE_SECTION_LABELS[activeSequenceSection]+' · em loop ('+currentSectionRepetition+')');
   }else if(queuedSequenceSection){
-   const nextSection=queuedSequenceSection;
-   queuedSequenceSection=null;
-   const waitButton=$('sequence-play-wait');if(waitButton)waitButton.classList.remove('active');
-   activeSequenceSection=nextSection;
-   currentSectionRepetition=1;
-   sequence=currentChordSequence();
-   if(!sequence.length){
-    stopChordSequence(SEQUENCE_SECTION_LABELS[nextSection]+' está vazia');
-    return false;
+   const manualTarget=sectionTargetPasses(activeSequenceSection);
+   if(currentSectionRepetition<manualTarget){
+    currentSectionRepetition++;
+    index=0;
+    renderChordSequence();
+    syncSequenceSectionButtons();
+    setStatus(
+     SEQUENCE_SECTION_LABELS[activeSequenceSection]+
+     ' · repetição '+currentSectionRepetition+' de '+manualTarget+
+     ' antes de entrar '+SEQUENCE_SECTION_LABELS[queuedSequenceSection]
+    );
+   }else{
+    const nextSection=queuedSequenceSection;
+    queuedSequenceSection=null;
+    const waitButton=$('sequence-play-wait');if(waitButton)waitButton.classList.remove('active');
+    activeSequenceSection=nextSection;
+    currentSectionRepetition=1;
+    sequence=currentChordSequence();
+    if(!sequence.length){
+     stopChordSequence(SEQUENCE_SECTION_LABELS[nextSection]+' está vazia');
+     return false;
+    }
+    index=0;
+    saveChordSequence();
+    syncSequenceSectionButtons();
+    applySectionDrumConfig(nextSection,true);
+    syncSectionDrumControls();
+    setStatus(
+     'Entrou '+SEQUENCE_SECTION_LABELS[nextSection]+
+     ' por escolha manual, após completar '+manualTarget+
+     (manualTarget===1?' execução':' repetições')
+    );
    }
-   index=0;
-   saveChordSequence();
-   syncSequenceSectionButtons();
-   applySectionDrumConfig(nextSection,true);
-   syncSectionDrumControls();
-   setStatus('Entrou '+SEQUENCE_SECTION_LABELS[nextSection]+' por escolha manual');
   }else{
    const configuredNext=configuredNextSequence(activeSequenceSection);
-   if(configuredNext==='stop'){
-    stopChordSequence(SEQUENCE_SECTION_LABELS[activeSequenceSection]+' concluída');
+   const configuredTarget=sectionTargetPasses(activeSequenceSection);
+
+   if(configuredNext&&currentSectionRepetition<configuredTarget){
+    currentSectionRepetition++;
+    index=0;
+    renderChordSequence();
+    setStatus(
+     SEQUENCE_SECTION_LABELS[activeSequenceSection]+
+     ' · repetição '+currentSectionRepetition+' de '+configuredTarget+
+     ' antes de '+(configuredNext==='stop'?'parar':SEQUENCE_SECTION_LABELS[configuredNext])
+    );
+   }else if(configuredNext==='stop'){
+    stopChordSequence(SEQUENCE_SECTION_LABELS[activeSequenceSection]+' concluída após '+configuredTarget+(configuredTarget===1?' execução':' repetições'));
     return false;
-   }
-   if(configuredNext&&SEQUENCE_SECTION_LABELS[configuredNext]){
+   }else if(configuredNext&&SEQUENCE_SECTION_LABELS[configuredNext]){
     activeSequenceSection=configuredNext;
     currentSectionRepetition=1;
     sequence=currentChordSequence();
@@ -2902,7 +3250,7 @@ function loadSequenceItem(index,boundaryAudioTime){
     syncSequenceSectionButtons();
     applySectionDrumConfig(configuredNext,true);
     syncSectionDrumControls();
-    setStatus('Entrou '+SEQUENCE_SECTION_LABELS[configuredNext]+' pela configuração da sequência');
+    setStatus('Entrou '+SEQUENCE_SECTION_LABELS[configuredNext]+' após completar '+configuredTarget+(configuredTarget===1?' execução':' repetições'));
    }else if(sequenceAuto||sequenceAutoEnd){
    const targetRepeats=sectionRepeatValue(activeSequenceSection);
    if(targetRepeats>0&&currentSectionRepetition<targetRepeats){
@@ -2922,7 +3270,7 @@ function loadSequenceItem(index,boundaryAudioTime){
       }
       stopChordSequence('Música concluída');
      }else{
-      stopChordSequence('Nenhuma sequência com repetição de 1 a 16 está configurada no modo Auto');
+      stopChordSequence('Nenhuma sequência com repetição de 1 a 99 está configurada no modo Auto');
      }
      return false;
     }
@@ -3134,7 +3482,7 @@ function playChordSequence(){
  if(sequencePlaying)stopChordSequence('');
  if((sequenceAuto||sequenceAutoEnd)&&sectionRepeatValue(activeSequenceSection)===0){
   const configured=configuredSequenceSections();
-  if(!configured.length){setStatus('No modo Auto, configure pelo menos uma sequência com repetição de 1 a 16');return}
+  if(!configured.length){setStatus('No modo Auto, configure pelo menos uma sequência com repetição de 1 a 99');return}
   activeSequenceSection=configured[0];
   currentSectionRepetition=1;
   syncSequenceSectionButtons();
@@ -4043,7 +4391,7 @@ document.querySelectorAll('.fine-btn').forEach(function(button){
  input.addEventListener('change',function(){clampFineInput(input);updateRanges()});
  input.addEventListener('blur',function(){clampFineInput(input);updateRanges()});
 });
-$('instrument').onchange=e=>{if(isInstrumentChangeLocked()){e.target.value=instrument;setStatus('Pare o acompanhamento contínuo ou a sequência em execução antes de trocar o instrumento');return}instrument=e.target.value;releaseAll();renderKeyboard();setStatus('Instrumento: '+LABELS[instrument]+(instrument==='sino'?' · teclado com 3 oitavas':''))};$('oct-down').onclick=()=>{octave=Math.max(-2,octave-1);$('oct-label').textContent=octave>0?'+'+octave:octave};$('oct-up').onclick=()=>{octave=Math.min(2,octave+1);$('oct-label').textContent=octave>0?'+'+octave:octave};$('capo-down').onclick=function(){setCapo(capoSemitones-1)};$('capo-label').onclick=function(){setCapo(0)};$('capo-up').onclick=function(){setCapo(capoSemitones+1)};
+$('instrument').onchange=e=>{chordLoudnessCache.clear();if(isInstrumentChangeLocked()){e.target.value=instrument;setStatus('Pare o acompanhamento contínuo ou a sequência em execução antes de trocar o instrumento');return}instrument=e.target.value;releaseAll();renderKeyboard();setStatus('Instrumento: '+LABELS[instrument]+(instrument==='sino'?' · teclado com 3 oitavas':''))};$('oct-down').onclick=()=>{octave=Math.max(-2,octave-1);$('oct-label').textContent=octave>0?'+'+octave:octave};$('oct-up').onclick=()=>{octave=Math.min(2,octave+1);$('oct-label').textContent=octave>0?'+'+octave:octave};$('capo-down').onclick=function(){setCapo(capoSemitones-1)};$('capo-label').onclick=function(){setCapo(0)};$('capo-up').onclick=function(){setCapo(capoSemitones+1)};
 $('sustain-hold').onclick=()=>{sustainMode='hold';$('sustain-hold').classList.add('active');$('sustain-next').classList.remove('active');releaseAll()};$('sustain-next').onclick=()=>{sustainMode='next';$('sustain-next').classList.add('active');$('sustain-hold').classList.remove('active');releaseAll()};
 $('chord-together').onclick=function(){chordMode='together';syncChordModeButtons()};
 $('chord-arpeggio').onclick=function(){chordMode='arpeggio';syncChordModeButtons()};
@@ -4114,7 +4462,7 @@ document.querySelectorAll('[data-repeat-adjust]').forEach(function(button){
   const delta=Number(button.dataset.delta);
   let value=sectionRepeatValue(section)+delta;
   if(value<0)value=0;
-  if(value>16)value=16;
+  if(value>MAX_SEQUENCE_REPEATS)value=MAX_SEQUENCE_REPEATS;
   sequenceRepeats[section]=value;
   saveChordSequence();
   syncSequenceSectionButtons();
@@ -4184,6 +4532,8 @@ $('sequence-auto-end').onclick=function(){
  }
 };
 $('sequence-clear').onclick=requestDeleteLastSequenceItem;
+const sequenceClearAllButton=$('sequence-clear-all');
+if(sequenceClearAllButton)sequenceClearAllButton.onclick=clearActiveSequenceAll;
 $('sequence-toggle').onclick=()=>{sequencePanelVisible=!sequencePanelVisible;saveChordSequence();syncSequencePanelVisibility();setStatus(sequencePanelVisible?'Barra de sequências exibida':'Barra de sequências ocultada')};
 $('advanced-toggle').onclick=()=>{$('advanced').classList.toggle('open');$('advanced-toggle').classList.toggle('active')};$('fullscreen').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};$('stop-accompaniments').onclick=requestAccompanimentStop;
 $('stop-all').onclick=function(){
