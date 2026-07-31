@@ -1,0 +1,2964 @@
+{
+  "app": "Teclado Virtual",
+  "format": "teclado-virtual-song",
+  "formatVersion": 3,
+  "exportedAt": "2026-07-30T21:50:10.355455Z",
+  "name": "quase-sem-querer — Canal 1 — Clarinete",
+  "bpm": 180.0,
+  "capoSemitones": 0,
+  "auto": true,
+  "autoEnd": true,
+  "activeSection": "verse",
+  "drumEngine": "acoustic",
+  "ordemSecoes": [
+    "verse",
+    "prechorus",
+    "chorus",
+    "bridge",
+    "section5",
+    "section6",
+    "section7",
+    "section8",
+    "section9",
+    "section10",
+    "section11",
+    "section12",
+    "section13",
+    "section14",
+    "section15",
+    "section16"
+  ],
+  "compassos": {
+    "verse": 5.0,
+    "prechorus": 5.0,
+    "chorus": 4.0,
+    "bridge": 6.0,
+    "section5": 6.0,
+    "section6": 13.0,
+    "section7": 11.0,
+    "section8": 21.0,
+    "section9": 17.0,
+    "section10": 7.0,
+    "section11": 4.0,
+    "section12": 4.0,
+    "section13": 4.0,
+    "section14": 7.0,
+    "section15": 4.0,
+    "section16": 4.0
+  },
+  "bateria": {
+    "verse": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "prechorus"
+    },
+    "prechorus": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "chorus"
+    },
+    "chorus": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "bridge"
+    },
+    "bridge": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section5"
+    },
+    "section5": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section6"
+    },
+    "section6": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section7"
+    },
+    "section7": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section8"
+    },
+    "section8": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section9"
+    },
+    "section9": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section10"
+    },
+    "section10": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section11"
+    },
+    "section11": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section12"
+    },
+    "section12": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section13"
+    },
+    "section13": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section14"
+    },
+    "section14": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section15"
+    },
+    "section15": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section16"
+    },
+    "section16": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "stop"
+    }
+  },
+  "sections": {
+    "verse": [
+      {
+        "kind": "rest",
+        "fraction": 1.5,
+        "text": "Estrofe",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 0,
+        "label": "F#",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      }
+    ],
+    "prechorus": [
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 1,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ",
+        "text": "Pré-refrão",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.125,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      }
+    ],
+    "chorus": [
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ",
+        "text": "Refrão",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      }
+    ],
+    "bridge": [
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ",
+        "text": "Ponte",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 0,
+        "label": "F#",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 1.0,
+        "instrument": "organ"
+      }
+    ],
+    "section5": [
+      {
+        "kind": "rest",
+        "fraction": 0.25,
+        "text": "Seção 5",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      }
+    ],
+    "section6": [
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ",
+        "text": "Seção 6",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 0,
+        "label": "F#",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 1,
+        "label": "E",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 1.0,
+        "instrument": "organ"
+      }
+    ],
+    "section7": [
+      {
+        "kind": "rest",
+        "fraction": 0.25,
+        "text": "Seção 7",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.125,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.125,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.125,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 1,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.125,
+        "instrument": "organ"
+      }
+    ],
+    "section8": [
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ",
+        "text": "Seção 8",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.125,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.125,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 0.125,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 1,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 0,
+        "label": "F#",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 0,
+        "label": "F#",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 1.0,
+        "instrument": "organ"
+      }
+    ],
+    "section9": [
+      {
+        "kind": "rest",
+        "fraction": 0.25,
+        "text": "Seção 9",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.125,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 0,
+        "label": "F#",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.125,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 0,
+        "label": "F#",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 0,
+        "label": "F#",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      }
+    ],
+    "section10": [
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ",
+        "text": "Seção 10",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 0,
+        "label": "F#",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 1,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      }
+    ],
+    "section11": [
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ",
+        "text": "Seção 11",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.125,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 1,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.125,
+        "instrument": "organ"
+      }
+    ],
+    "section12": [
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ",
+        "text": "Seção 12",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 0.5,
+        "instrument": "organ"
+      }
+    ],
+    "section13": [
+      {
+        "kind": "rest",
+        "fraction": 0.5,
+        "text": "Seção 13",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      }
+    ],
+    "section14": [
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ",
+        "text": "Seção 14",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 0,
+        "label": "F#",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 0,
+        "label": "F#",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 1.0,
+        "instrument": "organ"
+      }
+    ],
+    "section15": [
+      {
+        "kind": "rest",
+        "fraction": 0.25,
+        "text": "Seção 15",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 0,
+        "label": "F#",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "D",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 0,
+        "label": "F#",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "E",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 0,
+        "label": "F#",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      }
+    ],
+    "section16": [
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ",
+        "text": "Seção 16",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.5,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 1.0,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 0,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.25,
+        "instrument": "organ"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "organ"
+      }
+    ]
+  },
+  "repeats": {
+    "verse": 1,
+    "prechorus": 1,
+    "chorus": 1,
+    "bridge": 1,
+    "section5": 1,
+    "section6": 1,
+    "section7": 1,
+    "section8": 1,
+    "section9": 1,
+    "section10": 1,
+    "section11": 1,
+    "section12": 1,
+    "section13": 1,
+    "section14": 1,
+    "section15": 1,
+    "section16": 1
+  },
+  "timingConversion": {
+    "mode": "teclado-supported-values",
+    "supportedFractions": [
+      0.125,
+      0.25,
+      0.5,
+      1.0
+    ],
+    "preservesInitialRest": true,
+    "preservesInternalRests": false,
+    "closesSectionExactly": true
+  },
+  "midiSource": {
+    "channel": 1,
+    "channelZeroBased": 0,
+    "gmProgram": 71,
+    "gmInstrument": "Clarinete",
+    "appInstrument": "organ",
+    "noteCount": 341,
+    "sectionDetection": "heuristic"
+  }
+}

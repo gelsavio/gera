@@ -1,0 +1,800 @@
+{
+  "app": "GERA — Gerador de Acompanhamentos",
+  "format": "gera-song",
+  "formatVersion": 3,
+  "exportedAt": "2026-07-31T01:45:59.059Z",
+  "name": "Quase Sem Querer",
+  "bpm": 182,
+  "capoSemitones": 0,
+  "auto": false,
+  "autoEnd": true,
+  "activeSection": "section11",
+  "drumEngine": "acoustic",
+  "ordemSecoes": [
+    "section16",
+    "verse",
+    "prechorus",
+    "chorus",
+    "bridge",
+    "section5",
+    "section6",
+    "section7",
+    "section8",
+    "section9",
+    "section10",
+    "section11",
+    "section12",
+    "section13",
+    "section14",
+    "section15"
+  ],
+  "compassos": {
+    "section16": 4,
+    "verse": 4,
+    "prechorus": 14,
+    "chorus": 4,
+    "bridge": 14,
+    "section5": 4,
+    "section6": 4,
+    "section7": 14,
+    "section8": 4,
+    "section9": 4,
+    "section10": 1,
+    "section11": 0,
+    "section12": 0,
+    "section13": 0,
+    "section14": 0,
+    "section15": 0
+  },
+  "bateria": {
+    "verse": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "prechorus"
+    },
+    "prechorus": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": "fillHalf",
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "chorus"
+    },
+    "chorus": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "bridge"
+    },
+    "bridge": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": "fillHalf",
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section5"
+    },
+    "section5": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": "fill",
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section6"
+    },
+    "section6": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section7"
+    },
+    "section7": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section8"
+    },
+    "section8": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": "fillHalf",
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section9"
+    },
+    "section9": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": "fill",
+      "final": null,
+      "instrumento": "organ",
+      "proxima": ""
+    },
+    "section10": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section11"
+    },
+    "section11": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section12"
+    },
+    "section12": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section13"
+    },
+    "section13": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section14"
+    },
+    "section14": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section15"
+    },
+    "section15": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "organ",
+      "proxima": "section16"
+    },
+    "section16": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": "fillHalf",
+      "final": null,
+      "instrumento": "piano",
+      "proxima": "verse"
+    }
+  },
+  "sections": {
+    "verse": [
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "prechorus": [
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "chorus": [
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "bridge": [
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "section5": [
+      {
+        "root": 5,
+        "type": "major",
+        "label": "F",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 5,
+        "type": "major",
+        "label": "F",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "section6": [
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "section7": [
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "section8": [
+      {
+        "root": 5,
+        "type": "major",
+        "label": "F",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 5,
+        "type": "major",
+        "label": "F",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "section9": [
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 0.5,
+        "playMode": "together"
+      }
+    ],
+    "section10": [
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "section11": [],
+    "section12": [],
+    "section13": [],
+    "section14": [],
+    "section15": [],
+    "section16": [
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 7,
+        "type": "major",
+        "label": "G",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 0.5,
+        "playMode": "together"
+      },
+      {
+        "root": 2,
+        "type": "major",
+        "label": "D",
+        "fraction": 0.5,
+        "playMode": "together"
+      }
+    ]
+  },
+  "repeats": {
+    "verse": 4,
+    "prechorus": 1,
+    "chorus": 4,
+    "bridge": 1,
+    "section5": 4,
+    "section6": 4,
+    "section7": 1,
+    "section8": 4,
+    "section9": 4,
+    "section10": 1,
+    "section11": 0,
+    "section12": 0,
+    "section13": 0,
+    "section14": 0,
+    "section15": 0,
+    "section16": 2
+  }
+}
