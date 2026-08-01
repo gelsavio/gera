@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <meta name="screen-orientation" content="landscape">
-<title>GERA — Gerador de Acompanhamentos v3.14.40</title>
+<title>GERA — Gerador de Acompanhamentos v3.14.34</title>
 <script>
 (function(){
  try{
@@ -123,7 +123,7 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
  body{padding:6px;gap:6px;align-items:stretch}
  header{flex-wrap:wrap;align-items:center}
  h1{font-size:1rem;flex:1 1 auto}
- .header-actions{width:100%}
+ .header-actions{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
  .header-actions button{min-width:0;padding:5px 3px;font-size:.66rem}
  .app{max-width:none}
  .quick-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}
@@ -905,424 +905,27 @@ html[data-theme="light"] #song-current-name{
  line-height:1.05;
 }
 
-
-.chord-toolbar{grid-template-columns:1fr!important}
-.sequence-timing-row{display:grid;grid-template-columns:minmax(310px,1fr) minmax(105px,.24fr);gap:5px;align-items:end}
-.sequence-change-control{min-width:0;padding:3px 5px;border:1px solid rgba(100,116,139,.32);border-radius:8px;background:rgba(15,23,42,.32)}
-.sequence-control-label{display:block;margin-bottom:3px;color:var(--muted);font-size:.53rem;font-weight:800}
-.sequence-time-buttons{display:grid;grid-template-columns:repeat(6,minmax(34px,1fr));gap:3px}
-.sequence-time-buttons button{height:28px;min-height:28px;padding:2px;font-size:.66rem}
-.sequence-rest-single{height:43px!important;min-height:43px!important;font-weight:800}
-.sequence-controls{grid-template-columns:repeat(5,minmax(0,1fr))!important}
-.transport{display:grid;grid-template-columns:minmax(390px,1.7fr) minmax(230px,1fr) minmax(130px,.55fr)!important;gap:7px!important;align-items:stretch}
-.transport-group{display:grid;align-items:end;gap:4px;padding:5px;border:1px solid rgba(100,116,139,.34);border-radius:9px;background:rgba(15,23,42,.26)}
-.transport-save-group{grid-template-columns:auto minmax(80px,.7fr) minmax(230px,2fr)}
-.transport-view-group{grid-template-columns:auto repeat(3,minmax(58px,1fr))}
-.transport-action-group{grid-template-columns:auto minmax(95px,1fr)}
-.transport-group-title{align-self:center;color:var(--muted);font-size:.54rem;font-weight:900;writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.04em}
-.transport-memory-buttons{display:grid;grid-template-columns:repeat(6,minmax(30px,1fr));gap:3px}
-.transport button{min-height:34px}
-.global-mute-float{position:fixed;top:max(8px,env(safe-area-inset-top));right:max(8px,env(safe-area-inset-right));z-index:10020;min-height:38px;padding:6px 10px;border-radius:999px;box-shadow:0 8px 28px rgba(0,0,0,.42);font-size:.68rem;font-weight:900}
-.global-mute-float.muted{background:#991b1b;border-color:#f87171;color:#fff}
-.global-mute-float.unmuted{background:#166534;border-color:#4ade80;color:#fff}
-@media(max-width:980px){.sequence-timing-row{grid-template-columns:1fr 110px}.transport{grid-template-columns:1fr!important}.transport-save-group{grid-template-columns:auto minmax(75px,.6fr) minmax(220px,2fr)}}
-@media(orientation:portrait) and (max-width:900px){.sequence-timing-row{grid-template-columns:1fr}.sequence-rest-single{height:34px!important;min-height:34px!important}.transport-save-group{grid-template-columns:1fr}.transport-view-group{grid-template-columns:repeat(3,1fr)}.transport-action-group{grid-template-columns:1fr}.transport-group-title{display:none}.global-mute-float{top:6px;right:6px;font-size:.58rem;padding:5px 8px}}
-
-
-/* v3.14.40 — cabeçalho flexível e memórias no final */
-.app-header{
- display:grid;
- grid-template-columns:minmax(0,1fr) auto;
- align-items:center;
- gap:10px 16px;
- width:100%;
-}
-.header-brand{
- min-width:0;
- overflow:hidden;
-}
-.header-brand h1{
- display:flex;
- align-items:center;
- flex-wrap:wrap;
- gap:4px 7px;
- min-width:0;
- margin:0;
-}
-.header-brand .gera-title{
- flex:0 0 auto;
-}
-.header-brand .gera-subtitle{
- flex:0 1 auto;
- min-width:0;
- overflow:hidden;
- text-overflow:ellipsis;
- white-space:nowrap;
-}
-.header-brand .app-version{
- flex:0 0 auto;
-}
-.header-actions{
- display:flex;
- flex-wrap:wrap;
- justify-content:flex-end;
- align-items:center;
- gap:5px;
- min-width:0;
- max-width:100%;
-}
-.header-actions button{
- flex:0 0 auto;
- white-space:nowrap;
-}
-.transport{
- grid-template-columns:minmax(170px,.55fr) minmax(230px,1fr) minmax(130px,.55fr)!important;
-}
-.transport-settings-group{
- grid-template-columns:auto minmax(120px,1fr);
-}
-.memory-panel{
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:10px;
- margin-top:2px;
-}
-.memory-panel-header{
- min-width:0;
-}
-.memory-panel-header strong{
- display:block;
- font-size:.72rem;
- color:var(--text);
-}
-.memory-panel-header small{
- display:block;
- margin-top:2px;
- color:var(--muted);
- font-size:.58rem;
- line-height:1.25;
-}
-.memory-panel-actions{
- display:grid;
- grid-template-columns:repeat(6,minmax(38px,1fr));
- gap:5px;
- flex:0 1 420px;
- width:min(420px,100%);
-}
-.memory-panel-actions button{
- min-height:36px;
- font-size:.72rem;
- font-weight:900;
-}
-@media(max-width:1120px){
- .app-header{
-  grid-template-columns:1fr;
-  align-items:stretch;
- }
- .header-actions{
-  justify-content:flex-start;
- }
- .header-actions button{
-  flex:1 1 130px;
- }
-}
-@media(max-width:760px){
- .header-brand h1{
-  align-items:flex-start;
- }
- .header-brand .gera-subtitle{
-  flex-basis:100%;
-  white-space:normal;
- }
- .header-actions{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
- }
- .header-actions button{
-  width:100%;
-  min-width:0;
- }
- .memory-panel{
-  flex-direction:column;
-  align-items:stretch;
- }
- .memory-panel-actions{
-  width:100%;
-  max-width:none;
-  flex:none;
- }
-}
-@media(orientation:portrait) and (max-width:900px){
- .app-header{
-  display:grid;
-  grid-template-columns:1fr;
- }
- .header-actions{
-  width:100%;
-  grid-template-columns:repeat(2,minmax(0,1fr))!important;
- }
- .header-brand .gera-subtitle{
-  display:block;
-  flex-basis:100%;
- }
- .transport-settings-group{
-  grid-template-columns:1fr;
- }
- .memory-panel-actions{
-  grid-template-columns:repeat(3,minmax(0,1fr));
- }
-}
-
-
-/* v3.14.40 — botão de memória no painel final */
-.transport{
- grid-template-columns:minmax(230px,1fr) minmax(130px,.55fr)!important;
-}
-.memory-panel-header{
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:10px;
- flex:1 1 auto;
-}
-.memory-prepare-button{
- flex:0 0 auto;
- min-width:112px;
- min-height:36px;
- font-weight:900;
-}
-@media(max-width:760px){
- .memory-panel-header{
-  flex-direction:column;
-  align-items:stretch;
- }
- .memory-prepare-button{
-  width:100%;
- }
-}
-
-
-/* v3.14.40 — modo compacto para celular */
-.compact-mode-panel{
- display:none;
- position:fixed;
- inset:0;
- z-index:10010;
- overflow-y:auto;
- padding:10px;
- background:var(--bg);
- color:var(--text);
-}
-body.compact-mode-active{
- overflow:hidden;
-}
-body.compact-mode-active .compact-mode-panel{
- display:flex;
- flex-direction:column;
- gap:9px;
-}
-.compact-mode-header{
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:8px;
- padding:7px 8px;
- border:1px solid var(--border);
- border-radius:10px;
- background:var(--panel);
-}
-.compact-mode-header strong{display:block;font-size:1rem}
-.compact-mode-header small{display:block;color:var(--muted);font-size:.65rem;margin-top:2px}
-.compact-song-row{
- display:grid;
- grid-template-columns:auto minmax(0,1fr) auto;
- align-items:center;
- gap:6px;
- padding:7px;
- border:1px solid var(--border);
- border-radius:10px;
- background:var(--panel);
-}
-.compact-song-row label,.compact-key-control{
- color:var(--muted);
- font-size:.65rem;
- font-weight:900;
-}
-.compact-song-row select,.compact-key-control select{
- width:100%;
- min-width:0;
- height:39px;
-}
-.compact-main-actions{
- display:grid;
- grid-template-columns:repeat(2,minmax(0,1fr));
- gap:6px;
-}
-.compact-main-actions button{
- min-height:48px;
- font-size:.74rem;
- font-weight:900;
-}
-.compact-adjustments{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:7px;
-}
-.compact-step-control{
- display:grid;
- grid-template-columns:1fr 40px 46px 40px;
- align-items:center;
- gap:4px;
- padding:6px;
- border:1px solid var(--border);
- border-radius:10px;
- background:var(--panel);
-}
-.compact-step-control span{
- color:var(--muted);
- font-size:.64rem;
- font-weight:900;
-}
-.compact-step-control button{min-height:38px}
-.compact-step-control strong{
- display:flex;
- align-items:center;
- justify-content:center;
- height:38px;
- border:1px solid var(--border);
- border-radius:8px;
- background:rgba(15,23,42,.38);
- font-size:.8rem;
-}
-.compact-key-control{
- grid-column:1/-1;
- display:grid;
- grid-template-columns:auto minmax(0,1fr);
- align-items:center;
- gap:7px;
- padding:6px;
- border:1px solid var(--border);
- border-radius:10px;
- background:var(--panel);
-}
-.compact-harmonic-chords{
- display:grid;
- grid-template-columns:repeat(2,minmax(0,1fr));
- gap:6px;
-}
-.compact-harmonic-chords button{
- min-height:52px;
- font-size:.88rem;
- font-weight:900;
- border-radius:10px;
-}
-.compact-harmonic-chords button.function-tonic{background:#166534;border-color:#4ade80}
-.compact-harmonic-chords button.function-subdominant{background:#1d4ed8;border-color:#60a5fa}
-.compact-harmonic-chords button.function-dominant{background:#7c3aed;border-color:#c4b5fd}
-.compact-harmonic-chords button.function-leading{background:#9a3412;border-color:#fb923c}
-.compact-current-song{
- padding:7px;
- border:1px solid var(--border);
- border-radius:9px;
- background:var(--panel);
- color:var(--muted);
- font-size:.68rem;
- text-align:center;
-}
-@media(min-width:600px){
- .compact-mode-panel{
-  width:min(520px,100%);
-  left:auto;
-  box-shadow:-18px 0 48px rgba(0,0,0,.45);
- }
- .compact-harmonic-chords{grid-template-columns:repeat(3,minmax(0,1fr))}
-}
-
-
-/* v3.14.40 — fluxo compacto simplificado */
-.compact-song-row{grid-template-columns:auto minmax(0,1fr)!important}
-.compact-songs-button{min-height:42px;font-weight:900}
-.compact-selected-song{
- min-width:0;padding:10px;border:1px solid var(--border);border-radius:8px;
- background:rgba(15,23,42,.28);color:var(--text);font-size:.72rem;font-weight:800;
- overflow:hidden;text-overflow:ellipsis;white-space:nowrap
-}
-
 </style>
 </head>
 <body>
-<button id="global-mute-float" class="global-mute-float muted" type="button" aria-pressed="true" title="Ativar o áudio do aplicativo">🔇 Áudio bloqueado</button>
 <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
-<header class="app-header">
-  <div class="header-brand">
-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.14.40</small></h1>
-  </div>
-  <div class="header-actions">
-    <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
-    <button type="button" id="manual-btn" class="secondary compact-icon-button" onclick="window.location.href='manual-gera.html'" aria-label="Abrir manual" title="Manual">?</button>
-    <button id="advanced-toggle" class="secondary">⚙️ Avançado</button>
-    <button id="compact-mode-toggle" class="secondary" aria-pressed="false" title="Abrir modo compacto para celular">📱 Compacto</button>
-    <button id="fullscreen" class="secondary">⛶ Tela cheia</button>
-  </div>
-</header>
-<section id="compact-mode-panel" class="compact-mode-panel" aria-label="Modo compacto do GERA">
-  <div class="compact-mode-header">
-    <div>
-      <strong>GERA Compacto</strong>
-      <small>Música, execução, bateria e acordes do campo harmônico</small>
-    </div>
-    <button id="compact-mode-close" class="secondary" type="button">✕ Fechar</button>
-  </div>
-
-  <div class="compact-song-row">
-    <button id="compact-songs-open" class="secondary compact-songs-button" type="button">📚 Músicas</button>
-    <div id="compact-selected-song" class="compact-selected-song">Nenhuma música selecionada</div>
-  </div>
-<div class="compact-main-actions">
-    <button id="compact-play" type="button">▶ Tocar</button>
-    <button id="compact-sequence-only" class="secondary" type="button">🎼 Só sequência</button>
-    <button id="compact-drum-only" class="secondary" type="button">🥁 Só bateria</button>
-    <button id="compact-loop" class="secondary" type="button">🔁 Loop</button>
-    <button id="compact-drum-fill" class="secondary" type="button">↺ Virada</button>
-    <button id="compact-drum-ending" class="secondary" type="button">✦■ Encerramento</button>
-    <button id="compact-stop-drums" class="secondary" type="button">■ Parar bateria</button>
-    <button id="compact-stop-all" class="danger" type="button">⏹ Parar tudo</button>
-  </div>
-<div class="compact-adjustments">
-    <div class="compact-step-control">
-      <span>Capotraste</span>
-      <button id="compact-capo-down" type="button">−</button>
-      <strong id="compact-capo-value">0</strong>
-      <button id="compact-capo-up" type="button">+</button>
-    </div>
-    <div class="compact-step-control">
-      <span>Oitava</span>
-      <button id="compact-octave-down" type="button">−</button>
-      <strong id="compact-octave-value">0</strong>
-      <button id="compact-octave-up" type="button">+</button>
-    </div>
-    <label class="compact-key-control">Tonalidade
-      <select id="compact-circle-root"></select>
-    </label>
-  </div>
-
-  <div id="compact-harmonic-chords" class="compact-harmonic-chords" aria-label="Acordes do campo harmônico"></div>
-  <div id="compact-current-song" class="compact-current-song">Nenhuma música carregada</div>
-</section>
+<header><h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span> GERA <span class="gera-subtitle">Gerador de Acompanhamentos</span> <small class="app-version">v3.14.34</small></h1><div class="header-actions">
+<button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
+<button type="button" id="manual-btn" class="secondary compact-icon-button" onclick="window.location.href='manual-gera.html'" aria-label="Abrir manual" title="Manual">?</button>
+<button id="advanced-toggle" class="secondary">⚙️ Avançado</button>
+<button id="fullscreen" class="secondary">⛶ Tela cheia</button>
+</div></header>
 <main class="app">
 <section class="panel quick-controls">
 <div class="control"><label for="instrument">Instrumento</label><select id="instrument"><option value="piano">🎹 Piano</option><option value="violin_v1">🎛️ Clavinete</option><option value="violin_v2">🎺 Metais</option><option value="violin_v3">🎻 Teclado Strings 3</option><option value="violao">🎸 Violão</option><option value="violao6">🪉 Harpa</option><option value="organ">⛪ Órgão de Igreja</option><option value="flute">🪈 Flauta</option><option value="sino">🔔 Sino / Glockenspiel</option><option value="synthpad">🌌 Pad Synth</option><option value="electricBass">🎸 Baixo Elétrico</option><option value="doubleBass">🎻 Contrabaixo Acústico</option></select></div>
 <div class="control compact"><span class="control-title">Oitava</span><div class="button-triple"><button id="oct-down">−</button><button id="oct-label" class="secondary">0</button><button id="oct-up">+</button></div></div>
 <div class="control compact"><span class="control-title">Capotraste</span><div class="button-triple"><button id="capo-down" title="Descer meio tom">−</button><button id="capo-label" class="secondary" title="Zerar transposição">0</button><button id="capo-up" title="Subir meio tom">+</button></div></div>
 
-
-
+<div class="control"><label for="release">Liberação</label><div class="fine-stack"><button type="button" class="fine-btn" data-step-target="release" data-direction="-1" aria-label="Diminuir liberação">−</button><input id="release" type="number" min="40" max="5000" value="650" step="20" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="release" data-direction="1" aria-label="Aumentar liberação">+</button><small id="release-value" class="fine-caption">0,7 s</small></div></div>
+<div class="control"><label for="bpm">Metrônomo</label><div class="fine-stack"><button type="button" class="fine-btn" data-step-target="bpm" data-direction="-1" aria-label="Diminuir BPM">−</button><input id="bpm" type="number" min="40" max="220" value="100" step="1" inputmode="numeric" enterkeyhint="done" aria-label="BPM do metrônomo" title="Digite um valor entre 40 e 220 BPM"><button type="button" class="fine-btn" data-step-target="bpm" data-direction="1" aria-label="Aumentar BPM">+</button><small id="bpm-value" class="fine-caption">100 BPM</small></div></div>
 </section>
 <section id="advanced" class="panel advanced"><div class="advanced-grid">
 <div class="control compact"><span class="control-title">Sustain</span><div class="button-triple sustain-modes"><button id="sustain-pressed" class="active" title="Mantém o som somente enquanto a tecla estiver pressionada">Pressionada</button><button id="sustain-hold" title="Ao soltar, usa o tempo configurado em Liberação">Liberação</button><button id="sustain-next" title="Mantém o som até a próxima nota">Até próxima</button></div></div>
-<div class="control"><label for="release">Liberação</label><div class="fine-stack"><button type="button" class="fine-btn" data-step-target="release" data-direction="-1" aria-label="Diminuir liberação">−</button><input id="release" type="number" min="40" max="5000" value="650" step="20" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="release" data-direction="1" aria-label="Aumentar liberação">+</button><small id="release-value" class="fine-caption">0,7 s</small></div></div>
-<div class="control"><label for="bpm">Metrônomo</label><div class="fine-stack"><button type="button" class="fine-btn" data-step-target="bpm" data-direction="-1" aria-label="Diminuir BPM">−</button><input id="bpm" type="number" min="40" max="220" value="100" step="1" inputmode="numeric" enterkeyhint="done" aria-label="BPM do metrônomo" title="Digite um valor entre 40 e 220 BPM"><button type="button" class="fine-btn" data-step-target="bpm" data-direction="1" aria-label="Aumentar BPM">+</button><small id="bpm-value" class="fine-caption">100 BPM</small></div></div>
 <div class="control"><label for="attack">Ataque</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="attack" data-direction="-1" aria-label="Diminuir ataque">−</button><input id="attack" type="number" min="2" max="1200" value="20" step="2" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="attack" data-direction="1" aria-label="Aumentar ataque">+</button><span id="attack-value" class="value">20 ms</span></div></div>
 <div class="control"><label for="keyboard-volume">Teclado</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="keyboard-volume" data-direction="-1" aria-label="Diminuir volume do teclado">−</button><input id="keyboard-volume" type="number" min="0" max="100" value="100" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="keyboard-volume" data-direction="1" aria-label="Aumentar volume do teclado">+</button><span id="keyboard-value" class="value">100%</span></div></div>
 <div class="control"><label for="chord-volume">Acordes</label><div class="fine-line"><button type="button" class="fine-btn" data-step-target="chord-volume" data-direction="-1" aria-label="Diminuir volume dos acordes">−</button><input id="chord-volume" type="number" min="0" max="100" value="78" step="1" inputmode="numeric"><button type="button" class="fine-btn" data-step-target="chord-volume" data-direction="1" aria-label="Aumentar volume dos acordes">+</button><span id="chord-value" class="value">78%</span></div></div>
@@ -1342,7 +945,7 @@ body.compact-mode-active .compact-mode-panel{
 <section class="panel" id="keyboard" aria-label="Teclado musical"><div class="key-row" id="sharp-row"></div><div class="key-row" id="natural-row"></div></section>
 <section class="panel chord-section">
 <div class="exec-drum-row">
-<div class="chord-toolbar"><div class="control compact"><span class="control-title">Execução</span><div class="button-pair"><button id="chord-together" class="active">Juntos</button><button id="chord-arpeggio">Arpejo</button></div></div></div>
+<div class="chord-toolbar"><div class="control compact"><span class="control-title">Execução</span><div class="button-pair"><button id="chord-together" class="active">Juntos</button><button id="chord-arpeggio">Arpejo</button></div></div><div class="control compact"><span class="control-title">Troca de acorde</span><div class="button-six"><button id="change-zero" title="Troca imediata">0</button><button id="change-eighth" title="Próximo oitavo de compasso">⅛</button><button id="change-quarter" title="Próximo quarto de compasso">¼</button><button id="change-half" title="Próximo meio compasso">½</button><button id="change-three-quarter" title="Próximo três quartos de compasso">¾</button><button id="change-full" class="active" title="Próximo compasso">1</button></div></div></div>
 <div id="drum-panel" class="drum-panel visible" aria-label="Controles compactos da bateria">
   <div class="drum-row drum-row-presets" id="drum-presets">
     <button class="drum-pattern" data-pattern="rock" title="Rock" aria-label="Padrão Rock">🤘</button>
@@ -1467,14 +1070,7 @@ body.compact-mode-active .compact-mode-panel{
         </select>
       </label>
     </div>
-    <div class="sequence-timing-row">
-    <div class="sequence-change-control">
-      <span class="sequence-control-label">Tempo da troca / pausa</span>
-      <div class="button-six sequence-time-buttons"><button id="change-zero" title="Troca imediata; não adiciona pausa">0</button><button id="change-eighth" title="Próximo oitavo de compasso">⅛</button><button id="change-quarter" title="Próximo quarto de compasso">¼</button><button id="change-half" title="Próximo meio compasso">½</button><button id="change-three-quarter" title="Próximo três quartos de compasso">¾</button><button id="change-full" class="active" title="Próximo compasso">1</button></div>
-    </div>
-    <button id="sequence-rest" class="secondary sequence-rest-single" title="Adicionar uma pausa com a duração selecionada">⏸ Pausa 1</button>
-  </div>
-  <div class="sequence-controls"><button id="sequence-record" class="secondary" title="Gravar acordes na parte selecionada">● Gravar</button><button id="sequence-auto" class="secondary sequence-auto" title="Executar automaticamente em ciclo todas as sequências configuradas">Auto</button><button id="sequence-auto-end" class="secondary sequence-auto" title="Executar a música uma vez e encerrar com virada de bateria">Auto Fim</button><button id="sequence-clear" class="danger" title="Toque duas vezes para apagar o último item">⌫</button><button id="sequence-clear-all" class="danger" title="Apagar todos os acordes, notas e pausas da sequência ativa">Zerar Seq.</button></div>
+    <div class="sequence-controls"><button id="sequence-rest-eighth" class="secondary" title="Adicionar pausa de um oitavo de compasso">⏸ ⅛</button><button id="sequence-rest-quarter" class="secondary" title="Adicionar pausa de um quarto de compasso">⏸ ¼</button><button id="sequence-rest-half" class="secondary" title="Adicionar pausa de meio compasso">⏸ ½</button><button id="sequence-rest-three-quarter" class="secondary" title="Adicionar pausa de três quartos de compasso">⏸ ¾</button><button id="sequence-rest-full" class="secondary" title="Adicionar pausa de um compasso">⏸ 1</button><button id="sequence-record" class="secondary" title="Gravar acordes na parte selecionada">● Gravar</button><button id="sequence-auto" class="secondary sequence-auto" title="Executar automaticamente em ciclo todas as sequências configuradas">Auto</button><button id="sequence-auto-end" class="secondary sequence-auto" title="Executar a música uma vez e encerrar com virada de bateria">Auto Fim</button><button id="sequence-clear" class="danger" title="Toque duas vezes para apagar o último item">⌫</button><button id="sequence-clear-all" class="danger" title="Apagar todos os acordes, notas e pausas da sequência ativa">Zerar Seq.</button></div>
   </div>
   <div id="sequence-strip" class="sequence-strip"><span class="sequence-empty">Grave os acordes da Seq. 1.</span></div>
 
@@ -1500,37 +1096,8 @@ body.compact-mode-active .compact-mode-panel{
   <div id="songs-list" class="songs-list"><span class="songs-empty">Nenhuma música salva ainda.</span></div>
   <div class="songs-actions"><button id="song-new" class="secondary" title="Começar uma música em branco">🆕 Nova música</button><button id="songs-close" class="secondary">Fechar</button></div>
 </dialog>
-<section class="panel transport">
-  
-  <div class="transport-group transport-view-group" aria-label="Painéis">
-    <span class="transport-group-title">Painéis</span>
-    <button id="sequence-toggle" class="secondary sequence-toggle-active" title="Ocultar barra de sequências" aria-label="Mostrar ou ocultar sequências">🎼 Seq.</button>
-    <button id="circle-toggle" class="secondary" title="Círculo Harmônico">CH</button>
-    <button id="drum-toggle" class="secondary" title="Mostrar ou ocultar bateria" aria-label="Mostrar ou ocultar bateria">🥁</button>
-  </div>
-  <div class="transport-group transport-action-group" aria-label="Acompanhamento">
-    <span class="transport-group-title">Acompanhamento</span>
-    <button id="stop-accompaniments" class="secondary" title="Parar bateria, sequência e acompanhamento no fim do compasso">⏹ Acomp.</button>
-  </div>
-</section>
+<section class="panel transport"><button id="save-settings" class="secondary">💾 Salvar</button><button id="sequence-toggle" class="secondary sequence-toggle-active" title="Ocultar barra de sequências" aria-label="Mostrar ou ocultar sequências">🎼 Seq.</button><button id="circle-toggle" class="secondary" title="Círculo Harmônico">CH</button><button id="drum-toggle" class="secondary" title="Mostrar ou ocultar bateria" aria-label="Mostrar ou ocultar bateria">🥁</button><button class="memory-button" data-memory="1">1</button><button class="memory-button" data-memory="2">2</button><button class="memory-button" data-memory="3">3</button><button class="memory-button" data-memory="4">4</button><button class="memory-button" data-memory="5">5</button><button class="memory-button" data-memory="6">6</button><button id="stop-accompaniments" class="secondary" title="Parar bateria, sequência e acompanhamento no fim do compasso">⏹ Acomp.</button><button id="stop-all" class="danger">⏹ Silenciar</button></section>
 <dialog id="circle-dialog" class="circle-dialog"><h2>Círculo Harmônico</h2><p>Escolha a tonalidade. Serão mostrados os acordes diatônicos, o VII grau diminuto e, em uma faixa separada, os dominantes secundários.</p><div id="circle-note-grid" class="circle-note-grid"></div><button id="circle-close" class="circle-close">Cancelar</button></dialog>
-<section class="panel memory-panel" aria-label="Memórias de configurações">
-  <div class="memory-panel-header">
-    <div>
-      <strong>Memórias de configurações</strong>
-      <small>Toque em “Memória” e escolha um número para salvar. Toque diretamente em uma memória para recuperar.</small>
-    </div>
-    <button id="save-settings" class="secondary memory-prepare-button" title="Preparar o salvamento em uma das memórias">💾 Memória</button>
-  </div>
-  <div class="memory-panel-actions">
-    <button class="memory-button" data-memory="1">1</button>
-    <button class="memory-button" data-memory="2">2</button>
-    <button class="memory-button" data-memory="3">3</button>
-    <button class="memory-button" data-memory="4">4</button>
-    <button class="memory-button" data-memory="5">5</button>
-    <button class="memory-button" data-memory="6">6</button>
-  </div>
-</section>
 <div class="status" id="status">Pronto para tocar.</div><div class="help">No tablet, mantenha a tecla pressionada para sustentar e deslize o dedo para fazer glissando. A intensidade varia conforme a altura do toque quando “Sensível” está ativo.</div>
 </main>
 
@@ -1651,7 +1218,7 @@ body.compact-mode-active .compact-mode-panel{
 <script>
 "use strict";
 /*
- Auditoria dos seletores — v3.14.40
+ Auditoria dos seletores — v3.14.34
  - instrument, split-instrument e drum-engine: eventos diretos.
  - arpeggio-pattern, inversion e rhythm-pattern: eventos corrigidos nesta versão.
  - section-* : salvos por saveActiveSectionDrumControls.
@@ -1726,8 +1293,7 @@ function normalizeInstrumentId(value){
 const CHORD_INTERVALS={minor:[0,3,7],major:[0,4,7],minor7:[0,3,7,10],dominant7:[0,4,7,10],sus2:[0,2,7],sus4:[0,5,7],diminished:[0,3,6]};
 const CIRCLE_DEGREES=[{step:0,type:"major"},{step:2,type:"minor"},{step:4,type:"minor"},{step:5,type:"major"},{step:7,type:"major"},{step:9,type:"minor"},{step:11,type:"diminished"}];
 const SECONDARY_DOMINANTS=[{targetStep:2,targetType:"minor",degree:"V/ii"},{targetStep:4,targetType:"minor",degree:"V/iii"},{targetStep:5,targetType:"major",degree:"V/IV"},{targetStep:7,targetType:"major",degree:"V/V"},{targetStep:9,targetType:"minor",degree:"V/vi"}];
-let audioCtx,masterGain,limiter,appMuteGain,drumBus,drumCompressor,bassBus,bassCompressor,bassHighpass,bassLowShelf,bassPresence,openHatVoice=null,drumEngine="acoustic",drumSamplesReady=false,drumSamplesLoading=false,drumSampleBuffers={},drumRoundRobin={},drumSamplesLoadedCount=0,drumSamplesTotalCount=0,drumSamplesFailureCount=0,instrument="piano",octave=0,capoSemitones=0,sustainMode="pressed",releaseMs=650,attackMs=20,chordMode="together",arpInterval=280,arpPattern="up",chordType="minor",inversion=0,bassEnabled=false,latchEnabled=false,splitEnabled=false,splitInstrument="organ",velocityEnabled=true,glissEnabled=true,metronomeOn=false,metronomeTimer=null,bpm=100,rhythmPattern="whole",chordChangeMode="nextBar",latchedRoot=null,latchedType=null,pendingRoot=null,pendingType=null,pendingButton=null,latchedButton=null,accompanimentTimer=null,accompanimentEvents=[],accompanimentHalfTimer=null,activeVoices=new Set(),pointerVoices=new Map(),pointerLastKey=new Map(),pressedKeys=new Map(),saveArmed=false,actionToken=0,alternateDirection=false,circleEnabled=false,circleRoot=null,drumMode=true,drumRunning=false,drumPattern="rock",drumManual=false,drumStep=0,drumTimer=null,drumNextTime=0,drumFillQueued=false,drumEndingQueued=false,drumQueuedAction="",drumActiveAction="",drumCompletedAction="",drumActionMuteUntil=0,sequenceEndActionInProgress="",sequenceConfiguredActionName="",drumLayers={kick:true,snare:true,hat:true},sequenceRecording=false,sequencePlaying=false,sequenceTimer=null,sequenceIndex=-1,sequenceEighthUnitsRemaining=0,sequenceContinuousItem=false,sequenceStartQueued=false,activeSequenceSection='verse',queuedSequenceSection=null,sequenceLoop=true,sequenceAuto=true,sequenceAutoEnd=false,sequenceHoldLoop=false,sequencePanelVisible=true,sequenceSections={verse:[],prechorus:[],chorus:[],bridge:[],section5:[],section6:[],section7:[],section8:[],section9:[],section10:[],section11:[],section12:[],section13:[],section14:[],section15:[],section16:[]},sequenceRepeats={verse:0,prechorus:0,chorus:0,bridge:0,section5:0,section6:0,section7:0,section8:0,section9:0,section10:0,section11:0,section12:0,section13:0,section14:0,section15:0,section16:0},sequenceOrder=['verse','prechorus','chorus','bridge','section5','section6','section7','section8','section9','section10','section11','section12','section13','section14','section15','section16'],sequenceDrums={verse:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},prechorus:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},chorus:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},bridge:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section5:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section6:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section7:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section8:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section9:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section10:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section11:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section12:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section13:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section14:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section15:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section16:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''}},currentSectionRepetition=1,sequencePendingTransition=null,sequencePlaybackOriginalChordMode=null,sequenceStopAtEnd=false,sequenceDeleteArmed=false,sequenceDeleteTimer=null,sequenceEditIndex=-1,transportRunning=false,transportStep=0,transportNextTime=0,transportTimer=null,transportEvents=[],transportBar=0,transportTempoBpm=100,pendingBpm=null,pendingRhythmPattern=null,drumStartQueued=false,accompanimentStopQueued=false,accompanimentStopEventScheduled=false;
-let globalAudioMuted=true;
+let audioCtx,masterGain,limiter,drumBus,drumCompressor,bassBus,bassCompressor,bassHighpass,bassLowShelf,bassPresence,openHatVoice=null,drumEngine="acoustic",drumSamplesReady=false,drumSamplesLoading=false,drumSampleBuffers={},drumRoundRobin={},drumSamplesLoadedCount=0,drumSamplesTotalCount=0,drumSamplesFailureCount=0,instrument="piano",octave=0,capoSemitones=0,sustainMode="pressed",releaseMs=650,attackMs=20,chordMode="together",arpInterval=280,arpPattern="up",chordType="minor",inversion=0,bassEnabled=false,latchEnabled=false,splitEnabled=false,splitInstrument="organ",velocityEnabled=true,glissEnabled=true,metronomeOn=false,metronomeTimer=null,bpm=100,rhythmPattern="whole",chordChangeMode="nextBar",latchedRoot=null,latchedType=null,pendingRoot=null,pendingType=null,pendingButton=null,latchedButton=null,accompanimentTimer=null,accompanimentEvents=[],accompanimentHalfTimer=null,activeVoices=new Set(),pointerVoices=new Map(),pointerLastKey=new Map(),pressedKeys=new Map(),saveArmed=false,actionToken=0,alternateDirection=false,circleEnabled=false,circleRoot=null,drumMode=true,drumRunning=false,drumPattern="rock",drumManual=false,drumStep=0,drumTimer=null,drumNextTime=0,drumFillQueued=false,drumEndingQueued=false,drumQueuedAction="",drumActiveAction="",drumCompletedAction="",drumActionMuteUntil=0,sequenceEndActionInProgress="",sequenceConfiguredActionName="",drumLayers={kick:true,snare:true,hat:true},sequenceRecording=false,sequencePlaying=false,sequenceTimer=null,sequenceIndex=-1,sequenceEighthUnitsRemaining=0,sequenceContinuousItem=false,sequenceStartQueued=false,activeSequenceSection='verse',queuedSequenceSection=null,sequenceLoop=true,sequenceAuto=true,sequenceAutoEnd=false,sequenceHoldLoop=false,sequencePanelVisible=true,sequenceSections={verse:[],prechorus:[],chorus:[],bridge:[],section5:[],section6:[],section7:[],section8:[],section9:[],section10:[],section11:[],section12:[],section13:[],section14:[],section15:[],section16:[]},sequenceRepeats={verse:0,prechorus:0,chorus:0,bridge:0,section5:0,section6:0,section7:0,section8:0,section9:0,section10:0,section11:0,section12:0,section13:0,section14:0,section15:0,section16:0},sequenceOrder=['verse','prechorus','chorus','bridge','section5','section6','section7','section8','section9','section10','section11','section12','section13','section14','section15','section16'],sequenceDrums={verse:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},prechorus:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},chorus:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},bridge:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section5:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section6:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section7:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section8:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section9:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section10:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section11:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section12:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section13:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section14:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section15:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section16:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''}},currentSectionRepetition=1,sequencePendingTransition=null,sequencePlaybackOriginalChordMode=null,sequenceStopAtEnd=false,sequenceDeleteArmed=false,sequenceDeleteTimer=null,sequenceEditIndex=-1,transportRunning=false,transportStep=0,transportNextTime=0,transportTimer=null,transportEvents=[],transportBar=0,transportTempoBpm=100,pendingBpm=null,pendingRhythmPattern=null,drumStartQueued=false,accompanimentStopQueued=false,accompanimentStopEventScheduled=false;
 const MAX_SIMULTANEOUS_TOUCHES=4;
 const manualChordSessions=new Map();
 function manualChordSessionId(pointerId){
@@ -1818,11 +1384,8 @@ function ensureAudio(){
   limiter.release.value=.18;
 
   masterGain.gain.value=+$('master-volume').value/100;
-  appMuteGain=audioCtx.createGain();
-  appMuteGain.gain.value=globalAudioMuted?0:1;
   masterGain.connect(limiter);
-  limiter.connect(appMuteGain);
-  appMuteGain.connect(audioCtx.destination);
+  limiter.connect(audioCtx.destination);
  }
  if(audioCtx.state==='suspended')audioCtx.resume();
 }
@@ -2201,46 +1764,10 @@ function releaseVoice(voice,ms=releaseMs){
  sources.forEach(function(source){
   try{source.stop(now+release+.04)}catch(error){}
  });
- setTimeout(function(){
-  activeVoices.delete(voice);
-
-  pointerVoices.forEach(function(mappedVoice,pointerId){
-   if(mappedVoice!==voice)return;
-   pointerVoices.delete(pointerId);
-   pointerLastKey.delete(pointerId);
-  });
-  pressedKeys.forEach(function(mappedVoice,keyId){
-   if(mappedVoice!==voice)return;
-   pressedKeys.delete(keyId);
-  });
-
-  if(Number.isFinite(Number(voice.semi)))syncKeyFlash(Number(voice.semi));
- },(release+.1)*1000);
+ setTimeout(function(){activeVoices.delete(voice)},(release+.1)*1000);
 }
 function releaseAll(ms=120){actionToken++;[...activeVoices].forEach(v=>releaseVoice(v,ms));pointerVoices.clear();pointerLastKey.clear();pressedKeys.clear();clearKeys()}
 function clearKeys(){document.querySelectorAll('.key.active,.chord.playing').forEach(e=>e.classList.remove('active','playing'))}
-function syncGlobalMuteUI(){
- const button=$('global-mute-float');
- if(!button)return;
- button.classList.toggle('muted',globalAudioMuted);
- button.classList.toggle('unmuted',!globalAudioMuted);
- button.setAttribute('aria-pressed',String(globalAudioMuted));
- button.textContent=globalAudioMuted?'🔇 Áudio bloqueado':'🔊 Áudio liberado';
- button.title=globalAudioMuted?'Liberar todo o áudio do aplicativo':'Bloquear todo o áudio do aplicativo';
-}
-function setGlobalAudioMuted(muted,showStatus=true){
- globalAudioMuted=muted===true;
- if(appMuteGain&&audioCtx){
-  const now=audioCtx.currentTime;
-  appMuteGain.gain.cancelScheduledValues(now);
-  appMuteGain.gain.setValueAtTime(appMuteGain.gain.value,now);
-  appMuteGain.gain.linearRampToValueAtTime(globalAudioMuted?0:1,now+.04);
- }
- if(globalAudioMuted)releaseAll(70);
- syncGlobalMuteUI();
- if(showStatus)setStatus(globalAudioMuted?'Áudio geral bloqueado':'Áudio geral liberado');
-}
-function toggleGlobalAudioMute(){ensureAudio();setGlobalAudioMuted(!globalAudioMuted,true)}
 function setStatus(t){$('status').textContent=t}function flash(semi,on=true){document.querySelectorAll(`[data-note="${semi}"]`).forEach(function(element){element.classList.toggle('active',on)})}
 const sequenceNoteFlashCounts=new Map();
 function beginSequenceNoteFlash(semi,duration){
@@ -2275,10 +1802,7 @@ function noteDown(semi,id,velocity=1,source='pointer'){
   setStatus('Limite de quatro notas simultâneas');
   return false;
  }
- if(sustainMode==='next'){
-  releaseAllManualChordSessions(100);
-  releaseSustainedVoices(100);
- }
+ if(sustainMode==='next')releaseSustainedVoices(100);
  const selectedInstrument=selectedInstrumentFor(semi);
  const v=createVoice(semi,{
   velocity:velocity,
@@ -2415,38 +1939,28 @@ function patternNotes(notes){if(arpPattern==='down')return [...notes].reverse();
 async function playChord(root,type="major",button=null,fromRhythm=false,manualPointerId=null){
  ensureAudio();
 
- const manualChordMode=!fromRhythm&&manualPointerId!==null&&(
-  sustainMode==='pressed'||sustainMode==='hold'||sustainMode==='next'
- );
+ const manualChordMode=!fromRhythm&&manualPointerId!==null&&(sustainMode==='pressed'||sustainMode==='hold');
  const pressedChordMode=manualChordMode&&sustainMode==='pressed';
  const releaseChordMode=manualChordMode&&sustainMode==='hold';
- const nextChordMode=manualChordMode&&sustainMode==='next';
  let manualSession=null;
-
- /*
-  No modo Até próxima, libera primeiro tudo o que estava sustentado
-  e somente depois registra o novo acorde.
- */
- if(nextChordMode){
-  releaseAllManualChordSessions(100);
-  releaseAll(100);
- }
 
  if(manualChordMode){
   const sessionId=manualChordSessionId(manualPointerId);
-  if(!nextChordMode){
-   const previousRelease=sustainMode==='hold'?releaseMs:65;
-   releaseManualChordSession(manualPointerId,previousRelease);
-  }
+  const previousRelease=sustainMode==='hold'?releaseMs:65;
+  releaseManualChordSession(manualPointerId,previousRelease);
   manualSession={
    id:sessionId,
    voices:[],
    active:true,
    button:button,
-   releaseMs:sustainMode==='hold'?releaseMs:100,
-   releaseOnPointer:sustainMode!=='next'
+   releaseMs:sustainMode==='hold'?releaseMs:65
   };
   manualChordSessions.set(sessionId,manualSession);
+ }
+
+ if(sustainMode==='next'&&!fromRhythm){
+  releaseAllManualChordSessions(100);
+  releaseAll(100);
  }
 
  const token=++actionToken;
@@ -2915,10 +2429,6 @@ function saveActiveSectionDrumControls(){
  syncSectionDrumControls();
 }
 function applySectionDrumConfig(section,startIfNeeded){
- if(compactSequenceOnly){
-  if(drumRunning||drumStartQueued)stopDrums();
-  return;
- }
  const config=normalizeSectionDrum(sequenceDrums[section]);
  sequenceDrums[section]=config;
  drumEngine='acoustic';
@@ -3165,7 +2675,7 @@ function completeSongExportPayload(){
   capoSemitones:capoSemitones,
   auto:sequenceAuto===true,
   autoEnd:sequenceAutoEnd===true,
-  activeSection:(sequenceOrder[0]||'verse'),
+  activeSection:activeSequenceSection,
   drumEngine:drumEngine==='synth'?'synth':'acoustic',
   ordemSecoes:sequenceOrder.slice(),
   compassos:calculateAllSectionBars(),
@@ -3458,7 +2968,6 @@ function loadSong(name){
  }
  currentSongName=name;saveSongsStore();updateSongNameDisplay();renderSongsList();
  setStatus('Música "'+name+'" carregada'+(Number.isFinite(+songs[name].bpm)?' a '+bpm+' BPM':''));
- syncCompactControls();
  const dlg=$('songs-dialog');if(dlg?.open)dlg.close();
 }
 let appConfirmResolver=null;
@@ -4582,7 +4091,6 @@ function toggleStopSequenceAtEnd(){
  }
 }
 function syncSequencePlayButton(){
- if(compactModeActive)setTimeout(syncCompactControls,0);
  const button=$('sequence-play');
  if(!button)return;
  button.classList.toggle('sequence-play-active',sequencePlaying);
@@ -4600,14 +4108,11 @@ function syncSequencePlayButton(){
 function toggleSequencePlayback(){
  if(sequencePlaying){
   stopChordSequence('Sequência parada');
-  compactSequenceOnly=false;
   return;
  }
- compactSequenceOnly=false;
  playChordSequence();
 }
 function syncSequenceDrumButton(){
- if(compactModeActive)setTimeout(syncCompactControls,0);
  const button=$('sequence-stop-drums');
  if(!button)return;
  const active=drumRunning||drumStartQueued;
@@ -4651,7 +4156,7 @@ function handleChordButton(root,type,button,pointerId){
 
 function releaseChordFromPointer(pointerId){
  const session=manualChordSessions.get(manualChordSessionId(pointerId));
- if(!session||session.releaseOnPointer===false)return;
+ if(!session)return;
  const releaseValue=Number.isFinite(Number(session.releaseMs))?Number(session.releaseMs):65;
  releaseManualChordSession(pointerId,releaseValue);
 }
@@ -5538,181 +5043,6 @@ function renderSecondaryDominants(){
  });
  wrap.classList.add("visible");
 }
-let compactModeActive=false;
-let compactSequenceOnly=false;
-
-function compactFirstSequence(){
- const first=sequenceOrder[0]||'verse';
- return SEQUENCE_SECTION_LABELS[first]?first:'verse';
-}
-function compactChordFunction(index){
- if(index===0)return 'function-tonic';
- if(index===3)return 'function-subdominant';
- if(index===4)return 'function-dominant';
- if(index===6)return 'function-leading';
- return '';
-}
-function renderCompactHarmonicChords(){
- const box=$('compact-harmonic-chords');
- if(!box)return;
- box.innerHTML='';
- let selectedRoot=Number($('compact-circle-root')?.value);
- if(!Number.isFinite(selectedRoot))selectedRoot=0;
- CIRCLE_DEGREES.forEach(function(degree,index){
-  const root=(selectedRoot+degree.step)%12;
-  const button=document.createElement('button');
-  button.type='button';
-  button.className=compactChordFunction(index);
-  button.dataset.root=String(root);
-  button.dataset.type=degree.type;
-  button.textContent=CHORD_NAMES[root]+(degree.type==='minor'?'m':degree.type==='diminished'?'°':'');
-  button.title='Tocar '+button.textContent;
-  button.addEventListener('pointerdown',function(event){
-   event.preventDefault();
-   handleChordButton(root,degree.type,button,event.pointerId);
-  },{passive:false});
-  box.appendChild(button);
- });
-}
-function syncCompactControls(){
- const capo=$('compact-capo-value');
- const oct=$('compact-octave-value');
- const loop=$('compact-loop');
- const play=$('compact-play');
- const sequenceOnly=$('compact-sequence-only');
- const drum=$('compact-drum-only');
- const current=$('compact-current-song');
- const selectedSong=$('compact-selected-song');
-
- if(capo)capo.textContent=capoSemitones>0?'+'+capoSemitones:String(capoSemitones);
- if(oct)oct.textContent=octave>0?'+'+octave:String(octave);
-
- if(loop){
-  loop.classList.toggle('active',sequenceHoldLoop);
-  loop.textContent=sequenceHoldLoop?'🔁 Loop ligado':'🔁 Loop';
- }
- if(play){
-  const active=sequencePlaying&&!compactSequenceOnly;
-  play.classList.toggle('active',active);
-  play.textContent=active?'■ Parar':'▶ Tocar';
- }
- if(sequenceOnly){
-  const active=sequencePlaying&&compactSequenceOnly;
-  sequenceOnly.classList.toggle('active',active);
-  sequenceOnly.textContent=active?'■ Parar sequência':'🎼 Só sequência';
- }
- if(drum){
-  const active=(drumRunning||drumStartQueued)&&!sequencePlaying;
-  drum.classList.toggle('active',active);
-  drum.textContent=active?'■ Parar bateria':'🥁 Só bateria';
- }
- if(selectedSong)selectedSong.textContent=currentSongName||'Nenhuma música selecionada';
- if(current){
-  current.textContent=currentSongName
-   ?'Música: '+currentSongName+' · '+SEQUENCE_SECTION_LABELS[activeSequenceSection]
-   :'Nenhuma música carregada';
- }
-}
-function setCompactMode(active){
- compactModeActive=active===true;
- document.body.classList.toggle('compact-mode-active',compactModeActive);
- const toggle=$('compact-mode-toggle');
- if(toggle){
-  toggle.classList.toggle('active',compactModeActive);
-  toggle.setAttribute('aria-pressed',String(compactModeActive));
- }
- if(compactModeActive){
-  const rootSelect=$('compact-circle-root');
-  if(rootSelect&&!rootSelect.options.length){
-   CHORD_NAMES.forEach(function(name,index){
-    const option=document.createElement('option');
-    option.value=String(index);
-    option.textContent=name;
-    rootSelect.appendChild(option);
-   });
-  }
-  if(rootSelect)rootSelect.value=String(circleRoot===null?0:circleRoot);
-  renderCompactHarmonicChords();
-  syncCompactControls();
-  setStatus('Modo compacto ativado');
- }else{
-  setStatus('Modo compacto fechado');
- }
-}
-function compactPrepareFirstSequence(){
- activeSequenceSection=compactFirstSequence();
- currentSectionRepetition=1;
- syncSequenceSectionButtons();
- renderChordSequence();
-}
-function compactPlayStandard(){
- if(sequencePlaying&&!compactSequenceOnly){
-  stopChordSequence('Sequência e bateria paradas');
-  syncCompactControls();
-  return;
- }
- if(sequencePlaying)stopChordSequence('');
- compactSequenceOnly=false;
- compactPrepareFirstSequence();
- playChordSequence();
- syncCompactControls();
-}
-function compactPlaySequenceOnly(){
- if(sequencePlaying&&compactSequenceOnly){
-  stopChordSequence('Sequência parada');
-  compactSequenceOnly=false;
-  syncCompactControls();
-  return;
- }
- if(sequencePlaying)stopChordSequence('');
- stopDrums();
- compactSequenceOnly=true;
- compactPrepareFirstSequence();
- playChordSequence();
- syncCompactControls();
-}
-function compactToggleLoop(){
- sequenceHoldLoop=!sequenceHoldLoop;
- syncSequenceHoldLoopButton();
- syncCompactControls();
- setStatus(sequenceHoldLoop?'Loop da sequência ligado':'Loop da sequência desligado');
-}
-function compactToggleDrums(){
- if(drumRunning||drumStartQueued)stopSequenceDrumsOnly();
- else{
-  compactPrepareFirstSequence();
-  toggleSequenceDrums();
- }
- syncCompactControls();
-}
-function compactStopAll(){
- compactSequenceOnly=false;
- sequenceHoldLoop=false;
- sequenceStopAtEnd=false;
- accompanimentStopQueued=false;
- accompanimentStopEventScheduled=false;
- stopChordSequence('');
- stopDrums();
- stopAccompaniment();
- stopMasterTransport();
- releaseAll();
- syncCompactControls();
- setStatus('Sequência e bateria paradas');
-}
-function compactAdjustCapo(delta){
- capoSemitones=clampCapo(capoSemitones+delta);
- syncSettingsUI();
- syncCompactControls();
- setStatus('Capotraste '+(capoSemitones>0?'+':'')+capoSemitones);
-}
-function compactAdjustOctave(delta){
- octave=Math.max(-2,Math.min(3,octave+delta));
- syncSettingsUI();
- renderKeyboard();
- syncCompactControls();
- setStatus('Oitava '+(octave>0?'+':'')+octave);
-}
-
 function applyCircleFilter(){
  const buttons=[...document.querySelectorAll('#major-chords .chord, #minor-chords .chord')];
  const functionalClasses=['function-tonic','function-subdominant','function-dominant','function-leading'];
@@ -5826,7 +5156,7 @@ function selectSustainMode(mode){
  syncSettingsUI();
  if(mode==='pressed')setStatus('Sustain: o som permanece somente enquanto a tecla estiver pressionada');
  else if(mode==='hold')setStatus('Sustain: notas e acordes permanecem enquanto pressionados e usam a Liberação ao soltar');
- else setStatus('Sustain: notas e acordes permanecem até a próxima nota ou acorde');
+ else setStatus('Sustain: a nota permanece até a próxima nota');
 }
 $('sustain-pressed').onclick=function(){selectSustainMode('pressed')};
 $('sustain-hold').onclick=function(){selectSustainMode('hold')};
@@ -5926,8 +5256,7 @@ function selectChordChangeMode(mode){
  const activeButton=$(activeId);
  if(activeButton)activeButton.classList.add('active');
  if(mode==='immediate'&&pendingRoot!==null)beginAccompaniment(pendingRoot,pendingType,pendingButton);
- syncSequencePauseButton();
- setStatus('Tempo da troca e da pausa: '+chordChangeModeLabel(mode));
+ setStatus('Troca de acorde '+chordChangeModeLabel(mode));
 }
 $('change-zero').onclick=function(){selectChordChangeMode('immediate')};
 $('change-eighth').onclick=function(){selectChordChangeMode('eighthBar')};
@@ -5952,36 +5281,11 @@ document.querySelectorAll('[data-repeat-adjust]').forEach(function(button){
  };
 });
 $('sequence-record').onclick=()=>{if(sequencePlaying)stopChordSequence('Sequência parada para iniciar a gravação');sequenceRecording=!sequenceRecording;syncSequenceRecordButton();syncSequenceRepeatInputs();syncSequenceAutoButton();setStatus(sequenceRecording?'Gravando '+SEQUENCE_SECTION_LABELS[activeSequenceSection]+': toque em acordes ou notas do teclado e use as pausas quando quiser':'Gravação encerrada')};
-function chordChangeModeFraction(mode){
- if(mode==='eighthBar')return .125;
- if(mode==='quarterBar')return .25;
- if(mode==='halfBar')return .5;
- if(mode==='threeQuarterBar')return .75;
- if(mode==='nextBar')return 1;
- return 0;
-}
-function chordChangeModeFractionLabel(mode){
- const fraction=chordChangeModeFraction(mode);
- if(fraction===.125)return '⅛';
- if(fraction===.25)return '¼';
- if(fraction===.5)return '½';
- if(fraction===.75)return '¾';
- if(fraction===1)return '1';
- return '0';
-}
-function syncSequencePauseButton(){
- const button=$('sequence-rest');
- if(!button)return;
- const fraction=chordChangeModeFraction(chordChangeMode);
- button.textContent='⏸ Pausa '+chordChangeModeFractionLabel(chordChangeMode);
- button.disabled=fraction===0;
- button.title=fraction===0?'Selecione um tempo de ⅛ a 1 para adicionar uma pausa':'Adicionar pausa de '+durationLabelForStatus(fraction);
-}
-$('sequence-rest').onclick=function(){
- const fraction=chordChangeModeFraction(chordChangeMode);
- if(fraction===0){setStatus('Selecione um tempo de ⅛ a 1 antes de adicionar a pausa');return}
- addPauseToSequence(fraction);
-};
+$('sequence-rest-eighth').onclick=function(){addPauseToSequence(.125)};
+$('sequence-rest-quarter').onclick=function(){addPauseToSequence(.25)};
+$('sequence-rest-half').onclick=function(){addPauseToSequence(.5)};
+$('sequence-rest-three-quarter').onclick=function(){addPauseToSequence(.75)};
+$('sequence-rest-full').onclick=function(){addPauseToSequence(1)};
 $('sequence-play').onclick=function(){
  if(!sequencePlaying){sequenceHoldLoop=false;syncSequenceHoldLoopButton()}
  toggleSequencePlayback();
@@ -6043,6 +5347,34 @@ const sequenceClearAllButton=$('sequence-clear-all');
 if(sequenceClearAllButton)sequenceClearAllButton.onclick=clearActiveSequenceAll;
 $('sequence-toggle').onclick=()=>{sequencePanelVisible=!sequencePanelVisible;saveChordSequence();syncSequencePanelVisibility();setStatus(sequencePanelVisible?'Barra de sequências exibida':'Barra de sequências ocultada')};
 $('advanced-toggle').onclick=()=>{$('advanced').classList.toggle('open');$('advanced-toggle').classList.toggle('active')};$('fullscreen').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};$('stop-accompaniments').onclick=requestAccompanimentStop;
+$('stop-all').onclick=function(){
+ sequenceHoldLoop=false;
+ sequenceStopAtEnd=false;
+ accompanimentStopQueued=false;
+ accompanimentStopEventScheduled=false;
+ clearTimeout(sequenceTimer);
+ sequenceTimer=null;
+ sequencePlaying=false;
+ sequenceStartQueued=false;
+ queuedSequenceSection=null;
+ sequenceIndex=-1;
+ sequenceEighthUnitsRemaining=0;
+ sequenceContinuousItem=false;
+ sequencePendingTransition=null;
+ sequenceEndActionInProgress='';
+ sequenceConfiguredActionName='';
+ stopAccompaniment();
+ stopDrums();
+ stopMasterTransport();
+ releaseAll();
+ syncSequenceHoldLoopButton();
+ syncSequencePlayButton();
+ syncSequenceDrumButton();
+ syncAccompanimentStopButton();
+ syncInstrumentChangeLock();
+ renderChordSequence();
+ setStatus('Todas as notas foram silenciadas');
+};
 $('circle-toggle').onclick=()=>{if(circleEnabled){circleEnabled=false;circleRoot=null;$('circle-toggle').classList.remove('circle-active');$('circle-toggle').textContent='CH';applyCircleFilter();setStatus('Filtro do círculo harmônico desligado')}else openCircleDialog()};$('circle-close').onclick=()=>$('circle-dialog').close();
 const MEMORY_PREFIX='tecladoVirtualMemory';
 const FACTORY_SETTINGS={instrument:'piano',octave:0,sustainMode:'pressed',releaseMs:650,attackMs:20,chordMode:'together',arpInterval:280,arpPattern:'up',inversion:0,bassEnabled:false,latchEnabled:false,splitEnabled:false,splitInstrument:'organ',velocityEnabled:true,glissEnabled:true,bpm:100,rhythmPattern:'whole',chordChangeMode:'nextBar',drumEngine:'acoustic',values:{master:'68',keyboard:'92',chord:'72',bass:'56'}};
@@ -6084,7 +5416,7 @@ function syncSettingsUI(){syncInstrumentChangeLock();
  $('change-quarter').classList.toggle('active',chordChangeMode==='quarterBar');
  $('change-half').classList.toggle('active',chordChangeMode==='halfBar');
  $('change-three-quarter').classList.toggle('active',chordChangeMode==='threeQuarterBar');
- $('change-full').classList.toggle('active',chordChangeMode==='nextBar');syncSequencePauseButton();$('sustain-pressed').classList.toggle('active',sustainMode==='pressed');$('sustain-hold').classList.toggle('active',sustainMode==='hold');$('sustain-next').classList.toggle('active',sustainMode==='next');$('chord-together').classList.toggle('active',chordMode==='together');$('chord-arpeggio').classList.toggle('active',chordMode==='arpeggio');
+ $('change-full').classList.toggle('active',chordChangeMode==='nextBar');$('sustain-pressed').classList.toggle('active',sustainMode==='pressed');$('sustain-hold').classList.toggle('active',sustainMode==='hold');$('sustain-next').classList.toggle('active',sustainMode==='next');$('chord-together').classList.toggle('active',chordMode==='together');$('chord-arpeggio').classList.toggle('active',chordMode==='arpeggio');
  $('bass-toggle').classList.toggle('active',bassEnabled);$('bass-toggle').textContent=bassEnabled?'Baixo ligado':'Baixo';$('bass-toggle').setAttribute('aria-pressed',String(bassEnabled));$('latch-toggle').classList.toggle('active',latchEnabled);$('latch-toggle').textContent=latchEnabled?'Contínuo ligado':'Contínuo';$('latch-toggle').setAttribute('aria-pressed',String(latchEnabled));$('split-toggle').classList.toggle('active',splitEnabled);$('split-toggle').textContent=splitEnabled?'Ativada':'Desativada';$('split-toggle').setAttribute('aria-pressed',String(splitEnabled));$('split-instrument').disabled=!splitEnabled;$('velocity-toggle').classList.toggle('active',velocityEnabled);$('velocity-toggle').textContent=velocityEnabled?'Sensível':'Uniforme';$('velocity-toggle').setAttribute('aria-pressed',String(velocityEnabled));$('gliss-toggle').classList.toggle('active',glissEnabled);$('gliss-toggle').textContent=glissEnabled?'Glissando':'Sem glissando';$('gliss-toggle').setAttribute('aria-pressed',String(glissEnabled));updateRanges();
 }
 function applySettings(s){
@@ -6099,56 +5431,6 @@ document.querySelectorAll('.memory-button').forEach(button=>button.onclick=()=>{
 refreshMemoryButtons();
 document.addEventListener('keydown',e=>{if(['INPUT','SELECT','BUTTON'].includes(e.target.tagName))return;const k=e.key.toLowerCase();if(pressedKeys.has(k)||!KEYMAP.has(k))return;noteDown(KEYMAP.get(k),k,1,'keyboard')});document.addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(KEYMAP.has(k))noteUp(KEYMAP.get(k),k,'keyboard')});window.addEventListener('blur',()=>releaseAll());document.addEventListener('contextmenu',e=>{if(e.target.closest('.key,.chord'))e.preventDefault()});
 initializeGeraTheme();
-const compactModeToggle=$('compact-mode-toggle');
-const compactModeClose=$('compact-mode-close');
-const compactSongsOpen=$('compact-songs-open');
-const compactPlayButton=$('compact-play');
-const compactSequenceOnlyButton=$('compact-sequence-only');
-const compactLoop=$('compact-loop');
-const compactDrumOnly=$('compact-drum-only');
-const compactDrumFill=$('compact-drum-fill');
-const compactDrumEnding=$('compact-drum-ending');
-const compactStopDrums=$('compact-stop-drums');
-const compactStopAllButton=$('compact-stop-all');
-const compactCapoDown=$('compact-capo-down');
-const compactCapoUp=$('compact-capo-up');
-const compactOctaveDown=$('compact-octave-down');
-const compactOctaveUp=$('compact-octave-up');
-const compactCircleRoot=$('compact-circle-root');
-
-if(compactModeToggle)compactModeToggle.onclick=function(){setCompactMode(!compactModeActive)};
-if(compactModeClose)compactModeClose.onclick=function(){setCompactMode(false)};
-if(compactSongsOpen)compactSongsOpen.onclick=function(){
- renderSongsList();
- $('song-name-input').value=currentSongName||'';
- $('song-bpm-input').value=bpm;
- $('songs-dialog').showModal();
-};
-if(compactPlayButton)compactPlayButton.onclick=compactPlayStandard;
-if(compactSequenceOnlyButton)compactSequenceOnlyButton.onclick=compactPlaySequenceOnly;
-if(compactLoop)compactLoop.onclick=compactToggleLoop;
-if(compactDrumOnly)compactDrumOnly.onclick=compactToggleDrums;
-if(compactDrumFill)compactDrumFill.onclick=function(){requestDrumAction('fill')};
-if(compactDrumEnding)compactDrumEnding.onclick=function(){requestDrumAction('ending')};
-if(compactStopDrums)compactStopDrums.onclick=function(){
- if(drumRunning||drumStartQueued)stopSequenceDrumsOnly();
- else setStatus('A bateria já está parada');
- syncCompactControls();
-};
-if(compactStopAllButton)compactStopAllButton.onclick=compactStopAll;
-if(compactCapoDown)compactCapoDown.onclick=function(){compactAdjustCapo(-1)};
-if(compactCapoUp)compactCapoUp.onclick=function(){compactAdjustCapo(1)};
-if(compactOctaveDown)compactOctaveDown.onclick=function(){compactAdjustOctave(-1)};
-if(compactOctaveUp)compactOctaveUp.onclick=function(){compactAdjustOctave(1)};
-if(compactCircleRoot)compactCircleRoot.onchange=function(){
- circleRoot=Number(this.value);
- circleEnabled=true;
- renderCompactHarmonicChords();
-};
-syncGlobalMuteUI();
-const globalMuteButton=$('global-mute-float');
-if(globalMuteButton)globalMuteButton.onclick=toggleGlobalAudioMute;
-
 drumEngine=localStorage.getItem('tecladoVirtualDrumEngine')||'acoustic';
 renderKeyboard();
 renderChords();
