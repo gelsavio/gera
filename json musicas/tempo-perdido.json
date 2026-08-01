@@ -1,0 +1,928 @@
+{
+  "app": "GERA — Gerador de Acompanhamentos",
+  "format": "gera-song",
+  "formatVersion": 3,
+  "exportedAt": "2026-08-01T01:11:53.521Z",
+  "name": "Tempo Perdido",
+  "bpm": 182,
+  "capoSemitones": 0,
+  "auto": false,
+  "autoEnd": true,
+  "activeSection": "section9",
+  "drumEngine": "acoustic",
+  "ordemSecoes": [
+    "verse",
+    "prechorus",
+    "chorus",
+    "bridge",
+    "section5",
+    "section6",
+    "section7",
+    "section8",
+    "section9",
+    "section10",
+    "section11",
+    "section12",
+    "section13",
+    "section14",
+    "section15",
+    "section16"
+  ],
+  "compassos": {
+    "verse": 6,
+    "prechorus": 2,
+    "chorus": 8,
+    "bridge": 4,
+    "section5": 8,
+    "section6": 4,
+    "section7": 8,
+    "section8": 4,
+    "section9": 6.25,
+    "section10": 0,
+    "section11": 0,
+    "section12": 0,
+    "section13": 0,
+    "section14": 0,
+    "section15": 0,
+    "section16": 0
+  },
+  "bateria": {
+    "verse": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "prechorus": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": "fillHalf",
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "chorus": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "bridge": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": "fillHalf",
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "section5": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "section6": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": "fillHalf",
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "section7": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "section8": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "section9": {
+      "padrao": "rock",
+      "entrada": null,
+      "saida": null,
+      "final": "ending",
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "section10": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "section11": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "section12": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "section13": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "section14": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "section15": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    },
+    "section16": {
+      "padrao": null,
+      "entrada": null,
+      "saida": null,
+      "final": null,
+      "instrumento": "piano",
+      "proxima": ""
+    }
+  },
+  "sections": {
+    "verse": [
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.125,
+        "instrument": "violao",
+        "text": "Introdução — C7M",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "G",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 1,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "G",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 1,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "G",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 1,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "C",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "G",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 1,
+        "label": "B",
+        "fraction": 0.25,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.125,
+        "instrument": "violao",
+        "text": "Am7",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 1,
+        "label": "E",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 1,
+        "label": "E",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 1,
+        "label": "E",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 0,
+        "label": "A",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 1,
+        "label": "E",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "G",
+        "fraction": 0.25,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.125,
+        "instrument": "violao",
+        "text": "Bm7",
+        "textRepeat": 1
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 1,
+        "label": "F#",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 1,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 1,
+        "label": "F#",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 1,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 1,
+        "label": "F#",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 1,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 0,
+        "label": "B",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 1,
+        "label": "F#",
+        "fraction": 0.125,
+        "instrument": "violao"
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 1,
+        "label": "A",
+        "fraction": 0.25,
+        "instrument": "violao"
+      }
+    ],
+    "prechorus": [
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "Mi",
+        "fraction": 1,
+        "instrument": "piano",
+        "fret": 0
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 0,
+        "label": "Mi",
+        "fraction": 0.5,
+        "instrument": "piano",
+        "fret": 0
+      },
+      {
+        "kind": "note",
+        "note": 2,
+        "octave": 0,
+        "label": "Ré",
+        "fraction": 0.5,
+        "instrument": "piano",
+        "fret": 0
+      }
+    ],
+    "chorus": [
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "bridge": [
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "section5": [
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "section6": [
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "section7": [
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 0,
+        "type": "major",
+        "label": "C",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 9,
+        "type": "minor",
+        "label": "Am",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "section8": [
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 11,
+        "type": "minor",
+        "label": "Bm",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      },
+      {
+        "root": 4,
+        "type": "minor",
+        "label": "Em",
+        "fraction": 1,
+        "playMode": "together"
+      }
+    ],
+    "section9": [
+      {
+        "kind": "note",
+        "note": 0,
+        "octave": 1,
+        "label": "Dó",
+        "fraction": 0.125,
+        "instrument": "piano",
+        "fret": 0
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "Sol",
+        "fraction": 0.125,
+        "instrument": "piano",
+        "fret": 0
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 1,
+        "label": "Si",
+        "fraction": 0.5,
+        "instrument": "piano",
+        "fret": 0
+      },
+      {
+        "pause": true,
+        "label": "Pausa ¼",
+        "fraction": 0.25
+      },
+      {
+        "pause": true,
+        "label": "Pausa ½",
+        "fraction": 0.5
+      },
+      {
+        "pause": true,
+        "label": "Pausa ½",
+        "fraction": 0.5
+      },
+      {
+        "kind": "note",
+        "note": 4,
+        "octave": 1,
+        "label": "Mi",
+        "fraction": 0.125,
+        "instrument": "piano",
+        "fret": 0
+      },
+      {
+        "kind": "note",
+        "note": 7,
+        "octave": 1,
+        "label": "Sol",
+        "fraction": 0.125,
+        "instrument": "piano",
+        "fret": 0
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 1,
+        "label": "Lá",
+        "fraction": 0.5,
+        "instrument": "piano",
+        "fret": 0
+      },
+      {
+        "pause": true,
+        "label": "Pausa ½",
+        "fraction": 0.5
+      },
+      {
+        "pause": true,
+        "label": "Pausa ½",
+        "fraction": 0.5
+      },
+      {
+        "pause": true,
+        "label": "Pausa ¼",
+        "fraction": 0.25
+      },
+      {
+        "kind": "note",
+        "note": 11,
+        "octave": 1,
+        "label": "Si",
+        "fraction": 0.125,
+        "instrument": "piano",
+        "fret": 0
+      },
+      {
+        "kind": "note",
+        "note": 6,
+        "octave": 1,
+        "label": "Fá#",
+        "fraction": 0.125,
+        "instrument": "piano",
+        "fret": 0
+      },
+      {
+        "kind": "note",
+        "note": 9,
+        "octave": 1,
+        "label": "Lá",
+        "fraction": 0.25,
+        "instrument": "piano",
+        "fret": 0
+      },
+      {
+        "pause": true,
+        "label": "Pausa ¼",
+        "fraction": 0.25
+      },
+      {
+        "pause": true,
+        "label": "Pausa ½",
+        "fraction": 0.5
+      },
+      {
+        "pause": true,
+        "label": "Pausa ½",
+        "fraction": 0.5
+      },
+      {
+        "pause": true,
+        "label": "Pausa ½",
+        "fraction": 0.5
+      }
+    ],
+    "section10": [],
+    "section11": [],
+    "section12": [],
+    "section13": [],
+    "section14": [],
+    "section15": [],
+    "section16": []
+  },
+  "repeats": {
+    "verse": 1,
+    "prechorus": 1,
+    "chorus": 7,
+    "bridge": 2,
+    "section5": 5,
+    "section6": 2,
+    "section7": 4,
+    "section8": 2,
+    "section9": 1,
+    "section10": 0,
+    "section11": 0,
+    "section12": 0,
+    "section13": 0,
+    "section14": 0,
+    "section15": 0,
+    "section16": 0
+  }
+}
