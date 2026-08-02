@@ -1,0 +1,2 @@
+# Ignorar a pasta old para não versionar arquivos legados e não enviar ao GitHub
+old/
