@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#131426">
+<meta name="theme-color" content="#d8cbb8">
 <meta name="application-name" content="GERA — Gerador de Acompanhamentos">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -15,18 +15,18 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <meta name="screen-orientation" content="landscape">
-<title>GERA v3.14.84</title>
+<title>GERA v3.14.91</title>
 <script>
 (function(){
  try{
   var saved=localStorage.getItem('geraTheme');
-  if(saved==='neutral'||saved==='light'||saved==='dark'){
+  if(saved==='neutral'||saved==='light'||saved==='dark'||saved==='ocean'||saved==='forest'||saved==='violet'){
    document.documentElement.setAttribute('data-theme',saved);
   }else{
-   document.documentElement.setAttribute('data-theme','dark');
+   document.documentElement.setAttribute('data-theme','neutral');
   }
  }catch(error){
-  document.documentElement.setAttribute('data-theme','dark');
+  document.documentElement.setAttribute('data-theme','neutral');
  }
 })();
 </script>
@@ -105,12 +105,16 @@ h1{font-size:1.2rem;color:#e0e5f5;white-space:nowrap}.app-version{font-size:.58r
 @media(max-height:600px){h1{font-size:1rem}.key.natural{height:36px}.key.sharp{height:24px}.quick-controls .control{padding:5px}.chord{height:34px;min-height:34px}.status{font-size:.68rem}}
 
 #drum-engine-status{
-  display:block;
+  display:flex;
+  align-items:center;
   margin-top:4px;
+  min-height:2.3em;
+  height:2.3em;
   font-size:.62rem;
   line-height:1.15;
   font-weight:800;
   white-space:normal;
+  overflow:hidden;
 }
 #drum-engine-status[data-state="loading"]{color:#f0c75e}
 #drum-engine-status[data-state="ready"]{color:#7de39b}
@@ -1275,12 +1279,12 @@ body{background:var(--rd-canvas)!important;color:var(--rd-ink)!important;padding
 body>#rotate-msg{display:none!important}
 body>.app-header{display:none!important}
 body>main.app{display:none!important}
-.redesign-topbar{position:sticky;top:0;z-index:9000;display:grid;grid-template-columns:minmax(230px,1fr) auto auto auto;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid var(--rd-line);background:var(--rd-surface);color:var(--rd-ink)}
+.redesign-topbar{position:sticky;top:0;z-index:9000;display:grid;width:100%;max-width:none;grid-template-columns:minmax(230px,1fr) auto auto auto;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid var(--rd-line);background:var(--rd-surface);color:var(--rd-ink)}
 .redesign-brandmark{display:flex;align-items:baseline;gap:8px;min-width:0}.redesign-logo{font-family:Inter,Arial,sans-serif;font-style:normal;font-weight:900;font-size:1.5rem;letter-spacing:.04em}.redesign-tagline{font-size:.7rem;color:var(--rd-muted)}.redesign-brandmark small{color:var(--rd-muted);font-size:.56rem}
 .redesign-song-pill{max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:1px solid var(--rd-line)!important;background:var(--rd-surface2)!important;color:var(--rd-ink)!important;border-radius:999px!important;padding:8px 13px!important;font-size:.78rem!important}
 .redesign-readouts{display:flex;gap:12px;color:var(--rd-muted);font-size:.68rem;font-weight:700}.redesign-readouts b{color:var(--rd-ink);font-size:.88rem}
 .redesign-top-actions{display:flex;gap:6px}.redesign-top-actions button,.redesign-mixer button,.redesign-library-actions button{border:1px solid var(--rd-line);background:var(--rd-surface);color:var(--rd-ink);border-radius:10px;min-height:36px;padding:6px 10px;cursor:pointer}
-.redesign-shell{display:flex;max-width:1280px;margin:0 auto;min-height:calc(100vh - 132px)}
+.redesign-shell{display:flex;width:100%;max-width:none;margin:0;min-height:calc(100vh - 132px)}
 .redesign-rail{width:88px;flex:0 0 88px;display:flex;flex-direction:column;gap:6px;padding:16px 7px;border-right:1px solid var(--rd-line)}
 .redesign-rail-btn{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;border:0;background:transparent;color:var(--rd-muted);border-radius:12px;padding:9px 3px;font-size:.61rem;font-weight:700;cursor:pointer}.redesign-rail-btn span{font-size:1.18rem}.redesign-rail-btn.active{background:var(--rd-accent-bg);color:var(--rd-accent)}
 .redesign-content{flex:1;min-width:0;padding:20px 22px 34px}.redesign-tabpanel{display:none}.redesign-tabpanel.active{display:block}.redesign-tabpanel>h2{font-family:Georgia,serif;font-size:1.25rem;margin:0 0 3px}.redesign-subtitle{color:var(--rd-muted);font-size:.78rem;margin:0 0 15px}
@@ -1296,14 +1300,16 @@ body>main.app{display:none!important}
 #redesign-quick-slot #sustain-control .sustain-modes{grid-template-columns:repeat(3,minmax(0,1fr))}
 #redesign-tab-acordes .control button:not(.chord),
 #redesign-tab-ajustes .control button,
-#redesign-tab-ajustes .transport button{
+#redesign-tab-ajustes .transport button,
+#redesign-tab-bateria .drum-metronome-controls button{
  background:var(--rd-surface)!important;color:var(--rd-ink)!important;
  border:1px solid var(--rd-line)!important;box-shadow:none!important
 }
 #redesign-tab-acordes .control button.active:not(.chord),
 #redesign-tab-ajustes .control button.active,
 #redesign-tab-ajustes .transport button.active,
-#redesign-tab-ajustes #metronome-toggle.active{
+#redesign-tab-ajustes #metronome-toggle.active,
+#redesign-tab-bateria #metronome-toggle.active{
  background:var(--rd-accent-bg)!important;color:var(--rd-accent)!important;
  border-color:var(--rd-accent)!important
 }
@@ -1828,7 +1834,10 @@ dialog.songs-dialog{
 .redesign-content{
  flex:1 1 auto!important;
  width:auto!important;
+ max-width:1126px!important;
  min-width:0!important;
+ margin-left:auto!important;
+ margin-right:auto!important;
  padding:20px 22px 190px!important;
 }
 body.redesign-rail-collapsed .redesign-rail{
@@ -3326,7 +3335,7 @@ html[data-theme="neutral"] .sequence-item.full::after{color:#bfdbfe}
  padding:10px 8px!important;
  border-radius:14px!important;
  font-size:1.1rem!important;
- background:var(--rd-bg)!important;
+ background:var(--rd-surface2)!important;
  border:1px solid var(--rd-line)!important;
  color:var(--rd-ink)!important;
  box-shadow:none!important;
@@ -3355,7 +3364,7 @@ html[data-theme="neutral"] .sequence-item.full::after{color:#bfdbfe}
 }
 .drum-dashboard-grid{
  display:grid;
- grid-template-columns:1fr 1fr;
+ grid-template-columns:repeat(3,minmax(0,1fr));
  gap:14px;
 }
 .drum-performance-actions{
@@ -3367,6 +3376,34 @@ html[data-theme="neutral"] .sequence-item.full::after{color:#bfdbfe}
  display:grid;
  grid-template-columns:repeat(3,minmax(0,1fr));
  gap:8px;
+}
+.drum-metronome-controls{
+ display:grid;
+ grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+ gap:8px;
+ align-items:stretch;
+}
+.drum-metronome-controls .control{
+ min-width:0;
+ min-height:72px;
+ margin:0;
+ padding:9px!important;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ border-radius:14px!important;
+ background:var(--rd-surface2)!important;
+}
+.drum-metronome-controls .fine-stack{
+ grid-template-columns:30px minmax(46px,1fr) 30px;
+ width:100%;
+}
+.drum-metronome-controls #metronome-toggle{
+ width:100%;
+ min-height:40px;
+ margin-top:auto;
+ border-radius:10px;
+ font-weight:850;
 }
 .drum-performance-actions .drum-fill{
  border-color:color-mix(in srgb,var(--rd-accent) 55%,var(--rd-line))!important;
@@ -3414,9 +3451,28 @@ html[data-theme="neutral"] .sequence-item.full::after{color:#bfdbfe}
 }
 .drum-library-actions{
  display:grid!important;
- grid-template-columns:repeat(4,minmax(0,1fr));
+ grid-template-columns:minmax(180px,1.25fr) repeat(4,minmax(0,1fr));
  gap:8px!important;
  padding:12px;
+}
+.drum-library-picker{
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ gap:4px;
+ color:var(--rd-muted);
+ font-size:.6rem;
+ font-weight:850;
+}
+.drum-library-picker select{
+ width:100%;
+ min-height:42px;
+ padding:0 9px;
+ border:1px solid var(--rd-line);
+ border-radius:11px;
+ background:var(--rd-surface2);
+ color:var(--rd-ink);
+ font-weight:800;
 }
 .drum-library-actions button{
  min-height:42px!important;
@@ -3973,7 +4029,7 @@ html[data-theme="violet"] .compact-mode-panel{
 <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
 <header class="app-header">
   <div class="header-brand">
-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.14.84</small></h1>
+    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.14.91</small></h1>
   </div>
   <div class="header-actions">
     <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
@@ -4093,7 +4149,7 @@ html[data-theme="violet"] .compact-mode-panel{
   <div class="redesign-brandmark">
     <span class="redesign-logo">GERA</span>
     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
-    <small>v3.14.84</small>
+    <small>v3.14.91</small>
   </div>
   <button class="redesign-song-pill" id="redesign-song-pill" type="button" title="Escolher música">♫ <span id="redesign-song-name">Nenhuma música</span></button>
   <div id="redesign-header-text-preview" class="sequence-text-preview sequence-text-preview-floating" aria-live="polite">
@@ -4188,7 +4244,7 @@ html[data-theme="violet"] .compact-mode-panel{
       <div id="redesign-song-library" class="redesign-song-library"></div>
     </section>
     <section class="redesign-tabpanel" id="redesign-tab-ajustes">
-      <h2>Ajustes</h2><p class="redesign-subtitle">Som, sustain, metrônomo, ritmos, painéis e memórias.</p>
+      <h2>Ajustes</h2><p class="redesign-subtitle">Som, sustain, ritmos, painéis e memórias.</p>
       <div id="redesign-advanced-slot"></div>
       <div id="redesign-transport-slot"></div>
       <div id="redesign-memory-slot"></div>
@@ -4307,12 +4363,22 @@ html[data-theme="violet"] .compact-mode-panel{
         <button class="drum-pad layer-on" data-layer="hat" title="Ativar ou silenciar chimbal programado" aria-label="Ativar ou silenciar chimbal programado"><span>✦</span><small>Chimbal</small></button>
       </div>
     </section>
+
+    <section class="drum-dashboard-section drum-metronome-section">
+      <div class="drum-section-heading">
+        <div>
+          <strong>Metrônomo</strong>
+          <small>Ajuste o andamento e ligue a marcação do tempo.</small>
+        </div>
+      </div>
+      <div id="drum-metronome-controls" class="drum-metronome-controls"></div>
+    </section>
   </div>
 
-  <details class="drum-library-panel">
+  <details class="drum-library-panel" open>
     <summary>
-      <span>Biblioteca de ritmos</span>
-      <small>Criar, editar, importar e exportar padrões.</small>
+      <span>Edição e biblioteca de ritmos</span>
+      <small>Monte as batidas em uma grade por passos ou administre seus padrões.</small>
     </summary>
     <div class="drum-library-actions" aria-label="Biblioteca de ritmos">
       <button id="drum-editor-open" class="secondary drum-editor-open" type="button" title="Editar os padrões globais de bateria">▦ Editar ritmos</button>
@@ -4725,7 +4791,7 @@ const $=id=>document.getElementById(id);
 const GERA_THEME_KEY='geraTheme';
 const GERA_THEMES=['dark','neutral','light','ocean','forest','violet'];
 function normalizeGeraTheme(value){
- return GERA_THEMES.indexOf(value)>=0?value:'dark';
+ return GERA_THEMES.indexOf(value)>=0?value:'neutral';
 }
 function geraThemeLabel(value){
  const theme=normalizeGeraTheme(value);
@@ -4764,8 +4830,8 @@ function applyGeraTheme(value,savePreference){
  }
 }
 function initializeGeraTheme(){
- let saved='dark';
- try{saved=localStorage.getItem(GERA_THEME_KEY)||'dark'}catch(error){}
+ let saved='neutral';
+ try{saved=localStorage.getItem(GERA_THEME_KEY)||'neutral'}catch(error){}
  applyGeraTheme(saved,false);
  const button=$('theme-cycle');
  if(button){
@@ -6202,7 +6268,7 @@ function drumPatternDisplayName(id){
  return item?item.name:(BUILTIN_DRUM_NAMES[id]||id||'Sem bateria');
 }
 function refreshDrumPatternSelectors(selectedValue){
- const selects=[$('section-drum-pattern'),$('drum-editor-library-pattern')].filter(Boolean);
+ const selects=[$('section-drum-pattern'),$('drum-editor-library-pattern'),$('drum-pattern-select')].filter(Boolean);
  selects.forEach(function(select){
   const current=selectedValue!==undefined?selectedValue:select.value;
   select.innerHTML='';
@@ -6369,6 +6435,12 @@ function activeSectionDrumData(){
  const config=normalizeSectionDrum(sequenceDrums[activeSequenceSection]);
  sequenceDrums[activeSequenceSection]=config;
  return config.drumData;
+}
+function activePlaybackDrumData(){
+ if(sequencePlaying||sequenceStartQueued)return activeSectionDrumData();
+ const library=drumLibraryPattern(drumPattern);
+ if(library&&library.parts)return library.parts;
+ return factorySectionDrumData(drumPattern||'rock');
 }
 function drumPatternEvent(pattern,instrument,step){
  if(!pattern||!Array.isArray(pattern.events))return null;
@@ -9436,7 +9508,7 @@ function drumPatternMeterSteps(pattern){
  return isThreeQuarterPattern(pattern)?12:16;
 }
 function activeTransportSteps(){
- const data=activeSectionDrumData();
+ const data=activePlaybackDrumData();
  const steps=data&&data.main?Number(data.main.steps):0;
  if([12,16].indexOf(steps)>=0)return steps;
  return drumPatternMeterSteps(drumPattern);
@@ -9505,16 +9577,17 @@ function requestDrumAction(action){
  setStatus((action==='fill'?'Virada':'Encerramento')+' programado para o próximo compasso');
 }
 function scheduleDrumStep(step,time,mode=''){
+ const playbackData=activePlaybackDrumData();
  let pattern=null;
  let isAction=false;
  if(mode==='fill'){
-  pattern=activeSectionDrumData().exitFull;
+  pattern=playbackData.exitFull;
   isAction=true;
  }else if(mode==='ending'){
-  pattern=activeSectionDrumData().endingFull;
+  pattern=playbackData.endingFull;
   isAction=true;
  }else{
-  pattern=activeSectionDrumData().main;
+  pattern=playbackData.main;
  }
  if(!pattern)return;
  const patternSteps=Number(pattern.steps)||16;
@@ -9777,7 +9850,15 @@ function transportScheduler(){
 }
 function drumScheduler(){ensureMasterTransport()}
 function startDrums(pattern=drumPattern){
- ensureAudio();drumPattern=pattern;drumStep=0;syncDrumActionButtons();document.querySelectorAll('.drum-pattern').forEach(b=>b.classList.toggle('active',b.dataset.pattern===pattern));$('drum-status').textContent=`${pattern.toUpperCase()} · aguardando`;drumRunning=false;drumStartQueued=true;drumFillQueued=false;drumEndingQueued=false;drumQueuedAction='';drumActiveAction='';drumCompletedAction='';drumActionMuteFrom=0;drumActionMuteUntil=0;sequenceEndActionInProgress='';syncDrumActionButtons();syncSequenceDrumButton();ensureMasterTransport();
+ ensureAudio();
+ if(!drumLibraryPattern(pattern))pattern='rock';
+ drumPattern=pattern;
+ drumStep=0;
+ syncDrumActionButtons();
+ document.querySelectorAll('.drum-pattern').forEach(function(button){button.classList.toggle('active',button.dataset.pattern===pattern)});
+ if($('drum-pattern-select'))$('drum-pattern-select').value=pattern;
+ $('drum-status').textContent=drumPatternDisplayName(pattern)+' · aguardando';
+ drumRunning=false;drumStartQueued=true;drumFillQueued=false;drumEndingQueued=false;drumQueuedAction='';drumActiveAction='';drumCompletedAction='';drumActionMuteFrom=0;drumActionMuteUntil=0;sequenceEndActionInProgress='';syncDrumActionButtons();syncSequenceDrumButton();ensureMasterTransport();
 }
 function stopDrums(){drumRunning=false;drumStartQueued=false;drumStep=0;drumFillQueued=false;drumEndingQueued=false;drumQueuedAction='';drumActiveAction='';drumCompletedAction='';drumActionMuteFrom=0;drumActionMuteUntil=0;sequenceEndActionInProgress='';document.querySelectorAll('.drum-pattern').forEach(b=>b.classList.remove('active'));if($('drum-stop'))$('drum-stop').classList.remove('active');if($('drum-status'))$('drum-status').textContent='Bateria parada.';syncDrumActionButtons();syncSequenceDrumButton();maybeStopMasterTransport()}
 function setDrumMode(active){
@@ -9807,6 +9888,8 @@ function bindDrums(){
  });
  document.querySelectorAll('[data-layer]').forEach(b=>b.onclick=()=>{const name=b.dataset.layer;drumLayers[name]=!drumLayers[name];b.classList.toggle('layer-on',drumLayers[name]);$('drum-status').textContent=`${name==='kick'?'Bumbo':name==='snare'?'Caixa':'Chimbal'} programado ${drumLayers[name]?'ligado':'silenciado'}`});
  document.querySelectorAll('.drum-pattern').forEach(b=>b.onclick=()=>{setManualDrumMode(false);startDrums(b.dataset.pattern)});
+ const patternSelect=$('drum-pattern-select');
+ if(patternSelect)patternSelect.onchange=function(){setManualDrumMode(false);startDrums(this.value)};
  $('drum-fill').onclick=()=>requestDrumAction('fill');
  $('drum-ending').onclick=()=>requestDrumAction('ending');
  $('drum-stop').onclick=stopDrums;
@@ -12103,6 +12186,11 @@ $('song-new').onclick=async ()=>{
   move(quick,byId('redesign-quick-slot'));
   move(byId('keyboard'),byId('redesign-keyboard-slot'));
   move(byId('advanced'),byId('redesign-advanced-slot'));
+  const drumMetronomeControls=byId('drum-metronome-controls');
+  const bpmControl=byId('bpm');
+  const metronomeToggle=byId('metronome-toggle');
+  if(bpmControl)move(bpmControl.closest('.control'),drumMetronomeControls);
+  if(metronomeToggle)move(metronomeToggle.closest('.control'),drumMetronomeControls);
   move(first('.memory-panel'),byId('redesign-memory-slot'));
   move(first('.help'),byId('redesign-help-slot'));
   move(byId('normal-chord-group'),byId('redesign-chords-slot'));
