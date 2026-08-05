@@ -1,0 +1,162 @@
+--- a/index.html
++++ b/index.html
+@@ -15,7 +15,7 @@
+ <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+ <link rel="apple-touch-icon" href="./icons/icon-192.png">
+ <meta name="screen-orientation" content="landscape">
+-<title>GERA v3.15.16</title>
++<title>GERA v3.15.17</title>
+ <script src="./js/storage.js"></script>
+ <script>
+ (function(){
+@@ -38,7 +38,7 @@
+ <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
+ <header class="app-header">
+   <div class="header-brand">
+-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.16</small></h1>
++    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.17</small></h1>
+   </div>
+   <div class="header-actions">
+     <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
+@@ -163,7 +163,7 @@
+   <div class="redesign-brandmark">
+     <span class="redesign-logo">GERA</span>
+     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
+-    <small>v3.15.16</small>
++    <small>v3.15.17</small>
+   </div>
+   <button class="redesign-song-pill" id="redesign-song-pill" type="button" title="Escolher música">♫ <span id="redesign-song-name">Nenhuma música</span></button>
+   <div id="redesign-header-text-preview" class="sequence-text-preview sequence-text-preview-floating" aria-live="polite">
+@@ -2691,9 +2691,7 @@
+  renderChordSequence();
+  updateSongNameDisplay();
+ }
+-const SONGS_KEY='tecladoVirtualSongs';
+-const SONG_LISTS_KEY='geraSongListsV1';
+-const SONG_LIST_SETTINGS_KEY='geraPlaylistSettingsV1';let songs={},currentSongName=null;
++let songs={},currentSongName=null;
+ let songLists={};
+ let activeSongListId='';
+ let songListEditorId='';
+@@ -2729,7 +2727,7 @@
+ function loadSongLists(){
+  songLists={};
+  try{
+-  const raw=JSON.parse(localStorage.getItem(SONG_LISTS_KEY)||'null');
++  const raw=GeraStorage.musicLibrary.getSongListsStore();
+   if(raw&&raw.lists&&typeof raw.lists==='object'){
+    Object.keys(raw.lists).forEach(function(id){
+     songLists[id]=normalizeSongList(raw.lists[id],id);
+@@ -2738,7 +2736,7 @@
+  }catch(error){}
+ 
+  try{
+-  const settings=JSON.parse(localStorage.getItem(SONG_LIST_SETTINGS_KEY)||'null');
++  const settings=GeraStorage.musicLibrary.getPlaylistSettings();
+   if(settings&&typeof settings==='object'){
+    activeSongListId=typeof settings.activeListId==='string'?settings.activeListId:'';
+    compactListIndex=Number.isFinite(Number(settings.currentIndex))?Math.round(Number(settings.currentIndex)):-1;
+@@ -2755,14 +2753,14 @@
+ }
+ function saveSongLists(){
+  try{
+-  localStorage.setItem(SONG_LISTS_KEY,JSON.stringify({version:1,lists:songLists}));
+-  localStorage.setItem(SONG_LIST_SETTINGS_KEY,JSON.stringify({
++  if(!GeraStorage.musicLibrary.setSongListsStore({version:1,lists:songLists}))return;
++  GeraStorage.musicLibrary.setPlaylistSettings({
+    activeListId:activeSongListId,
+    currentIndex:compactListIndex,
+    transitionMode:compactTransitionMode,
+    nextStartMode:compactNextStartMode,
+    endMode:compactListEndMode
+-  }));
++  });
+  }catch(error){}
+ }
+ function songListsForSong(songName){
+@@ -3081,14 +3079,14 @@
+ 
+ function loadSongsStore(){
+  try{
+-  const raw=JSON.parse(localStorage.getItem(SONGS_KEY)||'null');
++  const raw=GeraStorage.musicLibrary.getSongsStore();
+   if(raw&&typeof raw.songs==='object'&&raw.songs)songs=raw.songs;
+  }catch{}
+  currentSongName=null;
+  loadSongLists();
+  pruneSongLists();
+ }
+-function saveSongsStore(){try{localStorage.setItem(SONGS_KEY,JSON.stringify({songs,lastSong:currentSongName}))}catch{}}
++function saveSongsStore(){GeraStorage.musicLibrary.setSongsStore({songs:songs,lastSong:currentSongName})}
+ 
+ 
+ function safeSongFileName(text){
+--- a/js/storage.js
++++ b/js/storage.js
+@@ -1,9 +1,9 @@
+ /*
+  * Acesso centralizado ao localStorage do GERA.
+  *
+- * Etapas 7A e 7B: preferências visuais, tema e configurações musicais
+- * globais simples. As chaves e os valores persistidos continuam idênticos
+- * aos da versão legada.
++ * Etapas 7A, 7B e 7C: preferências visuais, tema, configurações musicais
++ * globais simples, músicas e listas. As chaves e os valores persistidos
++ * continuam idênticos aos da versão legada.
+  */
+ (function(global){
+  'use strict';
+@@ -13,7 +13,10 @@
+   redesignTab:'geraRedesignTab',
+   globalMutePosition:'geraGlobalMutePositionV1',
+   redesignRailCollapsed:'geraRedesignRailCollapsed',
+-  drumEngine:'tecladoVirtualDrumEngine'
++  drumEngine:'tecladoVirtualDrumEngine',
++  songs:'tecladoVirtualSongs',
++  songLists:'geraSongListsV1',
++  playlistSettings:'geraPlaylistSettingsV1'
+  });
+ 
+  function storage(){return global.localStorage}
+@@ -51,9 +54,19 @@
+   setDrumEngine:function(value){return write(keys.drumEngine,value)}
+  });
+ 
++ const musicLibrary=Object.freeze({
++  getSongsStore:function(){return readJson(keys.songs,null)},
++  setSongsStore:function(value){return writeJson(keys.songs,value)},
++  getSongListsStore:function(){return readJson(keys.songLists,null)},
++  setSongListsStore:function(value){return writeJson(keys.songLists,value)},
++  getPlaylistSettings:function(){return readJson(keys.playlistSettings,null)},
++  setPlaylistSettings:function(value){return writeJson(keys.playlistSettings,value)}
++ });
++
+  global.GeraStorage=Object.freeze({
+   keys:keys,
+   preferences:preferences,
+-  musicalSettings:musicalSettings
++  musicalSettings:musicalSettings,
++  musicLibrary:musicLibrary
+  });
+ })(typeof window!=='undefined'?window:this);
+--- a/sw.js
++++ b/sw.js
+@@ -2,7 +2,7 @@
+ 
+ const CACHE_PREFIX = 'gera-pwa-';
+ const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.16';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.17';
+ const OFFLINE_URL = './offline.html';
+ 
+ const PRECACHE_URLS = [
+--- a/manifest.json
++++ b/manifest.json
+@@ -39,5 +39,5 @@
+             "purpose": "maskable"
+         }
+     ],
+-    "version": "3.15.16"
++    "version": "3.15.17"
+ }
+

@@ -2,7 +2,7 @@
 
 const CACHE_PREFIX = 'gera-pwa-';
 const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
-const CACHE_NAME = CACHE_PREFIX + 'v3.14.91';
+const CACHE_NAME = CACHE_PREFIX + 'v3.15.29';
 const OFFLINE_URL = './offline.html';
 
 const PRECACHE_URLS = [
@@ -11,6 +11,27 @@ const PRECACHE_URLS = [
     "./icons/icon-512.png",
     "./icons/icon-maskable-512.png",
     "./index.html",
+    "./js/storage.js",
+    "./js/chords.js",
+    "./js/state.js",
+    "./js/transport/clock.js",
+    "./js/transport/scheduler.js",
+    "./js/transport/boundaries.js",
+    "./js/transport/tempo.js",
+    "./js/transport/drum-sync.js",
+    "./js/transport/chord-sequence-sync.js",
+    "./js/transport/sequence-transitions.js",
+    "./js/transport/coordinator.js",
+    "./js/ui/transport-status.js",
+    "./js/ui/header.js",
+    "./js/ui/compact-panel.js",
+    "./js/ui/keyboard.js",
+    "./js/ui/chords-circle.js",
+    "./js/ui/drums.js",
+    "./js/ui/sequencer.js",
+    "./js/ui/songs-library.js",
+    "./js/ui/settings-modals.js",
+    "./js/audio/core.js",
     "./kit-acustico-selecionado/MAPEAMENTO.txt",
     "./kit-acustico-selecionado/cymbals/crash-1.wav",
     "./kit-acustico-selecionado/cymbals/crash-2.wav",
@@ -30,7 +51,8 @@ const PRECACHE_URLS = [
     "./kit-acustico-selecionado/toms/tom-mid.wav",
     "./manifest.json",
     "./manual-gera.html",
-    "./offline.html"
+    "./offline.html",
+    "./styles/inline-style-01.css"
 ];
 
 self.addEventListener('install', function(event) {

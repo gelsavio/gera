@@ -1,0 +1,10 @@
+# GERA v3.15.02 — Etapa 3A, teoria musical — 2026-08-03
+
+181bf49068cce3e182c189b3fe040180f47bee24bba52f53e59d0cd5f514c5cd  ./index.html
+eadf41914fd8dc7b01832185a5c09021a91b1fc593d2eeab1d2f2a08f90d92c0  ./js/chords.js
+7b3b70cdeabe7369116354633fd51d49b3a47968ea2dc36c74b474fe36f6d795  ./tests/chords.test.js
+90062ee0ee58586bacd6af0f95ad72cb8523ae19eedb202d298bcc31b870c48b  ./sw.js
+ff3c5f8fd154b43ce88cb923dc05fed2845935286ad050ddc416c6b3d51f1ebb  ./manifest.json
+e5853d53b4a2de0dbda8dd6bc31624c107c21268cfd6fd6f4af4f2459112008f  ./styles/inline-style-01.css
+a83475c6bfd391037d353aac6ec00cf8e7d50edd3c6a710a4eb634642ceb69f2  ./README-ETAPA-3-TEORIA-MUSICAL.md
+a67c26bba8cb6864ddfd1ed338b0d1b82a159528d3186482ccd3c47f8505213e  ./referencia/CHECKLIST-ETAPA-3A-TEORIA-MUSICAL-v3.15.02.md

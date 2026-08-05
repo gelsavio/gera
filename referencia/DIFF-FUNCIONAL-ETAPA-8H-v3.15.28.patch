@@ -1,0 +1,558 @@
+--- a/index.html
++++ b/index.html
+@@ -15,7 +15,7 @@
+ <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+ <link rel="apple-touch-icon" href="./icons/icon-192.png">
+ <meta name="screen-orientation" content="landscape">
+-<title>GERA v3.15.27</title>
++<title>GERA v3.15.28</title>
+ <script src="./js/storage.js"></script>
+ <script>
+ (function(){
+@@ -38,7 +38,7 @@
+ <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
+ <header class="app-header">
+   <div class="header-brand">
+-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.27</small></h1>
++    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.28</small></h1>
+   </div>
+   <div class="header-actions">
+     <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
+@@ -163,7 +163,7 @@
+   <div class="redesign-brandmark">
+     <span class="redesign-logo">GERA</span>
+     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
+-    <small>v3.15.27</small>
++    <small>v3.15.28</small>
+   </div>
+   <button class="redesign-song-pill" id="redesign-song-pill" type="button" title="Escolher música">♫ <span id="redesign-song-name">Nenhuma música</span></button>
+   <div id="redesign-header-text-preview" class="sequence-text-preview sequence-text-preview-floating" aria-live="polite">
+@@ -821,6 +821,7 @@
+ <script src="./js/ui/drums.js"></script>
+ <script src="./js/ui/sequencer.js"></script>
+ <script src="./js/ui/songs-library.js"></script>
++<script src="./js/ui/settings-modals.js"></script>
+ <script src="./js/audio/core.js"></script>
+ <script>
+ "use strict";
+@@ -6231,82 +6232,7 @@
+   drumBus.gain.setTargetAtTime(Number($('drum-volume').value)/100,audioCtx.currentTime,.02);
+  }
+ }
+-['release','attack','arp-interval','master-volume','drum-volume','keyboard-volume','chord-volume','bass-volume'].forEach(function(id){
+- $(id).addEventListener('input',updateRanges);
+-});
+ function clampFineInput(input){const min=Number(input.min),max=Number(input.max);let value=Number(input.value);if(!Number.isFinite(value))value=Number(input.defaultValue||min||0);value=Math.min(max,Math.max(min,value));input.value=value;return value}
+-
+-const bpmInput=$('bpm');
+-let bpmEditingValue=String(bpm);
+-if(bpmInput){
+- bpmInput.addEventListener('focus',function(){
+-  bpmEditingValue=this.value;
+-  try{this.select()}catch(error){}
+- });
+- bpmInput.addEventListener('input',function(){
+-  const raw=this.value.trim();
+-  if(raw===''){
+-   $('bpm-value').textContent='Digite o BPM';
+-   return;
+-  }
+-  if(!/^\d{1,3}$/.test(raw)){
+-   $('bpm-value').textContent='BPM inválido';
+-   return;
+-  }
+-  const numeric=Number(raw);
+-  $('bpm-value').textContent=numeric+' BPM';
+- });
+- function commitTypedBpm(){
+-  const raw=bpmInput.value.trim();
+-  let value=Number(raw);
+-  if(raw===''||!Number.isFinite(value)){
+-   value=Number(bpmEditingValue);
+-  }
+-  if(!Number.isFinite(value))value=bpm;
+-  value=Math.round(Math.min(220,Math.max(40,value)));
+-  bpmInput.value=String(value);
+-  bpmEditingValue=String(value);
+-  requestBpmChange(value);
+- }
+- bpmInput.addEventListener('change',commitTypedBpm);
+- bpmInput.addEventListener('blur',commitTypedBpm);
+- bpmInput.addEventListener('keydown',function(event){
+-  if(event.key==='Enter'){
+-   event.preventDefault();
+-   commitTypedBpm();
+-   this.blur();
+-  }
+- });
+-}
+-
+-document.querySelectorAll('.fine-btn').forEach(function(button){
+- button.addEventListener('click',function(){
+-  const input=$(button.dataset.stepTarget);
+-  if(!input)return;
+-  const step=Number(input.step)||1;
+-  const direction=Number(button.dataset.direction)||1;
+-  if(input.id==='bpm'){
+-   let current=Number(input.value);
+-   if(!Number.isFinite(current))current=bpm;
+-   current=Math.round(Math.min(220,Math.max(40,current+step*direction)));
+-   input.value=String(current);
+-   bpmEditingValue=String(current);
+-   requestBpmChange(current);
+-   return;
+-  }
+-  clampFineInput(input);
+-  input.value=Number(input.value)+step*direction;
+-  clampFineInput(input);
+-  input.dispatchEvent(new Event('input',{bubbles:true}));
+- });
+-});
+-
+-['release','attack','arp-interval','master-volume','drum-volume','keyboard-volume','chord-volume','bass-volume'].forEach(function(id){
+- const input=$(id);
+- input.addEventListener('change',function(){clampFineInput(input);updateRanges()});
+- input.addEventListener('blur',function(){clampFineInput(input);updateRanges()});
+-});
+-$('instrument').onchange=e=>{chordLoudnessCache.clear();if(isInstrumentChangeLocked()){e.target.value=instrument;setStatus('Pare o acompanhamento contínuo ou a sequência em execução antes de trocar o instrumento');return}instrument=e.target.value;releaseAll();renderKeyboard();setStatus('Instrumento: '+LABELS[instrument]+(instrument==='sino'?' · teclado com 3 oitavas':''))};$('oct-down').onclick=()=>{octave=Math.max(-2,octave-1);$('oct-label').textContent=octave>0?'+'+octave:octave};$('oct-up').onclick=()=>{octave=Math.min(2,octave+1);$('oct-label').textContent=octave>0?'+'+octave:octave};$('capo-down').onclick=function(){setCapo(capoSemitones-1)};$('capo-label').onclick=function(){setCapo(0)};$('capo-up').onclick=function(){setCapo(capoSemitones+1)};
+ function selectSustainMode(mode){
+  if(mode!=='pressed'&&mode!=='hold'&&mode!=='next')mode='pressed';
+  sustainMode=mode;
+@@ -6317,12 +6243,6 @@
+  else if(mode==='hold')setStatus('Sustain: notas e acordes permanecem enquanto pressionados e usam a Liberação ao soltar');
+  else setStatus('Sustain: notas e acordes permanecem até a próxima nota ou acorde');
+ }
+-$('sustain-pressed').onclick=function(){selectSustainMode('pressed')};
+-$('sustain-hold').onclick=function(){selectSustainMode('hold')};
+-$('sustain-next').onclick=function(){selectSustainMode('next')};
+-$('chord-together').onclick=function(){chordMode='together';syncChordModeButtons()};
+-$('chord-arpeggio').onclick=function(){chordMode='arpeggio';syncChordModeButtons()};
+-
+ function rhythmPatternLabel(value){
+  const labels={
+   whole:'Nota inteira',
+@@ -6340,66 +6260,6 @@
+  };
+  return labels[value]||value;
+ }
+-$('arpeggio-pattern').onchange=function(){
+- arpPattern=this.value;
+- setStatus('Direção do arpejo: '+this.options[this.selectedIndex].textContent);
+-};
+-$('inversion').onchange=function(){
+- inversion=Math.max(0,Math.min(2,Number(this.value)||0));
+- this.value=String(inversion);
+- chordLoudnessCache.clear();
+- if(latchedRoot!==null){
+-  setStatus('Inversão alterada; será aplicada ao acorde no próximo compasso');
+- }else{
+-  setStatus('Inversão: '+this.options[this.selectedIndex].textContent);
+- }
+-};
+-$('rhythm-pattern').onchange=function(){
+- const selected=this.value;
+- if(latchedRoot!==null||sequencePlaying){
+-  pendingRhythmPattern=selected;
+-  setStatus('Ritmo dos acordes: '+rhythmPatternLabel(selected)+' será aplicado no próximo compasso');
+- }else{
+-  rhythmPattern=selected;
+-  pendingRhythmPattern=null;
+-  setStatus('Ritmo dos acordes: '+rhythmPatternLabel(selected));
+- }
+-};
+-
+-$('split-toggle').onclick=function(){
+- splitEnabled=!splitEnabled;
+- releaseAll(90);
+- syncSettingsUI();
+- setStatus(splitEnabled?'Divisão do teclado ativada: região grave em '+LABELS[splitInstrument]:'Divisão do teclado desativada');
+-};
+-$('split-instrument').onchange=function(){
+- splitInstrument=normalizeInstrumentId(this.value);
+- this.value=splitInstrument;
+- if(splitEnabled)releaseAll(90);
+- syncSettingsUI();
+- setStatus('Instrumento da divisão grave: '+LABELS[splitInstrument]);
+-};
+-$('velocity-toggle').onclick=function(){
+- velocityEnabled=!velocityEnabled;
+- syncSettingsUI();
+- setStatus(velocityEnabled?'Toque sensível ativado: a posição do dedo altera a intensidade':'Toque uniforme ativado');
+-};
+-$('gliss-toggle').onclick=function(){
+- glissEnabled=!glissEnabled;
+- syncSettingsUI();
+- setStatus(glissEnabled?'Glissando no tablet ativado':'Glissando no tablet desativado');
+-};
+-$('latch-toggle').onclick=function(){
+- latchEnabled=!latchEnabled;
+- if(!latchEnabled)stopAccompaniment();
+- syncSettingsUI();
+- setStatus(latchEnabled?'Acompanhamento contínuo ativado':'Acompanhamento contínuo desativado');
+-};
+-$('bass-toggle').onclick=function(){
+- bassEnabled=!bassEnabled;
+- syncSettingsUI();
+- setStatus(bassEnabled?'Baixo automático ativado':'Baixo automático desativado');
+-};
+ function selectChordChangeMode(mode){
+  chordChangeMode=mode;
+  ['change-zero','change-eighth','change-quarter','change-half','change-three-quarter','change-full'].forEach(function(id){
+@@ -6418,12 +6278,6 @@
+  syncSequencePauseButton();
+  setStatus('Tempo da troca e da pausa: '+chordChangeModeLabel(mode));
+ }
+-$('change-zero').onclick=function(){selectChordChangeMode('immediate')};
+-$('change-eighth').onclick=function(){selectChordChangeMode('eighthBar')};
+-$('change-quarter').onclick=function(){selectChordChangeMode('quarterBar')};
+-$('change-half').onclick=function(){selectChordChangeMode('halfBar')};
+-$('change-three-quarter').onclick=function(){selectChordChangeMode('threeQuarterBar')};
+-$('change-full').onclick=function(){selectChordChangeMode('nextBar')};
+ function chordChangeModeFraction(mode){
+  if(mode==='eighthBar')return .125;
+  if(mode==='quarterBar')return .25;
+@@ -6544,7 +6398,6 @@
+  organizerDone:function(){setStatus('Ordem das sequências salva')}
+ });
+ sequencerUI.bindMainControls();
+-$('advanced-toggle').onclick=()=>{$('advanced').classList.toggle('open');$('advanced-toggle').classList.toggle('active')};$('fullscreen').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};$('stop-accompaniments').onclick=requestAccompanimentStop;
+ chordsCircleUI.bindLegacyControls();
+ const FACTORY_SETTINGS={instrument:'piano',octave:0,sustainMode:'pressed',releaseMs:650,attackMs:20,chordMode:'together',arpInterval:280,arpPattern:'up',inversion:0,bassEnabled:false,latchEnabled:false,splitEnabled:false,splitInstrument:'organ',velocityEnabled:true,glissEnabled:true,bpm:100,rhythmPattern:'whole',chordChangeMode:'nextBar',drumEngine:'acoustic',values:{master:'68',keyboard:'92',chord:'72',bass:'56'}};
+ const DEFAULT_PRESETS={
+@@ -6646,7 +6499,6 @@
+ }
+ function refreshMemoryButtons(){document.querySelectorAll('.memory-button').forEach(b=>{const n=b.dataset.memory,custom=GeraStorage.memories.has(n),preset=DEFAULT_PRESETS[n];b.classList.toggle('custom',custom);b.title=(custom?'Memória personalizada':'Padrão: '+preset.name)+' — toque para recuperar';b.setAttribute('aria-label',b.title)})}
+ function setSaveMode(active){saveArmed=active;$('save-settings').classList.toggle('save-armed',active);$('save-settings').textContent=active?'Escolha 1–6':'💾 Salvar';document.querySelectorAll('.memory-button').forEach(b=>b.classList.toggle('save-target',active));if(active)setStatus('Toque no número da memória em que deseja salvar os ajustes')}
+-$('save-settings').onclick=()=>setSaveMode(!saveArmed);
+ async function handleMemoryButton(button){
+  const n=button.dataset.memory;
+  if(saveArmed){
+@@ -6681,9 +6533,100 @@
+  applySettings(selected);
+  setStatus(raw?'Ajustes personalizados recuperados da memória '+n:'Memória '+n+': '+DEFAULT_PRESETS[n].name);
+ }
+-document.querySelectorAll('.memory-button').forEach(function(button){button.onclick=function(){handleMemoryButton(button)}});
++const settingsModalsUI=GeraSettingsModalsUI.createController({
++ document:document,
++ getElement:$,
++ getBpm:function(){return bpm},
++ requestBpmChange:requestBpmChange,
++ updateRanges:updateRanges,
++ changeInstrument:function(event){
++  chordLoudnessCache.clear();
++  if(isInstrumentChangeLocked()){
++   event.target.value=instrument;
++   setStatus('Pare o acompanhamento contínuo ou a sequência em execução antes de trocar o instrumento');
++   return;
++  }
++  instrument=event.target.value;
++  releaseAll();
++  renderKeyboard();
++  setStatus('Instrumento: '+LABELS[instrument]+(instrument==='sino'?' · teclado com 3 oitavas':''));
++ },
++ adjustOctave:function(delta){
++  octave=Math.max(-2,Math.min(2,octave+delta));
++  $('oct-label').textContent=octave>0?'+'+octave:octave;
++ },
++ adjustCapo:function(delta){setCapo(capoSemitones+delta)},
++ resetCapo:function(){setCapo(0)},
++ selectSustainMode:selectSustainMode,
++ selectChordMode:function(mode){chordMode=mode;syncChordModeButtons()},
++ changeArpeggioPattern:function(select){
++  arpPattern=select.value;
++  setStatus('Direção do arpejo: '+select.options[select.selectedIndex].textContent);
++ },
++ changeInversion:function(select){
++  inversion=Math.max(0,Math.min(2,Number(select.value)||0));
++  select.value=String(inversion);
++  chordLoudnessCache.clear();
++  if(latchedRoot!==null)setStatus('Inversão alterada; será aplicada ao acorde no próximo compasso');
++  else setStatus('Inversão: '+select.options[select.selectedIndex].textContent);
++ },
++ changeRhythmPattern:function(select){
++  const selected=select.value;
++  if(latchedRoot!==null||sequencePlaying){
++   pendingRhythmPattern=selected;
++   setStatus('Ritmo dos acordes: '+rhythmPatternLabel(selected)+' será aplicado no próximo compasso');
++  }else{
++   rhythmPattern=selected;
++   pendingRhythmPattern=null;
++   setStatus('Ritmo dos acordes: '+rhythmPatternLabel(selected));
++  }
++ },
++ toggleSplit:function(){
++  splitEnabled=!splitEnabled;
++  releaseAll(90);
++  syncSettingsUI();
++  setStatus(splitEnabled?'Divisão do teclado ativada: região grave em '+LABELS[splitInstrument]:'Divisão do teclado desativada');
++ },
++ changeSplitInstrument:function(select){
++  splitInstrument=normalizeInstrumentId(select.value);
++  select.value=splitInstrument;
++  if(splitEnabled)releaseAll(90);
++  syncSettingsUI();
++  setStatus('Instrumento da divisão grave: '+LABELS[splitInstrument]);
++ },
++ toggleVelocity:function(){
++  velocityEnabled=!velocityEnabled;
++  syncSettingsUI();
++  setStatus(velocityEnabled?'Toque sensível ativado: a posição do dedo altera a intensidade':'Toque uniforme ativado');
++ },
++ toggleGlissando:function(){
++  glissEnabled=!glissEnabled;
++  syncSettingsUI();
++  setStatus(glissEnabled?'Glissando no tablet ativado':'Glissando no tablet desativado');
++ },
++ toggleLatch:function(){
++  latchEnabled=!latchEnabled;
++  if(!latchEnabled)stopAccompaniment();
++  syncSettingsUI();
++  setStatus(latchEnabled?'Acompanhamento contínuo ativado':'Acompanhamento contínuo desativado');
++ },
++ toggleBass:function(){
++  bassEnabled=!bassEnabled;
++  syncSettingsUI();
++  setStatus(bassEnabled?'Baixo automático ativado':'Baixo automático desativado');
++ },
++ selectChordChangeMode:selectChordChangeMode,
++ toggleSaveMode:function(){setSaveMode(!saveArmed)},
++ handleMemoryButton:handleMemoryButton,
++ toggleAdvanced:function(){$('advanced').classList.toggle('open');$('advanced-toggle').classList.toggle('active')},
++ toggleFullscreen:function(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()},
++ stopAccompaniments:requestAccompanimentStop,
++ toggleGlobalMute:toggleGlobalAudioMute,
++ closeConfirm:closeAppConfirm
++});
++settingsModalsUI.bind();
+ refreshMemoryButtons();
+-keyboardUI.bindPhysicalKeyboard();document.addEventListener('contextmenu',e=>{if(e.target.closest('.key,.chord'))e.preventDefault()});
++keyboardUI.bindPhysicalKeyboard();
+ initializeGeraTheme();
+ GeraCompactPanel.createController({
+  getElement:function(id){return $(id)},
+@@ -6739,8 +6682,6 @@
+  scrollCarousel:scrollCompactCarousel
+ }).bind();
+ syncGlobalMuteUI();
+-const globalMuteButton=$('global-mute-float');
+-if(globalMuteButton)globalMuteButton.onclick=toggleGlobalAudioMute;
+ 
+ drumEngine=GeraStorage.musicalSettings.getDrumEngine()||'acoustic';
+ renderKeyboard();
+@@ -6760,12 +6701,6 @@
+ initializeBlankStartupWorkspace();
+ syncSequencePanelVisibility();
+ if(screen.orientation?.lock)screen.orientation.lock('landscape').catch(()=>{});
+-const appConfirmOk=$('app-confirm-ok');
+-const appConfirmCancel=$('app-confirm-cancel');
+-const appConfirmDialog=$('app-confirm-dialog');
+-if(appConfirmOk)appConfirmOk.onclick=function(){closeAppConfirm(true)};
+-if(appConfirmCancel)appConfirmCancel.onclick=function(){closeAppConfirm(false)};
+-if(appConfirmDialog)appConfirmDialog.addEventListener('cancel',function(event){event.preventDefault();closeAppConfirm(false)});
+ sequencerUI.bindItemEditor();
+ songsLibraryUI.bindMainControls();
+ sequencerUI.bindOrganizer();
+--- a/sw.js
++++ b/sw.js
+@@ -2,7 +2,7 @@
+ 
+ const CACHE_PREFIX = 'gera-pwa-';
+ const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.27';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.28';
+ const OFFLINE_URL = './offline.html';
+ 
+ const PRECACHE_URLS = [
+@@ -30,6 +30,7 @@
+     "./js/ui/drums.js",
+     "./js/ui/sequencer.js",
+     "./js/ui/songs-library.js",
++    "./js/ui/settings-modals.js",
+     "./js/audio/core.js",
+     "./kit-acustico-selecionado/MAPEAMENTO.txt",
+     "./kit-acustico-selecionado/cymbals/crash-1.wav",
+--- a/manifest.json
++++ b/manifest.json
+@@ -39,5 +39,5 @@
+             "purpose": "maskable"
+         }
+     ],
+-    "version": "3.15.27"
++    "version": "3.15.28"
+ }
+--- /dev/null
++++ b/js/ui/settings-modals.js
+@@ -0,0 +1,173 @@
++/*
++ * GERA — interface de configurações e modais gerais.
++ * Etapa 8H: concentra ligações visuais sem decidir áudio, transporte ou persistência.
++ */
++(function(global){
++ 'use strict';
++
++ function createController(options){
++  const documentRef=options.document||global.document;
++  const element=options.getElement;
++  let bpmEditingValue=String(options.getBpm());
++
++  function clampFineInput(input){
++   const min=Number(input.min),max=Number(input.max);
++   let value=Number(input.value);
++   if(!Number.isFinite(value))value=Number(input.defaultValue||min||0);
++   value=Math.min(max,Math.max(min,value));
++   input.value=value;
++   return value;
++  }
++
++  function commitTypedBpm(){
++   const input=element('bpm');
++   const raw=input.value.trim();
++   let value=Number(raw);
++   if(raw===''||!Number.isFinite(value))value=Number(bpmEditingValue);
++   if(!Number.isFinite(value))value=options.getBpm();
++   value=Math.round(Math.min(220,Math.max(40,value)));
++   input.value=String(value);
++   bpmEditingValue=String(value);
++   options.requestBpmChange(value);
++  }
++
++  function bindRangeControls(){
++   const ids=['release','attack','arp-interval','master-volume','drum-volume','keyboard-volume','chord-volume','bass-volume'];
++   ids.forEach(function(id){element(id).addEventListener('input',options.updateRanges)});
++   ids.forEach(function(id){
++    const input=element(id);
++    input.addEventListener('change',function(){clampFineInput(input);options.updateRanges()});
++    input.addEventListener('blur',function(){clampFineInput(input);options.updateRanges()});
++   });
++  }
++
++  function bindBpmControl(){
++   const input=element('bpm');
++   if(!input)return;
++   input.addEventListener('focus',function(){
++    bpmEditingValue=this.value;
++    try{this.select()}catch(error){}
++   });
++   input.addEventListener('input',function(){
++    const raw=this.value.trim();
++    if(raw===''){element('bpm-value').textContent='Digite o BPM';return}
++    if(!/^\d{1,3}$/.test(raw)){element('bpm-value').textContent='BPM inválido';return}
++    element('bpm-value').textContent=Number(raw)+' BPM';
++   });
++   input.addEventListener('change',commitTypedBpm);
++   input.addEventListener('blur',commitTypedBpm);
++   input.addEventListener('keydown',function(event){
++    if(event.key==='Enter'){
++     event.preventDefault();
++     commitTypedBpm();
++     this.blur();
++    }
++   });
++  }
++
++  function bindFineButtons(){
++   documentRef.querySelectorAll('.fine-btn').forEach(function(button){
++    button.addEventListener('click',function(){
++     const input=element(button.dataset.stepTarget);
++     if(!input)return;
++     const step=Number(input.step)||1;
++     const direction=Number(button.dataset.direction)||1;
++     if(input.id==='bpm'){
++      let current=Number(input.value);
++      if(!Number.isFinite(current))current=options.getBpm();
++      current=Math.round(Math.min(220,Math.max(40,current+step*direction)));
++      input.value=String(current);
++      bpmEditingValue=String(current);
++      options.requestBpmChange(current);
++      return;
++     }
++     clampFineInput(input);
++     input.value=Number(input.value)+step*direction;
++     clampFineInput(input);
++     input.dispatchEvent(new global.Event('input',{bubbles:true}));
++    });
++   });
++  }
++
++  function bindSettingsControls(){
++   element('instrument').onchange=function(event){options.changeInstrument(event)};
++   element('oct-down').onclick=function(){options.adjustOctave(-1)};
++   element('oct-up').onclick=function(){options.adjustOctave(1)};
++   element('capo-down').onclick=function(){options.adjustCapo(-1)};
++   element('capo-label').onclick=function(){options.resetCapo()};
++   element('capo-up').onclick=function(){options.adjustCapo(1)};
++   element('sustain-pressed').onclick=function(){options.selectSustainMode('pressed')};
++   element('sustain-hold').onclick=function(){options.selectSustainMode('hold')};
++   element('sustain-next').onclick=function(){options.selectSustainMode('next')};
++   element('chord-together').onclick=function(){options.selectChordMode('together')};
++   element('chord-arpeggio').onclick=function(){options.selectChordMode('arpeggio')};
++   element('arpeggio-pattern').onchange=function(){options.changeArpeggioPattern(this)};
++   element('inversion').onchange=function(){options.changeInversion(this)};
++   element('rhythm-pattern').onchange=function(){options.changeRhythmPattern(this)};
++   element('split-toggle').onclick=function(){options.toggleSplit()};
++   element('split-instrument').onchange=function(){options.changeSplitInstrument(this)};
++   element('velocity-toggle').onclick=function(){options.toggleVelocity()};
++   element('gliss-toggle').onclick=function(){options.toggleGlissando()};
++   element('latch-toggle').onclick=function(){options.toggleLatch()};
++   element('bass-toggle').onclick=function(){options.toggleBass()};
++   element('change-zero').onclick=function(){options.selectChordChangeMode('immediate')};
++   element('change-eighth').onclick=function(){options.selectChordChangeMode('eighthBar')};
++   element('change-quarter').onclick=function(){options.selectChordChangeMode('quarterBar')};
++   element('change-half').onclick=function(){options.selectChordChangeMode('halfBar')};
++   element('change-three-quarter').onclick=function(){options.selectChordChangeMode('threeQuarterBar')};
++   element('change-full').onclick=function(){options.selectChordChangeMode('nextBar')};
++  }
++
++  function bindMemoryControls(){
++   element('save-settings').onclick=function(){options.toggleSaveMode()};
++   documentRef.querySelectorAll('.memory-button').forEach(function(button){
++    button.onclick=function(){options.handleMemoryButton(button)};
++   });
++  }
++
++  function bindGeneralControls(){
++   element('advanced-toggle').onclick=function(){options.toggleAdvanced()};
++   element('fullscreen').onclick=function(){options.toggleFullscreen()};
++   element('stop-accompaniments').onclick=function(){options.stopAccompaniments()};
++   documentRef.addEventListener('contextmenu',function(event){
++    if(event.target.closest('.key,.chord'))event.preventDefault();
++   });
++   const mute=element('global-mute-float');
++   if(mute)mute.onclick=function(){options.toggleGlobalMute()};
++  }
++
++  function bindConfirmDialog(){
++   const ok=element('app-confirm-ok');
++   const cancel=element('app-confirm-cancel');
++   const dialog=element('app-confirm-dialog');
++   if(ok)ok.onclick=function(){options.closeConfirm(true)};
++   if(cancel)cancel.onclick=function(){options.closeConfirm(false)};
++   if(dialog)dialog.addEventListener('cancel',function(event){event.preventDefault();options.closeConfirm(false)});
++  }
++
++  function bind(){
++   bindRangeControls();
++   bindBpmControl();
++   bindFineButtons();
++   bindSettingsControls();
++   bindMemoryControls();
++   bindGeneralControls();
++   bindConfirmDialog();
++  }
++
++  return Object.freeze({
++   clampFineInput:clampFineInput,
++   commitTypedBpm:commitTypedBpm,
++   bindRangeControls:bindRangeControls,
++   bindBpmControl:bindBpmControl,
++   bindFineButtons:bindFineButtons,
++   bindSettingsControls:bindSettingsControls,
++   bindMemoryControls:bindMemoryControls,
++   bindGeneralControls:bindGeneralControls,
++   bindConfirmDialog:bindConfirmDialog,
++   bind:bind
++  });
++ }
++
++ global.GeraSettingsModalsUI=Object.freeze({createController:createController});
++})(typeof window!=='undefined'?window:globalThis);

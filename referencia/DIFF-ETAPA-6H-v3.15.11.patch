@@ -1,0 +1,161 @@
+--- GERA-PWA-v3.15.10/index.html
++++ GERA-PWA-v3.15.11/index.html
+@@ -15,7 +15,7 @@
+ <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+ <link rel="apple-touch-icon" href="./icons/icon-192.png">
+ <meta name="screen-orientation" content="landscape">
+-<title>GERA v3.15.10</title>
++<title>GERA v3.15.11</title>
+ <script>
+ (function(){
+  try{
+@@ -37,7 +37,7 @@
+ <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
+ <header class="app-header">
+   <div class="header-brand">
+-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.10</small></h1>
++    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.11</small></h1>
+   </div>
+   <div class="header-actions">
+     <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
+@@ -162,7 +162,7 @@
+   <div class="redesign-brandmark">
+     <span class="redesign-logo">GERA</span>
+     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
+-    <small>v3.15.10</small>
++    <small>v3.15.11</small>
+   </div>
+   <button class="redesign-song-pill" id="redesign-song-pill" type="button" title="Escolher música">♫ <span id="redesign-song-name">Nenhuma música</span></button>
+   <div id="redesign-header-text-preview" class="sequence-text-preview sequence-text-preview-floating" aria-live="polite">
+@@ -810,6 +810,7 @@
+ <script src="./js/transport/tempo.js"></script>
+ <script src="./js/transport/drum-sync.js"></script>
+ <script src="./js/transport/chord-sequence-sync.js"></script>
++<script src="./js/transport/coordinator.js"></script>
+ <script src="./js/audio/core.js"></script>
+ <script>
+ "use strict";
+@@ -1632,7 +1633,7 @@
+ }
+ function clearAccompanimentSchedule(){clearTimeout(accompanimentTimer);clearTimeout(accompanimentHalfTimer);accompanimentTimer=null;accompanimentHalfTimer=null;accompanimentEvents.forEach(clearTimeout);accompanimentEvents=[]}
+ function clearTransportEvents(){transportEvents.forEach(clearTimeout);transportEvents=[]}
+-function transportNeeded(){return drumRunning||drumStartQueued||sequencePlaying||sequenceStartQueued||latchedRoot!==null||pendingRoot!==null||accompanimentStopQueued||!!sequencePendingTransition||drumQueuedAction!==''||drumActiveAction!==''}
++function transportNeeded(){return transportCoordinator.needed()}
+ function updateBpmDisplay(){
+  const display=$('bpm-value');
+  if(!display)return;
+@@ -1734,12 +1735,27 @@
+  transportTempoController.settleOnStop();
+  syncDrumActionButtons();
+ }
+-function maybeStopMasterTransport(){if(!transportNeeded())stopMasterTransport()}
+-function ensureMasterTransport(){
+- ensureAudio();
+- if(transportRunning)return;
++function maybeStopMasterTransport(){transportCoordinator.stopIfIdle()}
++function startMasterTransport(){
+  transportRunning=true;transportStep=0;transportBar=0;transportTempoController.resetForStart();transportNextTime=audioCtx.currentTime+.08;clearTimeout(transportTimer);clearTransportEvents();transportScheduler();
+ }
++const transportCoordinator=GeraTransportCoordinator.createCoordinator({
++ isDrumRunning:function(){return drumRunning},
++ isDrumStartQueued:function(){return drumStartQueued},
++ isSequencePlaying:function(){return sequencePlaying},
++ isSequenceStartQueued:function(){return sequenceStartQueued},
++ hasLatchedChord:function(){return latchedRoot!==null},
++ hasPendingChord:function(){return pendingRoot!==null},
++ isStopQueued:function(){return accompanimentStopQueued},
++ hasSequenceTransition:function(){return !!sequencePendingTransition},
++ hasQueuedDrumAction:function(){return drumQueuedAction!==''},
++ hasActiveDrumAction:function(){return drumActiveAction!==''},
++ ensureAudio:ensureAudio,
++ isTransportRunning:function(){return transportRunning},
++ startTransport:startMasterTransport,
++ stopTransport:stopMasterTransport
++});
++function ensureMasterTransport(){transportCoordinator.ensure()}
+ function stopAccompaniment(){sequenceChordOctaveOverride=null;clearAccompanimentSchedule();latchedRoot=null;latchedType=null;latchedButton=null;pendingRoot=null;pendingType=null;pendingButton=null;document.querySelectorAll('.chord.latched,.chord.queued').forEach(b=>b.classList.remove('latched','queued'));releaseAll(180);syncInstrumentChangeLock();maybeStopMasterTransport()}
+ function markLatched(button){document.querySelectorAll('.chord.latched').forEach(b=>b.classList.remove('latched'));button?.classList.add('latched')}
+ function scheduleInBar(fn,delay){const id=setTimeout(fn,Math.max(0,delay));accompanimentEvents.push(id)}
+--- GERA-PWA-v3.15.10/manifest.json
++++ GERA-PWA-v3.15.11/manifest.json
+@@ -39,5 +39,5 @@
+             "purpose": "maskable"
+         }
+     ],
+-    "version": "3.15.10"
++    "version": "3.15.11"
+ }
+--- GERA-PWA-v3.15.10/sw.js
++++ GERA-PWA-v3.15.11/sw.js
+@@ -2,7 +2,7 @@
+ 
+ const CACHE_PREFIX = 'gera-pwa-';
+ const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.10';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.11';
+ const OFFLINE_URL = './offline.html';
+ 
+ const PRECACHE_URLS = [
+@@ -19,6 +19,7 @@
+     "./js/transport/tempo.js",
+     "./js/transport/drum-sync.js",
+     "./js/transport/chord-sequence-sync.js",
++    "./js/transport/coordinator.js",
+     "./js/audio/core.js",
+     "./kit-acustico-selecionado/MAPEAMENTO.txt",
+     "./kit-acustico-selecionado/cymbals/crash-1.wav",
+--- /dev/null
++++ GERA-PWA-v3.15.11/js/transport/coordinator.js
+@@ -0,0 +1,52 @@
++/*
++ * Coordenação do ciclo de vida do transporte mestre do GERA.
++ *
++ * Este módulo centraliza somente a decisão de manter, iniciar ou encerrar o
++ * transporte segundo os consumidores legados. Relógio, scheduler, bateria,
++ * sequência, áudio, DOM, persistência e regras musicais permanecem externos e
++ * são acessados exclusivamente por callbacks injetados.
++ */
++'use strict';
++
++(function(global){
++ function createCoordinator(options){
++  function needed(){
++   return !!options.isDrumRunning()||
++    !!options.isDrumStartQueued()||
++    !!options.isSequencePlaying()||
++    !!options.isSequenceStartQueued()||
++    !!options.hasLatchedChord()||
++    !!options.hasPendingChord()||
++    !!options.isStopQueued()||
++    !!options.hasSequenceTransition()||
++    !!options.hasQueuedDrumAction()||
++    !!options.hasActiveDrumAction();
++  }
++
++  function ensure(){
++   options.ensureAudio();
++   if(options.isTransportRunning())return false;
++   options.startTransport();
++   return true;
++  }
++
++  function stopIfIdle(){
++   if(needed())return false;
++   options.stopTransport();
++   return true;
++  }
++
++  return Object.freeze({
++   needed:needed,
++   ensure:ensure,
++   stopIfIdle:stopIfIdle
++  });
++ }
++
++ Object.defineProperty(global,'GeraTransportCoordinator',{
++  configurable:false,
++  enumerable:true,
++  writable:false,
++  value:Object.freeze({createCoordinator:createCoordinator})
++ });
++})(typeof window!=='undefined'?window:globalThis);

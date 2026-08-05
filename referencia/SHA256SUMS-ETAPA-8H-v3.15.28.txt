@@ -1,0 +1,5 @@
+cf266a420afbabcccb99446aec23d39d47a189ec38db96ec456888923d4b0f7c  index.html
+22d60546a6eee01c9ffaf93e1f8617c2220e690f2ef912a5b93d51c9a51fa1dc  sw.js
+e51525aae784a11d4908dfc3fd48f11babab42a21c79750c9bacfb5c66e00d62  manifest.json
+0ca8b1190fee75af00f11180f9e004243d75c01b655c2c600af41e2fc4df257d  js/ui/settings-modals.js
+03d57423d9809c21aaa490c29da91aeb867b8c1988a173b359a11c5bb50ec11b  referencia/DIFF-FUNCIONAL-ETAPA-8H-v3.15.28.patch

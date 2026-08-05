@@ -1,0 +1,70 @@
+--- a/index.html
++++ b/index.html
+@@
+-<title>GERA v3.15.20</title>
++<title>GERA v3.15.21</title>
+@@
+-<small class="app-version">v3.15.20</small>
++<small class="app-version">v3.15.21</small>
+@@
+-    <small>v3.15.20</small>
++    <small>v3.15.21</small>
+@@
+ <script src="./js/ui/transport-status.js"></script>
++<script src="./js/ui/header.js"></script>
+ <script src="./js/audio/core.js"></script>
+@@
+-  byId('redesign-theme').onclick=function(){byId('theme-cycle')?.click();setTimeout(updateReadouts,20)};
+-  byId('redesign-manual').onclick=function(){byId('manual-btn')?.click()};
+-  byId('redesign-compact').onclick=function(){byId('compact-mode-toggle')?.click()};
+-  byId('redesign-fullscreen').onclick=function(){byId('fullscreen')?.click()};
+-  byId('redesign-song-pill').onclick=function(){activateTab('musicas')};
+@@
+- assemble();bindSequenceRecordDialog();bind();restoreRedesignRailState();buildDial();setupMovableMute();
++ assemble();bindSequenceRecordDialog();bind();GeraHeader.createController({
++  getElement:byId,
++  activateSongs:function(){activateTab('musicas')},
++  updateReadouts:updateReadouts
++ }).bind();restoreRedesignRailState();buildDial();setupMovableMute();
+--- a/sw.js
++++ b/sw.js
+@@
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.20';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.21';
+@@
+     "./js/ui/transport-status.js",
++    "./js/ui/header.js",
+     "./js/audio/core.js",
+--- a/manifest.json
++++ b/manifest.json
+@@
+-    "version": "3.15.20"
++    "version": "3.15.21"
+--- /dev/null
++++ b/js/ui/header.js
+@@
++/**
++ * Controlador das ações do cabeçalho visível do GERA.
++ * Preserva o DOM existente e encaminha os comandos aos controles legados.
++ */
++(function(global){
++ 'use strict';
++ function createController(options){
++  const getElement=options.getElement;
++  const activateSongs=options.activateSongs;
++  const updateReadouts=options.updateReadouts||function(){};
++  const schedule=options.schedule||function(callback,delay){return global.setTimeout(callback,delay)};
++  function element(id){return getElement(id)}
++  function clickLegacy(id){const target=element(id);if(target)target.click()}
++  function bindClick(id,handler){const button=element(id);if(button)button.onclick=handler}
++  function bind(){
++   bindClick('redesign-theme',function(){clickLegacy('theme-cycle');schedule(updateReadouts,20)});
++   bindClick('redesign-manual',function(){clickLegacy('manual-btn')});
++   bindClick('redesign-compact',function(){clickLegacy('compact-mode-toggle')});
++   bindClick('redesign-fullscreen',function(){clickLegacy('fullscreen')});
++   bindClick('redesign-song-pill',activateSongs);
++  }
++  return Object.freeze({bind:bind});
++ }
++ global.GeraHeader=Object.freeze({createController:createController});
++})(window);

@@ -1,0 +1,372 @@
+diff --git a/../GERA-PWA-v3.15.24-etapa-8D-acordes-circulo-harmonico/index.html b/index.html
+index d1e8c1d..4cbe6dd 100644
+--- a/../GERA-PWA-v3.15.24-etapa-8D-acordes-circulo-harmonico/index.html
++++ b/index.html
+@@ -15,7 +15,7 @@
+ <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+ <link rel="apple-touch-icon" href="./icons/icon-192.png">
+ <meta name="screen-orientation" content="landscape">
+-<title>GERA v3.15.24</title>
++<title>GERA v3.15.25</title>
+ <script src="./js/storage.js"></script>
+ <script>
+ (function(){
+@@ -38,7 +38,7 @@
+ <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
+ <header class="app-header">
+   <div class="header-brand">
+-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.24</small></h1>
++    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.25</small></h1>
+   </div>
+   <div class="header-actions">
+     <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
+@@ -163,7 +163,7 @@
+   <div class="redesign-brandmark">
+     <span class="redesign-logo">GERA</span>
+     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
+-    <small>v3.15.24</small>
++    <small>v3.15.25</small>
+   </div>
+   <button class="redesign-song-pill" id="redesign-song-pill" type="button" title="Escolher música">♫ <span id="redesign-song-name">Nenhuma música</span></button>
+   <div id="redesign-header-text-preview" class="sequence-text-preview sequence-text-preview-floating" aria-live="polite">
+@@ -818,6 +818,7 @@
+ <script src="./js/ui/compact-panel.js"></script>
+ <script src="./js/ui/keyboard.js"></script>
+ <script src="./js/ui/chords-circle.js"></script>
++<script src="./js/ui/drums.js"></script>
+ <script src="./js/audio/core.js"></script>
+ <script>
+ "use strict";
+@@ -1658,13 +1659,7 @@ function requestBpmChange(value){
+  updateBpmDisplay();
+ }
+ function syncMetronomeButton(){
+- const button=$('metronome-toggle');
+- if(!button)return;
+- button.classList.toggle('active',metronomeOn);
+- button.textContent=metronomeOn?'■ Parar':'▶ Iniciar';
+- button.title=metronomeOn?'Parar metrônomo':'Iniciar metrônomo';
+- button.setAttribute('aria-label',button.title);
+- button.setAttribute('aria-pressed',String(metronomeOn));
++ drumsUI.syncMetronome(metronomeOn);
+ }
+ function playMetronomePulse(accent){
+  ensureAudio();
+@@ -1715,7 +1710,7 @@ function applyPendingBpmAtBoundary(value){
+  if(input)input.value=String(bpm);
+  updateBpmDisplay();
+  if($('drum-status')&&(drumRunning||drumStartQueued)){
+-  $('drum-status').textContent=drumPattern.toUpperCase()+' · '+bpm+' BPM';
++  drumsUI.setStatus(drumPattern.toUpperCase()+' · '+bpm+' BPM');
+  }
+ }
+ const transportTempoController=GeraTransportTempo.createController({
+@@ -5397,8 +5392,25 @@ const DRUM_ACTION_PATTERNS={
+  fillHalf:{steps:8,kick:[0],snare:[2,7],hat:[0,2],tomLow:[3],tomMid:[4,5],tomHigh:[6],crash:[]},
+  endingHalf:{steps:8,kick:[0,4],snare:[2,6],hat:[0,2],tomLow:[3],tomMid:[4,5],tomHigh:[6],crash:[7]}
+ };
++const drumsUI=GeraDrumsUI.createController({
++ document:document,
++ getElement:$,
++ togglePanel:function(){setDrumMode(!drumMode)},
++ playManualDrum:function(piece){playDrum(piece)},
++ toggleLayer:function(name){drumLayers[name]=!drumLayers[name];return drumLayers[name]},
++ startPattern:function(pattern){setManualDrumMode(false);startDrums(pattern)},
++ requestAction:requestDrumAction,
++ stopDrums:stopDrums,
++ toggleManual:function(){setManualDrumMode(!drumManual)},
++ toggleMetronome:toggleMetronome,
++ changeEngine:function(value){
++  drumEngine=value;
++  GeraStorage.musicalSettings.setDrumEngine(drumEngine);
++  refreshDrumEngineStatus();
++  if(drumEngine==='acoustic')requestAcousticDrums();
++ }
++});
+ function syncDrumActionButtons(){
+- const fill=$('drum-fill'),ending=$('drum-ending');
+  const blocked=isThreeQuarterPattern(drumPattern);
+  if(blocked){
+   drumFillQueued=false;
+@@ -5407,16 +5419,11 @@ function syncDrumActionButtons(){
+   drumActiveAction='';
+   drumCompletedAction='';
+  }
+- if(fill){
+-  fill.disabled=blocked;
+-  fill.title=blocked?'Viradas não estão disponíveis em ritmos 3/4':'Virada';
+-  fill.classList.toggle('active',!blocked&&(drumFillQueued||drumQueuedAction==='fill'||drumActiveAction==='fill'));
+- }
+- if(ending){
+-  ending.disabled=blocked;
+-  ending.title=blocked?'Encerramentos não estão disponíveis em ritmos 3/4':'Encerramento';
+-  ending.classList.toggle('active',!blocked&&(drumEndingQueued||drumQueuedAction==='ending'||drumActiveAction==='ending'));
+- }
++ drumsUI.syncActionButtons({
++  blocked:blocked,
++  fillActive:drumFillQueued||drumQueuedAction==='fill'||drumActiveAction==='fill',
++  endingActive:drumEndingQueued||drumQueuedAction==='ending'||drumActiveAction==='ending'
++ });
+ }
+ function requestDrumAction(action){
+  if(action!=='fill'&&action!=='ending')return;
+@@ -5520,11 +5527,7 @@ function finishAccompanimentsAtBarEnd(){
+  drumQueuedAction='';
+  drumActiveAction='';
+  drumCompletedAction='';
+- document.querySelectorAll('.drum-pattern').forEach(function(button){button.classList.remove('active')});
+- const drumStopButton=$('drum-stop');
+- if(drumStopButton)drumStopButton.classList.remove('active');
+- const drumStatus=$('drum-status');
+- if(drumStatus)drumStatus.textContent='Bateria parada no fim do compasso.';
++ drumsUI.clearPatternSelection('Bateria parada no fim do compasso.');
+  sequenceHoldLoop=false;
+  sequenceStopAtEnd=false;
+  syncSequenceHoldLoopButton();
+@@ -5636,10 +5639,7 @@ function handleTransportSchedulerPulse(step,when){
+    if(step===0&&drumPatternAtAlignedSequenceStart){
+     drumPattern=drumPatternAtAlignedSequenceStart;
+     drumPatternAtAlignedSequenceStart='';
+-    document.querySelectorAll('.drum-pattern').forEach(function(button){
+-     button.classList.toggle('active',button.dataset.pattern===drumPattern);
+-    });
+-    if($('drum-pattern-select'))$('drum-pattern-select').value=drumPattern;
++    drumsUI.selectPattern(drumPattern);
+    }
+    const drumPulse=drumTransportConsumer.consumePulse(step,when);
+    const meterSteps=drumPulse.meterSteps;
+@@ -5658,8 +5658,7 @@ const drumTransportConsumer=GeraTransportDrumSync.createConsumer({
+  setRunning:function(value){drumRunning=value},
+  resetStep:function(){drumStep=0},
+  onStarted:function(){
+-  if($('drum-stop'))$('drum-stop').classList.add('active');
+-  $('drum-status').textContent=drumPattern.toUpperCase()+' · '+bpm+' BPM';
++  drumsUI.markStarted(drumPattern.toUpperCase()+' · '+bpm+' BPM');
+  },
+  getQueuedAction:function(){return drumQueuedAction},
+  setQueuedAction:function(value){drumQueuedAction=value},
+@@ -5726,46 +5725,20 @@ function startDrums(pattern=drumPattern){
+  drumPattern=pattern;
+  drumStep=0;
+  syncDrumActionButtons();
+- document.querySelectorAll('.drum-pattern').forEach(function(button){button.classList.toggle('active',button.dataset.pattern===pattern)});
+- if($('drum-pattern-select'))$('drum-pattern-select').value=pattern;
+- $('drum-status').textContent=drumPatternDisplayName(pattern)+' · aguardando';
++ drumsUI.selectPattern(pattern,drumPatternDisplayName(pattern)+' · aguardando');
+  drumRunning=false;drumStartQueued=true;drumFillQueued=false;drumEndingQueued=false;drumQueuedAction='';drumActiveAction='';drumCompletedAction='';drumActionMuteFrom=0;drumActionMuteUntil=0;sequenceEndActionInProgress='';syncDrumActionButtons();syncSequenceDrumButton();ensureMasterTransport();
+ }
+-function stopDrums(){drumRunning=false;drumStartQueued=false;drumStep=0;drumFillQueued=false;drumEndingQueued=false;drumQueuedAction='';drumActiveAction='';drumCompletedAction='';drumActionMuteFrom=0;drumActionMuteUntil=0;sequenceEndActionInProgress='';drumStopAtAlignedSequenceStart=false;drumPatternAtAlignedSequenceStart='';document.querySelectorAll('.drum-pattern').forEach(b=>b.classList.remove('active'));if($('drum-stop'))$('drum-stop').classList.remove('active');if($('drum-status'))$('drum-status').textContent='Bateria parada.';syncDrumActionButtons();syncSequenceDrumButton();maybeStopMasterTransport()}
++function stopDrums(){drumRunning=false;drumStartQueued=false;drumStep=0;drumFillQueued=false;drumEndingQueued=false;drumQueuedAction='';drumActiveAction='';drumCompletedAction='';drumActionMuteFrom=0;drumActionMuteUntil=0;sequenceEndActionInProgress='';drumStopAtAlignedSequenceStart=false;drumPatternAtAlignedSequenceStart='';drumsUI.clearPatternSelection('Bateria parada.');syncDrumActionButtons();syncSequenceDrumButton();maybeStopMasterTransport()}
+ function setDrumMode(active){
+- drumMode=active;$('drum-toggle').classList.toggle('drum-mode-active',active);$('drum-panel').classList.toggle('visible',active);
+- $('drum-toggle').textContent='🥁';
+- $('drum-toggle').setAttribute('aria-pressed',String(active));
++ drumMode=active;drumsUI.setPanelMode(active);
+  if(!active){stopDrums();setManualDrumMode(false);setStatus('Bateria ocultada. Os acordes permanecem disponíveis.')}else{setStatus('Bateria ativa junto com os acordes.')}
+ }
+ function setManualDrumMode(active){
+  drumManual=active;
+- $('drum-manual').classList.toggle('active',active);
+- $('drum-manual').textContent=active?'L':'M';
+- $('drum-manual').title=active?'Voltar ao modo Loop':'Modo Manual';
+- $('drum-manual').setAttribute('aria-label',$('drum-manual').title);
+- $('manual-drum-stage').classList.toggle('visible',active);
+- document.querySelector('.chord-section').classList.toggle('manual-drums',active);
+- $('normal-chord-group').classList.toggle('hidden',active||circleEnabled);
+- $('circle-main-wrap').classList.toggle('visible',!active&&circleEnabled);
+- $('secondary-dominants-wrap').classList.toggle('visible',!active&&circleEnabled);
+- $('drum-status').textContent=active?'Modo manual: toque nos pads grandes.':'Modo loop';
++ drumsUI.setManualMode(active,circleEnabled);
+ }
+ function bindDrums(){
+- $('drum-toggle').onclick=()=>setDrumMode(!drumMode);
+- document.querySelectorAll('.manual-drum-pad').forEach(function(button){
+-  button.addEventListener('pointerdown',function(event){event.preventDefault();playDrum(button.dataset.drum)},{passive:false});
+-  button.addEventListener('click',function(event){event.preventDefault()});
+- });
+- document.querySelectorAll('[data-layer]').forEach(b=>b.onclick=()=>{const name=b.dataset.layer;drumLayers[name]=!drumLayers[name];b.classList.toggle('layer-on',drumLayers[name]);$('drum-status').textContent=`${name==='kick'?'Bumbo':name==='snare'?'Caixa':'Chimbal'} programado ${drumLayers[name]?'ligado':'silenciado'}`});
+- document.querySelectorAll('.drum-pattern').forEach(b=>b.onclick=()=>{setManualDrumMode(false);startDrums(b.dataset.pattern)});
+- const patternSelect=$('drum-pattern-select');
+- if(patternSelect)patternSelect.onchange=function(){setManualDrumMode(false);startDrums(this.value)};
+- $('drum-fill').onclick=()=>requestDrumAction('fill');
+- $('drum-ending').onclick=()=>requestDrumAction('ending');
+- $('drum-stop').onclick=stopDrums;
+- $('drum-manual').onclick=()=>setManualDrumMode(!drumManual);
+- $('drum-engine').onchange=e=>{drumEngine=e.target.value;GeraStorage.musicalSettings.setDrumEngine(drumEngine);refreshDrumEngineStatus();if(drumEngine==='acoustic')requestAcousticDrums();};
++ drumsUI.bindControls();
+  syncDrumActionButtons();
+ }
+ 
+@@ -6484,7 +6457,6 @@ function selectSustainMode(mode){
+ $('sustain-pressed').onclick=function(){selectSustainMode('pressed')};
+ $('sustain-hold').onclick=function(){selectSustainMode('hold')};
+ $('sustain-next').onclick=function(){selectSustainMode('next')};
+-$('metronome-toggle').onclick=toggleMetronome;
+ $('chord-together').onclick=function(){chordMode='together';syncChordModeButtons()};
+ $('chord-arpeggio').onclick=function(){chordMode='arpeggio';syncChordModeButtons()};
+ 
+diff --git a/../GERA-PWA-v3.15.24-etapa-8D-acordes-circulo-harmonico/sw.js b/sw.js
+index ba6e9c4..c4b0090 100644
+--- a/../GERA-PWA-v3.15.24-etapa-8D-acordes-circulo-harmonico/sw.js
++++ b/sw.js
+@@ -2,7 +2,7 @@
+ 
+ const CACHE_PREFIX = 'gera-pwa-';
+ const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.24';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.25';
+ const OFFLINE_URL = './offline.html';
+ 
+ const PRECACHE_URLS = [
+@@ -27,6 +27,7 @@ const PRECACHE_URLS = [
+     "./js/ui/compact-panel.js",
+     "./js/ui/keyboard.js",
+     "./js/ui/chords-circle.js",
++    "./js/ui/drums.js",
+     "./js/audio/core.js",
+     "./kit-acustico-selecionado/MAPEAMENTO.txt",
+     "./kit-acustico-selecionado/cymbals/crash-1.wav",
+diff --git a/../GERA-PWA-v3.15.24-etapa-8D-acordes-circulo-harmonico/manifest.json b/manifest.json
+index 68a0a85..e3a43fd 100644
+--- a/../GERA-PWA-v3.15.24-etapa-8D-acordes-circulo-harmonico/manifest.json
++++ b/manifest.json
+@@ -39,5 +39,5 @@
+             "purpose": "maskable"
+         }
+     ],
+-    "version": "3.15.24"
++    "version": "3.15.25"
+ }
+diff --git a/js/ui/drums.js b/js/ui/drums.js
+new file mode 100644
+index 0000000..bdbcd46
+--- /dev/null
++++ b/js/ui/drums.js
+@@ -0,0 +1,127 @@
++/*
++ * GERA — interface da bateria.
++ * Etapa 8E: concentra ligações e estados visuais sem decidir áudio ou transporte.
++ */
++(function(global){
++ 'use strict';
++
++ function createController(options){
++  const documentRef=options.document||global.document;
++  const element=options.getElement;
++
++  function status(message){
++   const output=element('drum-status');
++   if(output)output.textContent=message;
++  }
++  function syncActionButtons(state){
++   const fill=element('drum-fill');
++   const ending=element('drum-ending');
++   const blocked=state.blocked===true;
++   if(fill){
++    fill.disabled=blocked;
++    fill.title=blocked?'Viradas não estão disponíveis em ritmos 3/4':'Virada';
++    fill.classList.toggle('active',!blocked&&state.fillActive===true);
++   }
++   if(ending){
++    ending.disabled=blocked;
++    ending.title=blocked?'Encerramentos não estão disponíveis em ritmos 3/4':'Encerramento';
++    ending.classList.toggle('active',!blocked&&state.endingActive===true);
++   }
++  }
++  function selectPattern(pattern,message){
++   documentRef.querySelectorAll('.drum-pattern').forEach(function(button){
++    button.classList.toggle('active',button.dataset.pattern===pattern);
++   });
++   const select=element('drum-pattern-select');
++   if(select)select.value=pattern;
++   if(message!==undefined)status(message);
++  }
++  function clearPatternSelection(message){
++   documentRef.querySelectorAll('.drum-pattern').forEach(function(button){
++    button.classList.remove('active');
++   });
++   const stop=element('drum-stop');
++   if(stop)stop.classList.remove('active');
++   if(message!==undefined)status(message);
++  }
++  function markStarted(message){
++   const stop=element('drum-stop');
++   if(stop)stop.classList.add('active');
++   status(message);
++  }
++  function syncMetronome(active){
++   const button=element('metronome-toggle');
++   if(!button)return;
++   button.classList.toggle('active',active);
++   button.textContent=active?'■ Parar':'▶ Iniciar';
++   button.title=active?'Parar metrônomo':'Iniciar metrônomo';
++   button.setAttribute('aria-label',button.title);
++   button.setAttribute('aria-pressed',String(active));
++  }
++  function setPanelMode(active){
++   const toggle=element('drum-toggle');
++   const panel=element('drum-panel');
++   toggle.classList.toggle('drum-mode-active',active);
++   panel.classList.toggle('visible',active);
++   toggle.textContent='🥁';
++   toggle.setAttribute('aria-pressed',String(active));
++  }
++  function setManualMode(active,circleEnabled){
++   const manual=element('drum-manual');
++   manual.classList.toggle('active',active);
++   manual.textContent=active?'L':'M';
++   manual.title=active?'Voltar ao modo Loop':'Modo Manual';
++   manual.setAttribute('aria-label',manual.title);
++   element('manual-drum-stage').classList.toggle('visible',active);
++   documentRef.querySelector('.chord-section').classList.toggle('manual-drums',active);
++   element('normal-chord-group').classList.toggle('hidden',active||circleEnabled);
++   element('circle-main-wrap').classList.toggle('visible',!active&&circleEnabled);
++   element('secondary-dominants-wrap').classList.toggle('visible',!active&&circleEnabled);
++   status(active?'Modo manual: toque nos pads grandes.':'Modo loop');
++  }
++  function bindControls(){
++   element('drum-toggle').onclick=function(){options.togglePanel()};
++   documentRef.querySelectorAll('.manual-drum-pad').forEach(function(button){
++    button.addEventListener('pointerdown',function(event){
++     event.preventDefault();
++     options.playManualDrum(button.dataset.drum);
++    },{passive:false});
++    button.addEventListener('click',function(event){event.preventDefault()});
++   });
++   documentRef.querySelectorAll('[data-layer]').forEach(function(button){
++    button.onclick=function(){
++     const name=button.dataset.layer;
++     const enabled=options.toggleLayer(name);
++     button.classList.toggle('layer-on',enabled);
++     const label=name==='kick'?'Bumbo':name==='snare'?'Caixa':'Chimbal';
++     status(label+' programado '+(enabled?'ligado':'silenciado'));
++    };
++   });
++   documentRef.querySelectorAll('.drum-pattern').forEach(function(button){
++    button.onclick=function(){options.startPattern(button.dataset.pattern)};
++   });
++   const patternSelect=element('drum-pattern-select');
++   if(patternSelect)patternSelect.onchange=function(){options.startPattern(this.value)};
++   element('drum-fill').onclick=function(){options.requestAction('fill')};
++   element('drum-ending').onclick=function(){options.requestAction('ending')};
++   element('drum-stop').onclick=function(){options.stopDrums()};
++   element('drum-manual').onclick=function(){options.toggleManual()};
++   element('drum-engine').onchange=function(event){options.changeEngine(event.target.value)};
++   element('metronome-toggle').onclick=function(){options.toggleMetronome()};
++  }
++
++  return Object.freeze({
++   bindControls:bindControls,
++   syncActionButtons:syncActionButtons,
++   selectPattern:selectPattern,
++   clearPatternSelection:clearPatternSelection,
++   markStarted:markStarted,
++   syncMetronome:syncMetronome,
++   setPanelMode:setPanelMode,
++   setManualMode:setManualMode,
++   setStatus:status
++  });
++ }
++
++ global.GeraDrumsUI=Object.freeze({createController:createController});
++})(typeof window!=='undefined'?window:globalThis);

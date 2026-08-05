@@ -1,0 +1,286 @@
+--- GERA-PWA-v3.15.09-etapa-6F-bateria-transporte/index.html
++++ GERA-PWA-v3.15.10-etapa-6G-sequencia-transporte/index.html
+@@ -15,7 +15,7 @@
+ <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+ <link rel="apple-touch-icon" href="./icons/icon-192.png">
+ <meta name="screen-orientation" content="landscape">
+-<title>GERA v3.15.09</title>
++<title>GERA v3.15.10</title>
+ <script>
+ (function(){
+  try{
+@@ -37,7 +37,7 @@
+ <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
+ <header class="app-header">
+   <div class="header-brand">
+-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.09</small></h1>
++    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.10</small></h1>
+   </div>
+   <div class="header-actions">
+     <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
+@@ -162,7 +162,7 @@
+   <div class="redesign-brandmark">
+     <span class="redesign-logo">GERA</span>
+     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
+-    <small>v3.15.09</small>
++    <small>v3.15.10</small>
+   </div>
+   <button class="redesign-song-pill" id="redesign-song-pill" type="button" title="Escolher música">♫ <span id="redesign-song-name">Nenhuma música</span></button>
+   <div id="redesign-header-text-preview" class="sequence-text-preview sequence-text-preview-floating" aria-live="polite">
+@@ -809,6 +809,7 @@
+ <script src="./js/transport/boundaries.js"></script>
+ <script src="./js/transport/tempo.js"></script>
+ <script src="./js/transport/drum-sync.js"></script>
++<script src="./js/transport/chord-sequence-sync.js"></script>
+ <script src="./js/audio/core.js"></script>
+ <script>
+ "use strict";
+@@ -4920,25 +4921,7 @@
+  return true;
+ }
+ function advanceSequenceBoundary(step,boundaryAudioTime){
+- if(!sequencePlaying)return false;
+- const isBarStart=step===0;
+- if(sequenceStartQueued){
+-  if(!isBarStart)return false;
+-  sequenceStartQueued=false;
+-  sequenceIndex=-1;
+-  sequenceEighthUnitsRemaining=0;
+-  sequenceContinuousItem=false;
+-  const started=loadSequenceItem(0,boundaryAudioTime);
+-  setStatus('Reproduzindo '+SEQUENCE_SECTION_LABELS[activeSequenceSection]+((sequenceAuto||sequenceAutoEnd)?(sequenceAutoEnd?' em Auto Fim':' em modo automático'):' em repetição contínua'));
+-  return started;
+- }
+- if(sequenceIndex<0){
+-  if(isBarStart)return loadSequenceItem(0,boundaryAudioTime);
+-  return false;
+- }
+- sequenceEighthUnitsRemaining--;
+- if(sequenceEighthUnitsRemaining<=0)return loadSequenceItem(sequenceIndex+1,boundaryAudioTime);
+- return false;
++ return sequenceTransportConsumer.advanceBoundary(step,boundaryAudioTime);
+ }
+ function nextNonEmptySequence(section){
+  const order=sequenceOrder.slice();
+@@ -5580,8 +5563,8 @@
+   if(drumCompletion&&drumCompletion.stopBoundary)return;
+  }
+ 
+- let sequenceItemStarted=false;
+- if(sequencePlaying)sequenceItemStarted=advanceSequenceBoundary(step,boundaryAudioTime);
++ const sequencePulse=sequenceTransportConsumer.consumeBoundary(step,boundaryAudioTime);
++ if(sequencePulse.handled)return;
+ 
+  if(!sequencePlaying){
+   const targetStep=chordChangeStepForMode(chordChangeMode);
+@@ -5595,51 +5578,6 @@
+  const duration=barDuration();
+  const boundaryDuration=duration/transportBoundaryUnits();
+ 
+- if(sequencePlaying){
+-  const item=currentChordSequence()[sequenceIndex];
+-  if(!item)return;
+-  if(sequenceItemStarted){
+-   const start=step*duration/meterSteps;
+-   const fraction=Number(item.fraction);
+-
+-   /*
+-    Um item de 1 compasso iniciado no meio do compasso anterior
+-    deve soar como um bloco único. Ele não pode ser reatacado no
+-    compasso seguinte como dois trechos de 1/2 ou 1/4.
+-   */
+-   if(
+-    fraction>=1&&
+-    start>0&&
+-    rhythmPattern==='whole'&&
+-    !isSequencePause(item)&&
+-    !isSequenceNote(item)
+-   ){
+-    clearAccompanimentSchedule();
+-    sequenceContinuousItem=true;
+-    playRhythmHit(
+-     latchedRoot,
+-     latchedType,
+-     Math.max(220,duration*.94),
+-     'chord',
+-     latchedButton
+-    );
+-    return;
+-   }
+-
+-   const end=Math.min(duration,start+duration*fraction);
+-   clearAccompanimentSchedule();
+-   executeBarSegment(latchedRoot,latchedType,latchedButton,start,end);
+-   return;
+-  }
+-  if(isBarStart&&sequenceEighthUnitsRemaining>0){
+-   if(sequenceContinuousItem)return;
+-   const continuationEnd=Math.min(duration,sequenceEighthUnitsRemaining*boundaryDuration);
+-   clearAccompanimentSchedule();
+-   executeBarSegment(latchedRoot,latchedType,latchedButton,0,continuationEnd);
+-  }
+-  return;
+- }
+-
+  if(chordChangeMode==='nextBar'){
+   if(isBarStart){
+    clearAccompanimentSchedule();
+@@ -5714,6 +5652,36 @@
+  stopDrums:stopDrums,
+  setStatus:setStatus
+ });
++const sequenceTransportConsumer=GeraTransportChordSequenceSync.createConsumer({
++ isPlaying:function(){return sequencePlaying},
++ isStartQueued:function(){return sequenceStartQueued},
++ setStartQueued:function(value){sequenceStartQueued=value},
++ getIndex:function(){return sequenceIndex},
++ setIndex:function(value){sequenceIndex=value},
++ getUnitsRemaining:function(){return sequenceEighthUnitsRemaining},
++ setUnitsRemaining:function(value){sequenceEighthUnitsRemaining=value},
++ isContinuousItem:function(){return sequenceContinuousItem},
++ setContinuousItem:function(value){sequenceContinuousItem=value},
++ loadItem:loadSequenceItem,
++ onStarted:function(){
++  setStatus('Reproduzindo '+SEQUENCE_SECTION_LABELS[activeSequenceSection]+((sequenceAuto||sequenceAutoEnd)?(sequenceAutoEnd?' em Auto Fim':' em modo automático'):' em repetição contínua'));
++ },
++ hasLatchedChord:function(){return latchedRoot!==null},
++ getCurrentItem:function(){return currentChordSequence()[sequenceIndex]},
++ getBarDuration:barDuration,
++ getMeterSteps:activeTransportSteps,
++ getBoundaryUnits:transportBoundaryUnits,
++ getRhythmPattern:function(){return rhythmPattern},
++ isPause:isSequencePause,
++ isNote:isSequenceNote,
++ clearSchedule:clearAccompanimentSchedule,
++ playContinuous:function(duration){
++  playRhythmHit(latchedRoot,latchedType,duration,'chord',latchedButton);
++ },
++ executeSegment:function(start,end){
++  executeBarSegment(latchedRoot,latchedType,latchedButton,start,end);
++ }
++});
+ const runTransportScheduler=GeraTransportScheduler.createScheduler({
+  isRunning:function(){return transportRunning},
+  isBlocked:function(){return accompanimentStopEventScheduled},
+--- GERA-PWA-v3.15.09-etapa-6F-bateria-transporte/manifest.json
++++ GERA-PWA-v3.15.10-etapa-6G-sequencia-transporte/manifest.json
+@@ -39,5 +39,5 @@
+             "purpose": "maskable"
+         }
+     ],
+-    "version": "3.15.09"
++    "version": "3.15.10"
+ }
+--- GERA-PWA-v3.15.09-etapa-6F-bateria-transporte/sw.js
++++ GERA-PWA-v3.15.10-etapa-6G-sequencia-transporte/sw.js
+@@ -2,7 +2,7 @@
+ 
+ const CACHE_PREFIX = 'gera-pwa-';
+ const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.09';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.10';
+ const OFFLINE_URL = './offline.html';
+ 
+ const PRECACHE_URLS = [
+@@ -18,6 +18,7 @@
+     "./js/transport/boundaries.js",
+     "./js/transport/tempo.js",
+     "./js/transport/drum-sync.js",
++    "./js/transport/chord-sequence-sync.js",
+     "./js/audio/core.js",
+     "./kit-acustico-selecionado/MAPEAMENTO.txt",
+     "./kit-acustico-selecionado/cymbals/crash-1.wav",
+--- /dev/null
++++ GERA-PWA-v3.15.10-etapa-6G-sequencia-transporte/js/transport/chord-sequence-sync.js
+@@ -0,0 +1,91 @@
++/*
++ * Integração da sequência de acordes com as fronteiras do transporte mestre.
++ *
++ * Este módulo somente consome passos e instantes já emitidos pelo transporte.
++ * Conteúdo dos itens, áudio, instrumentos, acompanhamento, baixo, sustain,
++ * liberação, transições entre sequências, bateria e DOM permanecem no núcleo
++ * legado e são acessados exclusivamente por callbacks injetados.
++ */
++'use strict';
++
++(function(global){
++ function createConsumer(options){
++  function advanceBoundary(step,boundaryAudioTime){
++   if(!options.isPlaying())return false;
++   const isBarStart=step===0;
++   if(options.isStartQueued()){
++    if(!isBarStart)return false;
++    options.setStartQueued(false);
++    options.setIndex(-1);
++    options.setUnitsRemaining(0);
++    options.setContinuousItem(false);
++    const started=options.loadItem(0,boundaryAudioTime);
++    options.onStarted();
++    return started;
++   }
++   if(options.getIndex()<0){
++    if(isBarStart)return options.loadItem(0,boundaryAudioTime);
++    return false;
++   }
++   const remaining=options.getUnitsRemaining()-1;
++   options.setUnitsRemaining(remaining);
++   if(remaining<=0)return options.loadItem(options.getIndex()+1,boundaryAudioTime);
++   return false;
++  }
++
++  function consumeBoundary(step,boundaryAudioTime){
++   let itemStarted=false;
++   if(options.isPlaying())itemStarted=advanceBoundary(step,boundaryAudioTime);
++   if(!options.isPlaying())return Object.freeze({handled:false,itemStarted:itemStarted});
++   if(!options.hasLatchedChord())return Object.freeze({handled:true,itemStarted:itemStarted});
++
++   const item=options.getCurrentItem();
++   if(!item)return Object.freeze({handled:true,itemStarted:itemStarted});
++   const duration=options.getBarDuration();
++   const meterSteps=options.getMeterSteps();
++   const boundaryDuration=duration/options.getBoundaryUnits();
++
++   if(itemStarted){
++    const start=step*duration/meterSteps;
++    const fraction=Number(item.fraction);
++    if(
++     fraction>=1&&
++     start>0&&
++     options.getRhythmPattern()==='whole'&&
++     !options.isPause(item)&&
++     !options.isNote(item)
++    ){
++     options.clearSchedule();
++     options.setContinuousItem(true);
++     options.playContinuous(Math.max(220,duration*.94));
++     return Object.freeze({handled:true,itemStarted:itemStarted});
++    }
++
++    const end=Math.min(duration,start+duration*fraction);
++    options.clearSchedule();
++    options.executeSegment(start,end);
++    return Object.freeze({handled:true,itemStarted:itemStarted});
++   }
++
++   if(step===0&&options.getUnitsRemaining()>0){
++    if(options.isContinuousItem())return Object.freeze({handled:true,itemStarted:itemStarted});
++    const continuationEnd=Math.min(duration,options.getUnitsRemaining()*boundaryDuration);
++    options.clearSchedule();
++    options.executeSegment(0,continuationEnd);
++   }
++   return Object.freeze({handled:true,itemStarted:itemStarted});
++  }
++
++  return Object.freeze({
++   advanceBoundary:advanceBoundary,
++   consumeBoundary:consumeBoundary
++  });
++ }
++
++ Object.defineProperty(global,'GeraTransportChordSequenceSync',{
++  configurable:false,
++  enumerable:true,
++  writable:false,
++  value:Object.freeze({createConsumer:createConsumer})
++ });
++})(typeof window!=='undefined'?window:globalThis);

@@ -1,0 +1,378 @@
+diff -ruN '--exclude=referencia' ../GERA-PWA-v3.15.03-estado-bpm/README-ETAPA-5A-AUDIO-CONTEXTO-BARRAMENTOS.md ./README-ETAPA-5A-AUDIO-CONTEXTO-BARRAMENTOS.md
+--- ../GERA-PWA-v3.15.03-estado-bpm/README-ETAPA-5A-AUDIO-CONTEXTO-BARRAMENTOS.md	1969-12-31 19:00:00.000000000 -0500
++++ ./README-ETAPA-5A-AUDIO-CONTEXTO-BARRAMENTOS.md	2026-08-03 22:28:44.856888033 -0400
+@@ -0,0 +1,17 @@
++# GERA v3.15.04 — Etapa 5A
++
++Esta versão extrai exclusivamente a criação e a retomada do `AudioContext` e a montagem do grafo fixo de áudio para `js/audio/core.js`.
++
++O novo arquivo conserva literalmente a função `ensureAudio()` da versão 3.15.03 e mantém globais os identificadores exigidos pelo código legado. O arquivo é carregado como script clássico antes do núcleo inline. Ele não cria o contexto durante o carregamento: `ensureAudio()` continua sendo chamada nos mesmos pontos vinculados às ações do usuário.
++
++Foram transferidos somente o ganho mestre, o ganho de silenciamento do aplicativo, o limiter, o barramento e compressor da bateria e o barramento exclusivo do baixo com seus filtros e compressor. Não foram transferidas ou alteradas funções de vozes, instrumentos, envelopes, baixo automático, samples, bateria, sustain, normalização ou transporte.
++
++O cache do PWA passou para `gera-pwa-v3.15.04` e inclui `js/audio/core.js`. A pasta `kit-acustico-selecionado/` continua referenciada e é considerada presente na instalação, conforme informado pelo usuário.
++
++Os testes automatizados podem ser executados, a partir da raiz do pacote, com:
++
++```text
++node --test tests/*.test.js
++```
++
++A aprovação desta versão depende também do checklist manual em computador, tablet e celular.
+diff -ruN '--exclude=referencia' ../GERA-PWA-v3.15.03-estado-bpm/index.html ./index.html
+--- ../GERA-PWA-v3.15.03-estado-bpm/index.html	2026-08-03 22:04:29.212845090 -0400
++++ ./index.html	2026-08-03 22:24:57.156881316 -0400
+@@ -15,7 +15,7 @@
+ <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+ <link rel="apple-touch-icon" href="./icons/icon-192.png">
+ <meta name="screen-orientation" content="landscape">
+-<title>GERA v3.15.03</title>
++<title>GERA v3.15.04</title>
+ <script>
+ (function(){
+  try{
+@@ -37,7 +37,7 @@
+ <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
+ <header class="app-header">
+   <div class="header-brand">
+-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.03</small></h1>
++    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.04</small></h1>
+   </div>
+   <div class="header-actions">
+     <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
+@@ -162,7 +162,7 @@
+   <div class="redesign-brandmark">
+     <span class="redesign-logo">GERA</span>
+     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
+-    <small>v3.15.03</small>
++    <small>v3.15.04</small>
+   </div>
+   <button class="redesign-song-pill" id="redesign-song-pill" type="button" title="Escolher música">♫ <span id="redesign-song-name">Nenhuma música</span></button>
+   <div id="redesign-header-text-preview" class="sequence-text-preview sequence-text-preview-floating" aria-live="polite">
+@@ -804,6 +804,7 @@
+ </dialog>
+ <script src="./js/chords.js"></script>
+ <script src="./js/state.js"></script>
++<script src="./js/audio/core.js"></script>
+ <script>
+ "use strict";
+ /*
+@@ -916,7 +917,7 @@
+ const sequenceOctaveLabel=GeraChords.sequenceOctaveLabel;
+ const CIRCLE_DEGREES=GeraChords.CIRCLE_DEGREES;
+ const SECONDARY_DOMINANTS=GeraChords.SECONDARY_DOMINANTS;
+-let audioCtx,masterGain,limiter,appMuteGain,drumBus,drumCompressor,bassBus,bassCompressor,bassHighpass,bassLowShelf,bassPresence,openHatVoice=null,drumEngine="acoustic",drumSamplesReady=false,drumSamplesLoading=false,drumSampleBuffers={},drumRoundRobin={},drumSamplesLoadedCount=0,drumSamplesTotalCount=0,drumSamplesFailureCount=0,instrument="piano",octave=0,capoSemitones=0,sustainMode="pressed",releaseMs=650,attackMs=20,chordMode="together",arpInterval=280,arpPattern="up",chordType="minor",inversion=0,bassEnabled=false,latchEnabled=false,splitEnabled=false,splitInstrument="organ",velocityEnabled=true,glissEnabled=true,metronomeOn=false,metronomeTimer=null,metronomeBeat=0,rhythmPattern="whole",chordChangeMode="nextBar",latchedRoot=null,latchedType=null,pendingRoot=null,pendingType=null,pendingButton=null,latchedButton=null,accompanimentTimer=null,accompanimentEvents=[],accompanimentHalfTimer=null,activeVoices=new Set(),pointerVoices=new Map(),pointerLastKey=new Map(),pressedKeys=new Map(),saveArmed=false,actionToken=0,alternateDirection=false,circleEnabled=false,circleRoot=null,drumMode=true,drumRunning=false,drumPattern="rock",drumManual=false,drumStep=0,drumTimer=null,drumNextTime=0,drumFillQueued=false,drumEndingQueued=false,drumQueuedAction="",drumActiveAction="",drumCompletedAction="",drumActionMuteFrom=0,drumActionMuteUntil=0,sequenceEndActionInProgress="",sequenceConfiguredActionName="",sequencePendingEntryAction="",drumEditorTestTimers=[],drumEditorTestToken=0,sequenceRecordPreviewActive=false,drumLayers={kick:true,snare:true,hat:true},sequenceRecording=false,sequencePlaying=false,sequenceTimer=null,sequenceIndex=-1,sequenceEighthUnitsRemaining=0,sequenceContinuousItem=false,sequenceStartQueued=false,activeSequenceSection='verse',queuedSequenceSection=null,sequenceLoop=true,sequenceAuto=true,sequenceAutoEnd=false,sequenceHoldLoop=false,sequencePanelVisible=true,sequenceSections={verse:[],prechorus:[],chorus:[],bridge:[],section5:[],section6:[],section7:[],section8:[],section9:[],section10:[],section11:[],section12:[],section13:[],section14:[],section15:[],section16:[]},sequenceRepeats={verse:0,prechorus:0,chorus:0,bridge:0,section5:0,section6:0,section7:0,section8:0,section9:0,section10:0,section11:0,section12:0,section13:0,section14:0,section15:0,section16:0},sequenceOrder=['verse','prechorus','chorus','bridge','section5','section6','section7','section8','section9','section10','section11','section12','section13','section14','section15','section16'],sequenceDrums={verse:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},prechorus:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},chorus:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},bridge:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section5:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section6:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section7:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section8:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section9:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section10:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section11:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section12:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section13:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section14:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section15:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section16:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''}},currentSectionRepetition=1,sequencePendingTransition=null,sequencePlaybackOriginalChordMode=null,sequenceStopAtEnd=false,sequenceDeleteArmed=false,sequenceDeleteTimer=null,sequenceEditIndex=-1,sequenceChordOctaveOverride=null,sequenceTextCountdownTimer=null,sequenceTextHoldTimer=null,sequenceTextCueToken=0,sequenceTextTimeline=[],sequenceTextTimelineDuration=0,sequenceTextTimelineStartedAt=0,sequenceTextTimelineRunning=false,sequenceTextTimelineLoop=false,sequenceTextTimelineLastCueKey='',sequenceTextTimelineCurrentText='',sequenceTextTimelineCurrentUntil=0,transportRunning=false,transportStep=0,transportNextTime=0,transportTimer=null,transportEvents=[],transportBar=0,pendingRhythmPattern=null,drumStartQueued=false,accompanimentStopQueued=false,accompanimentStopEventScheduled=false;
++let openHatVoice=null,drumEngine="acoustic",drumSamplesReady=false,drumSamplesLoading=false,drumSampleBuffers={},drumRoundRobin={},drumSamplesLoadedCount=0,drumSamplesTotalCount=0,drumSamplesFailureCount=0,instrument="piano",octave=0,capoSemitones=0,sustainMode="pressed",releaseMs=650,attackMs=20,chordMode="together",arpInterval=280,arpPattern="up",chordType="minor",inversion=0,bassEnabled=false,latchEnabled=false,splitEnabled=false,splitInstrument="organ",velocityEnabled=true,glissEnabled=true,metronomeOn=false,metronomeTimer=null,metronomeBeat=0,rhythmPattern="whole",chordChangeMode="nextBar",latchedRoot=null,latchedType=null,pendingRoot=null,pendingType=null,pendingButton=null,latchedButton=null,accompanimentTimer=null,accompanimentEvents=[],accompanimentHalfTimer=null,activeVoices=new Set(),pointerVoices=new Map(),pointerLastKey=new Map(),pressedKeys=new Map(),saveArmed=false,actionToken=0,alternateDirection=false,circleEnabled=false,circleRoot=null,drumMode=true,drumRunning=false,drumPattern="rock",drumManual=false,drumStep=0,drumTimer=null,drumNextTime=0,drumFillQueued=false,drumEndingQueued=false,drumQueuedAction="",drumActiveAction="",drumCompletedAction="",drumActionMuteFrom=0,drumActionMuteUntil=0,sequenceEndActionInProgress="",sequenceConfiguredActionName="",sequencePendingEntryAction="",drumEditorTestTimers=[],drumEditorTestToken=0,sequenceRecordPreviewActive=false,drumLayers={kick:true,snare:true,hat:true},sequenceRecording=false,sequencePlaying=false,sequenceTimer=null,sequenceIndex=-1,sequenceEighthUnitsRemaining=0,sequenceContinuousItem=false,sequenceStartQueued=false,activeSequenceSection='verse',queuedSequenceSection=null,sequenceLoop=true,sequenceAuto=true,sequenceAutoEnd=false,sequenceHoldLoop=false,sequencePanelVisible=true,sequenceSections={verse:[],prechorus:[],chorus:[],bridge:[],section5:[],section6:[],section7:[],section8:[],section9:[],section10:[],section11:[],section12:[],section13:[],section14:[],section15:[],section16:[]},sequenceRepeats={verse:0,prechorus:0,chorus:0,bridge:0,section5:0,section6:0,section7:0,section8:0,section9:0,section10:0,section11:0,section12:0,section13:0,section14:0,section15:0,section16:0},sequenceOrder=['verse','prechorus','chorus','bridge','section5','section6','section7','section8','section9','section10','section11','section12','section13','section14','section15','section16'],sequenceDrums={verse:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},prechorus:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},chorus:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},bridge:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section5:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section6:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section7:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section8:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section9:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section10:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section11:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section12:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section13:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section14:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section15:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section16:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''}},currentSectionRepetition=1,sequencePendingTransition=null,sequencePlaybackOriginalChordMode=null,sequenceStopAtEnd=false,sequenceDeleteArmed=false,sequenceDeleteTimer=null,sequenceEditIndex=-1,sequenceChordOctaveOverride=null,sequenceTextCountdownTimer=null,sequenceTextHoldTimer=null,sequenceTextCueToken=0,sequenceTextTimeline=[],sequenceTextTimelineDuration=0,sequenceTextTimelineStartedAt=0,sequenceTextTimelineRunning=false,sequenceTextTimelineLoop=false,sequenceTextTimelineLastCueKey='',sequenceTextTimelineCurrentText='',sequenceTextTimelineCurrentUntil=0,transportRunning=false,transportStep=0,transportNextTime=0,transportTimer=null,transportEvents=[],transportBar=0,pendingRhythmPattern=null,drumStartQueued=false,accompanimentStopQueued=false,accompanimentStopEventScheduled=false;
+ let globalAudioMuted=true;
+ const MAX_SIMULTANEOUS_TOUCHES=4;
+ const manualChordSessions=new Map();
+@@ -948,74 +949,6 @@
+   releaseManualChordSession(pointerId,releaseValue);
+  });
+ }
+-function ensureAudio(){
+- if(!audioCtx){
+-  audioCtx=new(AudioContext||webkitAudioContext)({latencyHint:'interactive'});
+-  masterGain=audioCtx.createGain();
+-  limiter=audioCtx.createDynamicsCompressor();
+-
+-  drumBus=audioCtx.createGain();
+-  drumCompressor=audioCtx.createDynamicsCompressor();
+-  drumCompressor.threshold.value=-18;
+-  drumCompressor.knee.value=18;
+-  drumCompressor.ratio.value=4;
+-  drumCompressor.attack.value=.006;
+-  drumCompressor.release.value=.16;
+-  drumBus.gain.value=Number($('drum-volume').value)/100;
+-  drumBus.connect(drumCompressor);
+-  drumCompressor.connect(masterGain);
+-
+-  /*
+-   Barramento exclusivo do baixo automático.
+-   O baixo não passa pela normalização RMS dos acordes.
+-  */
+-  bassBus=audioCtx.createGain();
+-  bassHighpass=audioCtx.createBiquadFilter();
+-  bassLowShelf=audioCtx.createBiquadFilter();
+-  bassPresence=audioCtx.createBiquadFilter();
+-  bassCompressor=audioCtx.createDynamicsCompressor();
+-
+-  bassBus.gain.value=1.26;
+-  bassHighpass.type='highpass';
+-  bassHighpass.frequency.value=34;
+-  bassHighpass.Q.value=.7;
+-
+-  bassLowShelf.type='lowshelf';
+-  bassLowShelf.frequency.value=125;
+-  bassLowShelf.gain.value=5.5;
+-
+-  bassPresence.type='peaking';
+-  bassPresence.frequency.value=820;
+-  bassPresence.Q.value=1.05;
+-  bassPresence.gain.value=5.5;
+-
+-  bassCompressor.threshold.value=-24;
+-  bassCompressor.knee.value=14;
+-  bassCompressor.ratio.value=4;
+-  bassCompressor.attack.value=.006;
+-  bassCompressor.release.value=.2;
+-
+-  bassBus.connect(bassHighpass);
+-  bassHighpass.connect(bassLowShelf);
+-  bassLowShelf.connect(bassPresence);
+-  bassPresence.connect(bassCompressor);
+-  bassCompressor.connect(masterGain);
+-
+-  limiter.threshold.value=-10;
+-  limiter.knee.value=10;
+-  limiter.ratio.value=12;
+-  limiter.attack.value=.003;
+-  limiter.release.value=.18;
+-
+-  masterGain.gain.value=+$('master-volume').value/100;
+-  appMuteGain=audioCtx.createGain();
+-  appMuteGain.gain.value=globalAudioMuted?0:1;
+-  masterGain.connect(limiter);
+-  limiter.connect(appMuteGain);
+-  appMuteGain.connect(audioCtx.destination);
+- }
+- if(audioCtx.state==='suspended')audioCtx.resume();
+-}
+ function freq(semi,oct=0){return 261.625565*Math.pow(2,(semi+oct*12)/12)}function vol(kind){return +$(kind+'-volume').value/100}
+ function osc(type,f,d=0){const o=audioCtx.createOscillator();o.type=type;o.frequency.value=f;o.detune.value=d;return o}
+ function createVoice(semi,opt={}){
+diff -ruN '--exclude=referencia' ../GERA-PWA-v3.15.03-estado-bpm/js/audio/core.js ./js/audio/core.js
+--- ../GERA-PWA-v3.15.03-estado-bpm/js/audio/core.js	1969-12-31 19:00:00.000000000 -0500
++++ ./js/audio/core.js	2026-08-03 22:24:25.844880392 -0400
+@@ -0,0 +1,88 @@
++/*
++ * Núcleo fixo do áudio do GERA.
++ * Responsabilidade: criar/retomar o AudioContext e montar, uma única vez,
++ * os barramentos, ganhos, compressores, filtros e limiter já usados pelo legado.
++ * Não cria vozes, instrumentos ou samples e não inicia áudio no carregamento.
++ */
++'use strict';
++
++let audioCtx;
++let masterGain;
++let limiter;
++let appMuteGain;
++let drumBus;
++let drumCompressor;
++let bassBus;
++let bassCompressor;
++let bassHighpass;
++let bassLowShelf;
++let bassPresence;
++
++function ensureAudio(){
++ if(!audioCtx){
++  audioCtx=new(AudioContext||webkitAudioContext)({latencyHint:'interactive'});
++  masterGain=audioCtx.createGain();
++  limiter=audioCtx.createDynamicsCompressor();
++
++  drumBus=audioCtx.createGain();
++  drumCompressor=audioCtx.createDynamicsCompressor();
++  drumCompressor.threshold.value=-18;
++  drumCompressor.knee.value=18;
++  drumCompressor.ratio.value=4;
++  drumCompressor.attack.value=.006;
++  drumCompressor.release.value=.16;
++  drumBus.gain.value=Number($('drum-volume').value)/100;
++  drumBus.connect(drumCompressor);
++  drumCompressor.connect(masterGain);
++
++  /*
++   Barramento exclusivo do baixo automático.
++   O baixo não passa pela normalização RMS dos acordes.
++  */
++  bassBus=audioCtx.createGain();
++  bassHighpass=audioCtx.createBiquadFilter();
++  bassLowShelf=audioCtx.createBiquadFilter();
++  bassPresence=audioCtx.createBiquadFilter();
++  bassCompressor=audioCtx.createDynamicsCompressor();
++
++  bassBus.gain.value=1.26;
++  bassHighpass.type='highpass';
++  bassHighpass.frequency.value=34;
++  bassHighpass.Q.value=.7;
++
++  bassLowShelf.type='lowshelf';
++  bassLowShelf.frequency.value=125;
++  bassLowShelf.gain.value=5.5;
++
++  bassPresence.type='peaking';
++  bassPresence.frequency.value=820;
++  bassPresence.Q.value=1.05;
++  bassPresence.gain.value=5.5;
++
++  bassCompressor.threshold.value=-24;
++  bassCompressor.knee.value=14;
++  bassCompressor.ratio.value=4;
++  bassCompressor.attack.value=.006;
++  bassCompressor.release.value=.2;
++
++  bassBus.connect(bassHighpass);
++  bassHighpass.connect(bassLowShelf);
++  bassLowShelf.connect(bassPresence);
++  bassPresence.connect(bassCompressor);
++  bassCompressor.connect(masterGain);
++
++  limiter.threshold.value=-10;
++  limiter.knee.value=10;
++  limiter.ratio.value=12;
++  limiter.attack.value=.003;
++  limiter.release.value=.18;
++
++  masterGain.gain.value=+$('master-volume').value/100;
++  appMuteGain=audioCtx.createGain();
++  appMuteGain.gain.value=globalAudioMuted?0:1;
++  masterGain.connect(limiter);
++  limiter.connect(appMuteGain);
++  appMuteGain.connect(audioCtx.destination);
++ }
++ if(audioCtx.state==='suspended')audioCtx.resume();
++}
+diff -ruN '--exclude=referencia' ../GERA-PWA-v3.15.03-estado-bpm/manifest.json ./manifest.json
+--- ../GERA-PWA-v3.15.03-estado-bpm/manifest.json	2026-08-03 22:04:29.288845092 -0400
++++ ./manifest.json	2026-08-03 22:24:57.244881318 -0400
+@@ -39,5 +39,5 @@
+             "purpose": "maskable"
+         }
+     ],
+-    "version": "3.15.03"
++    "version": "3.15.04"
+ }
+diff -ruN '--exclude=referencia' ../GERA-PWA-v3.15.03-estado-bpm/sw.js ./sw.js
+--- ../GERA-PWA-v3.15.03-estado-bpm/sw.js	2026-08-03 22:04:29.372845095 -0400
++++ ./sw.js	2026-08-03 22:24:57.332881321 -0400
+@@ -2,7 +2,7 @@
+ 
+ const CACHE_PREFIX = 'gera-pwa-';
+ const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.03';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.04';
+ const OFFLINE_URL = './offline.html';
+ 
+ const PRECACHE_URLS = [
+@@ -13,6 +13,7 @@
+     "./index.html",
+     "./js/chords.js",
+     "./js/state.js",
++    "./js/audio/core.js",
+     "./kit-acustico-selecionado/MAPEAMENTO.txt",
+     "./kit-acustico-selecionado/cymbals/crash-1.wav",
+     "./kit-acustico-selecionado/cymbals/crash-2.wav",
+diff -ruN '--exclude=referencia' ../GERA-PWA-v3.15.03-estado-bpm/tests/audio-core.test.js ./tests/audio-core.test.js
+--- ../GERA-PWA-v3.15.03-estado-bpm/tests/audio-core.test.js	1969-12-31 19:00:00.000000000 -0500
++++ ./tests/audio-core.test.js	2026-08-03 22:26:01.880883225 -0400
+@@ -0,0 +1,109 @@
++const test=require('node:test');
++const assert=require('node:assert/strict');
++const fs=require('node:fs');
++const path=require('node:path');
++const vm=require('node:vm');
++
++const coreSource=fs.readFileSync(path.join(__dirname,'..','js','audio','core.js'),'utf8');
++
++function audioParam(){return {value:0}}
++
++function audioNode(kind){
++ return {
++  kind,
++  connections:[],
++  gain:audioParam(),
++  threshold:audioParam(),
++  knee:audioParam(),
++  ratio:audioParam(),
++  attack:audioParam(),
++  release:audioParam(),
++  frequency:audioParam(),
++  Q:audioParam(),
++  connect(target){this.connections.push(target);return target}
++ };
++}
++
++function createHarness(options={}){
++ const instances=[];
++ class MockAudioContext{
++  constructor(config){
++   this.config=config;
++   this.state=options.state||'suspended';
++   this.destination=audioNode('destination');
++   this.gains=[];
++   this.compressors=[];
++   this.filters=[];
++   this.resumeCalls=0;
++   instances.push(this);
++  }
++  createGain(){const node=audioNode('gain');this.gains.push(node);return node}
++  createDynamicsCompressor(){const node=audioNode('compressor');this.compressors.push(node);return node}
++  createBiquadFilter(){const node=audioNode('filter');this.filters.push(node);return node}
++  resume(){this.resumeCalls+=1;this.state='running';return Promise.resolve()}
++ }
++ const controls={
++  'drum-volume':{value:String(options.drumVolume===undefined?72:options.drumVolume)},
++  'master-volume':{value:String(options.masterVolume===undefined?64:options.masterVolume)}
++ };
++ const context=vm.createContext({
++  AudioContext:MockAudioContext,
++  webkitAudioContext:MockAudioContext,
++  globalAudioMuted:options.globalAudioMuted===undefined?true:options.globalAudioMuted,
++  $:id=>controls[id],
++  Number,
++  Promise
++ });
++ vm.runInContext(coreSource,context,{filename:'js/audio/core.js'});
++ return {context,instances};
++}
++
++function value(context,expression){return vm.runInContext(expression,context)}
++
++test('não cria nem retoma o AudioContext durante o carregamento do script',()=>{
++ const harness=createHarness();
++ assert.equal(harness.instances.length,0);
++ assert.equal(value(harness.context,'typeof ensureAudio'),'function');
++ assert.equal(value(harness.context,'audioCtx'),undefined);
++});
++
++test('cria uma única instância com latencyHint interactive e retoma contexto suspenso',()=>{
++ const harness=createHarness({state:'suspended'});
++ vm.runInContext('ensureAudio();ensureAudio();',harness.context);
++ assert.equal(harness.instances.length,1);
++ assert.equal(harness.instances[0].config.latencyHint,'interactive');
++ assert.equal(harness.instances[0].resumeCalls,1);
++});
++
++test('preserva parâmetros, volumes e conexões do grafo fixo de áudio',()=>{
++ const harness=createHarness({drumVolume:72,masterVolume:64,globalAudioMuted:true});
++ vm.runInContext('ensureAudio()',harness.context);
++ const audio=harness.instances[0];
++ assert.equal(audio.gains.length,4);
++ assert.equal(audio.compressors.length,3);
++ assert.equal(audio.filters.length,3);
++ assert.equal(value(harness.context,'drumBus.gain.value'),.72);
++ assert.equal(value(harness.context,'masterGain.gain.value'),.64);
++ assert.equal(value(harness.context,'appMuteGain.gain.value'),0);
++ assert.deepEqual(Array.from(value(harness.context,'[drumCompressor.threshold.value,drumCompressor.knee.value,drumCompressor.ratio.value,drumCompressor.attack.value,drumCompressor.release.value]')),[-18,18,4,.006,.16]);
++ assert.deepEqual(Array.from(value(harness.context,'[bassBus.gain.value,bassHighpass.type,bassHighpass.frequency.value,bassHighpass.Q.value,bassLowShelf.type,bassLowShelf.frequency.value,bassLowShelf.gain.value,bassPresence.type,bassPresence.frequency.value,bassPresence.Q.value,bassPresence.gain.value]')),[1.26,'highpass',34,.7,'lowshelf',125,5.5,'peaking',820,1.05,5.5]);
++ assert.deepEqual(Array.from(value(harness.context,'[bassCompressor.threshold.value,bassCompressor.knee.value,bassCompressor.ratio.value,bassCompressor.attack.value,bassCompressor.release.value]')),[-24,14,4,.006,.2]);
++ assert.deepEqual(Array.from(value(harness.context,'[limiter.threshold.value,limiter.knee.value,limiter.ratio.value,limiter.attack.value,limiter.release.value]')),[-10,10,12,.003,.18]);
++ assert.equal(value(harness.context,'drumBus.connections[0]===drumCompressor'),true);
++ assert.equal(value(harness.context,'drumCompressor.connections[0]===masterGain'),true);
++ assert.equal(value(harness.context,'bassBus.connections[0]===bassHighpass'),true);
++ assert.equal(value(harness.context,'bassHighpass.connections[0]===bassLowShelf'),true);
++ assert.equal(value(harness.context,'bassLowShelf.connections[0]===bassPresence'),true);
++ assert.equal(value(harness.context,'bassPresence.connections[0]===bassCompressor'),true);
++ assert.equal(value(harness.context,'bassCompressor.connections[0]===masterGain'),true);
++ assert.equal(value(harness.context,'masterGain.connections[0]===limiter'),true);
++ assert.equal(value(harness.context,'limiter.connections[0]===appMuteGain'),true);
++ assert.equal(value(harness.context,'appMuteGain.connections[0]===audioCtx.destination'),true);
++});
++
++test('não chama resume quando o contexto já está em execução',()=>{
++ const harness=createHarness({state:'running',globalAudioMuted:false});
++ vm.runInContext('ensureAudio()',harness.context);
++ assert.equal(harness.instances[0].resumeCalls,0);
++ assert.equal(value(harness.context,'appMuteGain.gain.value'),1);
++});

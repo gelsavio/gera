@@ -1,0 +1,292 @@
+--- GERA-PWA-v3.15.11-etapa-6H-coordenacao-transporte/index.html
++++ GERA-PWA-v3.15.12-etapa-6I-transicoes-sequencias/index.html
+@@ -15,7 +15,7 @@
+ <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+ <link rel="apple-touch-icon" href="./icons/icon-192.png">
+ <meta name="screen-orientation" content="landscape">
+-<title>GERA v3.15.11</title>
++<title>GERA v3.15.12</title>
+ <script>
+ (function(){
+  try{
+@@ -37,7 +37,7 @@
+ <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
+ <header class="app-header">
+   <div class="header-brand">
+-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.11</small></h1>
++    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.12</small></h1>
+   </div>
+   <div class="header-actions">
+     <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
+@@ -162,7 +162,7 @@
+   <div class="redesign-brandmark">
+     <span class="redesign-logo">GERA</span>
+     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
+-    <small>v3.15.11</small>
++    <small>v3.15.12</small>
+   </div>
+   <button class="redesign-song-pill" id="redesign-song-pill" type="button" title="Escolher música">♫ <span id="redesign-song-name">Nenhuma música</span></button>
+   <div id="redesign-header-text-preview" class="sequence-text-preview sequence-text-preview-floating" aria-live="polite">
+@@ -810,6 +810,7 @@
+ <script src="./js/transport/tempo.js"></script>
+ <script src="./js/transport/drum-sync.js"></script>
+ <script src="./js/transport/chord-sequence-sync.js"></script>
++<script src="./js/transport/sequence-transitions.js"></script>
+ <script src="./js/transport/coordinator.js"></script>
+ <script src="./js/audio/core.js"></script>
+ <script>
+@@ -4726,14 +4727,34 @@
+    return false;
+   }
+ 
+-  if(sequenceHoldLoop){
++  const sequenceTransition=GeraSequenceTransitions.resolveEnd({
++   currentRepetition:currentSectionRepetition,
++   holdLoop:sequenceHoldLoop,
++   queuedSection:queuedSequenceSection,
++   targetPasses:sectionTargetPasses(activeSequenceSection),
++   configuredNext:configuredNextSequence(activeSequenceSection),
++   configuredTarget:sectionTargetPasses(activeSequenceSection),
++   configuredNextIsValid:!!SEQUENCE_SECTION_LABELS[configuredNextSequence(activeSequenceSection)],
++   auto:sequenceAuto,
++   autoEnd:sequenceAutoEnd,
++   autoTarget:sectionRepeatValue(activeSequenceSection),
++   automaticNext:sequenceAutoEnd
++    ?nextAutomaticSectionWithoutLoop(activeSequenceSection)
++    :nextAutomaticSection(activeSequenceSection),
++   automaticNextTarget:sectionRepeatValue(
++    sequenceAutoEnd
++     ?nextAutomaticSectionWithoutLoop(activeSequenceSection)
++     :nextAutomaticSection(activeSequenceSection)
++   )
++  });
++
++  if(sequenceTransition.type==='repeat-hold'){
+    currentSectionRepetition++;
+    index=0;
+    renderChordSequence();
+    setStatus(SEQUENCE_SECTION_LABELS[activeSequenceSection]+' · em loop ('+currentSectionRepetition+')');
+-  }else if(queuedSequenceSection){
+-   const manualTarget=sectionTargetPasses(activeSequenceSection);
+-   if(currentSectionRepetition<manualTarget){
++  }else if(sequenceTransition.type==='repeat-before-manual'){
++    const manualTarget=sequenceTransition.targetPasses;
+     currentSectionRepetition++;
+     index=0;
+     renderChordSequence();
+@@ -4743,8 +4764,9 @@
+      ' · repetição '+currentSectionRepetition+' de '+manualTarget+
+      ' antes de entrar '+SEQUENCE_SECTION_LABELS[queuedSequenceSection]
+     );
+-   }else{
+-    const nextSection=queuedSequenceSection;
++  }else if(sequenceTransition.type==='switch-manual'){
++    const manualTarget=sequenceTransition.targetPasses;
++    const nextSection=sequenceTransition.nextSection;
+     queuedSequenceSection=null;
+     const waitButton=$('sequence-play-wait');if(waitButton)waitButton.classList.remove('active');
+     activeSequenceSection=nextSection;
+@@ -4764,12 +4786,9 @@
+      ' por escolha manual, após completar '+manualTarget+
+      (manualTarget===1?' execução':' repetições')
+     );
+-   }
+-  }else{
+-   const configuredNext=configuredNextSequence(activeSequenceSection);
+-   const configuredTarget=sectionTargetPasses(activeSequenceSection);
+-
+-   if(configuredNext&&currentSectionRepetition<configuredTarget){
++  }else if(sequenceTransition.type==='repeat-before-configured'){
++    const configuredNext=sequenceTransition.nextSection;
++    const configuredTarget=sequenceTransition.targetPasses;
+     currentSectionRepetition++;
+     index=0;
+     renderChordSequence();
+@@ -4778,14 +4797,17 @@
+      ' · repetição '+currentSectionRepetition+' de '+configuredTarget+
+      ' antes de '+(configuredNext==='stop'?'parar':SEQUENCE_SECTION_LABELS[configuredNext])
+     );
+-   }else if(configuredNext==='stop'){
++  }else if(sequenceTransition.type==='stop-configured'){
++    const configuredTarget=sequenceTransition.targetPasses;
+     stopChordSequence(
+      SEQUENCE_SECTION_LABELS[activeSequenceSection]+
+      ' concluída após '+configuredTarget+
+      (configuredTarget===1?' execução':' repetições')
+     );
+     return false;
+-   }else if(configuredNext&&SEQUENCE_SECTION_LABELS[configuredNext]){
++  }else if(sequenceTransition.type==='switch-configured'){
++    const configuredNext=sequenceTransition.nextSection;
++    const configuredTarget=sequenceTransition.targetPasses;
+     activeSequenceSection=configuredNext;
+     currentSectionRepetition=1;
+     sequence=currentChordSequence();
+@@ -4799,30 +4821,23 @@
+     applySectionDrumConfig(configuredNext,true);
+     syncSectionDrumControls();
+     setStatus('Entrou '+SEQUENCE_SECTION_LABELS[configuredNext]+' após completar '+configuredTarget+(configuredTarget===1?' execução':' repetições'));
+-   }else if(sequenceAuto||sequenceAutoEnd){
+-   const targetRepeats=sectionRepeatValue(activeSequenceSection);
+-   if(targetRepeats>0&&currentSectionRepetition<targetRepeats){
++  }else if(sequenceTransition.type==='repeat-auto'){
++    const targetRepeats=sequenceTransition.targetPasses;
+     currentSectionRepetition++;
+     index=0;
+     renderChordSequence();
+     setStatus(SEQUENCE_SECTION_LABELS[activeSequenceSection]+' · repetição '+currentSectionRepetition+' de '+targetRepeats);
+-   }else{
+-    let nextSection='';
+-    if(sequenceAutoEnd)nextSection=nextAutomaticSectionWithoutLoop(activeSequenceSection);
+-    else nextSection=nextAutomaticSection(activeSequenceSection);
+-
+-    if(!nextSection){
+-     if(sequenceAutoEnd){
++  }else if(sequenceTransition.type==='stop-auto-end'){
+       if(drumRunning||drumStartQueued){
+        stopDrums();
+       }
+       stopChordSequence('Música concluída');
+-     }else{
++     return false;
++  }else if(sequenceTransition.type==='stop-auto-empty'){
+       stopChordSequence('Nenhuma sequência com repetição de 1 a 99 está configurada no modo Auto');
+-     }
+      return false;
+-    }
+-
++  }else if(sequenceTransition.type==='switch-auto'){
++    const nextSection=sequenceTransition.nextSection;
+     activeSequenceSection=nextSection;
+     currentSectionRepetition=1;
+     sequence=currentChordSequence();
+@@ -4832,14 +4847,12 @@
+     applySectionDrumConfig(nextSection,true);
+     syncSectionDrumControls();
+     setStatus('Entrou '+SEQUENCE_SECTION_LABELS[nextSection]+' · repetição 1 de '+sectionRepeatValue(nextSection));
+-   }
+-  }else{
++  }else if(sequenceTransition.type==='repeat-continuous'){
+    currentSectionRepetition++;
+    index=0;
+    renderChordSequence();
+    setStatus(SEQUENCE_SECTION_LABELS[activeSequenceSection]+' · repetição contínua ('+currentSectionRepetition+')');
+   }
+-  }
+  }
+ 
+  sequenceIndex=index;
+--- GERA-PWA-v3.15.11-etapa-6H-coordenacao-transporte/sw.js
++++ GERA-PWA-v3.15.12-etapa-6I-transicoes-sequencias/sw.js
+@@ -2,7 +2,7 @@
+ 
+ const CACHE_PREFIX = 'gera-pwa-';
+ const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.11';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.12';
+ const OFFLINE_URL = './offline.html';
+ 
+ const PRECACHE_URLS = [
+@@ -19,6 +19,7 @@
+     "./js/transport/tempo.js",
+     "./js/transport/drum-sync.js",
+     "./js/transport/chord-sequence-sync.js",
++    "./js/transport/sequence-transitions.js",
+     "./js/transport/coordinator.js",
+     "./js/audio/core.js",
+     "./kit-acustico-selecionado/MAPEAMENTO.txt",
+--- GERA-PWA-v3.15.11-etapa-6H-coordenacao-transporte/manifest.json
++++ GERA-PWA-v3.15.12-etapa-6I-transicoes-sequencias/manifest.json
+@@ -39,5 +39,5 @@
+             "purpose": "maskable"
+         }
+     ],
+-    "version": "3.15.11"
++    "version": "3.15.12"
+ }
+--- /dev/null
++++ GERA-PWA-v3.15.12-etapa-6I-transicoes-sequencias/js/transport/sequence-transitions.js
+@@ -0,0 +1,82 @@
++/*
++ * Decisões de progressão entre seções da sequência do GERA.
++ *
++ * Este módulo não executa áudio, bateria, DOM, persistência ou temporizadores.
++ * Ele apenas descreve a mesma ação que o núcleo legado deve aplicar quando a
++ * seção ativa chega ao fim.
++ */
++'use strict';
++
++(function(global){
++ function resolveEnd(state){
++  const current=Number(state.currentRepetition);
++
++  if(state.holdLoop){
++   return Object.freeze({type:'repeat-hold',repetition:current+1});
++  }
++
++  if(state.queuedSection){
++   if(current<state.targetPasses){
++    return Object.freeze({
++     type:'repeat-before-manual',
++     repetition:current+1,
++     targetPasses:state.targetPasses,
++     nextSection:state.queuedSection
++    });
++   }
++   return Object.freeze({
++    type:'switch-manual',
++    targetPasses:state.targetPasses,
++    nextSection:state.queuedSection
++   });
++  }
++
++  if(state.configuredNext&&current<state.configuredTarget){
++   return Object.freeze({
++    type:'repeat-before-configured',
++    repetition:current+1,
++    targetPasses:state.configuredTarget,
++    nextSection:state.configuredNext
++   });
++  }
++
++  if(state.configuredNext==='stop'){
++   return Object.freeze({type:'stop-configured',targetPasses:state.configuredTarget});
++  }
++
++  if(state.configuredNext&&state.configuredNextIsValid){
++   return Object.freeze({
++    type:'switch-configured',
++    targetPasses:state.configuredTarget,
++    nextSection:state.configuredNext
++   });
++  }
++
++  if(state.auto||state.autoEnd){
++   if(state.autoTarget>0&&current<state.autoTarget){
++    return Object.freeze({
++     type:'repeat-auto',
++     repetition:current+1,
++     targetPasses:state.autoTarget
++    });
++   }
++   if(!state.automaticNext){
++    return Object.freeze({type:state.autoEnd?'stop-auto-end':'stop-auto-empty'});
++   }
++   return Object.freeze({
++    type:'switch-auto',
++    nextSection:state.automaticNext,
++    targetPasses:state.automaticNextTarget
++   });
++  }
++
++  return Object.freeze({type:'repeat-continuous',repetition:current+1});
++ }
++
++ Object.defineProperty(global,'GeraSequenceTransitions',{
++  configurable:false,
++  enumerable:true,
++  writable:false,
++  value:Object.freeze({resolveEnd:resolveEnd})
++ });
++})(typeof window!=='undefined'?window:globalThis);
+
