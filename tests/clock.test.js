@@ -119,7 +119,7 @@ test('o evento activate remove caches antigos e preserva o cache atual e caches 
   Promise:Promise,
   fetch:function(){return Promise.reject(new Error('não usado'))},
   caches:{
-   keys:function(){return Promise.resolve(['gera-pwa-v3.15.04','gera-pwa-v3.15.05','gera-pwa-v3.15.06','gera-pwa-v3.15.07','gera-pwa-v3.15.08','gera-pwa-v3.15.09','gera-pwa-v3.15.10','gera-pwa-v3.15.12','gera-pwa-v3.15.13','gera-pwa-v3.15.16','gera-pwa-v3.15.20','gera-pwa-v3.15.21','gera-pwa-v3.15.22','gera-pwa-v3.15.23','gera-pwa-v3.15.24','gera-pwa-v3.15.25','gera-pwa-v3.15.26','gera-pwa-v3.15.29','teclado-virtual-pwa-v3.14.97','outro-cache'])},
+   keys:function(){return Promise.resolve(['gera-pwa-v3.15.04','gera-pwa-v3.15.05','gera-pwa-v3.15.06','gera-pwa-v3.15.07','gera-pwa-v3.15.08','gera-pwa-v3.15.09','gera-pwa-v3.15.10','gera-pwa-v3.15.12','gera-pwa-v3.15.13','gera-pwa-v3.15.16','gera-pwa-v3.15.20','gera-pwa-v3.15.21','gera-pwa-v3.15.22','gera-pwa-v3.15.23','gera-pwa-v3.15.24','gera-pwa-v3.15.25','gera-pwa-v3.15.26','gera-pwa-v3.15.33','teclado-virtual-pwa-v3.14.97','outro-cache'])},
    delete:function(name){deleted.push(name);return Promise.resolve(true)},
    open:function(){return Promise.resolve({})},
    match:function(){return Promise.resolve(undefined)}

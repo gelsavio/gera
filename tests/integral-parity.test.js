@@ -7,7 +7,7 @@ const path=require('node:path');
 
 const root=path.resolve(__dirname,'..');
 const phase8Base=path.resolve(root,'..','GERA-PWA-v3.15.20-etapa-7F-backup-restauracao');
-const previous=path.resolve(root,'..','GERA-PWA-v3.15.28-etapa-8H-configuracoes-modais');
+const previous=path.resolve(root,'..','GERA-PWA-v3.15.30-correcao-testar-1x');
 const index=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
@@ -47,22 +47,23 @@ function precacheUrls(){
  return JSON.parse('['+body+']');
 }
 
-test('Etapa 9 altera somente versão, cache, manifesto, testes e documentação',function(){
- const restoredIndex=text('index.html').replaceAll('3.15.29','3.15.28');
- const restoredSw=text('sw.js').replace("'v3.15.29'","'v3.15.28'");
- const restoredManifest=text('manifest.json').replace('"3.15.29"','"3.15.28"');
- assert.equal(restoredIndex,text('index.html',previous));
- assert.equal(restoredSw,text('sw.js',previous));
- assert.equal(restoredManifest,text('manifest.json',previous));
- ['offline.html','manual-gera.html','styles/inline-style-01.css'].forEach(function(file){assert.deepEqual(read(file),read(file,previous),file)});
+test('melhorias do editor alteram somente os recursos autorizados sobre a versão 3.15.30',function(){
+ ['index.html','js/ui/sequencer.js','sw.js','manifest.json'].forEach(function(file){
+  assert.notDeepEqual(read(file),read(file,previous),file);
+ });
+ ['offline.html','manual-gera.html','js/storage.js','js/chords.js','js/state.js','js/audio/core.js'].forEach(function(file){
+  assert.deepEqual(read(file),read(file,previous),file);
+ });
  walk(path.join(root,'js')).forEach(function(file){
   const relative=path.relative(root,file);
+  if(relative===path.join('js','ui','sequencer.js'))return;
   assert.deepEqual(fs.readFileSync(file),read(relative,previous),relative);
  });
 });
 
-test('os oito módulos da interface permanecem byte a byte iguais à versão em que foram extraídos',function(){
+test('sete módulos da interface permanecem byte a byte iguais à versão em que foram extraídos',function(){
  uiStages.forEach(function(item){
+  if(item[0]==='sequencer.js')return;
   const introduced=path.resolve(root,'..',item[1]);
   assert.deepEqual(read(path.join('js','ui',item[0])),read(path.join('js','ui',item[0]),introduced),item[0]);
  });
@@ -89,26 +90,26 @@ test('scripts externos carregam uma vez, existem e respeitam a ordem de dependê
  assert.equal(scripts[20],'./js/audio/core.js');
 });
 
-test('DOM preserva 295 identificadores únicos',function(){
+test('DOM possui 303 identificadores únicos após o seletor de oitavas',function(){
  const ids=Array.from(index.matchAll(/\bid=["']([^"']+)["']/g),function(match){return match[1]});
- assert.equal(ids.length,295);
- assert.equal(new Set(ids).size,295);
+ assert.equal(ids.length,303);
+ assert.equal(new Set(ids).size,303);
 });
 
-test('contagens globais coincidem com a base anterior à modularização da interface',function(){
+test('timers permanecem iguais e há somente um novo listener para fechar o diálogo de colagem',function(){
  const before=functionalSource(phase8Base);
  const after=functionalSource(root);
- [/setInterval\s*\(/g,/setTimeout\s*\(/g,/addEventListener\s*\(/g,/requestAnimationFrame\s*\(/g].forEach(function(pattern){
+ [/setInterval\s*\(/g,/setTimeout\s*\(/g,/requestAnimationFrame\s*\(/g].forEach(function(pattern){
   assert.equal(count(after,pattern),count(before,pattern),pattern.toString());
  });
  assert.equal(count(after,/setInterval\s*\(/g),2);
  assert.equal(count(after,/setTimeout\s*\(/g),42);
- assert.equal(count(after,/addEventListener\s*\(/g),59);
+ assert.equal(count(after,/addEventListener\s*\(/g),60);
  assert.equal(count(after,/requestAnimationFrame\s*\(/g),2);
 });
 
-test('núcleo funcional anterior à Etapa 8 permanece byte a byte preservado',function(){
- const preserved=['js/storage.js','js/chords.js','js/state.js','js/audio/core.js','styles/inline-style-01.css','manual-gera.html','offline.html'];
+test('núcleo fora do editor e seus estilos permanece byte a byte preservado',function(){
+ const preserved=['js/storage.js','js/chords.js','js/state.js','js/audio/core.js','manual-gera.html','offline.html'];
  walk(path.join(phase8Base,'js','transport')).forEach(function(file){preserved.push(path.relative(phase8Base,file))});
  preserved.forEach(function(file){assert.deepEqual(read(file),read(file,phase8Base),file)});
 });
@@ -134,12 +135,14 @@ test('HTML e SERVICE WORKER referenciam exatamente os mesmos scripts funcionais'
  scripts.forEach(function(script){assert.equal(urls.filter(function(url){return url===script}).length,1,script)});
 });
 
-test('manifesto e identificação visual usam somente a versão 3.15.29',function(){
- assert.equal(manifest.version,'3.15.29');
- assert.equal(count(index,/3\.15\.29/g),3);
+test('manifesto e identificação visual usam somente a versão 3.15.33',function(){
+ assert.equal(manifest.version,'3.15.33');
+ assert.equal(count(index,/3\.15\.33/g),3);
+ assert.equal(count(index,/3\.15\.30/g),0);
+ assert.equal(count(index,/3\.15\.29/g),0);
  assert.equal(count(index,/3\.15\.28/g),0);
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.29';"));
- assert.equal(count(sw,/v3\.15\.29/g),1);
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.33';"));
+ assert.equal(count(sw,/v3\.15\.33/g),1);
 });
 
 test('SERVICE WORKER mantém instalação, atualização, limpeza e fallback offline',function(){

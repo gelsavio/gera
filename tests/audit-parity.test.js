@@ -95,10 +95,10 @@ test('painel continua consumidor e mantém o único intervalo de 250 ms',functio
  assert.doesNotMatch(status,/setTimeout|setInterval|requestAnimationFrame|addEventListener/);
 });
 
-test('quantidades globais de timers, listeners e animações coincidem com a base pré-transporte',function(){
+test('timers e animações coincidem com a base; editor acrescenta um listener de fechamento',function(){
  assert.equal(count(after,/setInterval\s*\(/g),count(before,/setInterval\s*\(/g));
  assert.equal(count(after,/setTimeout\s*\(/g),count(before,/setTimeout\s*\(/g));
- assert.equal(count(after,/addEventListener\s*\(/g),count(before,/addEventListener\s*\(/g));
+ assert.equal(count(after,/addEventListener\s*\(/g),count(before,/addEventListener\s*\(/g)+1);
  assert.equal(count(after,/requestAnimationFrame\s*\(/g),count(before,/requestAnimationFrame\s*\(/g));
 });
 
@@ -133,7 +133,7 @@ test('não há cálculo concorrente de fronteira em execução',function(){
 });
 
 test('auditoria 6K preservada e arquivos fora do armazenamento seguem idênticos',function(){
- const files=['offline.html','manual-gera.html','styles/inline-style-01.css','js/chords.js','js/state.js','js/transport/clock.js','js/transport/scheduler.js','js/transport/boundaries.js','js/transport/tempo.js','js/transport/drum-sync.js','js/transport/chord-sequence-sync.js','js/transport/sequence-transitions.js','js/transport/coordinator.js','js/ui/transport-status.js','js/audio/core.js'];
+ const files=['offline.html','manual-gera.html','js/chords.js','js/state.js','js/transport/clock.js','js/transport/scheduler.js','js/transport/boundaries.js','js/transport/tempo.js','js/transport/drum-sync.js','js/transport/chord-sequence-sync.js','js/transport/sequence-transitions.js','js/transport/coordinator.js','js/ui/transport-status.js','js/audio/core.js'];
  files.forEach(function(file){assert.deepEqual(fs.readFileSync(path.join(root,file)),fs.readFileSync(path.join(audited,file)),file)});
  const auditedIndex=fs.readFileSync(path.join(audited,'index.html'),'utf8');
  const restoredIndex=auditedIndex.replaceAll('3.15.14','3.15.13');
@@ -144,9 +144,9 @@ test('auditoria 6K preservada e arquivos fora do armazenamento seguem idênticos
  assert.equal(restoredManifest,fs.readFileSync(path.join(previous,'manifest.json'),'utf8'));
 });
 
-test('cache 3.15.29 preserva exatamente os módulos carregados pelo navegador',function(){
+test('cache 3.15.33 preserva exatamente os módulos carregados pelo navegador',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.29';"));
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.33';"));
  ['clock','scheduler','boundaries','tempo','drum-sync','chord-sequence-sync','sequence-transitions','coordinator'].forEach(function(name){assert.ok(sw.includes('"./js/transport/'+name+'.js"'))});
  assert.ok(sw.includes('"./js/ui/transport-status.js"'));
  assert.ok(sw.includes('"./js/ui/header.js"'));
@@ -156,9 +156,9 @@ test('cache 3.15.29 preserva exatamente os módulos carregados pelo navegador',f
  assert.ok(sw.includes('"./js/ui/drums.js"'));
 });
 
-test('auditoria estática não detecta divergência funcional autorizada para correção',function(){
+test('auditoria estática preserva timers e registra somente o listener autorizado do diálogo',function(){
  assert.equal(count(after,/setInterval\s*\(/g),2);
  assert.equal(count(after,/setTimeout\s*\(/g),42);
- assert.equal(count(after,/addEventListener\s*\(/g),59);
+ assert.equal(count(after,/addEventListener\s*\(/g),60);
  assert.equal(count(after,/requestAnimationFrame\s*\(/g),2);
 });

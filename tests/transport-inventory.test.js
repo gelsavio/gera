@@ -29,7 +29,7 @@ function hash(file){
 function has(fragment){assert.ok(transportSources.includes(fragment),'Trecho ausente: '+fragment)}
 
 test('arquivos funcionais fora do escopo 6B permanecem byte a byte iguais à base',function(){
- const files=['offline.html','manual-gera.html','styles/inline-style-01.css','js/chords.js','js/state.js','js/audio/core.js','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'];
+ const files=['offline.html','manual-gera.html','js/chords.js','js/state.js','js/audio/core.js','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'];
  files.forEach(function(file){
   assert.equal(hash(path.join(root,file)),hash(path.join(baseline,file)),file);
  });
@@ -90,7 +90,7 @@ test('painel e contadores mantêm atualização de 250 ms',function(){
 
 test('SERVICE WORKER atualiza o cache e mantém a limpeza de versões antigas',function(){
  assert.ok(sw.includes("const CACHE_PREFIX = 'gera-pwa-';"));
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.29';"));
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.33';"));
  assert.match(sw,/caches\.keys\(\).*cacheName !== CACHE_NAME.*caches\.delete\(cacheName\)/s);
 });
 

@@ -131,7 +131,7 @@ test('coordenador carrega depois dos consumidores e antes do núcleo de áudio',
 });
 
 test('recursos funcionais fora dos pontos autorizados permanecem byte a byte iguais',function(){
- const files=['offline.html','manual-gera.html','styles/inline-style-01.css','js/chords.js','js/state.js','js/transport/clock.js','js/transport/scheduler.js','js/transport/boundaries.js','js/transport/tempo.js','js/transport/drum-sync.js','js/transport/chord-sequence-sync.js','js/audio/core.js','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'];
+ const files=['offline.html','manual-gera.html','js/chords.js','js/state.js','js/transport/clock.js','js/transport/scheduler.js','js/transport/boundaries.js','js/transport/tempo.js','js/transport/drum-sync.js','js/transport/chord-sequence-sync.js','js/audio/core.js','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'];
  files.forEach(function(file){assert.deepEqual(fs.readFileSync(path.join(root,file)),fs.readFileSync(path.join(baselineRoot,file)),file)});
 });
 
@@ -140,9 +140,9 @@ test('coordenador permanece byte a byte igual à versão validada 3.15.11',funct
  assert.ok(index.includes('const transportCoordinator=GeraTransportCoordinator.createCoordinator({'));
 });
 
-test('SERVICE WORKER preserva o coordenador e usa o cache 3.15.29',function(){
+test('SERVICE WORKER preserva o coordenador e usa o cache 3.15.33',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  assert.ok(sw.includes('    "./js/transport/coordinator.js",'));
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.29';"));
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.29');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.33';"));
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.33');
 });

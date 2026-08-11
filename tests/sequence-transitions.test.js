@@ -172,9 +172,9 @@ test('reversão exclusiva da 6I recompõe a versão 3.15.11 byte a byte',functio
  assert.equal(reconstructedManifest,fs.readFileSync(path.join(baselineRoot,'manifest.json'),'utf8'));
 });
 
-test('módulo de transições permanece no pré-cache da versão 3.15.29',function(){
+test('módulo de transições permanece no pré-cache da versão 3.15.33',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  assert.ok(sw.includes('    "./js/transport/sequence-transitions.js",'));
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.29';"));
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.29');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.33';"));
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.33');
 });

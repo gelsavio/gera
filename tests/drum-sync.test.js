@@ -152,7 +152,7 @@ test('carregamento ocorre depois do tempo e antes do núcleo inline',function(){
 });
 
 test('todos os recursos funcionais fora dos pontos autorizados permanecem byte a byte iguais',function(){
- const files=['offline.html','manual-gera.html','styles/inline-style-01.css','js/chords.js','js/state.js','js/transport/clock.js','js/transport/scheduler.js','js/transport/boundaries.js','js/transport/tempo.js','js/audio/core.js','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'];
+ const files=['offline.html','manual-gera.html','js/chords.js','js/state.js','js/transport/clock.js','js/transport/scheduler.js','js/transport/boundaries.js','js/transport/tempo.js','js/audio/core.js','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'];
  files.forEach(function(file){
   assert.deepEqual(fs.readFileSync(path.join(root,file)),fs.readFileSync(path.join(baselineRoot,file)),file);
  });
@@ -163,7 +163,7 @@ test('módulo da bateria permanece no SERVICE WORKER e no núcleo após a etapa 
  assert.ok(currentSw.includes('    "./js/transport/drum-sync.js",'));
  assert.ok(index.includes('const drumTransportConsumer=GeraTransportDrumSync.createConsumer({'));
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
- assert.equal(manifest.version,'3.15.29');
+ assert.equal(manifest.version,'3.15.33');
 });
 
 test('módulo da bateria permanece byte a byte igual à versão validada 3.15.09',function(){

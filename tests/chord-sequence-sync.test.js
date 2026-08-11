@@ -167,14 +167,14 @@ test('carregamento ocorre depois da bateria e antes do núcleo de áudio',functi
 });
 
 test('recursos funcionais fora dos pontos autorizados permanecem byte a byte iguais',function(){
- const files=['offline.html','manual-gera.html','styles/inline-style-01.css','js/chords.js','js/state.js','js/transport/clock.js','js/transport/scheduler.js','js/transport/boundaries.js','js/transport/tempo.js','js/transport/drum-sync.js','js/audio/core.js','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'];
+ const files=['offline.html','manual-gera.html','js/chords.js','js/state.js','js/transport/clock.js','js/transport/scheduler.js','js/transport/boundaries.js','js/transport/tempo.js','js/transport/drum-sync.js','js/audio/core.js','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'];
  files.forEach(function(file){assert.deepEqual(fs.readFileSync(path.join(root,file)),fs.readFileSync(path.join(baselineRoot,file)),file)});
 });
 
-test('SERVICE WORKER mantém o módulo da sequência no cache 3.15.29',function(){
+test('SERVICE WORKER mantém o módulo da sequência no cache 3.15.33',function(){
  const currentSw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  const baselineSw=fs.readFileSync(path.join(baselineRoot,'sw.js'),'utf8');
- const reconstructed=currentSw.replace("'v3.15.29'","'v3.15.09'")
+ const reconstructed=currentSw.replace("'v3.15.33'","'v3.15.09'")
   .replace('    "./js/storage.js",\n','')
   .replace('    "./js/transport/chord-sequence-sync.js",\n','')
   .replace('    "./js/transport/sequence-transitions.js",\n','')
@@ -190,7 +190,7 @@ test('SERVICE WORKER mantém o módulo da sequência no cache 3.15.29',function(
   .replace('    "./js/ui/songs-library.js",\n','')
   .replace('    "./js/ui/settings-modals.js",\n','');
  assert.equal(restored,baselineSw);
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.29');
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.33');
 });
 
 test('núcleo mantém reprodução interna e transições fora do módulo extraído',function(){

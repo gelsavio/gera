@@ -13,8 +13,8 @@
         "minimal-ui"
     ],
     "orientation": "any",
-    "background_color": "#d8cbb8",
-    "theme_color": "#d8cbb8",
+    "background_color": "#111326",
+    "theme_color": "#131426",
     "categories": [
         "music",
         "education",
@@ -39,9 +39,5 @@
             "purpose": "maskable"
         }
     ],
-<<<<<<< HEAD
-    "version": "3.14.91"
-=======
-    "version": "3.14.97"
->>>>>>> 4b82c90 (varias atualizações)
+    "version": "3.14.16"
 }

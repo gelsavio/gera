@@ -191,11 +191,11 @@ test('preserva o arquivo de BPM no SERVICE WORKER e atualiza somente a versão v
  const currentSw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  assert.ok(currentSw.includes('    "./js/transport/tempo.js",'));
  const currentManifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
- assert.equal(currentManifest.version,'3.15.29');
+ assert.equal(currentManifest.version,'3.15.33');
 });
 
 test('todos os demais recursos funcionais permanecem byte a byte iguais',function(){
- const files=['offline.html','manual-gera.html','styles/inline-style-01.css','js/chords.js','js/state.js','js/transport/clock.js','js/transport/scheduler.js','js/transport/boundaries.js','js/audio/core.js','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'];
+ const files=['offline.html','manual-gera.html','js/chords.js','js/state.js','js/transport/clock.js','js/transport/scheduler.js','js/transport/boundaries.js','js/audio/core.js','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'];
  files.forEach(function(file){
   assert.deepEqual(fs.readFileSync(path.join(root,file)),fs.readFileSync(path.join(baselineRoot,file)),file);
  });

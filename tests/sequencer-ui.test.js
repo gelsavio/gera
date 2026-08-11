@@ -33,7 +33,9 @@ function harness(){
   'sequence-edit-after','sequence-edit-delete','sequence-edit-cancel','sequence-edit-close','sequence-editor-dialog','sequence-organize-open',
   'sequence-organize-close','sequence-organize-done','sequence-order-reset','sequence-organize-dialog','sequence-record-dialog',
   'sequence-record-close','sequence-record-cancel','sequence-record-done','sequence-record-play','sequence-record-section-select',
-  'sequence-record-pause','sequence-record-undo','sequence-record-clear-all'];
+  'sequence-record-chord-octave',
+  'sequence-record-pause','sequence-record-undo','sequence-record-copy','sequence-record-paste','sequence-record-clear-all',
+  'sequence-paste-dialog','sequence-paste-replace','sequence-paste-append','sequence-paste-cancel'];
  const elements={};
  ids.forEach(function(id){elements[id]=fakeElement(id)});
  const sectionButtons=[fakeElement('',{sequenceSection:'verse'}),fakeElement('',{sequenceSection:'chorus'})];
@@ -62,7 +64,9 @@ function harness(){
   openOrganizer:action('organizer-open'),resetOrder:action('organizer-reset'),organizerDone:action('organizer-done'),
   openRecordDialog:action('record-open'),cancelRecordDialog:action('record-cancel'),finishRecordDialog:action('record-done'),
   toggleRecordPreview:action('record-preview'),selectRecordSection:action('record-section'),selectRecordFraction:action('record-fraction'),
+  selectRecordChordOctave:action('record-octave'),
   addRecordPause:action('record-pause'),undoRecordItem:action('record-undo'),clearRecordItems:action('record-clear'),
+  copyRecordSequence:action('record-copy'),openPasteDialog:action('paste-open'),pasteRecordSequence:action('paste'),closePasteDialog:action('paste-close'),
   recordDialogClosed:action('record-closed'),finishRecordPointer:action('record-pointer'),refreshRecordAfterEditor:action('record-refresh')
  };
  const window={document:document};
@@ -147,26 +151,32 @@ test('liga o diálogo de gravação e mantém ponteiros e atualização após ed
  let prevented=0;
  h.elements['sequence-record'].listeners.click({preventDefault:function(){prevented++},stopPropagation:function(){prevented++}});
  h.fractions[0].onclick();
+ h.elements['sequence-record-chord-octave'].value='2';h.elements['sequence-record-chord-octave'].onchange();
  h.elements['sequence-record-pause'].onclick();
- h.elements['sequence-record-dialog'].listeners.pointerup({pointerId:7});
+ h.elements['sequence-record-copy'].onclick();
+ h.elements['sequence-record-paste'].onclick();
+ h.elements['sequence-paste-replace'].onclick();
+ h.elements['sequence-paste-append'].onclick();
+ h.elements['sequence-paste-cancel'].onclick();
+  h.elements['sequence-record-dialog'].listeners.pointerup({pointerId:7});
  h.elements['sequence-editor-dialog'].listeners.close();
  assert.equal(prevented,2);
- assert.deepEqual(h.calls,[['record-open'],['record-fraction',.25],['record-pause'],['record-pointer',{pointerId:7}],['record-refresh']]);
+ assert.deepEqual(h.calls,[['record-open'],['record-fraction',.25],['record-octave','2'],['record-pause'],['record-copy'],['paste-open'],['paste','replace'],['paste','append'],['paste-close'],['record-pointer',{pointerId:7}],['record-refresh']]);
 });
 
 test('arquivo extraído não contém áudio, transporte, persistência ou estado musical',function(){
  assert.doesNotMatch(source,/AudioContext|playChordSequence|startDrums|localStorage|GeraStorage|sequenceSections|sequencePlaying|sequenceAuto|setTimeout|setInterval|requestAnimationFrame/);
 });
 
-test('HTML e SERVICE WORKER carregam o módulo uma única vez na versão 3.15.29',function(){
+test('HTML e SERVICE WORKER carregam o módulo uma única vez na versão 3.15.33',function(){
  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  const tag='<script src="./js/ui/sequencer.js"></script>';
  assert.equal((html.match(/\.\/js\/ui\/sequencer\.js/g)||[]).length,1);
  assert.ok(html.indexOf(tag)<html.indexOf('<script src="./js/audio/core.js"></script>'));
  assert.equal((sw.match(/\.\/js\/ui\/sequencer\.js/g)||[]).length,1);
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.29';"));
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.29');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.33';"));
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.33');
 });
 
 test('módulo da 8F é a única adição funcional sobre a versão 3.15.25',function(){

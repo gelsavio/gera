@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-GERA — GERADOR DE ACOMPANHAMENTOS PWA v3.14.91
-=======
-GERA — GERADOR DE ACOMPANHAMENTOS PWA v3.14.97
->>>>>>> 4b82c90 (varias atualizações)
+GERA — GERADOR DE ACOMPANHAMENTOS PWA v3.15.02
 
 INSTALAÇÃO
 1. Publique toda a pasta em uma hospedagem HTTPS, preservando a estrutura.

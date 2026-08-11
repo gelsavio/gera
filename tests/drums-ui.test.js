@@ -151,11 +151,11 @@ test('HTML carrega o módulo e delega a interface da bateria',function(){
  assert.equal(html.includes("document.querySelectorAll('[data-layer]').forEach"),false);
 });
 
-test('SERVICE WORKER inclui o módulo uma vez e usa a versão 3.15.29',function(){
+test('SERVICE WORKER inclui o módulo uma vez e usa a versão 3.15.33',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.29';"));
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.33';"));
  assert.equal((sw.match(/\.\/js\/ui\/drums\.js/g)||[]).length,1);
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.29');
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.33');
 });
 
 test('módulo da 8E é a única adição de arquivo funcional sobre a 3.15.24',function(){

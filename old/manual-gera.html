@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#d8cbb8">
+<meta name="theme-color" content="#111326">
 <title>Manual do GERA — Gerador de Acompanhamentos</title>
 <style>
 :root{
@@ -197,11 +197,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 </head>
 <body>
 <header class="topbar">
-<<<<<<< HEAD
-  <div class="brand">🎹 MANUAL DO GERA — GERADOR DE ACOMPANHAMENTOS · v3.14.91</div>
-=======
-  <div class="brand">🎹 MANUAL DO GERA — GERADOR DE ACOMPANHAMENTOS · v3.14.97</div>
->>>>>>> 4b82c90 (varias atualizações)
+  <div class="brand">🎹 MANUAL DO GERA — GERADOR DE ACOMPANHAMENTOS · v3.14.15</div>
   <div class="actions">
     <button type="button" onclick="window.location.href='index.html'">🎹 Voltar ao teclado</button>
     <button type="button" onclick="window.print()">🖨 Imprimir</button>
@@ -238,15 +234,11 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
   <main>
     <section class="hero" id="apresentacao">
       <h1>GERA — GERADOR DE ACOMPANHAMENTOS</h1>
-<<<<<<< HEAD
-      <p>Manual da versão <strong>3.14.91</strong>, com teclado sensível ao toque, acordes, círculo harmônico, acompanhamento contínuo, bateria acústica ou sintetizada, dezesseis sequências, execução automática e biblioteca de músicas.</p>
-=======
-      <p>Manual da versão <strong>3.14.97</strong>, com teclado sensível ao toque, acordes, círculo harmônico, acompanhamento contínuo, bateria acústica ou sintetizada, dezesseis sequências, execução automática e biblioteca de músicas.</p>
->>>>>>> 4b82c90 (varias atualizações)
+      <p>Manual da versão <strong>3.14.3</strong>, com teclado sensível ao toque, acordes, círculo harmônico, acompanhamento contínuo, bateria acústica ou sintetizada, dezesseis sequências, execução automática e biblioteca de músicas.</p>
       <div class="badges">
         <span class="badge">Uso horizontal</span>
         <span class="badge">Multitoque</span>
-        <span class="badge">Dezesseis sequências</span>
+        <span class="badge">Oito sequências</span>
         <span class="badge">Bateria com samples</span>
         <span class="badge">Músicas salvas no navegador</span>
       </div>
@@ -412,7 +404,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
         <li>Digite o nome da música.</li>
         <li>Defina o BPM.</li>
         <li>Pressione <strong>Salvar</strong>.</li>
-        <li>Use a lista para carregar músicas, ajustar diretamente o BPM ou excluí-las.</li>
+        <li>Use a lista para carregar ou excluir músicas.</li>
         <li><strong>Nova música</strong> limpa as dezesseis sequências e inicia um novo projeto.</li>
       </ul>
       <p>Cada música salva guarda as dezesseis sequências, os números de repetição, o modo Auto e o BPM.</p>
@@ -463,9 +455,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
         <li>Configure o aplicativo.</li>
         <li>Pressione <strong>Salvar</strong>.</li>
         <li>Pressione uma memória de 1 a 6.</li>
-        <li>Confira no modal as características que serão salvas e pressione <strong>Salvar</strong> para confirmar ou <strong>Cancelar</strong> para voltar.</li>
       </ol>
-      <p>Ao tocar diretamente numa memória, o GERA apresenta previamente instrumento, oitava, capotraste, sustain, execução, arpejo, BPM, ritmo, acompanhamento, baixo, divisão do teclado, bateria e volumes. As configurações só são aplicadas após a confirmação.</p>
       <p>Verde indica preset padrão; vermelho indica configuração personalizada.</p>
     </section>
 
@@ -513,11 +503,7 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
       </div>
     </section>
 
-<<<<<<< HEAD
-    <footer>MANUAL DO GERA — GERADOR DE ACOMPANHAMENTOS · v3.14.91 · Dezesseis sequências, biblioteca de músicas e bateria acústica</footer>
-=======
-    <footer>MANUAL DO GERA — GERADOR DE ACOMPANHAMENTOS · v3.14.97 · Dezesseis sequências, biblioteca de músicas e bateria acústica</footer>
->>>>>>> 4b82c90 (varias atualizações)
+    <footer>MANUAL DO GERA — GERADOR DE ACOMPANHAMENTOS · v3.14.15 · Oito sequências, biblioteca de músicas e bateria acústica</footer>
   
       <h2>Configuração de bateria por sequência</h2>
       <p>Cada uma das dezesseis sequências pode guardar um padrão de bateria, uma virada de entrada e um encerramento. O motor acústico ou sintético é definido globalmente para a música.</p>
@@ -720,25 +706,6 @@ footer{padding:24px;text-align:center;color:#8792aa;font-size:.82rem}
 <p>A Valsinha usa a mesma base, acrescentando notas fantasmas suaves entre os golpes de chimbal para produzir maior movimento.</p>
 </section>
 
-<section id="painel-bateria-metronomo">
-<h2>Painel de bateria e metrônomo</h2>
-<p>A indicação exibida sob Som da bateria ocupa uma área de altura fixa para que as mensagens de carregamento, disponibilidade e seleção do motor não alterem a posição dos demais controles.</p>
-<p>O painel Bateria contém o controle do metrônomo e o ajuste de BPM. O mesmo andamento é compartilhado pelo metrônomo, pela bateria, pelo acompanhamento e pelas sequências.</p>
-<p>Quando Divisão do teclado está ativada, as notas da região grave, de Dó2 até Si4, usam o instrumento escolhido no seletor da divisão. As notas de Dó5 até Dó7 continuam usando o instrumento principal.</p>
-</section>
-
-<<<<<<< HEAD
-=======
-<section id="painel-compacto-execucao">
-<h2>Execução no painel compacto</h2>
-<p>Ao selecionar uma lista no painel compacto, o GERA carrega automaticamente a primeira música da lista e a deixa aguardando o comando de execução. A seleção da lista não inicia o som automaticamente.</p>
-<p>O painel compacto possui três controles: Música + Bateria, Só Música e Só Bateria. Quando música e bateria estão tocando, os três botões permitem parar, respectivamente, todo o conjunto, somente a música ou somente a bateria. Se apenas um componente permanecer ativo, Música + Bateria continua funcionando como parada geral.</p>
-<p>Ao iniciar a música com a bateria já ligada, a bateria continua tocando e a sequência aguarda o próximo início de compasso. Se a sequência estiver configurada sem bateria, ela ainda respeita o compasso em curso e a bateria é retirada exatamente na entrada da música. Se houver troca de ritmo, o padrão novo também entra nessa fronteira, sem interromper o compasso anterior.</p>
-<p>Durante a execução de uma sequência, o painel compacto exibe o contador regressivo da sequência ativa. O indicador acompanha automaticamente as mudanças entre as sequências A–P, e seu espaço permanece reservado quando não há contagem para que os demais elementos não mudem de posição.</p>
-<p>Ao iniciar ou parar a execução, o painel conserva os mesmos cartões e controles na tela. Somente os estados, os textos e os destaques necessários são atualizados, evitando o apagamento e a reconstrução visual do carrossel.</p>
-</section>
-
->>>>>>> 4b82c90 (varias atualizações)
 </main>
 </div>
 </body>

@@ -2,15 +2,12 @@
 
 const CACHE_PREFIX = 'gera-pwa-';
 const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
-<<<<<<< HEAD
-const CACHE_NAME = CACHE_PREFIX + 'v3.14.91';
-=======
-const CACHE_NAME = CACHE_PREFIX + 'v3.14.97';
->>>>>>> 4b82c90 (varias atualizações)
+const CACHE_NAME = CACHE_PREFIX + 'v3.14.16';
 const OFFLINE_URL = './offline.html';
 
 const PRECACHE_URLS = [
     "./",
+    "./especificacao-json-gera-v3.md",
     "./icons/icon-192.png",
     "./icons/icon-512.png",
     "./icons/icon-maskable-512.png",
@@ -34,6 +31,7 @@ const PRECACHE_URLS = [
     "./kit-acustico-selecionado/toms/tom-mid.wav",
     "./manifest.json",
     "./manual-gera.html",
+    "./modelo-tempo-perdio-format-v3.json",
     "./offline.html"
 ];
 

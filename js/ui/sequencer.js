@@ -166,12 +166,20 @@
    element('sequence-record-done').onclick=function(){options.finishRecordDialog()};
    element('sequence-record-play').onclick=function(){options.toggleRecordPreview()};
    element('sequence-record-section-select').onchange=function(){options.selectRecordSection(this.value)};
+   element('sequence-record-chord-octave').onchange=function(){options.selectRecordChordOctave(this.value)};
    documentRef.querySelectorAll('[data-record-fraction]').forEach(function(button){
     button.onclick=function(){options.selectRecordFraction(Number(button.dataset.recordFraction))};
    });
    element('sequence-record-pause').onclick=function(){options.addRecordPause()};
    element('sequence-record-undo').onclick=function(){options.undoRecordItem()};
+   element('sequence-record-copy').onclick=function(){options.copyRecordSequence()};
+   element('sequence-record-paste').onclick=function(){options.openPasteDialog()};
    element('sequence-record-clear-all').onclick=function(){options.clearRecordItems()};
+   const pasteDialog=element('sequence-paste-dialog');
+   element('sequence-paste-replace').onclick=function(){options.pasteRecordSequence('replace')};
+   element('sequence-paste-append').onclick=function(){options.pasteRecordSequence('append')};
+   element('sequence-paste-cancel').onclick=function(){options.closePasteDialog()};
+   if(pasteDialog)pasteDialog.addEventListener('cancel',function(event){event.preventDefault();options.closePasteDialog()});
    dialog.addEventListener('close',function(){options.recordDialogClosed()});
    dialog.addEventListener('cancel',function(event){event.preventDefault();options.cancelRecordDialog()});
    dialog.addEventListener('pointerup',function(event){options.finishRecordPointer(event)});
