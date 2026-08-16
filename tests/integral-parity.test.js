@@ -135,14 +135,14 @@ test('HTML e SERVICE WORKER referenciam exatamente os mesmos scripts funcionais'
  scripts.forEach(function(script){assert.equal(urls.filter(function(url){return url===script}).length,1,script)});
 });
 
-test('manifesto e identificação visual usam somente a versão 3.15.41',function(){
- assert.equal(manifest.version,'3.15.41');
- assert.equal(count(index,/3\.15\.41/g),3);
+test('manifesto e identificação visual usam somente a versão 3.15.42',function(){
+ assert.equal(manifest.version,'3.15.42');
+ assert.equal(count(index,/3\.15\.42/g),3);
  assert.equal(count(index,/3\.15\.30/g),0);
  assert.equal(count(index,/3\.15\.29/g),0);
  assert.equal(count(index,/3\.15\.28/g),0);
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.41';"));
- assert.equal(count(sw,/v3\.15\.41/g),1);
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.42';"));
+ assert.equal(count(sw,/v3\.15\.42/g),1);
 });
 
 test('SERVICE WORKER mantém instalação, atualização, limpeza e fallback offline',function(){

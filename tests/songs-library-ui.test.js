@@ -138,8 +138,8 @@ test('HTML e SERVICE WORKER carregam uma vez o único módulo novo da 8G',functi
  assert.equal((html.match(/\.\/js\/ui\/songs-library\.js/g)||[]).length,1);
  assert.equal((sw.match(/\.\/js\/ui\/songs-library\.js/g)||[]).length,1);
  assert.ok(html.indexOf('<script src="./js/ui/songs-library.js"></script>')<html.indexOf('<script src="./js/audio/core.js"></script>'));
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.41';"));
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.41');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.42';"));
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.42');
  const added=fs.readdirSync(path.join(root,'js','ui')).filter(function(file){return file!=='settings-modals.js'&&!fs.existsSync(path.join(previous,'js','ui',file))});
  assert.deepEqual(added,['songs-library.js']);
 });

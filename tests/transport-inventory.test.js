@@ -90,7 +90,7 @@ test('painel e contadores mantêm atualização de 250 ms',function(){
 
 test('SERVICE WORKER atualiza o cache e mantém a limpeza de versões antigas',function(){
  assert.ok(sw.includes("const CACHE_PREFIX = 'gera-pwa-';"));
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.41';"));
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.42';"));
  assert.match(sw,/caches\.keys\(\).*cacheName !== CACHE_NAME.*caches\.delete\(cacheName\)/s);
 });
 

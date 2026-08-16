@@ -144,9 +144,9 @@ test('auditoria 6K preservada e arquivos fora do fluxo atualizado seguem idênti
  assert.equal(restoredManifest,fs.readFileSync(path.join(previous,'manifest.json'),'utf8'));
 });
 
-test('cache 3.15.41 preserva exatamente os módulos carregados pelo navegador',function(){
+test('cache 3.15.42 preserva exatamente os módulos carregados pelo navegador',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.41';"));
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.42';"));
  ['clock','scheduler','boundaries','tempo','drum-sync','chord-sequence-sync','sequence-transitions','coordinator'].forEach(function(name){assert.ok(sw.includes('"./js/transport/'+name+'.js"'))});
  assert.ok(sw.includes('"./js/ui/transport-status.js"'));
  assert.ok(sw.includes('"./js/ui/header.js"'));
