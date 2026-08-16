@@ -101,7 +101,7 @@ test('HTML, manifesto e SERVICE WORKER carregam uma vez o módulo da 8H',functio
  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  assert.equal((html.match(/\.\/js\/ui\/settings-modals\.js/g)||[]).length,1);assert.equal((sw.match(/\.\/js\/ui\/settings-modals\.js/g)||[]).length,1);
  assert.ok(html.indexOf('<script src="./js/ui/settings-modals.js"></script>')<html.indexOf('<script src="./js/audio/core.js"></script>'));
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.33';"));assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.33');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.41';"));assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.41');
  const added=fs.readdirSync(path.join(root,'js','ui')).filter(function(file){return !fs.existsSync(path.join(previous,'js','ui',file))});
  assert.deepEqual(added,['settings-modals.js']);
 });

@@ -7,7 +7,7 @@ const path=require('node:path');
 
 const root=path.resolve(__dirname,'..');
 const phase8Base=path.resolve(root,'..','GERA-PWA-v3.15.20-etapa-7F-backup-restauracao');
-const previous=path.resolve(root,'..','GERA-PWA-v3.15.30-correcao-testar-1x');
+const previous=path.resolve(root,'..','GERA-PWA-v3.15.34-grupos-e-salvamento-automatico');
 const index=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
@@ -47,8 +47,8 @@ function precacheUrls(){
  return JSON.parse('['+body+']');
 }
 
-test('melhorias do editor alteram somente os recursos autorizados sobre a versão 3.15.30',function(){
- ['index.html','js/ui/sequencer.js','sw.js','manifest.json'].forEach(function(file){
+test('fluxo e interface alteram somente os recursos autorizados sobre a versão 3.15.34',function(){
+ ['index.html','styles/inline-style-01.css','js/ui/sequencer.js','js/ui/transport-status.js','js/transport/sequence-transitions.js','sw.js','manifest.json'].forEach(function(file){
   assert.notDeepEqual(read(file),read(file,previous),file);
  });
  ['offline.html','manual-gera.html','js/storage.js','js/chords.js','js/state.js','js/audio/core.js'].forEach(function(file){
@@ -56,14 +56,14 @@ test('melhorias do editor alteram somente os recursos autorizados sobre a versã
  });
  walk(path.join(root,'js')).forEach(function(file){
   const relative=path.relative(root,file);
-  if(relative===path.join('js','ui','sequencer.js'))return;
+  if([path.join('js','ui','sequencer.js'),path.join('js','ui','transport-status.js'),path.join('js','transport','sequence-transitions.js')].indexOf(relative)>=0)return;
   assert.deepEqual(fs.readFileSync(file),read(relative,previous),relative);
  });
 });
 
-test('sete módulos da interface permanecem byte a byte iguais à versão em que foram extraídos',function(){
+test('módulos da interface fora da biblioteca permanecem byte a byte iguais às versões de extração',function(){
  uiStages.forEach(function(item){
-  if(item[0]==='sequencer.js')return;
+  if(item[0]==='sequencer.js'||item[0]==='songs-library.js')return;
   const introduced=path.resolve(root,'..',item[1]);
   assert.deepEqual(read(path.join('js','ui',item[0])),read(path.join('js','ui',item[0]),introduced),item[0]);
  });
@@ -90,27 +90,27 @@ test('scripts externos carregam uma vez, existem e respeitam a ordem de dependê
  assert.equal(scripts[20],'./js/audio/core.js');
 });
 
-test('DOM possui 303 identificadores únicos após o seletor de oitavas',function(){
+test('DOM possui 322 identificadores únicos após seletor de sustain do teclado',function(){
  const ids=Array.from(index.matchAll(/\bid=["']([^"']+)["']/g),function(match){return match[1]});
- assert.equal(ids.length,303);
- assert.equal(new Set(ids).size,303);
+ assert.equal(ids.length,322);
+ assert.equal(new Set(ids).size,322);
 });
 
-test('timers permanecem iguais e há somente um novo listener para fechar o diálogo de colagem',function(){
+test('somente autosave e controles de grupo acrescentam temporização e listeners',function(){
  const before=functionalSource(phase8Base);
  const after=functionalSource(root);
- [/setInterval\s*\(/g,/setTimeout\s*\(/g,/requestAnimationFrame\s*\(/g].forEach(function(pattern){
-  assert.equal(count(after,pattern),count(before,pattern),pattern.toString());
- });
+ assert.equal(count(after,/setInterval\s*\(/g),count(before,/setInterval\s*\(/g));
+ assert.equal(count(after,/setTimeout\s*\(/g),count(before,/setTimeout\s*\(/g)+2);
+ assert.equal(count(after,/requestAnimationFrame\s*\(/g),count(before,/requestAnimationFrame\s*\(/g));
  assert.equal(count(after,/setInterval\s*\(/g),2);
- assert.equal(count(after,/setTimeout\s*\(/g),42);
- assert.equal(count(after,/addEventListener\s*\(/g),60);
+ assert.equal(count(after,/setTimeout\s*\(/g),44);
+ assert.equal(count(after,/addEventListener\s*\(/g),67);
  assert.equal(count(after,/requestAnimationFrame\s*\(/g),2);
 });
 
 test('núcleo fora do editor e seus estilos permanece byte a byte preservado',function(){
  const preserved=['js/storage.js','js/chords.js','js/state.js','js/audio/core.js','manual-gera.html','offline.html'];
- walk(path.join(phase8Base,'js','transport')).forEach(function(file){preserved.push(path.relative(phase8Base,file))});
+ walk(path.join(phase8Base,'js','transport')).forEach(function(file){if(path.basename(file)!=='sequence-transitions.js')preserved.push(path.relative(phase8Base,file))});
  preserved.forEach(function(file){assert.deepEqual(read(file),read(file,phase8Base),file)});
 });
 
@@ -135,14 +135,14 @@ test('HTML e SERVICE WORKER referenciam exatamente os mesmos scripts funcionais'
  scripts.forEach(function(script){assert.equal(urls.filter(function(url){return url===script}).length,1,script)});
 });
 
-test('manifesto e identificação visual usam somente a versão 3.15.33',function(){
- assert.equal(manifest.version,'3.15.33');
- assert.equal(count(index,/3\.15\.33/g),3);
+test('manifesto e identificação visual usam somente a versão 3.15.41',function(){
+ assert.equal(manifest.version,'3.15.41');
+ assert.equal(count(index,/3\.15\.41/g),3);
  assert.equal(count(index,/3\.15\.30/g),0);
  assert.equal(count(index,/3\.15\.29/g),0);
  assert.equal(count(index,/3\.15\.28/g),0);
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.33';"));
- assert.equal(count(sw,/v3\.15\.33/g),1);
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.41';"));
+ assert.equal(count(sw,/v3\.15\.41/g),1);
 });
 
 test('SERVICE WORKER mantém instalação, atualização, limpeza e fallback offline',function(){

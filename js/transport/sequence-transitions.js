@@ -31,6 +31,54 @@
    });
   }
 
+  if(state.plan&&state.plan.active){
+   if(current<state.targetPasses){
+    return Object.freeze({
+     type:'repeat-before-plan',
+     repetition:current+1,
+     targetPasses:state.targetPasses,
+     nextSection:state.plan.nextSection
+    });
+   }
+   if(state.plan.nextSection){
+    return Object.freeze({
+     type:'switch-plan',
+     nextSection:state.plan.nextSection,
+     planCursor:state.plan.nextCursor,
+     blockIndex:state.plan.blockIndex,
+     blockPass:state.plan.blockPass,
+     blockTarget:state.plan.blockTarget,
+     loopedBlock:state.plan.loopedBlock===true,
+     loopedSong:state.plan.loopedSong===true
+    });
+   }
+   if(state.plan.stop){
+    return Object.freeze({type:'stop-plan',blockTarget:state.plan.blockTarget});
+   }
+  }
+
+  if(state.group&&state.group.active){
+   if(current<state.targetPasses){
+    return Object.freeze({
+     type:'repeat-before-group',
+     repetition:current+1,
+     targetPasses:state.targetPasses,
+     nextSection:state.group.nextSection
+    });
+   }
+   if(state.group.nextSection){
+    return Object.freeze({
+     type:state.group.completed?'complete-group':'switch-group',
+     nextSection:state.group.nextSection,
+     groupPass:state.group.nextPass,
+     groupTarget:state.group.targetPasses
+    });
+   }
+   if(state.group.completed){
+    return Object.freeze({type:'stop-group',groupTarget:state.group.targetPasses});
+   }
+  }
+
   if(state.configuredNext&&current<state.configuredTarget){
    return Object.freeze({
     type:'repeat-before-configured',

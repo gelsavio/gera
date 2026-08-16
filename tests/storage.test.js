@@ -269,8 +269,8 @@ test('reversão exclusiva da 7F recompõe a versão 3.15.19 byte a byte',functio
  assert.equal(reconstructedStorage,fs.readFileSync(path.join(baselineRoot,'js','storage.js'),'utf8'));
 });
 
-test('arquivos funcionais fora do escopo permanecem byte a byte iguais',function(){
- ['offline.html','manual-gera.html','js/chords.js','js/state.js','js/audio/core.js','js/transport/clock.js','js/transport/scheduler.js','js/transport/boundaries.js','js/transport/tempo.js','js/transport/drum-sync.js','js/transport/chord-sequence-sync.js','js/transport/sequence-transitions.js','js/transport/coordinator.js','js/ui/transport-status.js'].forEach(function(file){
+test('arquivos funcionais fora do fluxo atualizado permanecem byte a byte iguais',function(){
+ ['offline.html','manual-gera.html','js/chords.js','js/state.js','js/audio/core.js','js/transport/clock.js','js/transport/scheduler.js','js/transport/boundaries.js','js/transport/tempo.js','js/transport/drum-sync.js','js/transport/chord-sequence-sync.js','js/transport/coordinator.js'].forEach(function(file){
   assert.deepEqual(fs.readFileSync(path.join(root,file)),fs.readFileSync(path.join(baselineRoot,file)),file);
  });
 });

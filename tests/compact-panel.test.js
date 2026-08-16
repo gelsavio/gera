@@ -91,11 +91,11 @@ test('HTML carrega o painel antes do núcleo e remove a ligação direta anterio
  assert.equal(html.includes('if(compactCarouselNext)compactCarouselNext.onclick='),false);
 });
 
-test('SERVICE WORKER mantém o painel compacto no pré-cache 3.15.33',function(){
+test('SERVICE WORKER mantém o painel compacto no pré-cache 3.15.41',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.33';"));
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.41';"));
  assert.equal((sw.match(/\.\/js\/ui\/compact-panel\.js/g)||[]).length,1);
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.33');
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.41');
 });
 
 test('reversão exclusiva da 8B recompõe a versão 3.15.21 byte a byte',function(){

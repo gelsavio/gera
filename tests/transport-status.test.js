@@ -176,6 +176,6 @@ test('módulos de interface extraídos permanecem no pré-cache',function(){
  assert.ok(sw.includes('    "./js/ui/transport-status.js",'));
  assert.ok(sw.includes('    "./js/ui/compact-panel.js",'));
  assert.ok(sw.includes('    "./js/ui/keyboard.js",'));
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.33';"));
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.33');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.41';"));
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.41');
 });

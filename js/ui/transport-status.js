@@ -103,13 +103,17 @@
    if(bpmBottom)bpmBottom.textContent=String(state.bpm);
    if(play){
     play.textContent='▶';
-    play.classList.toggle('active',state.sequencePlaying&&state.sequenceAutoEnd&&!state.sequenceAuto);
-    play.setAttribute('aria-pressed',String(state.sequencePlaying&&state.sequenceAutoEnd&&!state.sequenceAuto));
+    play.classList.toggle('active',state.sequencePlaying);
+    play.setAttribute('aria-pressed',String(state.sequencePlaying));
+    play.title=state.sequencePlaying?'Música em execução':'Iniciar a música usando a preferência de término atual';
    }
    if(playLoop){
     playLoop.textContent='↻';
-    playLoop.classList.toggle('active',state.sequencePlaying&&state.sequenceAuto&&!state.sequenceAutoEnd);
-    playLoop.setAttribute('aria-pressed',String(state.sequencePlaying&&state.sequenceAuto&&!state.sequenceAutoEnd));
+    playLoop.classList.toggle('active',state.sequenceAuto&&!state.sequenceAutoEnd);
+    playLoop.setAttribute('aria-pressed',String(state.sequenceAuto&&!state.sequenceAutoEnd));
+    playLoop.title=state.sequenceAuto
+     ?'AUTO LOOP ligado: ao final, retorna ao começo. Clique para parar no fim'
+     :'AUTO LOOP desligado: ao final, para. Clique para repetir desde o começo';
    }
    if(currentLoop){
     currentLoop.textContent='🔁';

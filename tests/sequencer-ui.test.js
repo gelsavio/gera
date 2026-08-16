@@ -91,7 +91,8 @@ test('estados visuais preservam repetição, loop, Auto e visibilidade',function
  assert.equal(h.repeatDisplays[0].textContent,'2');
  assert.equal(h.repeatDisplays[1].title,'Fora do modo Auto');
  assert.equal(h.elements['sequence-hold-loop'].textContent,'🔁 Em Loop');
- assert.equal(h.elements['sequence-auto'].textContent,'Auto ✓');
+ assert.equal(h.elements['sequence-auto'].textContent,'Auto Loop ✓');
+ assert.equal(h.elements['sequence-auto-end'].textContent,'Parar no fim');
  assert.equal(h.elements['sequence-auto-end'].classList.contains('active'),false);
  assert.equal(h.elements['sequence-panel'].classList.contains('sequence-hidden'),true);
 });
@@ -168,15 +169,15 @@ test('arquivo extraído não contém áudio, transporte, persistência ou estado
  assert.doesNotMatch(source,/AudioContext|playChordSequence|startDrums|localStorage|GeraStorage|sequenceSections|sequencePlaying|sequenceAuto|setTimeout|setInterval|requestAnimationFrame/);
 });
 
-test('HTML e SERVICE WORKER carregam o módulo uma única vez na versão 3.15.33',function(){
+test('HTML e SERVICE WORKER carregam o módulo uma única vez na versão 3.15.41',function(){
  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  const tag='<script src="./js/ui/sequencer.js"></script>';
  assert.equal((html.match(/\.\/js\/ui\/sequencer\.js/g)||[]).length,1);
  assert.ok(html.indexOf(tag)<html.indexOf('<script src="./js/audio/core.js"></script>'));
  assert.equal((sw.match(/\.\/js\/ui\/sequencer\.js/g)||[]).length,1);
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.33';"));
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.33');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.41';"));
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.41');
 });
 
 test('módulo da 8F é a única adição funcional sobre a versão 3.15.25',function(){

@@ -17,29 +17,30 @@
     display.title=value===0?'Fora do modo Auto':value+' repetições';
    });
   }
-  function syncHoldLoop(active){
+  function syncHoldLoop(active,scopeLabel){
    const button=element('sequence-hold-loop');
    if(!button)return;
+   const suffix=scopeLabel?' '+scopeLabel:'';
    button.classList.toggle('active',active);
-   button.textContent=active?'🔁 Em Loop':'🔁 Pôr em Loop';
-   button.title=active?'Clique para liberar a progressão':'Manter a seção atual em repetição';
+   button.textContent=active?(scopeLabel?'🔁 Loop'+suffix:'🔁 Em Loop'):'🔁 Pôr em Loop'+suffix;
+   button.title=active?'Clique para liberar a progressão ao final do ciclo':'Repetir o ciclo musical atual';
   }
   function syncAuto(auto,autoEnd){
    const loopButton=element('sequence-auto');
    const endButton=element('sequence-auto-end');
    if(loopButton){
     loopButton.classList.toggle('active',auto);
-    loopButton.textContent=auto?'Auto ✓':'Auto';
+    loopButton.textContent=auto?'Auto Loop ✓':'Auto Loop';
     loopButton.title=auto
-     ?'Auto contínuo ligado: ao final volta para a primeira sequência'
-     :'Ligar execução automática contínua';
+     ?'Ligado: ao final da última sequência, retorna ao começo'
+     :'Desligado: ao final da última sequência, a música para';
    }
    if(endButton){
     endButton.classList.toggle('active',autoEnd);
-    endButton.textContent=autoEnd?'Auto Fim ✓':'Auto Fim';
+    endButton.textContent=autoEnd?'Parar no fim ✓':'Parar no fim';
     endButton.title=autoEnd
-     ?'Auto Fim ligado: executa uma vez e encerra na última sequência'
-     :'Executar a música uma vez e encerrar com virada de bateria';
+     ?'Ligado: a música para ao concluir a última sequência'
+     :'Selecionar parada ao fim da música';
    }
   }
   function syncPanelVisibility(visible){
@@ -107,6 +108,8 @@
    element('sequence-hold-loop').onclick=function(){options.toggleHoldLoop()};
    element('section-instrument').onchange=function(){options.saveSectionControls()};
    element('section-next').onchange=function(){options.saveSectionControls()};
+   const nextCount=element('section-next-count');
+   if(nextCount)nextCount.onchange=function(){options.saveSectionControls()};
    element('section-drum-pattern').onchange=function(){options.changeSectionPattern(this.value)};
    element('section-drum-entry').onchange=function(){options.saveSectionControls()};
    element('section-drum-exit').onchange=function(){options.saveSectionControls()};

@@ -47,6 +47,7 @@ function baseScript(){
   "function currentChordSequence(){return sequenceSections[activeSequenceSection]||[]}",
   "function sectionRepeatValue(section){return sequenceRepeats[section]||0}",
   "function normalizeSectionDrum(value){return JSON.parse(JSON.stringify(value))}",
+  "function isThreeQuarterPattern(value){return value==='valsa'||value==='valsinha'}",
   "function normalizeSequenceItem(item){return JSON.parse(JSON.stringify(item))}"
  ].join(';')+';';
 }
@@ -71,6 +72,7 @@ async function runPaste(mode){
  vm.createContext(context);
  const source=baseScript()+
   extractFunction('syncSequenceClipboardControls')+';'+
+  extractFunction('sequenceSectionMeter')+';'+
   extractFunction('copyActiveSequenceToClipboard')+';'+
   extractFunction('pasteSequenceFromClipboard')+';'+
   '(async function(){copyActiveSequenceToClipboard();activeSequenceSection="chorus";await pasteSequenceFromClipboard("'+mode+'");'+
@@ -120,6 +122,12 @@ test('interface oferece copiar, colar, substituir e acrescentar perto de Zerar s
  assert.match(index,/id="sequence-paste-append"[\s\S]*Colar ao final/);
 });
 
+test('colagem ao final bloqueia métricas incompatíveis antes de alterar o destino',function(){
+ assert.match(index,/sourceMeter:sequenceSectionMeter\(activeSequenceSection\)/);
+ assert.match(index,/mode==='append'&&sequenceClipboard\.sourceMeter!==sequenceSectionMeter\(targetSection\)/);
+ assert.match(index,/Colagem ao final bloqueada: origem/);
+});
+
 test('área de transferência permanece disponível entre músicas e Cancelar restaura configurações',function(){
  const loadStart=index.indexOf('function loadSong(name){');
  const loadEnd=index.indexOf('let appConfirmResolver=',loadStart);
@@ -130,10 +138,10 @@ test('área de transferência permanece disponível entre músicas e Cancelar re
  assert.match(index,/sequenceDrums=JSON\.parse\(JSON\.stringify\(sequenceRecordSnapshot\.drums\)\)/);
 });
 
-test('versão, cache e manifesto foram atualizados para 3.15.33',function(){
+test('versão, cache e manifesto foram atualizados para 3.15.41',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
- assert.equal(manifest.version,'3.15.33');
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.33';"));
- assert.equal((index.match(/v3\.15\.33/g)||[]).length,3);
+ assert.equal(manifest.version,'3.15.41');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.41';"));
+ assert.equal((index.match(/v3\.15\.41/g)||[]).length,3);
 });

@@ -21,6 +21,8 @@ function state(overrides){
   currentRepetition:1,
   holdLoop:false,
   queuedSection:'',
+  plan:{active:false},
+  group:{active:false},
   targetPasses:1,
   configuredNext:'',
   configuredTarget:1,
@@ -49,6 +51,35 @@ test('troca manual espera todas as repetições e depois seleciona a seção enf
  assert.deepEqual(JSON.parse(JSON.stringify(resolveEnd(state({currentRepetition:3,queuedSection:'chorus',targetPasses:3})))),{
   type:'switch-manual',targetPasses:3,nextSection:'chorus'
  });
+});
+
+test('roteiro respeita repetições internas, troca de bloco, loop e parada',function(){
+ assert.equal(resolveEnd(state({currentRepetition:1,targetPasses:2,plan:{active:true,nextSection:'prechorus',nextCursor:1,blockIndex:0,blockPass:1,blockTarget:3}})).type,'repeat-before-plan');
+ assert.deepEqual(JSON.parse(JSON.stringify(resolveEnd(state({currentRepetition:2,targetPasses:2,plan:{active:true,nextSection:'prechorus',nextCursor:1,blockIndex:0,blockPass:1,blockTarget:3}})))),{
+  type:'switch-plan',nextSection:'prechorus',planCursor:1,blockIndex:0,blockPass:1,blockTarget:3,loopedBlock:false,loopedSong:false
+ });
+ assert.equal(resolveEnd(state({plan:{active:true,nextSection:'verse',nextCursor:0,blockIndex:0,blockPass:1,blockTarget:3,loopedBlock:true}})).loopedBlock,true);
+ assert.equal(resolveEnd(state({plan:{active:true,stop:true,blockTarget:2}})).type,'stop-plan');
+});
+
+test('conjunto repete A e B três vezes antes de seguir para C',function(){
+ assert.equal(resolveEnd(state({currentRepetition:1,targetPasses:2,group:{active:true,nextSection:'prechorus',nextPass:1,targetPasses:3}})).type,'repeat-before-group');
+ assert.deepEqual(JSON.parse(JSON.stringify(resolveEnd(state({currentRepetition:2,targetPasses:2,group:{active:true,nextSection:'prechorus',nextPass:1,targetPasses:3}})))),{
+  type:'switch-group',nextSection:'prechorus',groupPass:1,groupTarget:3
+ });
+ assert.deepEqual(JSON.parse(JSON.stringify(resolveEnd(state({group:{active:true,nextSection:'verse',nextPass:2,targetPasses:3}})))),{
+  type:'switch-group',nextSection:'verse',groupPass:2,groupTarget:3
+ });
+ assert.deepEqual(JSON.parse(JSON.stringify(resolveEnd(state({group:{active:true,completed:true,nextSection:'chorus',nextPass:1,targetPasses:3}})))),{
+  type:'complete-group',nextSection:'chorus',groupPass:1,groupTarget:3
+ });
+ assert.equal(resolveEnd(state({group:{active:true,completed:true,nextSection:'',targetPasses:3}})).type,'stop-group');
+});
+
+test('loop e troca manual prevalecem sobre o conjunto',function(){
+ const group={active:true,nextSection:'verse',nextPass:2,targetPasses:3};
+ assert.equal(resolveEnd(state({holdLoop:true,group:group})).type,'repeat-hold');
+ assert.equal(resolveEnd(state({queuedSection:'chorus',group:group})).type,'switch-manual');
 });
 
 test('próxima seção configurada preserva repetição, parada e troca',function(){
@@ -172,9 +203,9 @@ test('reversão exclusiva da 6I recompõe a versão 3.15.11 byte a byte',functio
  assert.equal(reconstructedManifest,fs.readFileSync(path.join(baselineRoot,'manifest.json'),'utf8'));
 });
 
-test('módulo de transições permanece no pré-cache da versão 3.15.33',function(){
+test('módulo de transições permanece no pré-cache da versão 3.15.41',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  assert.ok(sw.includes('    "./js/transport/sequence-transitions.js",'));
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.33';"));
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.33');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.41';"));
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.41');
 });

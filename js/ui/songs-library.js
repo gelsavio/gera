@@ -204,6 +204,7 @@
    element('songs-open').onclick=function(){options.openSongs()};
    element('songs-close').onclick=function(){element('songs-dialog').close()};
    element('song-save').onclick=function(){options.saveSong()};
+   if(element('song-save-now'))element('song-save-now').onclick=function(){options.saveCurrentSong()};
    element('song-new').onclick=function(){options.newSong()};
    element('song-list-create').onclick=function(){
     options.createSongList(element('song-list-new-name').value);
@@ -225,6 +226,7 @@
    });
    element('song-bpm-dialog').addEventListener('cancel',function(event){event.preventDefault();options.closeSongBpm()});
    element('redesign-manage-songs').onclick=function(){element('songs-open').click()};
+   if(element('redesign-save-song'))element('redesign-save-song').onclick=function(){options.saveCurrentSong()};
    element('redesign-new-song').onclick=function(){element('songs-open').click();setTimeout(function(){element('song-new').click()},40)};
    element('redesign-import-song').onclick=function(){element('song-import').click()};
    element('redesign-export-song').onclick=function(){element('song-export').click()};

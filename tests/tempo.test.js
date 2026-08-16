@@ -170,7 +170,7 @@ test('preserva byte a byte o módulo de BPM da versão validada 3.15.08',functio
 });
 
 test('a integração de BPM permanece presente no núcleo após a etapa 6F',function(){
- const currentRequest="function requestBpmChange(value){\n const requested=transportTempoController.requestChange(value,transportRunning);\n const input=$('bpm');\n if(input)input.value=String(requested);\n updateBpmDisplay();\n}";
+ const currentRequest="function requestBpmChange(value){\n const requested=transportTempoController.requestChange(value,transportRunning);\n const input=$('bpm');\n if(input)input.value=String(requested);\n updateBpmDisplay();\n markCurrentSongDirty();\n}";
  const legacyRequest="function requestBpmChange(value){\n const requested=normalizedBpm(value);\n const input=$('bpm');\n if(input)input.value=String(requested);\n\n if(transportRunning){\n  if(requested===bpm){\n   pendingBpm=null;\n  }else{\n   pendingBpm=requested;\n  }\n  updateBpmDisplay();\n  return;\n }\n\n bpm=requested;\n transportTempoBpm=bpm;\n pendingBpm=null;\n updateBpmDisplay();\n}";
  const controllerBlock="const transportTempoController=GeraTransportTempo.createController({\n normalize:normalizedBpm,\n currentTime:function(){return audioCtx.currentTime},\n onBoundaryApply:applyPendingBpmAtBoundary,\n trackEvent:function(tempoEvent){transportEvents.push(tempoEvent)}\n});\n";
  const currentApply="function applyPendingBpmAtBoundary(value){\n transportTempoController.applyAtBoundary(value);";
@@ -191,7 +191,7 @@ test('preserva o arquivo de BPM no SERVICE WORKER e atualiza somente a versão v
  const currentSw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  assert.ok(currentSw.includes('    "./js/transport/tempo.js",'));
  const currentManifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
- assert.equal(currentManifest.version,'3.15.33');
+ assert.equal(currentManifest.version,'3.15.41');
 });
 
 test('todos os demais recursos funcionais permanecem byte a byte iguais',function(){
