@@ -132,7 +132,7 @@ test('pré-cache contém 50 entradas únicas e cobre todos os recursos funcionai
   if(relative.indexOf('kit-acustico-selecionado/')===0){if(!fs.existsSync(path.join(root,relative)))absentSamples.push(relative);return}
   assert.ok(fs.existsSync(path.join(root,relative)),resource);
  });
- assert.equal(absentSamples.length,17);
+ assert.equal(absentSamples.length,0);
  assert.ok(absentSamples.every(function(file){return file.indexOf('kit-acustico-selecionado/')===0}));
 });
 
