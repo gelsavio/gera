@@ -56,6 +56,7 @@ function runPreview(previewActive){
   clearTimeout:function(){},
   stopChordSequence:function(){calls.push('stop')},
   clearSequenceTextPreview:function(){},
+  resetSequenceLyricPassages:function(){},
   sequenceAuto:true,
   sequenceAutoEnd:false,
   sectionRepeatValue:function(){calls.push('repeat');return 0},
@@ -102,12 +103,12 @@ test('reprodução normal continua respeitando AUTO com repetição zero',functi
  assert.equal(calls.includes('playing:false'),true);
 });
 
-test('versão 3.15.42 contém as guardas da prévia e do roteiro',function(){
+test('versão 3.15.50 contém as guardas da prévia e do roteiro',function(){
  assert.match(index,/if\(!sequenceRecordPreviewActive&&\(typeof playbackPlanRuntimeActive==='undefined'\|\|!playbackPlanRuntimeActive\)&&\(sequenceAuto\|\|sequenceAutoEnd\)&&sectionRepeatValue\(activeSequenceSection\)===0\)/);
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.42';"));
- assert.equal(manifest.version,'3.15.42');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.50';"));
+ assert.equal(manifest.version,'3.15.50');
 });
 
 test('prévia concluída restaura gravação e o botão Testar 1x',function(){
@@ -119,6 +120,7 @@ test('prévia concluída restaura gravação e o botão Testar 1x',function(){
   sequenceRecordPreviewActive:true,
   sequencePlaying:false,
   sequenceStartQueued:false,
+  sequencePreviewOwner:'record',
   sequenceRecording:false,
   byId:function(id){if(id==='sequence-record-dialog')return dialog;if(id==='sequence-record-play')return button;return null},
   stopChordSequence:function(message){calls.push('stop:'+message)},
@@ -129,4 +131,51 @@ test('prévia concluída restaura gravação e o botão Testar 1x',function(){
  vm.runInContext(extractFunction('syncSequenceRecordPreviewButton')+';'+extractFunction('finishSequenceRecordPreview')+';finishSequenceRecordPreview("fim");calls.push("preview:"+sequenceRecordPreviewActive);calls.push("recording:"+sequenceRecording);',context);
  assert.deepEqual(calls,['stop:fim','record','inactive','render','preview:false','recording:true']);
  assert.equal(button.textContent,'▶ Testar 1x');
+});
+
+test('atualização periódica do gravador não encerra a prévia pertencente às letras',function(){
+ const button={textContent:'■ Parar',title:'',classList:{add:function(){},remove:function(){}}};
+ const context={
+  sequencePreviewOwner:'lyrics',
+  sequenceRecordPreviewActive:true,
+  sequencePlaying:false,
+  sequenceStartQueued:false,
+  sequenceRecording:false,
+  byId:function(id){return id==='sequence-record-play'?button:null},
+  syncSequenceRecordButton:function(){}
+ };
+ vm.createContext(context);
+ vm.runInContext(extractFunction('syncSequenceRecordPreviewButton')+';syncSequenceRecordPreviewButton()',context);
+ assert.equal(context.sequencePreviewOwner,'lyrics');
+ assert.equal(context.sequenceRecordPreviewActive,true);
+ assert.equal(button.textContent,'▶ Testar 1x');
+});
+
+test('iniciador compartilhado ativa o modo de uma passagem para o editor de letras',function(){
+ const calls=[];
+ const context={
+  sequencePreviewOwner:'',
+  sequenceRecordPreviewActive:false,
+  sequencePlaybackItemStartedAtMs:90,
+  sequencePlaying:false,
+  sequenceStartQueued:false,
+  sequenceRecording:true,
+  activeSequenceSection:'verse',
+  SEQUENCE_SECTION_LABELS:{verse:'A'},
+  currentChordSequence:function(){return[{}]},
+  setStatus:function(message){calls.push('status:'+message)},
+  syncSequenceRecordButton:function(){calls.push('record')},
+  syncSequenceRecordPreviewButton:function(){calls.push('button')},
+  byId:function(){return null},
+  playChordSequence:function(){calls.push('play:'+context.sequencePreviewOwner);context.sequencePlaying=true;context.sequenceStartQueued=true}
+ };
+ vm.createContext(context);
+ vm.runInContext(extractFunction('startSequencePreviewOnce'),context);
+ const started=vm.runInContext("startSequencePreviewOnce('lyrics')",context);
+ assert.equal(started,true);
+ assert.equal(context.sequencePreviewOwner,'lyrics');
+ assert.equal(context.sequenceRecordPreviewActive,true);
+ assert.equal(context.sequencePlaybackItemStartedAtMs,0);
+ assert.equal(context.sequenceRecording,true);
+ assert.deepEqual(calls,['play:lyrics']);
 });

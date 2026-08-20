@@ -15,8 +15,9 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <meta name="screen-orientation" content="landscape">
-<title>GERA v3.15.42</title>
+<title>GERA v3.15.50</title>
 <script src="./js/storage.js"></script>
+<script src="./js/folder-backup.js"></script>
 <script>
 (function(){
  try{
@@ -38,7 +39,7 @@
 <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
 <header class="app-header">
   <div class="header-brand">
-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.42</small></h1>
+    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.50</small></h1>
   </div>
   <div class="header-actions">
     <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
@@ -163,7 +164,7 @@
   <div class="redesign-brandmark">
     <span class="redesign-logo">GERA</span>
     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
-    <small>v3.15.42</small>
+    <small>v3.15.50</small>
   </div>
   <button class="redesign-song-pill" id="redesign-song-pill" type="button" title="Escolher música">♫ <span id="redesign-song-name">Nenhuma música</span></button>
   <div id="redesign-header-text-preview" class="sequence-text-preview sequence-text-preview-floating" aria-live="polite">
@@ -243,7 +244,10 @@
               <strong>Conteúdo da sequência selecionada</strong>
               <small>Toque em um acorde, nota ou pausa para editar.</small>
             </div>
-            <span id="redesign-sequence-content-label">A</span>
+            <div class="redesign-sequence-content-actions">
+              <button id="redesign-open-lyrics" type="button" title="Cadastrar letras diferentes para cada passagem">✎ Letras</button>
+              <span id="redesign-sequence-content-label">A</span>
+            </div>
           </div>
           <div id="redesign-sequence-strip-slot"></div>
         </div>
@@ -265,6 +269,27 @@
       </div>
       <input id="redesign-song-search" class="redesign-search" type="search" placeholder="Buscar música salva">
       <div id="redesign-song-library" class="redesign-song-library"></div>
+      <section class="folder-backup-card" aria-labelledby="folder-backup-title">
+        <div class="folder-backup-heading">
+          <div>
+            <h3 id="folder-backup-title">Backup automático em pasta</h3>
+            <p>Grava uma cópia externa na pasta escolhida. Pode ser uma pasta local ou uma pasta sincronizada pelo GOOGLE DRIVE.</p>
+          </div>
+          <div id="folder-backup-status" class="folder-backup-status" data-state="warning" aria-live="polite">Verificando...</div>
+        </div>
+        <div class="folder-backup-meta">
+          <span id="folder-backup-details">Nenhuma pasta selecionada</span>
+          <span id="folder-backup-last">Último backup: —</span>
+        </div>
+        <div class="folder-backup-actions">
+          <button id="folder-backup-choose" type="button">📁 Escolher pasta</button>
+          <button id="folder-backup-now" type="button">💾 Backup agora</button>
+          <button id="folder-backup-reactivate" type="button">🔓 Reativar</button>
+          <button id="folder-backup-restore" type="button">♻️ Restaurar</button>
+          <label class="folder-backup-file-button" for="folder-backup-file">📄 Selecionar arquivo</label>
+          <input id="folder-backup-file" type="file" accept=".json,application/json" hidden>
+        </div>
+      </section>
     </section>
     <section class="redesign-tabpanel" id="redesign-tab-ajustes">
       <h2>Ajustes</h2><p class="redesign-subtitle">Som, sustain, ritmos, painéis e memórias.</p>
@@ -556,7 +581,7 @@
     </div>
     <button id="sequence-rest" class="secondary sequence-rest-single" title="Adicionar uma pausa com a duração selecionada">⏸ Pausa 1</button>
   </div>
-  <div class="sequence-controls"><button id="sequence-record" class="secondary" title="Gravar acordes na parte selecionada">● Gravar</button><button id="sequence-auto" class="secondary sequence-auto" title="Definir se a música retorna ao começo depois da última sequência">Auto Loop</button><button id="sequence-auto-end" class="secondary sequence-auto" title="Definir que a música deve parar depois da última sequência">Parar no fim</button><button id="sequence-clear" class="danger" title="Toque duas vezes para apagar o último item">⌫</button><button id="sequence-clear-all" class="danger" title="Apagar todos os acordes, notas e pausas da sequência ativa">Zerar Seq.</button></div>
+  <div class="sequence-controls"><button id="sequence-record" class="secondary" title="Gravar acordes na parte selecionada">● Gravar</button><button id="sequence-lyrics-open" class="secondary" title="Cadastrar letras por passagem da sequência selecionada">✎ Letras</button><button id="sequence-auto" class="secondary sequence-auto" title="Definir se a música retorna ao começo depois da última sequência">Auto Loop</button><button id="sequence-auto-end" class="secondary sequence-auto" title="Definir que a música deve parar depois da última sequência">Parar no fim</button><button id="sequence-clear" class="danger" title="Toque duas vezes para apagar o último item">⌫</button><button id="sequence-clear-all" class="danger" title="Apagar todos os acordes, notas e pausas da sequência ativa">Zerar Seq.</button></div>
   </div>
   <div id="sequence-strip" class="sequence-strip"><span class="sequence-empty">Grave os acordes da A.</span></div>
 
@@ -771,6 +796,11 @@
 <div class="status" id="status">Pronto para tocar.</div><div class="help">No tablet, mantenha a tecla pressionada para sustentar e deslize o dedo para fazer glissando. A intensidade varia conforme a altura do toque quando “Sensível” está ativo.</div>
 </main>
 
+<footer class="app-copyright-footer" aria-label="Direitos autorais">
+  <span>© 2026 GERA — Gerador de Acompanhamentos.</span>
+  <span>Todos os direitos reservados.</span>
+</footer>
+
 <dialog id="sequence-editor-dialog" class="sequence-editor-dialog">
   <form method="dialog" class="dialog-card sequence-editor-card">
     <div class="sequence-editor-header">
@@ -816,23 +846,6 @@
           <option value="1">1 compasso</option>
         </select>
       </label>
-      <label class="sequence-editor-text">Texto do item
-        <input id="sequence-edit-text" type="text" maxlength="80" placeholder="Ex.: Começa a voz">
-      </label>
-      <label class="sequence-editor-text">Exibir texto
-        <select id="sequence-edit-text-repeat">
-          <option value="1">1ª repetição</option>
-          <option value="2">2ª repetição</option>
-          <option value="3">3ª repetição</option>
-          <option value="4">4ª repetição</option>
-          <option value="5">5ª repetição</option>
-          <option value="6">6ª repetição</option>
-          <option value="7">7ª repetição</option>
-          <option value="8">8ª repetição</option>
-          <option value="always">Sempre</option>
-        </select>
-      </label>
-
       <label>Execução
         <select id="sequence-edit-mode">
           <option value="together">Juntos</option>
@@ -872,6 +885,44 @@
   </form>
 </dialog>
 
+<dialog id="sequence-lyrics-dialog" class="sequence-lyrics-dialog" aria-labelledby="sequence-lyrics-title">
+  <div class="dialog-card sequence-lyrics-card">
+    <header class="sequence-lyrics-header">
+      <div>
+        <h2 id="sequence-lyrics-title">Letras da sequência</h2>
+        <p>Cadastre uma letra diferente para cada passagem e ajuste o instante exato da entrada vocal.</p>
+      </div>
+      <button id="sequence-lyrics-close" type="button" class="secondary" aria-label="Fechar">×</button>
+    </header>
+    <div class="sequence-lyrics-toolbar">
+      <label>Sequência
+        <select id="sequence-lyrics-section"></select>
+      </label>
+      <label>Passagem
+        <select id="sequence-lyrics-passage"></select>
+      </label>
+      <button id="sequence-lyrics-add-passage" type="button" class="secondary">＋ Nova passagem</button>
+      <button id="sequence-lyrics-duplicate-previous" type="button" class="secondary">⧉ Duplicar anterior</button>
+      <button id="sequence-lyrics-remove-passage" type="button" class="danger">Excluir passagem</button>
+    </div>
+    <section class="sequence-lyrics-workspace" aria-live="polite">
+      <div class="sequence-lyrics-workspace-head">
+        <div><strong id="sequence-lyrics-section-title">Sequência A</strong><small id="sequence-lyrics-passage-hint"></small></div>
+        <div class="sequence-lyrics-preview-controls">
+          <button id="sequence-lyrics-play" type="button" title="Executar uma vez a sequência selecionada, sem bateria">▶ Executar sequência</button>
+          <small id="sequence-lyrics-preview-status" role="status">Pronto para executar</small>
+          <span id="sequence-lyrics-summary">0 itens preenchidos</span>
+        </div>
+      </div>
+      <div id="sequence-lyrics-items" class="sequence-lyrics-items"></div>
+    </section>
+    <footer class="sequence-lyrics-actions">
+      <button id="sequence-lyrics-cancel" type="button" class="secondary">Cancelar</button>
+      <button id="sequence-lyrics-save" type="button">✓ Salvar letras</button>
+    </footer>
+  </div>
+</dialog>
+
 
 <dialog id="app-confirm-dialog" class="confirm-dialog-app" aria-labelledby="app-confirm-title" aria-describedby="app-confirm-message">
   <div class="confirm-card-app">
@@ -880,7 +931,27 @@
     <div class="confirm-actions-app"><button id="app-confirm-cancel" type="button" class="secondary">Cancelar</button><button id="app-confirm-ok" type="button" class="danger">Confirmar</button></div>
   </div>
 </dialog>
+
+<dialog id="folder-backup-recovery-dialog" class="folder-backup-dialog" aria-labelledby="folder-backup-recovery-title">
+  <div class="folder-backup-dialog-card">
+    <div class="folder-backup-dialog-heading">
+      <div>
+        <h2 id="folder-backup-recovery-title">Restaurar backup em pasta</h2>
+        <p id="folder-backup-recovery-message">Localize a pasta ou selecione um arquivo de backup.</p>
+      </div>
+      <button id="folder-backup-recovery-close" type="button" class="secondary" aria-label="Fechar">×</button>
+    </div>
+    <div id="folder-backup-recovery-list" class="folder-backup-recovery-list"></div>
+    <div class="folder-backup-recovery-actions">
+      <button id="folder-backup-recovery-choose" type="button">📁 Localizar pasta</button>
+      <button id="folder-backup-recovery-reactivate" type="button">🔓 Reativar pasta conhecida</button>
+      <label class="folder-backup-file-button" for="folder-backup-recovery-file">📄 Selecionar arquivo JSON</label>
+      <input id="folder-backup-recovery-file" type="file" accept=".json,application/json" hidden>
+    </div>
+  </div>
+</dialog>
 <script src="./js/chords.js"></script>
+<script src="./js/lyrics.js"></script>
 <script src="./js/state.js"></script>
 <script src="./js/transport/clock.js"></script>
 <script src="./js/transport/scheduler.js"></script>
@@ -897,6 +968,7 @@
 <script src="./js/ui/chords-circle.js"></script>
 <script src="./js/ui/drums.js"></script>
 <script src="./js/ui/sequencer.js"></script>
+<script src="./js/ui/lyrics-editor.js"></script>
 <script src="./js/ui/songs-library.js"></script>
 <script src="./js/ui/settings-modals.js"></script>
 <script src="./js/audio/core.js"></script>
@@ -1014,19 +1086,27 @@ const SECONDARY_DOMINANTS=GeraChords.SECONDARY_DOMINANTS;
 let openHatVoice=null,drumEngine="acoustic",drumSamplesReady=false,drumSamplesLoading=false,drumSampleBuffers={},drumRoundRobin={},drumSamplesLoadedCount=0,drumSamplesTotalCount=0,drumSamplesFailureCount=0,instrument="piano",octave=0,capoSemitones=0,sustainMode="pressed",releaseMs=650,attackMs=20,chordMode="together",arpInterval=280,arpPattern="up",chordType="minor",inversion=0,bassEnabled=false,latchEnabled=false,splitEnabled=false,splitInstrument="organ",velocityEnabled=true,glissEnabled=true,metronomeOn=false,metronomeTimer=null,metronomeBeat=0,rhythmPattern="whole",chordChangeMode="nextBar",latchedRoot=null,latchedType=null,pendingRoot=null,pendingType=null,pendingButton=null,latchedButton=null,accompanimentTimer=null,accompanimentEvents=[],accompanimentHalfTimer=null,activeVoices=new Set(),pointerVoices=new Map(),pointerLastKey=new Map(),pressedKeys=new Map(),saveArmed=false,actionToken=0,alternateDirection=false,circleEnabled=false,circleRoot=null,drumMode=true,drumRunning=false,drumPattern="rock",drumManual=false,drumStep=0,drumTimer=null,drumNextTime=0,drumFillQueued=false,drumEndingQueued=false,drumQueuedAction="",drumActiveAction="",drumCompletedAction="",drumActionMuteFrom=0,drumActionMuteUntil=0,sequenceEndActionInProgress="",sequenceConfiguredActionName="",sequencePendingEntryAction="",drumEditorTestTimers=[],drumEditorTestToken=0,sequenceRecordPreviewActive=false,drumLayers={kick:true,snare:true,hat:true},sequenceRecording=false,sequencePlaying=false,sequenceTimer=null,sequenceIndex=-1,sequenceEighthUnitsRemaining=0,sequenceContinuousItem=false,sequenceStartQueued=false,activeSequenceSection='verse',queuedSequenceSection=null,sequenceLoop=true,sequenceAuto=true,sequenceAutoEnd=false,sequenceHoldLoop=false,sequencePanelVisible=true,sequenceSections={verse:[],prechorus:[],chorus:[],bridge:[],section5:[],section6:[],section7:[],section8:[],section9:[],section10:[],section11:[],section12:[],section13:[],section14:[],section15:[],section16:[]},sequenceRepeats={verse:0,prechorus:0,chorus:0,bridge:0,section5:0,section6:0,section7:0,section8:0,section9:0,section10:0,section11:0,section12:0,section13:0,section14:0,section15:0,section16:0},sequenceOrder=['verse','prechorus','chorus','bridge','section5','section6','section7','section8','section9','section10','section11','section12','section13','section14','section15','section16'],sequenceDrums={verse:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},prechorus:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},chorus:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},bridge:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section5:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section6:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section7:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section8:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section9:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section10:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section11:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section12:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section13:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section14:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section15:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''},section16:{padrao:'rock',entrada:null,saida:null,final:null,instrumento:'piano',proxima:''}},currentSectionRepetition=1,sequencePendingTransition=null,sequencePlaybackOriginalChordMode=null,sequenceStopAtEnd=false,sequenceDeleteArmed=false,sequenceDeleteTimer=null,sequenceEditIndex=-1,sequenceChordOctaveOverride=null,sequenceTextCountdownTimer=null,sequenceTextHoldTimer=null,sequenceTextCueToken=0,sequenceTextTimeline=[],sequenceTextTimelineDuration=0,sequenceTextTimelineStartedAt=0,sequenceTextTimelineRunning=false,sequenceTextTimelineLoop=false,sequenceTextTimelineLastCueKey='',sequenceTextTimelineCurrentText='',sequenceTextTimelineCurrentUntil=0,transportRunning=false,transportStep=0,transportNextTime=0,transportTimer=null,transportEvents=[],transportBar=0,pendingRhythmPattern=null,drumStartQueued=false,accompanimentStopQueued=false,accompanimentStopEventScheduled=false;
 let sequenceGroup={enabled:false,start:'verse',end:'prechorus',repeats:2,next:'chorus'},sequenceGroupPass=1;
 let playbackPlan={enabled:false,blocks:[]},playbackPlanQueue=[],playbackPlanCursor=-1,playbackPlanRuntimeActive=false;
+let sequenceLyricPassageCounts={},sequenceLyricActivePassage=1;
+let sequencePreviewOwner='',sequenceLyricsPreviewPassage=1,sequencePlaybackItemStartedAtMs=0;
 let songAutosaveTimer=null,songSaveDirty=false,songAutosaveSuspended=0,songSaveState='idle',lastSongSavedSignature='';
 let sequenceConfiguredReturnCounts={};
 let globalAudioMuted=true;
-const sequenceRecordUiBridge={render:null,finishPreview:null};
+const sequenceRecordUiBridge={render:null,finishPreview:null,startPreview:null};
+const sequenceLyricsUiBridge={finishPreview:null};
 function renderActiveSequenceRecordEditor(){
  if(typeof sequenceRecordUiBridge.render==='function')sequenceRecordUiBridge.render();
 }
 function finishActiveSequenceRecordPreview(message){
+ if(sequencePreviewOwner==='lyrics'&&typeof sequenceLyricsUiBridge.finishPreview==='function'){
+  sequenceLyricsUiBridge.finishPreview(message);
+  return;
+ }
  if(typeof sequenceRecordUiBridge.finishPreview==='function'){
   sequenceRecordUiBridge.finishPreview(message);
   return;
  }
  sequenceRecordPreviewActive=false;
+ sequencePreviewOwner='';
  stopChordSequence(message||'Prévia concluída · uma execução');
 }
 const MAX_SIMULTANEOUS_TOUCHES=4;
@@ -2054,7 +2134,7 @@ function normalizeSequenceItem(item){
  else if(fraction===.5)pauseLabel='Pausa ½';
  else if(fraction===.75)pauseLabel='Pausa ¾';
  if(item.pause){
-  return {pause:true,label:item.label||pauseLabel,fraction:fraction};
+  return GeraLyrics.applyToItem({pause:true,label:item.label||pauseLabel,fraction:fraction},item);
  }
  if(item.kind==='note'){
   let note=Number(item.note);
@@ -2072,14 +2152,7 @@ function normalizeSequenceItem(item){
    fraction:fraction,
    instrument:noteInstrument
   };
-  if(typeof item.text==='string'&&item.text.trim()){
-   normalizedNote.text=item.text.trim().slice(0,80);
-   if(item.textRepeat==='always')normalizedNote.textRepeat='always';
-   else{
-    const repeatValue=Math.max(1,Math.min(16,Math.round(Number(item.textRepeat)||1)));
-    normalizedNote.textRepeat=repeatValue;
-   }
-  }
+  GeraLyrics.applyToItem(normalizedNote,item);
   if(typeof item.string==='string'&&item.string)normalizedNote.string=item.string;
   if(Number.isFinite(Number(item.fret)))normalizedNote.fret=Math.max(0,Math.min(24,Math.round(Number(item.fret))));
   return normalizedNote;
@@ -2093,11 +2166,7 @@ function normalizeSequenceItem(item){
   playMode:item.playMode==='arpeggio'?'arpeggio':'together',
   octave:clampSequenceOctave(item.octave)
  };
- if(typeof item.text==='string'&&item.text.trim()){
-  normalized.text=item.text.trim().slice(0,80);
-  if(item.textRepeat==='always')normalized.textRepeat='always';
-  else normalized.textRepeat=Math.max(1,Math.min(16,Math.round(Number(item.textRepeat)||1)));
- }
+ GeraLyrics.applyToItem(normalized,item);
  if(item.secondary){normalized.secondary=true;normalized.targetRoot=+item.targetRoot;normalized.targetType=item.targetType}
  if(item.bassNote==='root')normalized.bassNote='root';
  else if(Number.isFinite(Number(item.bassNote)))normalized.bassNote=((Math.round(Number(item.bassNote))%12)+12)%12;
@@ -2231,10 +2300,12 @@ function normalizeDrumLibraryPattern(value,fallbackId){
  };
 }
 function saveDrumPatternLibrary(){
- GeraStorage.drumPatterns.setLibrary({
+ const saved=GeraStorage.drumPatterns.setLibrary({
   version:1,
   patterns:drumPatternLibrary
  });
+ if(saved)scheduleAutomaticBackup();
+ return saved;
 }
 function loadDrumPatternLibrary(){
  const originals=originalBuiltinDrumLibrary();
@@ -2963,13 +3034,14 @@ function loadSongLists(){
 function saveSongLists(){
  try{
   if(!GeraStorage.musicLibrary.setSongListsStore({version:1,lists:songLists}))return;
-  GeraStorage.musicLibrary.setPlaylistSettings({
+  const saved=GeraStorage.musicLibrary.setPlaylistSettings({
    activeListId:activeSongListId,
    currentIndex:compactListIndex,
    transitionMode:compactTransitionMode,
    nextStartMode:compactNextStartMode,
    endMode:compactListEndMode
   });
+  if(saved)scheduleAutomaticBackup();
  }catch(error){}
 }
 function songListsForSong(songName){
@@ -3192,7 +3264,25 @@ function loadSongsStore(){
  loadSongLists();
  pruneSongLists();
 }
-function saveSongsStore(){return GeraStorage.musicLibrary.setSongsStore({songs:songs,lastSong:currentSongName})}
+function saveSongsStore(){
+ const saved=GeraStorage.musicLibrary.setSongsStore({songs:songs,lastSong:currentSongName});
+ if(saved)scheduleAutomaticBackup();
+ return saved;
+}
+
+function currentFolderBackupData(){return GeraStorage.automaticBackup.capture()}
+function scheduleAutomaticBackup(){
+ if(window.GeraFolderBackup)window.GeraFolderBackup.schedule(currentFolderBackupData());
+}
+async function initializeAutomaticBackupRecovery(){
+ if(!window.GeraFolderBackup){setStatus('Módulo de backup em pasta indisponível');return}
+ await window.GeraFolderBackup.initialize({
+  data:currentFolderBackupData(),
+  confirm:function(message,title,okLabel){return appConfirm(message,title,okLabel,'primary')},
+  notify:function(message){setStatus(message)},
+  restore:function(data){return GeraStorage.automaticBackup.restore(data)}
+ });
+}
 
 function syncSongSaveState(state,message){
  songSaveState=state||songSaveState;
@@ -3349,7 +3439,7 @@ function completeSongExportPayload(){
  return {
   app:'GERA — Gerador de Acompanhamentos',
   format:'gera-song',
-  formatVersion:8,
+  formatVersion:10,
   exportedAt:new Date().toISOString(),
   name:String(currentSongName||'Música sem nome'),
   portability:{
@@ -3511,7 +3601,7 @@ function importSongFromText(text){
  stopAccompaniment();
 
  const newSongState={
-  formatVersion:25,
+  formatVersion:27,
   capoSemitones:clampCapo(imported.capoSemitones),
   sections:JSON.parse(JSON.stringify(imported.sections)),
   repeats:JSON.parse(JSON.stringify(imported.repeats)),
@@ -3607,7 +3697,7 @@ function handleSongImportFile(event){
  reader.readAsText(file,'UTF-8');
 }
 
-function snapshotCurrentSequence(){return {formatVersion:25,capoSemitones:capoSemitones,sections:JSON.parse(JSON.stringify(sequenceSections)),repeats:{...sequenceRepeats},sequenceGroup:JSON.parse(JSON.stringify(normalizedSequenceGroup(sequenceGroup))),playbackPlan:JSON.parse(JSON.stringify(normalizedPlaybackPlan(playbackPlan))),auto:sequenceAuto,autoEnd:sequenceAutoEnd,ordemSecoes:sequenceOrder.slice(),bateria:JSON.parse(JSON.stringify(normalizedAllSequenceDrums())),drumEngine:drumEngine}}
+function snapshotCurrentSequence(){return {formatVersion:27,capoSemitones:capoSemitones,sections:JSON.parse(JSON.stringify(sequenceSections)),repeats:{...sequenceRepeats},sequenceGroup:JSON.parse(JSON.stringify(normalizedSequenceGroup(sequenceGroup))),playbackPlan:JSON.parse(JSON.stringify(normalizedPlaybackPlan(playbackPlan))),auto:sequenceAuto,autoEnd:sequenceAutoEnd,ordemSecoes:sequenceOrder.slice(),bateria:JSON.parse(JSON.stringify(normalizedAllSequenceDrums())),drumEngine:drumEngine}}
 function applySequenceState(state){
  const keys=Object.keys(sequenceSections);
  keys.forEach(function(key){
@@ -4261,19 +4351,6 @@ function syncSequenceEditorKind(){
  $('sequence-edit-type').disabled=isPause||isNote;
  $('sequence-edit-mode').disabled=isPause||isNote;
 
- const textInput=$('sequence-edit-text');
- const textRepeat=$('sequence-edit-text-repeat');
- if(textInput){
-  textInput.disabled=false;
-  textInput.readOnly=false;
-  textInput.removeAttribute('disabled');
-  textInput.removeAttribute('readonly');
- }
- if(textRepeat){
-  textRepeat.disabled=false;
-  textRepeat.removeAttribute('disabled');
- }
-
  const dialog=$('sequence-editor-dialog');
  if(dialog){dialog.classList.toggle('note-mode',isNote);dialog.classList.toggle('pause-mode',isPause)}
 }
@@ -4293,11 +4370,6 @@ function sequenceEditorItemFromControls(){
    fraction:fraction,
    instrument:$('sequence-edit-instrument').value||instrument
   };
-  const noteText=$('sequence-edit-text').value.trim();
-  if(noteText){
-   noteItem.text=noteText;
-   noteItem.textRepeat=$('sequence-edit-text-repeat').value==='always'?'always':Number($('sequence-edit-text-repeat').value);
-  }
   return noteItem;
  }
  const type=$('sequence-edit-type').value;
@@ -4313,11 +4385,6 @@ function sequenceEditorItemFromControls(){
  if(selectedBass==='root')chordItem.bassNote='root';
  else if(selectedBass!=='')chordItem.bassNote=Number(selectedBass);
  if(chordItem.bassNote!==undefined){const bassPc=chordItem.bassNote==='root'?root:chordItem.bassNote;chordItem.label=chordLabel(root,type)+'/'+CHORD_NAMES[bassPc]}
- const chordText=$('sequence-edit-text').value.trim();
- if(chordText){
-  chordItem.text=chordText;
-  chordItem.textRepeat=$('sequence-edit-text-repeat').value==='always'?'always':Number($('sequence-edit-text-repeat').value);
- }
  return chordItem;
 }
 function openSequenceEditor(index){
@@ -4344,11 +4411,6 @@ function openSequenceEditor(index){
  $('sequence-edit-octave').value=String(editorOctave);
  $('sequence-edit-instrument').value=item.instrument||instrument;
  $('sequence-edit-bass-note').value=item.bassNote===undefined?'':String(item.bassNote);
- $('sequence-edit-text').value=typeof item.text==='string'?item.text:'';
- $('sequence-edit-text-repeat').value=item.textRepeat==='always'?'always':String(Number(item.textRepeat)||1);
- $('sequence-edit-text').disabled=false;
- $('sequence-edit-text').readOnly=false;
- $('sequence-edit-text-repeat').disabled=false;
  syncSequenceEditorKind();
  renderChordSequence();
  $('sequence-editor-dialog').showModal();
@@ -4366,6 +4428,7 @@ function commitSequenceEditor(action){
  let message='';
 
  if(action==='replace'){
+  GeraLyrics.copyToItem(item,sequence[sequenceEditIndex]);
   sequence.splice(sequenceEditIndex,1,item);
   message='Item substituído';
  }else if(action==='before'){
@@ -4470,10 +4533,11 @@ function appendNextSequencePreview(box){
   const previewChord=document.createElement('strong');
   previewChord.textContent=isSequenceNote(item)?'♪ '+previewLabel:previewLabel;
   preview.appendChild(previewChord);
-  if(item.text&&(item.textRepeat==='always'||Number(item.textRepeat||1)===1)){
+  const previewLyric=sequenceTextForCurrentRepeat(item,1);
+  if(previewLyric){
    const previewText=document.createElement('span');
    previewText.className='sequence-item-text';
-   previewText.textContent=' - '+item.text;
+   previewText.textContent=' - '+previewLyric;
    preview.appendChild(previewText);
   }
   preview.title='Próxima sequência: '+SEQUENCE_SECTION_LABELS[nextSection];
@@ -4547,18 +4611,36 @@ function visibleSequenceGroupRange(groups){
 }
 
 function shouldShowSequenceItemText(item){
- if(!item||!item.text)return false;
- if(!sequencePlaying)return true;
- if(item.textRepeat==='always')return true;
- const target=Math.max(1,Math.min(16,Math.round(Number(item.textRepeat)||1)));
- return currentSectionRepetition===target;
+ return !!sequenceTextForCurrentRepeat(item,sequencePlaying?sequenceLyricActivePassage:1);
 }
 
 function sequenceTextForCurrentRepeat(item,repeatValue){
- if(!item||typeof item.text!=='string'||!item.text.trim())return '';
- if(item.textRepeat==='always')return item.text.trim();
- const target=Math.max(1,Math.min(16,Math.round(Number(item.textRepeat)||1)));
- return target===repeatValue?item.text.trim():'';
+ return sequenceTextTimingForCurrentRepeat(item,repeatValue).text;
+}
+function sequenceTextTimingForCurrentRepeat(item,repeatValue){
+ if(sequenceRecordPreviewActive&&sequencePreviewOwner==='lyrics'&&sequenceLyricsPreviewPassage==='default'){
+  const data=GeraLyrics.normalizedData(item);
+  return {text:data.defaultText,delayMs:data.defaultText?data.defaultDelayMs:0};
+ }
+ let passage=Math.max(1,Math.round(Number(repeatValue)||1));
+ if(sequenceHoldLoop){
+  const maximum=GeraLyrics.maxPassage(item);
+  if(maximum>0&&passage>maximum)passage=((passage-1)%maximum)+1;
+ }
+ return GeraLyrics.timingForPassage(item,passage);
+}
+function resetSequenceLyricPassages(){
+ sequenceLyricPassageCounts={};
+ sequenceLyricActivePassage=1;
+}
+function beginSequenceLyricPassage(section){
+ if(sequenceRecordPreviewActive){
+  sequenceLyricActivePassage=sequencePreviewOwner==='lyrics'?sequenceLyricsPreviewPassage:1;
+  return sequenceLyricActivePassage;
+ }
+ sequenceLyricPassageCounts[section]=(sequenceLyricPassageCounts[section]||0)+1;
+ sequenceLyricActivePassage=sequenceLyricPassageCounts[section];
+ return sequenceLyricActivePassage;
 }
 function sequenceItemDurationMs(item,bpmValue){
  const fraction=Number(item&&item.fraction);
@@ -4622,8 +4704,55 @@ function clearSequenceTextPreview(){
  writeCompactCarouselLyrics('',[]);
 }
 function sequenceTextPlaybackSections(){
+ const passes=[];
+ const counters={};
+ function append(section,repeats){
+  if(!(sequenceSections[section]||[]).length)return;
+  const total=Math.max(1,Math.round(Number(repeats)||1));
+  for(let localRepeat=1;localRepeat<=total;localRepeat++){
+   counters[section]=(counters[section]||0)+1;
+   passes.push({section:section,repeat:localRepeat,passage:counters[section]});
+  }
+ }
+
  if(sequenceRecordPreviewActive){
-  return [{section:activeSequenceSection,repeats:1}];
+  if((sequenceSections[activeSequenceSection]||[]).length){
+   passes.push({section:activeSequenceSection,repeat:1,passage:sequencePreviewOwner==='lyrics'?sequenceLyricsPreviewPassage:1});
+  }
+  return passes;
+ }
+
+ if(sequenceHoldLoop){
+  const linked=linkedCycleForSection(activeSequenceSection);
+  if(linked){
+   linked.sections.forEach(function(section){append(section,sectionTargetPasses(section))});
+  }else if(playbackPlanRuntimeActive&&playbackPlanCursor>=0){
+   const activeEntry=playbackPlanQueue[playbackPlanCursor];
+   playbackPlanQueue.filter(function(entry){return activeEntry&&entry.blockIndex===activeEntry.blockIndex}).forEach(function(entry){
+    append(entry.section,sectionTargetPasses(entry.section));
+   });
+  }else append(activeSequenceSection,1);
+  if(passes.length)return passes;
+ }
+
+ const plan=normalizedPlaybackPlan(playbackPlan);
+ if(plan.enabled){
+  compilePlaybackPlanQueue(plan).forEach(function(entry){
+   append(entry.section,sectionTargetPasses(entry.section));
+  });
+  if(passes.length)return passes;
+ }
+
+ const group=normalizedSequenceGroup(sequenceGroup);
+ if(group.enabled){
+  const groupSections=sequenceGroupSections();
+  for(let groupPass=1;groupPass<=group.repeats;groupPass++){
+   groupSections.forEach(function(section){append(section,sectionTargetPasses(section))});
+  }
+  if(SEQUENCE_SECTION_LABELS[group.next]&&groupSections.indexOf(group.next)<0){
+   append(group.next,sectionTargetPasses(group.next));
+  }
+  if(passes.length)return passes;
  }
 
  if(sequenceAuto||sequenceAutoEnd){
@@ -4633,55 +4762,51 @@ function sequenceTextPlaybackSections(){
    const ordered=activePosition>0
     ?configured.slice(activePosition).concat(configured.slice(0,activePosition))
     :configured.slice();
-   return ordered.map(function(section){
-    return {
-     section:section,
-     repeats:Math.max(1,sectionRepeatValue(section))
-    };
-   });
+   ordered.forEach(function(section){append(section,sectionTargetPasses(section))});
+   if(passes.length)return passes;
   }
  }
 
- return [{
-  section:activeSequenceSection,
-  repeats:Math.max(1,sectionTargetPasses(activeSequenceSection))
- }];
+ append(activeSequenceSection,sectionTargetPasses(activeSequenceSection));
+ return passes;
 }
 function buildSequenceTextTimeline(){
  const bpmSnapshot=Math.max(40,Number(bpm)||100);
  const route=sequenceTextPlaybackSections();
  const timeline=[];
  let elapsedMs=0;
+ let cueOrder=0;
 
  route.forEach(function(routeItem){
   const section=routeItem.section;
   const sequence=sequenceSections[section]||[];
-  const repeats=Math.max(1,Math.round(Number(routeItem.repeats)||1));
-
-  for(let repeat=1;repeat<=repeats;repeat++){
-   sequence.forEach(function(item,index){
-    const text=sequenceTextForCurrentRepeat(item,repeat);
-    if(text){
-     timeline.push({
-      atMs:elapsedMs,
-      text:text,
-      section:section,
-      repeat:repeat,
-      index:index,
-      key:section+'|'+repeat+'|'+index+'|'+elapsedMs
-     });
-    }
-    elapsedMs+=sequenceItemDurationMs(item,bpmSnapshot);
-   });
-  }
+  sequence.forEach(function(item,index){
+   const timing=sequenceTextTimingForCurrentRepeat(item,routeItem.passage);
+   if(timing.text){
+    timeline.push({
+     atMs:elapsedMs+timing.delayMs,
+     delayMs:timing.delayMs,
+     text:timing.text,
+     section:section,
+     repeat:routeItem.passage,
+     localRepeat:routeItem.repeat,
+     index:index,
+     order:cueOrder++,
+     key:section+'|'+routeItem.passage+'|'+index+'|'+(elapsedMs+timing.delayMs)
+    });
+   }
+   elapsedMs+=sequenceItemDurationMs(item,bpmSnapshot);
+  });
  });
+
+ timeline.sort(function(a,b){return a.atMs-b.atMs||a.order-b.order});
 
  return {
   cues:timeline,
   durationMs:elapsedMs,
   loop:sequenceRecordPreviewActive
    ?false
-   :(sequenceAuto&&!sequenceAutoEnd)
+   :(sequenceHoldLoop||(sequenceAuto&&!sequenceAutoEnd))
  };
 }
 function sequenceTextElapsedMs(now){
@@ -4854,10 +4979,11 @@ function renderChordSequence(){
    durationBadge.className='sequence-overview-duration';
    durationBadge.textContent=durationText;
    el.appendChild(durationBadge);
-   if(!isSequencePause(item)&&item.text&&shouldShowSequenceItemText(item)){
+   const visibleLyric=sequenceTextForCurrentRepeat(item,sequencePlaying?sequenceLyricActivePassage:1);
+   if(visibleLyric){
     const textEl=document.createElement('span');
     textEl.className='sequence-item-text';
-    textEl.textContent=' - '+item.text;
+    textEl.textContent=' - '+visibleLyric;
     el.appendChild(textEl);
    }
    if(isSequencePause(item))el.title='Pausa de '+durationText.toLowerCase();
@@ -5053,7 +5179,7 @@ function stopChordSequence(message='Sequência parada'){
  sequenceGroupPass=1;
  resetPlaybackPlanRuntime();
  resetConfiguredReturnCounts();
- clearTimeout(sequenceTimer);sequenceTimer=null;sequencePlaying=false;sequenceStartQueued=false;queuedSequenceSection=null;sequenceIndex=-1;sequenceEighthUnitsRemaining=0;sequenceContinuousItem=false;sequencePendingTransition=null;sequenceEndActionInProgress="";drumActionMuteFrom=0;drumActionMuteUntil=0;drumFillQueued=false;drumEndingQueued=false;clearChordLatchState(180);
+ clearTimeout(sequenceTimer);sequenceTimer=null;sequencePlaying=false;sequenceStartQueued=false;queuedSequenceSection=null;sequenceIndex=-1;sequencePlaybackItemStartedAtMs=0;sequenceEighthUnitsRemaining=0;sequenceContinuousItem=false;sequencePendingTransition=null;sequenceEndActionInProgress="";drumActionMuteFrom=0;drumActionMuteUntil=0;drumFillQueued=false;drumEndingQueued=false;clearChordLatchState(180);
  if(sequencePlaybackOriginalChordMode==='together'||sequencePlaybackOriginalChordMode==='arpeggio')chordMode=sequencePlaybackOriginalChordMode;
  sequencePlaybackOriginalChordMode=null;
  syncChordModeButtons();
@@ -5227,7 +5353,7 @@ function loadSequenceItem(index,boundaryAudioTime){
   }else if(sequenceTransition.type==='switch-plan'){
     const nextSection=sequenceTransition.nextSection;
     playbackPlanCursor=sequenceTransition.planCursor;
-    if(sequenceTransition.loopedSong)resetConfiguredReturnCounts();
+    if(sequenceTransition.loopedSong){resetConfiguredReturnCounts();resetSequenceLyricPassages()}
     activeSequenceSection=nextSection;
     currentSectionRepetition=1;
     sequence=currentChordSequence();
@@ -5330,7 +5456,7 @@ function loadSequenceItem(index,boundaryAudioTime){
      return false;
   }else if(sequenceTransition.type==='switch-auto'){
     const nextSection=sequenceTransition.nextSection;
-    if(automaticSongWraps(activeSequenceSection,nextSection))resetConfiguredReturnCounts();
+    if(automaticSongWraps(activeSequenceSection,nextSection)){resetConfiguredReturnCounts();resetSequenceLyricPassages()}
     activeSequenceSection=nextSection;
     currentSectionRepetition=1;
     sequence=currentChordSequence();
@@ -5348,7 +5474,12 @@ function loadSequenceItem(index,boundaryAudioTime){
   }
  }
 
+ if(index===0)beginSequenceLyricPassage(activeSequenceSection);
  sequenceIndex=index;
+ sequencePlaybackItemStartedAtMs=performance.now();
+ if(typeof audioCtx!=='undefined'&&audioCtx&&Number.isFinite(Number(boundaryAudioTime))&&Number.isFinite(Number(audioCtx.currentTime))){
+  sequencePlaybackItemStartedAtMs+=Math.max(0,(Number(boundaryAudioTime)-Number(audioCtx.currentTime))*1000);
+ }
  const item=sequence[sequenceIndex];
  if(
   !sequenceTextTimelineRunning&&
@@ -5363,7 +5494,7 @@ function loadSequenceItem(index,boundaryAudioTime){
  compactCarouselEnsureUpcomingPass(sequence,sequenceIndex);
  sequenceContinuousItem=false;
  renderChordSequence();
- if(sequenceRecordPreviewActive)renderActiveSequenceRecordEditor();
+ if(sequenceRecordPreviewActive&&sequencePreviewOwner==='record')renderActiveSequenceRecordEditor();
  sequenceEighthUnitsRemaining=Math.max(1,Math.round(Number(item.fraction)*transportBoundaryUnits()));
  const isLastItem=sequenceIndex===sequence.length-1;
  const enteredNewSection=activeSequenceSection!==sectionBeforeLoad&&sequenceIndex===0;
@@ -5539,6 +5670,7 @@ function playChordSequence(){
  }
  if(sequencePlaying)stopChordSequence('');
  clearSequenceTextPreview();
+ resetSequenceLyricPassages();
  if(!sequenceRecordPreviewActive)sequenceConfiguredReturnCounts={};
  if(!sequenceRecordPreviewActive&&typeof playbackPlan!=='undefined'&&playbackPlan.enabled){
   if(!startPlaybackPlanRuntime()){
@@ -7036,6 +7168,117 @@ const sequencerUI=GeraSequencerUI.createController({
  organizerDone:function(){setStatus('Ordem das sequências salva')}
 });
 sequencerUI.bindMainControls();
+function normalizedLyricsPreviewPassage(value){
+ if(value==='default')return 'default';
+ const number=Math.round(Number(value));
+ if(!Number.isFinite(number))return 1;
+ return Math.max(1,Math.min(GeraLyrics.MAX_PASSAGE,number));
+}
+function startLyricsSequencePreview(section,passage){
+ if(!SEQUENCE_SECTION_LABELS[section]||!(sequenceSections[section]||[]).length){
+  setStatus((SEQUENCE_SECTION_LABELS[section]||section)+' está vazia');
+  return false;
+ }
+ ensureAudio();
+ if(globalAudioMuted)setGlobalAudioMuted(false,false);
+ if(sequencePlaying||sequenceStartQueued)stopChordSequence('Execução anterior interrompida');
+ if(activeSequenceSection!==section)selectSequenceSection(section);
+ sequenceLyricsPreviewPassage=normalizedLyricsPreviewPassage(passage);
+ sequencePlaybackItemStartedAtMs=0;
+ if(typeof sequenceRecordUiBridge.startPreview!=='function'){
+  setStatus('O controlador de execução da sequência ainda não está disponível');
+  return false;
+ }
+ const started=sequenceRecordUiBridge.startPreview('lyrics');
+ if(!started)return false;
+ setStatus('Executando '+SEQUENCE_SECTION_LABELS[section]+' uma vez para ajustar a entrada das letras');
+ return true;
+}
+function stopLyricsSequencePreview(message){
+ if(sequencePreviewOwner==='lyrics'&&(sequencePlaying||sequenceStartQueued)){
+  stopChordSequence(message||'Execução interrompida no editor de letras');
+ }
+ sequenceRecordPreviewActive=false;
+ sequencePreviewOwner='';
+ sequencePlaybackItemStartedAtMs=0;
+ if(typeof lyricsEditorUI!=='undefined')lyricsEditorUI.finishPreview(message||'',false);
+}
+function lyricsSequencePreviewState(){
+ const active=sequencePreviewOwner==='lyrics'&&sequenceRecordPreviewActive&&(sequencePlaying||sequenceStartQueued);
+ return {
+  active:active,
+  section:activeSequenceSection,
+  index:sequenceIndex,
+  itemElapsedMs:sequenceIndex>=0&&sequencePlaybackItemStartedAtMs>0
+   ?Math.max(0,performance.now()-sequencePlaybackItemStartedAtMs)
+   :0
+ };
+}
+const lyricsEditorUI=GeraLyricsEditor.createController({
+ document:document,
+ sectionLabels:SEQUENCE_SECTION_LABELS,
+ sectionOrder:function(){return normalizedSequenceOrder(sequenceOrder)},
+ activeSection:function(){return activeSequenceSection},
+ getSections:function(){return sequenceSections},
+ targetPasses:sectionTargetPasses,
+ itemDurationMs:function(item){return sequenceItemDurationMs(item,bpm)},
+ canEdit:function(){
+  if(sequencePlaying||sequenceStartQueued){
+   setStatus('Pare a música antes de editar as letras');
+   return false;
+  }
+  return true;
+ },
+ itemLabel:function(item){
+  if(isSequencePause(item))return '⏸ '+(item.label||'Pausa');
+  if(isSequenceNote(item))return '♪ '+(item.label||normalizedNoteName(item.note));
+  return item.label||chordLabel(Number(item.root),item.type);
+ },
+ itemDuration:function(item){return durationLabel(item.fraction)+' de compasso'},
+ confirmRemove:function(passage,sectionLabel){
+  return appConfirm(
+   'Excluir todos os textos cadastrados na '+passage+'ª passagem da sequência '+sectionLabel+'?',
+   'Excluir passagem',
+   'Excluir'
+  );
+ },
+ startPreview:startLyricsSequencePreview,
+ stopPreview:stopLyricsSequencePreview,
+ previewState:lyricsSequencePreviewState,
+ previewError:function(error){
+  if(sequencePlaying||sequenceStartQueued)stopChordSequence('Falha ao iniciar a execução das letras');
+  sequenceRecordPreviewActive=false;
+  sequencePreviewOwner='';
+  sequencePlaybackItemStartedAtMs=0;
+  setStatus('Não foi possível iniciar a execução no editor de letras');
+  if(window.console&&typeof window.console.error==='function')window.console.error(error);
+ },
+ previewEnded:function(){
+  if(sequencePreviewOwner==='lyrics'){
+   sequenceRecordPreviewActive=false;
+   sequencePreviewOwner='';
+   sequencePlaybackItemStartedAtMs=0;
+  }
+ },
+ emptyPreview:function(section){setStatus(SEQUENCE_SECTION_LABELS[section]+' está vazia')},
+ commit:function(draft){
+  Object.keys(sequenceSections).forEach(function(section){
+   sequenceSections[section]=Array.isArray(draft[section])?draft[section].map(normalizeSequenceItem).filter(Boolean):[];
+  });
+  clearSequenceTextPreview();
+  saveChordSequence();
+  renderChordSequence();
+  setStatus('Letras por passagem salvas na música atual');
+ }
+});
+lyricsEditorUI.bind();
+sequenceLyricsUiBridge.finishPreview=function(message){
+ stopChordSequence(message||'Prévia concluída · uma execução');
+ sequenceRecordPreviewActive=false;
+ sequencePreviewOwner='';
+ sequencePlaybackItemStartedAtMs=0;
+ lyricsEditorUI.finishPreview(message||'',true);
+};
 chordsCircleUI.bindLegacyControls();
 const FACTORY_SETTINGS={instrument:'piano',octave:0,sustainMode:'pressed',releaseMs:650,attackMs:20,chordMode:'together',arpInterval:280,arpPattern:'up',inversion:0,bassEnabled:false,latchEnabled:false,splitEnabled:false,splitInstrument:'organ',velocityEnabled:true,glissEnabled:true,bpm:100,rhythmPattern:'whole',chordChangeMode:'nextBar',drumEngine:'acoustic',values:{master:'68',keyboard:'92',chord:'72',bass:'56'}};
 const DEFAULT_PRESETS={
@@ -7356,6 +7599,7 @@ syncCompactListControls();
 initializeBlankStartupWorkspace();
 syncSongSaveState('idle');
 syncSequencePanelVisibility();
+initializeAutomaticBackupRecovery();
 if(screen.orientation?.lock)screen.orientation.lock('landscape').catch(()=>{});
 sequencerUI.bindItemEditor();
 songsLibraryUI.bindMainControls();
@@ -7776,6 +8020,7 @@ bindPlaybackPlanControls();
   if(sequenceRecordPreviewActive||sequencePlaying||sequenceStartQueued){
    stopChordSequence('');
    sequenceRecordPreviewActive=false;
+   sequencePreviewOwner='';
    sequenceRecording=true;
    syncSequenceRecordButton();
    syncSequenceRecordPreviewButton();
@@ -7907,6 +8152,7 @@ bindPlaybackPlanControls();
   if(sequenceRecordPreviewActive||sequencePlaying||sequenceStartQueued){
    stopChordSequence('');
    sequenceRecordPreviewActive=false;
+   sequencePreviewOwner='';
    sequenceRecording=true;
    syncSequenceRecordButton();
    syncSequenceRecordPreviewButton();
@@ -8002,7 +8248,7 @@ bindPlaybackPlanControls();
    label.textContent=sequenceRecordItemLabel(item);
 
    const small=document.createElement('small');
-   small.textContent=durationLabel(item.fraction)+(item.text?' · texto':'')+' · toque para editar';
+   small.textContent=durationLabel(item.fraction)+(GeraLyrics.hasLyrics(item)?' · letra':'')+' · toque para editar';
 
    card.append(position,label,small);
    card.onclick=function(){
@@ -8122,6 +8368,13 @@ bindPlaybackPlanControls();
   const button=byId('sequence-record-play');
   if(!button)return;
 
+  if(sequencePreviewOwner!=='record'){
+   button.textContent='▶ Testar 1x';
+   button.classList.remove('active');
+   button.title='Testar a sequência uma vez, sem bateria';
+   return;
+  }
+
   if(sequenceRecordPreviewActive&&(sequencePlaying||sequenceStartQueued)){
    button.textContent='■ Parar';
    button.classList.add('active');
@@ -8131,6 +8384,7 @@ bindPlaybackPlanControls();
 
   if(sequenceRecordPreviewActive&&!sequencePlaying&&!sequenceStartQueued){
    sequenceRecordPreviewActive=false;
+   sequencePreviewOwner='';
    const dialog=byId('sequence-record-dialog');
    if(dialog&&dialog.open){
     sequenceRecording=true;
@@ -8146,6 +8400,7 @@ bindPlaybackPlanControls();
  function finishSequenceRecordPreview(message){
   stopChordSequence(message||'Prévia concluída · uma execução');
   sequenceRecordPreviewActive=false;
+  sequencePreviewOwner='';
   const dialog=byId('sequence-record-dialog');
   if(dialog&&dialog.open){
    sequenceRecording=true;
@@ -8155,14 +8410,54 @@ bindPlaybackPlanControls();
   renderSequenceRecordExisting();
  }
 
+ function startSequencePreviewOnce(owner){
+  const requestedOwner=owner==='lyrics'?'lyrics':'record';
+  const items=currentChordSequence();
+  if(!items.length){
+   setStatus(SEQUENCE_SECTION_LABELS[activeSequenceSection]+' está vazia');
+   return false;
+  }
+
+  if(requestedOwner==='record'){
+   sequenceRecording=false;
+   syncSequenceRecordButton();
+  }
+
+  sequencePreviewOwner=requestedOwner;
+  sequenceRecordPreviewActive=true;
+  sequencePlaybackItemStartedAtMs=0;
+  playChordSequence();
+
+  if(!sequencePlaying&&!sequenceStartQueued){
+   sequenceRecordPreviewActive=false;
+   sequencePreviewOwner='';
+   if(requestedOwner==='record'){
+    const dialog=byId('sequence-record-dialog');
+    if(dialog&&dialog.open){
+     sequenceRecording=true;
+     syncSequenceRecordButton();
+    }
+   }
+   syncSequenceRecordPreviewButton();
+   return false;
+  }
+
+  if(requestedOwner==='record'){
+   syncSequenceRecordPreviewButton();
+   setStatus('Testando '+SEQUENCE_SECTION_LABELS[activeSequenceSection]+' uma vez · sem bateria');
+  }
+  return true;
+ }
+
  sequenceRecordUiBridge.render=renderSequenceRecordExisting;
  sequenceRecordUiBridge.finishPreview=finishSequenceRecordPreview;
+ sequenceRecordUiBridge.startPreview=startSequencePreviewOnce;
 
  function toggleSequenceRecordPreview(){
-  const items=currentChordSequence();
   if(sequenceRecordPreviewActive||sequencePlaying||sequenceStartQueued){
    stopChordSequence('Prévia interrompida');
    sequenceRecordPreviewActive=false;
+   sequencePreviewOwner='';
    const dialog=byId('sequence-record-dialog');
    if(dialog&&dialog.open){
     sequenceRecording=true;
@@ -8173,17 +8468,7 @@ bindPlaybackPlanControls();
    return;
   }
 
-  if(!items.length){
-   setStatus(SEQUENCE_SECTION_LABELS[activeSequenceSection]+' está vazia');
-   return;
-  }
-
-  sequenceRecording=false;
-  syncSequenceRecordButton();
-  sequenceRecordPreviewActive=true;
-  playChordSequence();
-  syncSequenceRecordPreviewButton();
-  setStatus('Testando '+SEQUENCE_SECTION_LABELS[activeSequenceSection]+' uma vez · sem bateria');
+  startSequencePreviewOnce('record');
  }
 
  function cancelSequenceRecordDialog(){
@@ -8210,6 +8495,7 @@ bindPlaybackPlanControls();
   };
   sequenceRecordCancelRequested=false;
   sequenceRecordPreviewActive=false;
+  sequencePreviewOwner='';
   sequenceRecording=true;
   syncSequenceRecordButton();
   syncSequenceRecordPreviewButton();
@@ -8251,6 +8537,7 @@ bindPlaybackPlanControls();
    stopChordSequence('');
   }
   sequenceRecordPreviewActive=false;
+  sequencePreviewOwner='';
   syncSequenceRecordPreviewButton();
   renderSequenceRecordExisting();
   if(sequenceRecordCancelRequested&&sequenceRecordSnapshot){

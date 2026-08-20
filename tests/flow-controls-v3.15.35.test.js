@@ -97,7 +97,7 @@ test('interface compacta e JSON preservam o contador de retornos',function(){
  assert.match(index,/proximaVezes:proximaVezes/);
  assert.match(index,/nextCount:config\.proximaVezes/);
  assert.match(index,/proximaVezes:assignment\.nextCount/);
- assert.match(index,/formatVersion:25/);
- assert.match(index,/formatVersion:8/);
+ assert.match(index,/formatVersion:27/);
+ assert.match(index,/formatVersion:10/);
  assert.match(css,/\.sequence-group-grid\{display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
 });

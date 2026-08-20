@@ -2,7 +2,7 @@
 
 const CACHE_PREFIX = 'gera-pwa-';
 const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
-const CACHE_NAME = CACHE_PREFIX + 'v3.15.42';
+const CACHE_NAME = CACHE_PREFIX + 'v3.15.50';
 const OFFLINE_URL = './offline.html';
 
 const PRECACHE_URLS = [
@@ -12,7 +12,9 @@ const PRECACHE_URLS = [
     "./icons/icon-maskable-512.png",
     "./index.html",
     "./js/storage.js",
+    "./js/folder-backup.js",
     "./js/chords.js",
+    "./js/lyrics.js",
     "./js/state.js",
     "./js/transport/clock.js",
     "./js/transport/scheduler.js",
@@ -29,6 +31,7 @@ const PRECACHE_URLS = [
     "./js/ui/chords-circle.js",
     "./js/ui/drums.js",
     "./js/ui/sequencer.js",
+    "./js/ui/lyrics-editor.js",
     "./js/ui/songs-library.js",
     "./js/ui/settings-modals.js",
     "./js/audio/core.js",

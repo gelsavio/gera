@@ -21,8 +21,8 @@ test('estado do conjunto participa do espaço de trabalho, música e JSON portá
  assert.match(index,/sequenceGroup:normalizedSequenceGroup\(sequenceGroup\)/);
  assert.match(index,/sequenceGroup:JSON\.parse\(JSON\.stringify\(normalizedSequenceGroup\(sequenceGroup\)\)\)/);
  assert.match(index,/sequenceGroup:normalizedSequenceGroup\(data\.sequenceGroup,importedOrder\)/);
- assert.match(index,/formatVersion:25/);
- assert.match(index,/formatVersion:8/);
+ assert.match(index,/formatVersion:27/);
+ assert.match(index,/formatVersion:10/);
 });
 
 test('transporte dá prioridade ao conjunto depois de loop e escolha manual',function(){

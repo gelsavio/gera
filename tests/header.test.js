@@ -81,11 +81,11 @@ test('HTML carrega o cabeçalho antes do bloco de montagem e remove listeners du
  assert.equal(html.includes("byId('redesign-song-pill').onclick="),false);
 });
 
-test('SERVICE WORKER mantém o módulo do cabeçalho no pré-cache 3.15.42',function(){
+test('SERVICE WORKER mantém o módulo do cabeçalho no pré-cache 3.15.50',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.42';"));
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.50';"));
  assert.equal((sw.match(/\.\/js\/ui\/header\.js/g)||[]).length,1);
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.42');
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.50');
 });
 
 test('reversão exclusiva da 8A recompõe a versão 3.15.20 byte a byte',function(){

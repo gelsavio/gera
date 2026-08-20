@@ -140,9 +140,9 @@ test('coordenador permanece byte a byte igual à versão validada 3.15.11',funct
  assert.ok(index.includes('const transportCoordinator=GeraTransportCoordinator.createCoordinator({'));
 });
 
-test('SERVICE WORKER preserva o coordenador e usa o cache 3.15.42',function(){
+test('SERVICE WORKER preserva o coordenador e usa o cache 3.15.50',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  assert.ok(sw.includes('    "./js/transport/coordinator.js",'));
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.42';"));
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.42');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.50';"));
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.50');
 });

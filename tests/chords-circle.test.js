@@ -167,11 +167,11 @@ test('HTML carrega o módulo antes do núcleo e remove as rotinas visuais direta
  assert.equal(html.includes('function selectRedesignCircle(root){'),false);
 });
 
-test('SERVICE WORKER inclui o módulo uma vez e usa a versão 3.15.42',function(){
+test('SERVICE WORKER inclui o módulo uma vez e usa a versão 3.15.50',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.42';"));
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.50';"));
  assert.equal((sw.match(/\.\/js\/ui\/chords-circle\.js/g)||[]).length,1);
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.42');
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.50');
 });
 
 test('reversão exclusiva da 8D recompõe a versão 3.15.23 byte a byte',function(){

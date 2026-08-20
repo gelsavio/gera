@@ -95,10 +95,10 @@ test('painel continua consumidor e mantém o único intervalo de 250 ms',functio
  assert.doesNotMatch(status,/setTimeout|setInterval|requestAnimationFrame|addEventListener/);
 });
 
-test('salvamento automático e roteiro acrescentam somente os mecanismos previstos',function(){
- assert.equal(count(after,/setInterval\s*\(/g),count(before,/setInterval\s*\(/g));
- assert.equal(count(after,/setTimeout\s*\(/g),count(before,/setTimeout\s*\(/g)+2);
- assert.equal(count(after,/addEventListener\s*\(/g),count(before,/addEventListener\s*\(/g)+8);
+test('salvamento automático da edição, roteiro e backup em pasta acrescentam somente os mecanismos previstos',function(){
+ assert.equal(count(after,/setInterval\s*\(/g),count(before,/setInterval\s*\(/g)+1);
+ assert.equal(count(after,/setTimeout\s*\(/g),count(before,/setTimeout\s*\(/g)+6);
+ assert.equal(count(after,/addEventListener\s*\(/g),count(before,/addEventListener\s*\(/g)+14);
  assert.equal(count(after,/requestAnimationFrame\s*\(/g),count(before,/requestAnimationFrame\s*\(/g));
 });
 
@@ -144,9 +144,9 @@ test('auditoria 6K preservada e arquivos fora do fluxo atualizado seguem idênti
  assert.equal(restoredManifest,fs.readFileSync(path.join(previous,'manifest.json'),'utf8'));
 });
 
-test('cache 3.15.42 preserva exatamente os módulos carregados pelo navegador',function(){
+test('cache 3.15.50 preserva exatamente os módulos carregados pelo navegador',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.42';"));
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.50';"));
  ['clock','scheduler','boundaries','tempo','drum-sync','chord-sequence-sync','sequence-transitions','coordinator'].forEach(function(name){assert.ok(sw.includes('"./js/transport/'+name+'.js"'))});
  assert.ok(sw.includes('"./js/ui/transport-status.js"'));
  assert.ok(sw.includes('"./js/ui/header.js"'));
@@ -157,8 +157,8 @@ test('cache 3.15.42 preserva exatamente os módulos carregados pelo navegador',f
 });
 
 test('auditoria estática registra somente os mecanismos autorizados da nova versão',function(){
- assert.equal(count(after,/setInterval\s*\(/g),2);
- assert.equal(count(after,/setTimeout\s*\(/g),44);
- assert.equal(count(after,/addEventListener\s*\(/g),67);
+ assert.equal(count(after,/setInterval\s*\(/g),3);
+ assert.equal(count(after,/setTimeout\s*\(/g),48);
+ assert.equal(count(after,/addEventListener\s*\(/g),73);
  assert.equal(count(after,/requestAnimationFrame\s*\(/g),2);
 });

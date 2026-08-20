@@ -52,6 +52,8 @@ test('preserva literalmente as chaves legadas dos grupos 7A a 7F',function(){
   sequences:'tecladoVirtualSongSections',
   legacyChordSequence:'tecladoVirtualChordSequence',
   drumPatternLibrary:'geraDrumPatternLibraryV1',
+  automaticBackup:'geraAutomaticBackupV1',
+  automaticBackupPrevious:'geraAutomaticBackupPreviousV1',
   memoryPrefix:'tecladoVirtualMemory'
  });
 });
@@ -239,6 +241,42 @@ test('backup e restauração conservam JSON identado e erros de análise',functi
  assert.match(index,/GeraStorage\.backup\.stringify\(payload\)/);
  assert.match(index,/GeraStorage\.backup\.parse\(text\)/);
  assert.match(index,/GeraStorage\.backup\.parse\(await file\.text\(\)\)/);
+});
+
+test('backup automático captura o acervo e mantém duas cópias independentes',function(){
+ const loaded=load({
+  tecladoVirtualSongs:'{"songs":{"Hino":{"bpm":96}},"lastSong":"Hino"}',
+  geraSongListsV1:'{"version":1,"lists":{}}',
+  geraPlaylistSettingsV1:'{"transitionMode":"manual"}',
+  geraDrumPatternLibraryV1:'{"version":1,"patterns":{}}'
+ });
+ const automatic=loaded.api.automaticBackup;
+ const data=automatic.capture();
+ assert.equal(data.songsStore.songs.Hino.bpm,96);
+ assert.equal(data.playlistSettings.transitionMode,'manual');
+
+ const first={format:'gera-automatic-backup',data:data};
+ const second={format:'gera-automatic-backup',data:{songsStore:{songs:{Outro:{bpm:110}}}}};
+ assert.equal(automatic.setMain(first),true);
+ assert.equal(automatic.setPrevious(second),true);
+ assert.equal(automatic.getMain().data.songsStore.songs.Hino.bpm,96);
+ assert.equal(automatic.getPrevious().data.songsStore.songs.Outro.bpm,110);
+});
+
+test('restauração automática recompõe músicas, listas, execução e ritmos',function(){
+ const loaded=load();
+ const backup={data:{
+  songsStore:{songs:{Glória:{bpm:140}},lastSong:null},
+  songListsStore:{version:1,lists:{missa:{id:'missa',name:'Missa',songNames:['Glória']}}},
+  playlistSettings:{activeListId:'missa',transitionMode:'auto'},
+  drumPatternLibrary:{version:1,patterns:{rock:{id:'rock',name:'Rock'}}}
+ }};
+ assert.equal(loaded.api.automaticBackup.restore(backup),true);
+ assert.equal(JSON.parse(loaded.values.tecladoVirtualSongs).songs.Glória.bpm,140);
+ assert.equal(JSON.parse(loaded.values.geraSongListsV1).lists.missa.name,'Missa');
+ assert.equal(JSON.parse(loaded.values.geraPlaylistSettingsV1).transitionMode,'auto');
+ assert.equal(JSON.parse(loaded.values.geraDrumPatternLibraryV1).patterns.rock.name,'Rock');
+ assert.equal(loaded.api.automaticBackup.restore({data:{}}),false);
 });
 
 test('reversão exclusiva da 7F recompõe a versão 3.15.19 byte a byte',function(){

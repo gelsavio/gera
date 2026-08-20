@@ -47,16 +47,19 @@ function precacheUrls(){
  return JSON.parse('['+body+']');
 }
 
-test('fluxo e interface alteram somente os recursos autorizados sobre a versão 3.15.34',function(){
- ['index.html','styles/inline-style-01.css','js/ui/sequencer.js','js/ui/transport-status.js','js/transport/sequence-transitions.js','sw.js','manifest.json'].forEach(function(file){
+test('fluxo, backup e interface alteram somente os recursos autorizados sobre a versão 3.15.34',function(){
+ ['index.html','styles/inline-style-01.css','js/storage.js','js/ui/sequencer.js','js/ui/transport-status.js','js/transport/sequence-transitions.js','sw.js','manifest.json'].forEach(function(file){
   assert.notDeepEqual(read(file),read(file,previous),file);
  });
- ['offline.html','manual-gera.html','js/storage.js','js/chords.js','js/state.js','js/audio/core.js'].forEach(function(file){
+ ['offline.html','manual-gera.html','js/chords.js','js/state.js','js/audio/core.js'].forEach(function(file){
   assert.deepEqual(read(file),read(file,previous),file);
  });
+ assert.ok(fs.existsSync(path.join(root,'js','folder-backup.js')),'novo módulo de backup em pasta ausente');
+ assert.ok(fs.existsSync(path.join(root,'js','lyrics.js')),'novo modelo de letras por passagem ausente');
+ assert.ok(fs.existsSync(path.join(root,'js','ui','lyrics-editor.js')),'novo editor de letras ausente');
  walk(path.join(root,'js')).forEach(function(file){
   const relative=path.relative(root,file);
-  if([path.join('js','ui','sequencer.js'),path.join('js','ui','transport-status.js'),path.join('js','transport','sequence-transitions.js')].indexOf(relative)>=0)return;
+  if([path.join('js','folder-backup.js'),path.join('js','lyrics.js'),path.join('js','storage.js'),path.join('js','ui','lyrics-editor.js'),path.join('js','ui','sequencer.js'),path.join('js','ui','transport-status.js'),path.join('js','transport','sequence-transitions.js')].indexOf(relative)>=0)return;
   assert.deepEqual(fs.readFileSync(file),read(relative,previous),relative);
  });
 });
@@ -82,42 +85,46 @@ test('os oito diffs funcionais e as oito provas específicas de reversão perman
 
 test('scripts externos carregam uma vez, existem e respeitam a ordem de dependências',function(){
  const scripts=Array.from(index.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["']/g),function(match){return match[1]});
- assert.equal(scripts.length,21);
+ assert.equal(scripts.length,24);
  assert.equal(new Set(scripts).size,scripts.length);
  scripts.forEach(function(resource){assert.ok(fs.existsSync(path.join(root,resource.replace(/^\.\//,''))),resource)});
+ assert.equal(scripts[0],'./js/storage.js');
+ assert.equal(scripts[1],'./js/folder-backup.js');
+ assert.equal(scripts[3],'./js/lyrics.js');
  const expectedUi=['./js/ui/transport-status.js'].concat(uiStages.map(function(item){return './js/ui/'+item[0]}));
- assert.deepEqual(scripts.slice(11,20),expectedUi);
- assert.equal(scripts[20],'./js/audio/core.js');
+ expectedUi.splice(7,0,'./js/ui/lyrics-editor.js');
+ assert.deepEqual(scripts.slice(13,23),expectedUi);
+ assert.equal(scripts[23],'./js/audio/core.js');
 });
 
-test('DOM possui 322 identificadores únicos após seletor de sustain do teclado',function(){
+test('DOM possui 355 identificadores únicos após o status da prévia de letras',function(){
  const ids=Array.from(index.matchAll(/\bid=["']([^"']+)["']/g),function(match){return match[1]});
- assert.equal(ids.length,322);
- assert.equal(new Set(ids).size,322);
+ assert.equal(ids.length,355);
+ assert.equal(new Set(ids).size,355);
 });
 
-test('somente autosave e controles de grupo acrescentam temporização e listeners',function(){
+test('somente autosave, backup em pasta e controles de grupo acrescentam temporização e listeners',function(){
  const before=functionalSource(phase8Base);
  const after=functionalSource(root);
- assert.equal(count(after,/setInterval\s*\(/g),count(before,/setInterval\s*\(/g));
- assert.equal(count(after,/setTimeout\s*\(/g),count(before,/setTimeout\s*\(/g)+2);
+ assert.equal(count(after,/setInterval\s*\(/g),count(before,/setInterval\s*\(/g)+1);
+ assert.equal(count(after,/setTimeout\s*\(/g),count(before,/setTimeout\s*\(/g)+6);
  assert.equal(count(after,/requestAnimationFrame\s*\(/g),count(before,/requestAnimationFrame\s*\(/g));
- assert.equal(count(after,/setInterval\s*\(/g),2);
- assert.equal(count(after,/setTimeout\s*\(/g),44);
- assert.equal(count(after,/addEventListener\s*\(/g),67);
+ assert.equal(count(after,/setInterval\s*\(/g),3);
+ assert.equal(count(after,/setTimeout\s*\(/g),48);
+ assert.equal(count(after,/addEventListener\s*\(/g),73);
  assert.equal(count(after,/requestAnimationFrame\s*\(/g),2);
 });
 
-test('núcleo fora do editor e seus estilos permanece byte a byte preservado',function(){
- const preserved=['js/storage.js','js/chords.js','js/state.js','js/audio/core.js','manual-gera.html','offline.html'];
+test('núcleo fora do editor, backup e seus estilos permanece byte a byte preservado',function(){
+ const preserved=['js/chords.js','js/state.js','js/audio/core.js','manual-gera.html','offline.html'];
  walk(path.join(phase8Base,'js','transport')).forEach(function(file){if(path.basename(file)!=='sequence-transitions.js')preserved.push(path.relative(phase8Base,file))});
  preserved.forEach(function(file){assert.deepEqual(read(file),read(file,phase8Base),file)});
 });
 
-test('pré-cache contém 47 entradas únicas e cobre todos os recursos funcionais presentes',function(){
+test('pré-cache contém 50 entradas únicas e cobre todos os recursos funcionais presentes',function(){
  const urls=precacheUrls();
- assert.equal(urls.length,47);
- assert.equal(new Set(urls).size,47);
+ assert.equal(urls.length,50);
+ assert.equal(new Set(urls).size,50);
  const absentSamples=[];
  urls.forEach(function(resource){
   if(resource==='./')return;
@@ -135,14 +142,14 @@ test('HTML e SERVICE WORKER referenciam exatamente os mesmos scripts funcionais'
  scripts.forEach(function(script){assert.equal(urls.filter(function(url){return url===script}).length,1,script)});
 });
 
-test('manifesto e identificação visual usam somente a versão 3.15.42',function(){
- assert.equal(manifest.version,'3.15.42');
- assert.equal(count(index,/3\.15\.42/g),3);
+test('manifesto e identificação visual usam somente a versão 3.15.50',function(){
+ assert.equal(manifest.version,'3.15.50');
+ assert.equal(count(index,/3\.15\.50/g),3);
  assert.equal(count(index,/3\.15\.30/g),0);
  assert.equal(count(index,/3\.15\.29/g),0);
  assert.equal(count(index,/3\.15\.28/g),0);
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.42';"));
- assert.equal(count(sw,/v3\.15\.42/g),1);
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.50';"));
+ assert.equal(count(sw,/v3\.15\.50/g),1);
 });
 
 test('SERVICE WORKER mantém instalação, atualização, limpeza e fallback offline',function(){

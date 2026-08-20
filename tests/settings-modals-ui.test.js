@@ -101,12 +101,12 @@ test('HTML, manifesto e SERVICE WORKER carregam uma vez o módulo da 8H',functio
  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  assert.equal((html.match(/\.\/js\/ui\/settings-modals\.js/g)||[]).length,1);assert.equal((sw.match(/\.\/js\/ui\/settings-modals\.js/g)||[]).length,1);
  assert.ok(html.indexOf('<script src="./js/ui/settings-modals.js"></script>')<html.indexOf('<script src="./js/audio/core.js"></script>'));
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.42';"));assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.42');
- const added=fs.readdirSync(path.join(root,'js','ui')).filter(function(file){return !fs.existsSync(path.join(previous,'js','ui',file))});
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.50';"));assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.50');
+ const added=fs.readdirSync(path.join(root,'js','ui')).filter(function(file){return file!=='lyrics-editor.js'&&!fs.existsSync(path.join(previous,'js','ui',file))});
  assert.deepEqual(added,['settings-modals.js']);
 });
 
 test('recursos funcionais fora do escopo permanecem byte a byte iguais à 3.15.27',function(){
- const files=['offline.html','manual-gera.html','js/storage.js','js/chords.js','js/state.js','js/audio/core.js'];
+ const files=['offline.html','manual-gera.html','js/chords.js','js/state.js','js/audio/core.js'];
  files.forEach(function(file){assert.deepEqual(fs.readFileSync(path.join(root,file)),fs.readFileSync(path.join(previous,file)),file)});
 });

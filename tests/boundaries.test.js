@@ -119,7 +119,7 @@ test('preserva a integração das fronteiras no SERVICE WORKER e no manifesto',f
  const currentSw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  assert.ok(currentSw.includes('    "./js/transport/boundaries.js",'));
  const currentManifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
- assert.equal(currentManifest.version,'3.15.42');
+ assert.equal(currentManifest.version,'3.15.50');
 });
 
 test('todos os demais recursos funcionais permanecem byte a byte iguais',function(){

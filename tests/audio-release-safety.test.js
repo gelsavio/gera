@@ -88,6 +88,6 @@ test('núcleo usa a ponte da interface em vez de chamar funções privadas',func
 test('versão crítica usa cache novo para substituir a cópia defeituosa',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.42';"));
- assert.equal(manifest.version,'3.15.42');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.50';"));
+ assert.equal(manifest.version,'3.15.50');
 });
