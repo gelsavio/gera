@@ -1,0 +1,16 @@
+# GERA v3.14.97 — linha de base preparada em 2026-08-03
+# ZIP de origem: 2b7330907e326de097469830a2f46d6f71806801cc118049e201ab5848a29f9e  GERA-PWA-v3.14.97-painel-compacto-estavel.zip
+3ef6a9cd7756d7327f0b8356b673b636837d0eb84c05c3bcc0f0a59ee6159bf0  INSTRUCOES-PWA.txt
+0d9501be94fccd7912155f85e4cad11de1315f3c2637f8f2523d749332f4cdbf  README-LINHA-DE-BASE.md
+3bb4caed6b709e96ebbf54a879a9e42cbdf0225f619c05703f568fa158ccae87  icons/icon-192.png
+e603e1a415f490a83b246376bbbeb9e8c2bda232a542706c58447b69fecd39f5  icons/icon-512.png
+e603e1a415f490a83b246376bbbeb9e8c2bda232a542706c58447b69fecd39f5  icons/icon-maskable-512.png
+c3cf6adbec9a35ed2866a655e77bef0dcadf40aaf51d86adebf0378cf96d0a1f  index.html
+b58d8ce07484b126550c07fea6f38327f39b7b3daa550cfac5eddd2acb700c1b  manifest.json
+b0df55ddc760ff0d9370e9f742fef0a905f3c06d489b2126e9697ae0c7b486a2  manual-gera.html
+2ecc194b8b37d8a53c23b5f9cb7dbb99301e5aa82e6fc9160c0e8d5697e39af2  offline.html
+7eb32702d0a35cb2063a0fd507ef2bfc750528d5e31f58890f75fe5e06719a99  referencia/CHECKLIST-VERSAO-DE-REFERENCIA-v3.14.97.md
+d80e13fd665f61430f124d336abe4d91a7aff7afc9512f92cd55968c3b72da9e  referencia/DIAGNOSTICO-MODULARIZACAO-GERA-v3.14.97.md
+ed333fd3887102e7b283f6775967bc9eeb5ce6d4523b599c35638c9601755a11  referencia/INVENTARIO-LINHA-DE-BASE-v3.14.97.md
+c3cf6adbec9a35ed2866a655e77bef0dcadf40aaf51d86adebf0378cf96d0a1f  referencia/index.monolitico-original-v3.14.97.html
+aea9a0c4a5b8b94b22f7a5b5fda395d4e4c22aa8f48783422dd3e01d93bc6d00  sw.js

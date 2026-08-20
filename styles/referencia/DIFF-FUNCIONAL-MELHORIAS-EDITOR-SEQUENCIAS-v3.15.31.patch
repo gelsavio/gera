@@ -1,0 +1,340 @@
+--- v3.15.30/index.html
++++ v3.15.31/index.html
+@@ -15,7 +15,7 @@
+ <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+ <link rel="apple-touch-icon" href="./icons/icon-192.png">
+ <meta name="screen-orientation" content="landscape">
+-<title>GERA v3.15.30</title>
++<title>GERA v3.15.31</title>
+ <script src="./js/storage.js"></script>
+ <script>
+ (function(){
+@@ -38,7 +38,7 @@
+ <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
+ <header class="app-header">
+   <div class="header-brand">
+-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.30</small></h1>
++    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.31</small></h1>
+   </div>
+   <div class="header-actions">
+     <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
+@@ -163,7 +163,7 @@
+   <div class="redesign-brandmark">
+     <span class="redesign-logo">GERA</span>
+     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
+-    <small>v3.15.30</small>
++    <small>v3.15.31</small>
+   </div>
+   <button class="redesign-song-pill" id="redesign-song-pill" type="button" title="Escolher música">♫ <span id="redesign-song-name">Nenhuma música</span></button>
+   <div id="redesign-header-text-preview" class="sequence-text-preview sequence-text-preview-floating" aria-live="polite">
+@@ -557,11 +557,18 @@
+       </select>
+      </label>
+     </div>
+-    <div id="sequence-record-roots" class="sequence-record-roots"></div>
+-    <div id="sequence-record-chords" class="sequence-record-chords"></div>
+-    <div class="sequence-record-secondary-block">
+-     <h4>Dominantes secundários <small>— acordes de aproximação do mesmo campo</small></h4>
+-     <div id="sequence-record-secondary-chords" class="sequence-record-secondary-chords"></div>
++    <div class="sequence-record-harmonic-layout">
++     <div class="sequence-record-dial-block">
++      <div class="sequence-record-dial-instruction">Toque em uma nota para escolher o campo harmônico</div>
++      <div id="sequence-record-roots" class="sequence-record-roots sequence-record-dial" aria-label="Escolher campo harmônico"></div>
++     </div>
++     <div class="sequence-record-chord-stack">
++      <div id="sequence-record-chords" class="sequence-record-chords"></div>
++      <div class="sequence-record-secondary-block">
++       <h4>Dominantes secundários <small>— acordes de aproximação do mesmo campo</small></h4>
++       <div id="sequence-record-secondary-chords" class="sequence-record-secondary-chords"></div>
++      </div>
++     </div>
+     </div>
+    </section>
+    <section class="sequence-record-section">
+@@ -579,6 +586,8 @@
+    <div class="sequence-record-footer-actions">
+     <button id="sequence-record-play" type="button" title="Testar uma vez, sem bateria">▶ Testar 1x</button>
+     <button id="sequence-record-undo" type="button" title="Apagar o último item da sequência">⌫ Apagar último</button>
++    <button id="sequence-record-copy" type="button" title="Copiar a sequência selecionada e suas configurações">⧉ Copiar sequência</button>
++    <button id="sequence-record-paste" type="button" title="A área de transferência está vazia" disabled>▣ Colar sequência</button>
+     <button id="sequence-record-clear-all" class="danger" type="button" title="Apagar todos os itens da sequência selecionada">Zerar sequência</button>
+     <button id="sequence-record-cancel" type="button" class="secondary">Cancelar</button>
+     <button id="sequence-record-done" type="button">✓ Concluir</button>
+@@ -586,6 +595,17 @@
+   </div>
+  </div>
+ </dialog>
++<dialog id="sequence-paste-dialog" class="sequence-paste-dialog" aria-label="Colar sequência">
++ <div class="dialog-card sequence-paste-card">
++  <h2>Colar sequência</h2>
++  <p id="sequence-paste-summary"></p>
++  <div class="sequence-paste-options">
++   <button id="sequence-paste-replace" type="button">Colar substituindo<small>Substitui o conteúdo e copia repetição, instrumento e bateria.</small></button>
++   <button id="sequence-paste-append" type="button" class="secondary">Colar ao final<small>Acrescenta os itens e preserva as configurações da sequência de destino.</small></button>
++  </div>
++  <button id="sequence-paste-cancel" type="button" class="secondary">Cancelar</button>
++ </div>
++</dialog>
+ <dialog id="sequence-organize-dialog" class="sequence-organize-dialog" aria-label="Organizar sequências da música">
+  <div class="dialog-card sequence-organize-card">
+   <div class="sequence-organize-header">
+@@ -7056,6 +7076,7 @@
+  let sequenceRecordLatestIndex=-1;
+  let sequenceRecordSnapshot=null;
+  let sequenceRecordCancelRequested=false;
++ let sequenceClipboard=null;
+  sequenceRecordPreviewActive=false;
+  const sequenceRecordPointers=new Map();
+ 
+@@ -7131,6 +7152,9 @@
+    const button=document.createElement('button');
+    button.type='button';
+    button.textContent=name;
++   button.style.setProperty('--a',(index*30)+'deg');
++   button.title='Selecionar campo harmônico de '+name+' maior';
++   button.setAttribute('aria-label','Campo harmônico de '+name+' maior');
+    button.classList.toggle('active',index===sequenceRecordCircleRoot);
+    button.onclick=function(){
+     sequenceRecordCircleRoot=index;
+@@ -7141,6 +7165,113 @@
+    box.appendChild(button);
+   });
+  }
++ function syncSequenceClipboardControls(){
++  const paste=byId('sequence-record-paste');
++  if(!paste)return;
++  paste.disabled=!sequenceClipboard;
++  paste.title=sequenceClipboard
++   ?'Colar a sequência '+sequenceClipboard.sourceLabel+' copiada de '+sequenceClipboard.sourceSong
++   :'A área de transferência está vazia';
++ }
++ function copyActiveSequenceToClipboard(){
++  const items=currentChordSequence();
++  const sourceLabel=SEQUENCE_SECTION_LABELS[activeSequenceSection]||'sequência';
++  if(!items.length){
++   setStatus(sourceLabel+' está vazia e não pode ser copiada');
++   return false;
++  }
++  sequenceClipboard={
++   sourceSection:activeSequenceSection,
++   sourceLabel:sourceLabel,
++   sourceSong:currentSongName||'música sem nome',
++   items:JSON.parse(JSON.stringify(items)),
++   repeat:sectionRepeatValue(activeSequenceSection),
++   drum:JSON.parse(JSON.stringify(normalizeSectionDrum(sequenceDrums[activeSequenceSection])))
++  };
++  syncSequenceClipboardControls();
++  setStatus(sourceLabel+' copiada de '+sequenceClipboard.sourceSong+' · '+items.length+' '+(items.length===1?'item':'itens'));
++  return true;
++ }
++ function closeSequencePasteDialog(){
++  const dialog=byId('sequence-paste-dialog');
++  if(dialog&&dialog.open)dialog.close();
++ }
++ function openSequencePasteDialog(){
++  if(!sequenceClipboard){
++   syncSequenceClipboardControls();
++   setStatus('A área de transferência de sequências está vazia');
++   return;
++  }
++  const dialog=byId('sequence-paste-dialog');
++  const summary=byId('sequence-paste-summary');
++  const targetLabel=SEQUENCE_SECTION_LABELS[activeSequenceSection]||'sequência';
++  const targetCount=currentChordSequence().length;
++  if(summary){
++   summary.textContent='Copiar '+sequenceClipboard.sourceLabel+' de '+sequenceClipboard.sourceSong+' ('+
++    sequenceClipboard.items.length+' '+(sequenceClipboard.items.length===1?'item':'itens')+') para '+targetLabel+
++    (targetCount?' que já possui '+targetCount+' '+(targetCount===1?'item':'itens')+'.':'.');
++  }
++  if(dialog&&!dialog.open)dialog.showModal();
++ }
++ async function pasteSequenceFromClipboard(mode){
++  if(!sequenceClipboard){
++   closeSequencePasteDialog();
++   syncSequenceClipboardControls();
++   setStatus('A área de transferência de sequências está vazia');
++   return false;
++  }
++  const targetSection=activeSequenceSection;
++  const targetLabel=SEQUENCE_SECTION_LABELS[targetSection]||'sequência';
++  const targetItems=sequenceSections[targetSection]||[];
++  const existingCount=targetItems.length;
++
++  closeSequencePasteDialog();
++  if(mode==='replace'&&existingCount){
++   const confirmed=await appConfirm(
++    'Substituir os '+existingCount+' '+(existingCount===1?'item':'itens')+' de '+targetLabel+
++     ' pela cópia de '+sequenceClipboard.sourceLabel+'? A repetição e as configurações de instrumento e bateria também serão substituídas.',
++    'Substituir '+targetLabel,
++    'Colar substituindo',
++    'primary'
++   );
++   if(!confirmed)return false;
++  }
++
++  if(sequenceRecordPreviewActive||sequencePlaying||sequenceStartQueued){
++   stopChordSequence('');
++   sequenceRecordPreviewActive=false;
++   sequenceRecording=true;
++   syncSequenceRecordButton();
++   syncSequenceRecordPreviewButton();
++  }
++
++  const copiedItems=sequenceClipboard.items.map(normalizeSequenceItem).filter(Boolean);
++  if(mode==='append'){
++   sequenceSections[targetSection]=targetItems.concat(copiedItems);
++   sequenceRecordStartLength=existingCount;
++  }else{
++   sequenceSections[targetSection]=copiedItems;
++   sequenceRepeats[targetSection]=sequenceClipboard.repeat;
++   sequenceDrums[targetSection]=normalizeSectionDrum(JSON.parse(JSON.stringify(sequenceClipboard.drum)));
++   sequenceRecordStartLength=0;
++  }
++
++  sequenceRecordLatestIndex=sequenceSections[targetSection].length-1;
++  sequenceIndex=-1;
++  currentSectionRepetition=1;
++  saveChordSequence();
++  syncSequenceRepeatInputs();
++  syncSequenceSectionButtons();
++  syncSectionDrumControls();
++  renderChordSequence();
++  renderSequenceRecordExisting();
++  syncSequenceRecordSummary();
++  renderRedesignSequenceTimeline();
++
++  setStatus(sequenceClipboard.sourceLabel+' colada '+(mode==='append'?'ao final de ':'substituindo ')+targetLabel+
++   ' · '+copiedItems.length+' '+(copiedItems.length===1?'item':'itens'));
++  return true;
++ }
+  function recordChordClass(index){
+   if(index===0)return 'function-tonic';
+   if(index===3)return 'function-subdominant';
+@@ -7391,6 +7522,8 @@
+   if(sequencePlaying)stopChordSequence('Sequência parada para iniciar a gravação');
+   sequenceRecordSnapshot={
+    sections:JSON.parse(JSON.stringify(sequenceSections)),
++   repeats:JSON.parse(JSON.stringify(sequenceRepeats)),
++   drums:JSON.parse(JSON.stringify(sequenceDrums)),
+    active:activeSequenceSection
+   };
+   sequenceRecordCancelRequested=false;
+@@ -7407,6 +7540,7 @@
+   renderSequenceRecordSecondaryChords();renderSequenceRecordExisting();
+   renderSequenceRecordKeyboard();
+   syncSequenceRecordSummary();
++  syncSequenceClipboardControls();
+   const dialog=byId('sequence-record-dialog');
+   if(!dialog){
+    sequenceRecording=false;
+@@ -7436,9 +7570,12 @@
+   renderSequenceRecordExisting();
+   if(sequenceRecordCancelRequested&&sequenceRecordSnapshot){
+    sequenceSections=JSON.parse(JSON.stringify(sequenceRecordSnapshot.sections));
++   sequenceRepeats=JSON.parse(JSON.stringify(sequenceRecordSnapshot.repeats));
++   sequenceDrums=JSON.parse(JSON.stringify(sequenceRecordSnapshot.drums));
+    activeSequenceSection=sequenceRecordSnapshot.active;
+    saveChordSequence();
+   }
++  closeSequencePasteDialog();
+   const wasCancelled=sequenceRecordCancelRequested===true;
+   sequenceRecordCancelRequested=false;
+   sequenceRecordSnapshot=null;
+@@ -7475,6 +7612,10 @@
+     syncSequenceRecordSummary();
+     setStatus((removed&&removed.label?removed.label:'Último item')+' removido');
+    },
++   copyRecordSequence:copyActiveSequenceToClipboard,
++   openPasteDialog:openSequencePasteDialog,
++   pasteRecordSequence:pasteSequenceFromClipboard,
++   closePasteDialog:closeSequencePasteDialog,
+    clearRecordItems:async function(){
+     const cleared=await clearActiveSequenceAll();
+     if(!cleared)return;
+--- v3.15.30/styles/inline-style-01.css
++++ v3.15.31/styles/inline-style-01.css
+@@ -1673,10 +1673,16 @@
+ .sequence-record-pause{padding:7px 15px;background:#40506a;color:#fff}
+ .sequence-record-section{padding:12px;border:1px solid var(--rd-line);border-radius:14px;background:var(--rd-surface2)}
+ .sequence-record-section h3{margin:0 0 8px;font-size:.82rem}.sequence-record-section small{color:var(--rd-muted)}
+-.sequence-record-roots{display:grid;grid-template-columns:repeat(12,minmax(42px,1fr));gap:5px;margin-bottom:9px}
+-.sequence-record-roots button{min-height:38px;border:1px solid var(--rd-line);border-radius:9px;background:var(--rd-surface);color:var(--rd-ink);font-weight:900}
+-.sequence-record-roots button.active{background:var(--rd-accent);border-color:var(--rd-accent);color:#fff}
+-.sequence-record-chords{display:grid;grid-template-columns:repeat(7,minmax(70px,1fr));gap:6px}
++.sequence-record-harmonic-layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:22px;align-items:center}
++.sequence-record-dial-block{display:flex;flex-direction:column;align-items:center;gap:8px}
++.sequence-record-dial-instruction{color:var(--rd-muted);font-size:.68rem;font-weight:800;text-align:center}
++.sequence-record-roots.sequence-record-dial{position:relative;width:260px;height:260px;margin:0;border:1px solid var(--rd-line);border-radius:50%;background:radial-gradient(circle,var(--rd-surface) 0 33%,var(--rd-surface2) 34% 100%);box-shadow:inset 0 0 0 10px var(--rd-surface)}
++.sequence-record-roots.sequence-record-dial::after{content:'Tom';position:absolute;inset:91px;display:flex;align-items:center;justify-content:center;border:2px solid var(--rd-line);border-radius:50%;background:var(--rd-surface);color:var(--rd-muted);font-size:.72rem;font-weight:900}
++.sequence-record-roots.sequence-record-dial button{position:absolute;left:50%;top:50%;z-index:2;width:58px;height:58px;min-height:58px;margin:-29px;padding:0;border:2px solid var(--rd-line);border-radius:50%;background:var(--rd-surface);color:var(--rd-ink);font-size:.78rem;font-weight:900;cursor:pointer;transform:rotate(var(--a)) translateY(-96px) rotate(calc(-1 * var(--a)));box-shadow:0 2px 6px rgba(0,0,0,.10);touch-action:manipulation}
++.sequence-record-roots.sequence-record-dial button:hover,.sequence-record-roots.sequence-record-dial button:focus-visible{border-color:var(--rd-accent);box-shadow:0 0 0 3px var(--rd-accent-bg);outline:none}
++.sequence-record-roots.sequence-record-dial button.active{background:var(--rd-accent);border-color:var(--rd-accent);color:#fff;box-shadow:0 0 0 4px var(--rd-accent-bg)}
++.sequence-record-chord-stack{min-width:0;display:flex;flex-direction:column;gap:12px}
++.sequence-record-chords{display:grid;grid-template-columns:repeat(4,minmax(70px,1fr));gap:6px}
+ .sequence-record-chords .chord{min-height:48px!important;height:auto!important;font-size:.76rem!important}
+ .sequence-record-keyboard-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:4px 0 10px}
+ .sequence-record-keyboard{position:relative;width:2592px;height:190px;border:1px solid #111;border-radius:10px;background:#171717;touch-action:none}
+@@ -1692,9 +1698,19 @@
+ .sequence-record-footer .recording-summary{color:var(--rd-muted);font-size:.68rem;font-weight:800}
+ .sequence-record-footer-actions{display:flex;gap:7px}.sequence-record-footer button{min-height:39px;padding:7px 12px;border:1px solid var(--rd-line);border-radius:9px;background:var(--rd-surface2);color:var(--rd-ink);font-weight:900}
+ .sequence-record-footer .danger{background:#8f2e2e;color:#fff;border-color:#8f2e2e}
++.sequence-record-footer button:disabled{opacity:.5;cursor:not-allowed}
++.sequence-paste-dialog{width:min(620px,94vw);border:0;padding:0;background:transparent}
++.sequence-paste-dialog::backdrop{background:rgba(12,10,8,.72);backdrop-filter:blur(3px)}
++.sequence-paste-card{display:flex;flex-direction:column;gap:14px;padding:18px;border:1px solid var(--rd-line);border-radius:16px;background:var(--rd-surface);color:var(--rd-ink);box-shadow:0 20px 60px rgba(0,0,0,.4)}
++.sequence-paste-card h2,.sequence-paste-card p{margin:0}.sequence-paste-card p{color:var(--rd-muted);font-size:.78rem;line-height:1.45}
++.sequence-paste-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
++.sequence-paste-options button{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-height:86px;padding:12px;border:1px solid var(--rd-accent);border-radius:11px;background:var(--rd-accent);color:#fff;font-weight:900;text-align:left}
++.sequence-paste-options button.secondary{border-color:var(--rd-line);background:var(--rd-surface2);color:var(--rd-ink)}
++.sequence-paste-options small{color:inherit;font-size:.66rem;font-weight:700;line-height:1.35;opacity:.85}
++.sequence-paste-card>#sequence-paste-cancel{align-self:flex-end;min-height:38px;padding:7px 14px;border:1px solid var(--rd-line);border-radius:9px;background:var(--rd-surface2);color:var(--rd-ink);font-weight:900}
+ @media(max-width:760px){
+- .sequence-record-top{grid-template-columns:1fr}.sequence-record-roots{grid-template-columns:repeat(6,1fr)}
+- .sequence-record-chords{grid-template-columns:repeat(4,1fr)}.sequence-record-card{padding:10px}
++ .sequence-record-top{grid-template-columns:1fr}.sequence-record-harmonic-layout{grid-template-columns:1fr}
++ .sequence-record-chords{grid-template-columns:repeat(4,1fr)}.sequence-record-card{padding:10px}.sequence-paste-options{grid-template-columns:1fr}
+ }
+ 
+ 
+@@ -4015,4 +4031,3 @@
+ html[data-theme="violet"] .compact-mode-panel{
+  color-scheme:dark;
+ }
+-
+--- v3.15.30/js/ui/sequencer.js
++++ v3.15.31/js/ui/sequencer.js
+@@ -171,7 +171,14 @@
+    });
+    element('sequence-record-pause').onclick=function(){options.addRecordPause()};
+    element('sequence-record-undo').onclick=function(){options.undoRecordItem()};
++   element('sequence-record-copy').onclick=function(){options.copyRecordSequence()};
++   element('sequence-record-paste').onclick=function(){options.openPasteDialog()};
+    element('sequence-record-clear-all').onclick=function(){options.clearRecordItems()};
++   const pasteDialog=element('sequence-paste-dialog');
++   element('sequence-paste-replace').onclick=function(){options.pasteRecordSequence('replace')};
++   element('sequence-paste-append').onclick=function(){options.pasteRecordSequence('append')};
++   element('sequence-paste-cancel').onclick=function(){options.closePasteDialog()};
++   if(pasteDialog)pasteDialog.addEventListener('cancel',function(event){event.preventDefault();options.closePasteDialog()});
+    dialog.addEventListener('close',function(){options.recordDialogClosed()});
+    dialog.addEventListener('cancel',function(event){event.preventDefault();options.cancelRecordDialog()});
+    dialog.addEventListener('pointerup',function(event){options.finishRecordPointer(event)});
+--- v3.15.30/sw.js
++++ v3.15.31/sw.js
+@@ -2,7 +2,7 @@
+ 
+ const CACHE_PREFIX = 'gera-pwa-';
+ const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.30';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.31';
+ const OFFLINE_URL = './offline.html';
+ 
+ const PRECACHE_URLS = [
+--- v3.15.30/manifest.json
++++ v3.15.31/manifest.json
+@@ -39,5 +39,5 @@
+             "purpose": "maskable"
+         }
+     ],
+-    "version": "3.15.30"
++    "version": "3.15.31"
+ }

@@ -1,0 +1,93 @@
+--- GERA-PWA-v3.15.08-etapa-6E-mudancas-bpm/index.html
++++ GERA-PWA-v3.15.09-etapa-6F-bateria-transporte/index.html
+@@
+-<title>GERA v3.15.08</title>
++<title>GERA v3.15.09</title>
+@@
+-<small class="app-version">v3.15.08</small>
++<small class="app-version">v3.15.09</small>
+@@
+-    <small>v3.15.08</small>
++    <small>v3.15.09</small>
+@@
+ <script src="./js/transport/tempo.js"></script>
++<script src="./js/transport/drum-sync.js"></script>
+ <script src="./js/audio/core.js"></script>
+@@
+-  if(drumStartQueued){
+-   drumStartQueued=false;
+-   drumRunning=true;
+-   drumStep=0;
+-   if($('drum-stop'))$('drum-stop').classList.add('active');
+-   $('drum-status').textContent=drumPattern.toUpperCase()+' · '+bpm+' BPM';
+-  }
++  drumTransportConsumer.activateAtBoundary(step);
+@@
+-  if(drumCompletedAction){
+-   const completed=drumCompletedAction;
+-   drumCompletedAction='';
+-   syncDrumActionButtons();
+-   if(completed==='ending'){stopDrums();setStatus('Encerramento concluído');return}
+-   setStatus('Virada concluída');
+-  }
++  const drumCompletion=drumTransportConsumer.completeAtBoundary(step);
++  if(drumCompletion&&drumCompletion.stopBoundary)return;
+@@
+-   const startsDrums=step===0&&drumStartQueued;
+-   let scheduledAction=drumActiveAction;
+-   if(step===0&&drumQueuedAction&&!scheduledAction){scheduledAction=drumQueuedAction;drumActiveAction=drumQueuedAction;drumQueuedAction='';syncDrumActionButtons()}
+-   const actionMutesNormal=drumActionMuteUntil>drumActionMuteFrom&&when>=drumActionMuteFrom&&when<drumActionMuteUntil;
+-   const stopsDrumsForSequence=step===0&&drumStopAtAlignedSequenceStart;
+-   if((drumRunning||startsDrums)&&!actionMutesNormal&&!stopsDrumsForSequence){scheduleDrumStep(step,when,scheduledAction)}
+-   const meterSteps=activeTransportSteps();
+-   if(scheduledAction&&step===meterSteps-1){drumCompletedAction=scheduledAction;drumActiveAction=''}
++   const drumPulse=drumTransportConsumer.consumePulse(step,when);
++   const meterSteps=drumPulse.meterSteps;
+@@
++const drumTransportConsumer=GeraTransportDrumSync.createConsumer({
++ isStartQueued:function(){return drumStartQueued},
++ setStartQueued:function(value){drumStartQueued=value},
++ isRunning:function(){return drumRunning},
++ setRunning:function(value){drumRunning=value},
++ resetStep:function(){drumStep=0},
++ onStarted:function(){
++  if($('drum-stop'))$('drum-stop').classList.add('active');
++  $('drum-status').textContent=drumPattern.toUpperCase()+' · '+bpm+' BPM';
++ },
++ getQueuedAction:function(){return drumQueuedAction},
++ setQueuedAction:function(value){drumQueuedAction=value},
++ getActiveAction:function(){return drumActiveAction},
++ setActiveAction:function(value){drumActiveAction=value},
++ getCompletedAction:function(){return drumCompletedAction},
++ setCompletedAction:function(value){drumCompletedAction=value},
++ getActionMuteFrom:function(){return drumActionMuteFrom},
++ getActionMuteUntil:function(){return drumActionMuteUntil},
++ shouldStopAtAlignedSequenceStart:function(){return drumStopAtAlignedSequenceStart},
++ scheduleStep:scheduleDrumStep,
++ getMeterSteps:activeTransportSteps,
++ syncActionButtons:syncDrumActionButtons,
++ stopDrums:stopDrums,
++ setStatus:setStatus
++});
+--- GERA-PWA-v3.15.08-etapa-6E-mudancas-bpm/sw.js
++++ GERA-PWA-v3.15.09-etapa-6F-bateria-transporte/sw.js
+@@
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.08';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.09';
+@@
+     "./js/transport/tempo.js",
++    "./js/transport/drum-sync.js",
+     "./js/audio/core.js",
+--- GERA-PWA-v3.15.08-etapa-6E-mudancas-bpm/manifest.json
++++ GERA-PWA-v3.15.09-etapa-6F-bateria-transporte/manifest.json
+@@
+-    "version": "3.15.08"
++    "version": "3.15.09"
+--- /dev/null
++++ GERA-PWA-v3.15.09-etapa-6F-bateria-transporte/js/transport/drum-sync.js
+@@
++Novo consumidor `GeraTransportDrumSync`, com `activateAtBoundary`,
++`consumePulse` e `completeAtBoundary`. O conteúdo integral do arquivo está
++incluído no pacote e coberto por `tests/drum-sync.test.js`.
+
+Este diff funcional omite alterações nos testes e na documentação. A reconstrução automatizada desfaz exatamente os pontos acima e recompõe o `index.html`, o `sw.js` e o `manifest.json` da versão 3.15.08.

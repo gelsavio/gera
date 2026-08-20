@@ -1,0 +1,444 @@
+--- a/index.html
++++ b/index.html
+@@ -15,7 +15,7 @@
+ <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+ <link rel="apple-touch-icon" href="./icons/icon-192.png">
+ <meta name="screen-orientation" content="landscape">
+-<title>GERA v3.15.22</title>
++<title>GERA v3.15.23</title>
+ <script src="./js/storage.js"></script>
+ <script>
+ (function(){
+@@ -38,7 +38,7 @@
+ <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
+ <header class="app-header">
+   <div class="header-brand">
+-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.22</small></h1>
++    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.23</small></h1>
+   </div>
+   <div class="header-actions">
+     <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
+@@ -163,7 +163,7 @@
+   <div class="redesign-brandmark">
+     <span class="redesign-logo">GERA</span>
+     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
+-    <small>v3.15.22</small>
++    <small>v3.15.23</small>
+   </div>
+   <button class="redesign-song-pill" id="redesign-song-pill" type="button" title="Escolher música">♫ <span id="redesign-song-name">Nenhuma música</span></button>
+   <div id="redesign-header-text-preview" class="sequence-text-preview sequence-text-preview-floating" aria-live="polite">
+@@ -816,6 +816,7 @@
+ <script src="./js/ui/transport-status.js"></script>
+ <script src="./js/ui/header.js"></script>
+ <script src="./js/ui/compact-panel.js"></script>
++<script src="./js/ui/keyboard.js"></script>
+ <script src="./js/audio/core.js"></script>
+ <script>
+ "use strict";
+@@ -5783,143 +5784,27 @@
+  }
+  return result;
+ }
+-function renderKeyboard(){
+- const sharpRow=$('sharp-row');
+- const naturalRow=$('natural-row');
+- sharpRow.innerHTML='';
+- naturalRow.innerHTML='';
+- const keyboard=$('keyboard');
+- keyboard.classList.remove('sino-three-octaves');
+- const naturalNotes=NAT;
+- const sharpNotes=SHARP;
+- const total=naturalNotes.length;
+-
+- for(let c=0;c<total;c++){
+-  const sc=document.createElement('div');
+-  sc.className='key-cell sharp-cell';
+-  const sharpHint=(SKEY[c]||'');
+-  if(sharpNotes[c]!=null)sc.appendChild(makeKey(sharpNotes[c],sharpHint,true,true));
+-  sharpRow.appendChild(sc);
+-
+-  const nc=document.createElement('div');
+-  nc.className='key-cell';
+-  const naturalHint=(NKEY[c]||'');
+-  nc.appendChild(makeKey(naturalNotes[c],naturalHint,false,true));
+-  naturalRow.appendChild(nc);
+- }
+-}
+-function makeKey(semi,hint,sharp,showOctave){
+- const k=document.createElement('div');
+- const pitchClass=((semi%12)+12)%12;
+- k.className='key '+(sharp?'sharp':'natural');
+- k.dataset.note=semi;
+- k.dataset.pitchClass=String(pitchClass);
+- const noteName=normalizedNoteName(semi);
+- const octaveText=showOctave?String(4+Math.floor(semi/12)):'';
+- const hintText=hint?String(hint).toUpperCase():'';
+- k.innerHTML='<span>'+noteName+octaveText+'</span><span class="hint">'+hintText+'</span><span class="velocity">●</span>';
+- return k;
+-}
+-
+-/* Multitoque centralizado: até quatro ponteiros independentes no teclado. */
+-const keyboardEl=$('keyboard');
+-function keyAtPointer(e){
+- const direct=e.target?.closest?.('.key');
+- if(direct&&keyboardEl.contains(direct))return direct;
+- const found=document.elementFromPoint(e.clientX,e.clientY)?.closest?.('.key');
+- return found&&keyboardEl.contains(found)?found:null;
+-}
+-function finishKeyboardPointer(e){
+- const last=pointerLastKey.get(e.pointerId);
+- if(last==null)return;
+- pointerLastKey.delete(e.pointerId);
+- noteUp(last,e.pointerId);
+- try{if(keyboardEl.hasPointerCapture?.(e.pointerId))keyboardEl.releasePointerCapture(e.pointerId)}catch{}
+-}
+-keyboardEl.addEventListener('pointerdown',e=>{
+- if(e.pointerType==='touch')return;
+- const key=keyAtPointer(e);
+- if(!key)return;
+- e.preventDefault();
+- if(pointerLastKey.has(e.pointerId))return;
+- if(pointerLastKey.size>=MAX_SIMULTANEOUS_TOUCHES){setStatus('Limite de quatro teclas simultâneas');return}
+- const semi=Number(key.dataset.note);
+- if(noteDown(semi,e.pointerId,velocityFromEvent(e,key))){
+-   pointerLastKey.set(e.pointerId,semi);
+-   try{keyboardEl.setPointerCapture(e.pointerId)}catch{}
+- }
+-},{passive:false});
+-keyboardEl.addEventListener('pointermove',e=>{
+- if(e.pointerType==='touch')return;
+- if(!glissEnabled||!pointerLastKey.has(e.pointerId))return;
+- e.preventDefault();
+- const key=keyAtPointer(e);
+- if(!key)return;
+- const semi=Number(key.dataset.note),last=pointerLastKey.get(e.pointerId);
+- if(semi===last)return;
+- noteUp(last,e.pointerId);
+- pointerLastKey.delete(e.pointerId);
+- if(noteDown(semi,e.pointerId,velocityFromEvent(e,key)))pointerLastKey.set(e.pointerId,semi);
+-},{passive:false});
+-keyboardEl.addEventListener('pointerup',e=>{if(e.pointerType!=='touch')finishKeyboardPointer(e)});
+-keyboardEl.addEventListener('pointercancel',e=>{if(e.pointerType!=='touch')finishKeyboardPointer(e)});
+-keyboardEl.addEventListener('lostpointercapture',e=>{if(e.pointerType!=='touch')finishKeyboardPointer(e)});
+-
+-
+-/* Fallback multitoque para tablets: até quatro dedos por identificador de toque. */
+-const activeTouches=new Map();
+-function keyAtTouch(touch){
+- const found=document.elementFromPoint(touch.clientX,touch.clientY)?.closest?.('.key');
+- return found&&keyboardEl.contains(found)?found:null;
+-}
+-function startTouch(touch){
+- if(activeTouches.has(touch.identifier))return;
+- if(activeTouches.size>=MAX_SIMULTANEOUS_TOUCHES){setStatus('Limite de quatro teclas simultâneas');return}
+- const key=keyAtTouch(touch);if(!key)return;
+- const semi=Number(key.dataset.note),id=`touch-${touch.identifier}`;
+- const fakeEvent={clientY:touch.clientY};
+- if(noteDown(semi,id,velocityFromEvent(fakeEvent,key))){
+-   activeTouches.set(touch.identifier,{semi,id});
+-   pointerLastKey.set(id,semi);
+- }
+-}
+-function moveTouch(touch){
+- const state=activeTouches.get(touch.identifier);if(!state||!glissEnabled)return;
+- const key=keyAtTouch(touch);if(!key)return;
+- const semi=Number(key.dataset.note);if(semi===state.semi)return;
+- noteUp(state.semi,state.id);
+- pointerLastKey.delete(state.id);
+- const fakeEvent={clientY:touch.clientY};
+- if(noteDown(semi,state.id,velocityFromEvent(fakeEvent,key))){
+-   state.semi=semi;
+-   pointerLastKey.set(state.id,semi);
+- }else activeTouches.delete(touch.identifier);
+-}
+-function endTouch(touch){
+- const state=activeTouches.get(touch.identifier);if(!state)return;
+- noteUp(state.semi,state.id);
+- pointerLastKey.delete(state.id);
+- activeTouches.delete(touch.identifier);
+-}
+-keyboardEl.addEventListener('touchstart',e=>{
+- e.preventDefault();
+- for(const touch of e.changedTouches)startTouch(touch);
+-},{passive:false});
+-keyboardEl.addEventListener('touchmove',e=>{
+- e.preventDefault();
+- for(const touch of e.changedTouches)moveTouch(touch);
+-},{passive:false});
+-keyboardEl.addEventListener('touchend',e=>{
+- e.preventDefault();
+- for(const touch of e.changedTouches)endTouch(touch);
+-},{passive:false});
+-keyboardEl.addEventListener('touchcancel',e=>{
+- e.preventDefault();
+- for(const touch of e.changedTouches)endTouch(touch);
+-},{passive:false});
+-
+-keyboardEl.addEventListener('contextmenu',e=>e.preventDefault());
+-window.addEventListener('blur',()=>{[...pointerLastKey.keys()].forEach(id=>finishKeyboardPointer({pointerId:id}))});
++const keyboardUI=GeraKeyboard.createController({
++ document:document,
++ getElement:function(id){return $(id)},
++ naturalNotes:NAT,
++ sharpNotes:SHARP,
++ naturalHints:NKEY,
++ sharpHints:SKEY,
++ keyMap:KEYMAP,
++ pointerLastKey:pointerLastKey,
++ pressedKeys:pressedKeys,
++ maxSimultaneousTouches:MAX_SIMULTANEOUS_TOUCHES,
++ normalizedNoteName:normalizedNoteName,
++ velocityFromEvent:velocityFromEvent,
++ noteDown:noteDown,
++ noteUp:noteUp,
++ releaseAll:releaseAll,
++ setStatus:setStatus,
++ getGlissEnabled:function(){return glissEnabled}
++});
++function renderKeyboard(){keyboardUI.render()}
++keyboardUI.bindSurface();
+ function renderChords(){
+  const roots=[0,1,2,3,4,5,6,7,8,9,10,11];
+  const fill=(id,type)=>{const box=$(id);box.innerHTML='';roots.forEach(root=>{const sharp=CHORD_NAMES[root].includes('#'),b=document.createElement('button');b.className='chord'+(sharp?' sharp-chord':'')+(type==='minor'?' minor-chord':'');b.textContent=CHORD_NAMES[root]+(type==='minor'?'m':'');b.dataset.root=root;b.dataset.type=type;b.addEventListener('pointerdown',e=>{e.preventDefault();const actualType=b.dataset.type;handleChordButton(root,actualType,b,e.pointerId)});box.appendChild(b)})};
+@@ -6995,7 +6880,7 @@
+ }
+ document.querySelectorAll('.memory-button').forEach(function(button){button.onclick=function(){handleMemoryButton(button)}});
+ refreshMemoryButtons();
+-document.addEventListener('keydown',e=>{if(['INPUT','SELECT','BUTTON'].includes(e.target.tagName))return;const k=e.key.toLowerCase();if(pressedKeys.has(k)||!KEYMAP.has(k))return;noteDown(KEYMAP.get(k),k,1,'keyboard')});document.addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(KEYMAP.has(k))noteUp(KEYMAP.get(k),k,'keyboard')});window.addEventListener('blur',()=>releaseAll());document.addEventListener('contextmenu',e=>{if(e.target.closest('.key,.chord'))e.preventDefault()});
++keyboardUI.bindPhysicalKeyboard();document.addEventListener('contextmenu',e=>{if(e.target.closest('.key,.chord'))e.preventDefault()});
+ initializeGeraTheme();
+ GeraCompactPanel.createController({
+  getElement:function(id){return $(id)},
+--- /dev/null
++++ b/js/ui/keyboard.js
+@@ -0,0 +1,202 @@
++/**
++ * Controlador da interface do teclado musical principal do GERA.
++ * Preserva o DOM existente e encaminha a execução sonora ao núcleo.
++ */
++(function(global){
++ 'use strict';
++
++ function createController(options){
++  const documentRef=options.document||global.document;
++  const getElement=options.getElement;
++  const naturalNotes=options.naturalNotes;
++  const sharpNotes=options.sharpNotes;
++  const naturalHints=options.naturalHints;
++  const sharpHints=options.sharpHints;
++  const keyMap=options.keyMap;
++  const pointerLastKey=options.pointerLastKey;
++  const pressedKeys=options.pressedKeys;
++  const maxSimultaneousTouches=options.maxSimultaneousTouches;
++  const activeTouches=new Map();
++
++  function element(id){return getElement(id)}
++  function closestKey(target){
++   return target&&typeof target.closest==='function'?target.closest('.key'):null;
++  }
++  function makeKey(semi,hint,sharp,showOctave){
++   const key=documentRef.createElement('div');
++   const pitchClass=((semi%12)+12)%12;
++   key.className='key '+(sharp?'sharp':'natural');
++   key.dataset.note=semi;
++   key.dataset.pitchClass=String(pitchClass);
++   const noteName=options.normalizedNoteName(semi);
++   const octaveText=showOctave?String(4+Math.floor(semi/12)):'';
++   const hintText=hint?String(hint).toUpperCase():'';
++   key.innerHTML='<span>'+noteName+octaveText+'</span><span class="hint">'+hintText+'</span><span class="velocity">●</span>';
++   return key;
++  }
++  function render(){
++   const sharpRow=element('sharp-row');
++   const naturalRow=element('natural-row');
++   sharpRow.innerHTML='';
++   naturalRow.innerHTML='';
++   element('keyboard').classList.remove('sino-three-octaves');
++
++   for(let index=0;index<naturalNotes.length;index++){
++    const sharpCell=documentRef.createElement('div');
++    sharpCell.className='key-cell sharp-cell';
++    const sharpHint=sharpHints[index]||'';
++    if(sharpNotes[index]!=null)sharpCell.appendChild(makeKey(sharpNotes[index],sharpHint,true,true));
++    sharpRow.appendChild(sharpCell);
++
++    const naturalCell=documentRef.createElement('div');
++    naturalCell.className='key-cell';
++    const naturalHint=naturalHints[index]||'';
++    naturalCell.appendChild(makeKey(naturalNotes[index],naturalHint,false,true));
++    naturalRow.appendChild(naturalCell);
++   }
++  }
++  function keyAtPointer(event,keyboard){
++   const direct=closestKey(event.target);
++   if(direct&&keyboard.contains(direct))return direct;
++   const found=closestKey(documentRef.elementFromPoint(event.clientX,event.clientY));
++   return found&&keyboard.contains(found)?found:null;
++  }
++  function finishKeyboardPointer(event,keyboard){
++   const last=pointerLastKey.get(event.pointerId);
++   if(last==null)return;
++   pointerLastKey.delete(event.pointerId);
++   options.noteUp(last,event.pointerId);
++   try{
++    if(typeof keyboard.hasPointerCapture==='function'&&keyboard.hasPointerCapture(event.pointerId)){
++     keyboard.releasePointerCapture(event.pointerId);
++    }
++   }catch(error){}
++  }
++  function keyAtTouch(touch,keyboard){
++   const found=closestKey(documentRef.elementFromPoint(touch.clientX,touch.clientY));
++   return found&&keyboard.contains(found)?found:null;
++  }
++  function startTouch(touch,keyboard){
++   if(activeTouches.has(touch.identifier))return;
++   if(activeTouches.size>=maxSimultaneousTouches){
++    options.setStatus('Limite de quatro teclas simultâneas');
++    return;
++   }
++   const key=keyAtTouch(touch,keyboard);
++   if(!key)return;
++   const semi=Number(key.dataset.note);
++   const id='touch-'+touch.identifier;
++   const fakeEvent={clientY:touch.clientY};
++   if(options.noteDown(semi,id,options.velocityFromEvent(fakeEvent,key))){
++    activeTouches.set(touch.identifier,{semi:semi,id:id});
++    pointerLastKey.set(id,semi);
++   }
++  }
++  function moveTouch(touch,keyboard){
++   const state=activeTouches.get(touch.identifier);
++   if(!state||!options.getGlissEnabled())return;
++   const key=keyAtTouch(touch,keyboard);
++   if(!key)return;
++   const semi=Number(key.dataset.note);
++   if(semi===state.semi)return;
++   options.noteUp(state.semi,state.id);
++   pointerLastKey.delete(state.id);
++   const fakeEvent={clientY:touch.clientY};
++   if(options.noteDown(semi,state.id,options.velocityFromEvent(fakeEvent,key))){
++    state.semi=semi;
++    pointerLastKey.set(state.id,semi);
++   }else{
++    activeTouches.delete(touch.identifier);
++   }
++  }
++  function endTouch(touch){
++   const state=activeTouches.get(touch.identifier);
++   if(!state)return;
++   options.noteUp(state.semi,state.id);
++   pointerLastKey.delete(state.id);
++   activeTouches.delete(touch.identifier);
++  }
++  function bindSurface(){
++   const keyboard=element('keyboard');
++   keyboard.addEventListener('pointerdown',function(event){
++    if(event.pointerType==='touch')return;
++    const key=keyAtPointer(event,keyboard);
++    if(!key)return;
++    event.preventDefault();
++    if(pointerLastKey.has(event.pointerId))return;
++    if(pointerLastKey.size>=maxSimultaneousTouches){
++     options.setStatus('Limite de quatro teclas simultâneas');
++     return;
++    }
++    const semi=Number(key.dataset.note);
++    if(options.noteDown(semi,event.pointerId,options.velocityFromEvent(event,key))){
++     pointerLastKey.set(event.pointerId,semi);
++     try{keyboard.setPointerCapture(event.pointerId)}catch(error){}
++    }
++   },{passive:false});
++   keyboard.addEventListener('pointermove',function(event){
++    if(event.pointerType==='touch')return;
++    if(!options.getGlissEnabled()||!pointerLastKey.has(event.pointerId))return;
++    event.preventDefault();
++    const key=keyAtPointer(event,keyboard);
++    if(!key)return;
++    const semi=Number(key.dataset.note);
++    const last=pointerLastKey.get(event.pointerId);
++    if(semi===last)return;
++    options.noteUp(last,event.pointerId);
++    pointerLastKey.delete(event.pointerId);
++    if(options.noteDown(semi,event.pointerId,options.velocityFromEvent(event,key))){
++     pointerLastKey.set(event.pointerId,semi);
++    }
++   },{passive:false});
++   keyboard.addEventListener('pointerup',function(event){
++    if(event.pointerType!=='touch')finishKeyboardPointer(event,keyboard);
++   });
++   keyboard.addEventListener('pointercancel',function(event){
++    if(event.pointerType!=='touch')finishKeyboardPointer(event,keyboard);
++   });
++   keyboard.addEventListener('lostpointercapture',function(event){
++    if(event.pointerType!=='touch')finishKeyboardPointer(event,keyboard);
++   });
++   keyboard.addEventListener('touchstart',function(event){
++    event.preventDefault();
++    for(const touch of event.changedTouches)startTouch(touch,keyboard);
++   },{passive:false});
++   keyboard.addEventListener('touchmove',function(event){
++    event.preventDefault();
++    for(const touch of event.changedTouches)moveTouch(touch,keyboard);
++   },{passive:false});
++   keyboard.addEventListener('touchend',function(event){
++    event.preventDefault();
++    for(const touch of event.changedTouches)endTouch(touch);
++   },{passive:false});
++   keyboard.addEventListener('touchcancel',function(event){
++    event.preventDefault();
++    for(const touch of event.changedTouches)endTouch(touch);
++   },{passive:false});
++   keyboard.addEventListener('contextmenu',function(event){event.preventDefault()});
++   global.addEventListener('blur',function(){
++    [...pointerLastKey.keys()].forEach(function(id){
++     finishKeyboardPointer({pointerId:id},keyboard);
++    });
++   });
++  }
++  function bindPhysicalKeyboard(){
++   documentRef.addEventListener('keydown',function(event){
++    if(['INPUT','SELECT','BUTTON'].includes(event.target.tagName))return;
++    const key=event.key.toLowerCase();
++    if(pressedKeys.has(key)||!keyMap.has(key))return;
++    options.noteDown(keyMap.get(key),key,1,'keyboard');
++   });
++   documentRef.addEventListener('keyup',function(event){
++    const key=event.key.toLowerCase();
++    if(keyMap.has(key))options.noteUp(keyMap.get(key),key,'keyboard');
++   });
++   global.addEventListener('blur',options.releaseAll);
++  }
++
++  return Object.freeze({render:render,bindSurface:bindSurface,bindPhysicalKeyboard:bindPhysicalKeyboard});
++ }
++
++ global.GeraKeyboard=Object.freeze({createController:createController});
++})(window);
+--- a/sw.js
++++ b/sw.js
+@@ -2,7 +2,7 @@
+ 
+ const CACHE_PREFIX = 'gera-pwa-';
+ const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.22';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.23';
+ const OFFLINE_URL = './offline.html';
+ 
+ const PRECACHE_URLS = [
+@@ -25,6 +25,7 @@
+     "./js/ui/transport-status.js",
+     "./js/ui/header.js",
+     "./js/ui/compact-panel.js",
++    "./js/ui/keyboard.js",
+     "./js/audio/core.js",
+     "./kit-acustico-selecionado/MAPEAMENTO.txt",
+     "./kit-acustico-selecionado/cymbals/crash-1.wav",
+--- a/manifest.json
++++ b/manifest.json
+@@ -39,5 +39,5 @@
+             "purpose": "maskable"
+         }
+     ],
+-    "version": "3.15.22"
++    "version": "3.15.23"
+ }

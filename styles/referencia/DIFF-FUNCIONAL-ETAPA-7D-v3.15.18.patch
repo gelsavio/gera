@@ -1,0 +1,144 @@
+--- GERA-PWA-v3.15.17-etapa-7C-musicas-listas/index.html	2026-08-04 19:28:24.575431485 -0400
++++ GERA-PWA-v3.15.18-etapa-7D-sequencias/index.html	2026-08-04 19:36:59.907425683 -0400
+@@ -15,7 +15,7 @@
+ <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+ <link rel="apple-touch-icon" href="./icons/icon-192.png">
+ <meta name="screen-orientation" content="landscape">
+-<title>GERA v3.15.17</title>
++<title>GERA v3.15.18</title>
+ <script src="./js/storage.js"></script>
+ <script>
+ (function(){
+@@ -38,7 +38,7 @@
+ <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
+ <header class="app-header">
+   <div class="header-brand">
+-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.17</small></h1>
++    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.18</small></h1>
+   </div>
+   <div class="header-actions">
+     <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
+@@ -163,7 +163,7 @@
+   <div class="redesign-brandmark">
+     <span class="redesign-logo">GERA</span>
+     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
+-    <small>v3.15.17</small>
++    <small>v3.15.18</small>
+   </div>
+   <button class="redesign-song-pill" id="redesign-song-pill" type="button" title="Escolher música">♫ <span id="redesign-song-name">Nenhuma música</span></button>
+   <div id="redesign-header-text-preview" class="sequence-text-preview sequence-text-preview-floating" aria-live="polite">
+@@ -1904,7 +1904,6 @@
+ function startAccompaniment(root,type,button){requestAccompaniment(root,type,button)}
+ 
+ 
+-const SEQUENCE_KEY='tecladoVirtualSongSections';
+ const SEQUENCE_SECTION_LABELS={verse:'A',prechorus:'B',chorus:'C',bridge:'D',section5:'E',section6:'F',section7:'G',section8:'H',section9:'I',section10:'J',section11:'K',section12:'L',section13:'M',section14:'N',section15:'O',section16:'P'};
+ function currentChordSequence(){return sequenceSections[activeSequenceSection]||[]}
+ function sequenceEntryDuration(){
+@@ -2619,10 +2618,10 @@
+  }
+ }
+ 
+-function saveChordSequence(){localStorage.setItem(SEQUENCE_KEY,JSON.stringify({sections:sequenceSections,active:activeSequenceSection,loop:true,auto:sequenceAuto,autoEnd:sequenceAutoEnd,autoV2:true,repeats:sequenceRepeats,ordemSecoes:sequenceOrder,bateria:sequenceDrums,drumEngine:drumEngine,visible:sequencePanelVisible}))}
++function saveChordSequence(){GeraStorage.sequences.setStore({sections:sequenceSections,active:activeSequenceSection,loop:true,auto:sequenceAuto,autoEnd:sequenceAutoEnd,autoV2:true,repeats:sequenceRepeats,ordemSecoes:sequenceOrder,bateria:sequenceDrums,drumEngine:drumEngine,visible:sequencePanelVisible})}
+ function loadChordSequence(){
+  try{
+-  const saved=JSON.parse(localStorage.getItem(SEQUENCE_KEY)||'null');
++  const saved=GeraStorage.sequences.getStore();
+   if(saved&&saved.sections){
+    for(const key of Object.keys(sequenceSections))sequenceSections[key]=Array.isArray(saved.sections[key])?saved.sections[key].map(normalizeSequenceItem).filter(Boolean):[];
+    if(SEQUENCE_SECTION_LABELS[saved.active])activeSequenceSection=saved.active;
+@@ -2647,7 +2646,7 @@
+    }
+    sequencePanelVisible=saved.visible!==false;
+   }else{
+-   const legacy=JSON.parse(localStorage.getItem('tecladoVirtualChordSequence')||'[]');
++   const legacy=GeraStorage.sequences.getLegacyChordSequence();
+    if(Array.isArray(legacy))sequenceSections.verse=legacy.map(normalizeSequenceItem).filter(Boolean);
+   }
+  }catch{}
+@@ -2676,10 +2675,7 @@
+  sequenceEndActionInProgress='';
+  sequenceConfiguredActionName='';
+  currentSongName=null;
+- try{
+-  localStorage.removeItem(SEQUENCE_KEY);
+-  localStorage.removeItem('tecladoVirtualChordSequence');
+- }catch(error){}
++ GeraStorage.sequences.removeStores();
+  syncSequenceRecordButton();
+  syncSequenceHoldLoopButton();
+  syncSequencePlayButton();
+--- GERA-PWA-v3.15.17-etapa-7C-musicas-listas/js/storage.js	2026-08-04 19:28:24.483431486 -0400
++++ GERA-PWA-v3.15.18-etapa-7D-sequencias/js/storage.js	2026-08-04 19:36:46.699425831 -0400
+@@ -1,9 +1,9 @@
+ /*
+  * Acesso centralizado ao localStorage do GERA.
+  *
+- * Etapas 7A, 7B e 7C: preferências visuais, tema, configurações musicais
+- * globais simples, músicas e listas. As chaves e os valores persistidos
+- * continuam idênticos aos da versão legada.
++ * Etapas 7A, 7B, 7C e 7D: preferências visuais, tema, configurações musicais
++ * globais simples, músicas, listas e sequências. As chaves e os valores
++ * persistidos continuam idênticos aos da versão legada.
+  */
+ (function(global){
+  'use strict';
+@@ -16,7 +16,9 @@
+   drumEngine:'tecladoVirtualDrumEngine',
+   songs:'tecladoVirtualSongs',
+   songLists:'geraSongListsV1',
+-  playlistSettings:'geraPlaylistSettingsV1'
++  playlistSettings:'geraPlaylistSettingsV1',
++  sequences:'tecladoVirtualSongSections',
++  legacyChordSequence:'tecladoVirtualChordSequence'
+  });
+ 
+  function storage(){return global.localStorage}
+@@ -63,10 +65,24 @@
+   setPlaylistSettings:function(value){return writeJson(keys.playlistSettings,value)}
+  });
+ 
++ const sequences=Object.freeze({
++  getStore:function(){return readJson(keys.sequences,null)},
++  setStore:function(value){storage().setItem(keys.sequences,JSON.stringify(value));return true},
++  getLegacyChordSequence:function(){return readJson(keys.legacyChordSequence,[])},
++  removeStores:function(){
++   try{
++    storage().removeItem(keys.sequences);
++    storage().removeItem(keys.legacyChordSequence);
++    return true;
++   }catch(error){return false}
++  }
++ });
++
+  global.GeraStorage=Object.freeze({
+   keys:keys,
+   preferences:preferences,
+   musicalSettings:musicalSettings,
+-  musicLibrary:musicLibrary
++  musicLibrary:musicLibrary,
++  sequences:sequences
+  });
+ })(typeof window!=='undefined'?window:this);
+--- GERA-PWA-v3.15.17-etapa-7C-musicas-listas/manifest.json	2026-08-04 19:28:24.735431483 -0400
++++ GERA-PWA-v3.15.18-etapa-7D-sequencias/manifest.json	2026-08-04 19:36:46.883425829 -0400
+@@ -39,5 +39,5 @@
+             "purpose": "maskable"
+         }
+     ],
+-    "version": "3.15.17"
++    "version": "3.15.18"
+ }
+--- GERA-PWA-v3.15.17-etapa-7C-musicas-listas/sw.js	2026-08-04 19:28:24.659431484 -0400
++++ GERA-PWA-v3.15.18-etapa-7D-sequencias/sw.js	2026-08-04 19:36:46.971425828 -0400
+@@ -2,7 +2,7 @@
+ 
+ const CACHE_PREFIX = 'gera-pwa-';
+ const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.17';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.18';
+ const OFFLINE_URL = './offline.html';
+ 
+ const PRECACHE_URLS = [
+

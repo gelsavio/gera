@@ -1,0 +1,47 @@
+--- GERA-PWA-v3.15.06-etapa-6C-scheduler/index.html
++++ GERA-PWA-v3.15.07-etapa-6D-fronteiras-compasso/index.html
+@@
+-<title>GERA v3.15.06</title>
++<title>GERA v3.15.07</title>
+@@
+ <script src="./js/transport/scheduler.js"></script>
++<script src="./js/transport/boundaries.js"></script>
+@@
+-   if(step%transportBoundaryStride()===0){
+-    const delay=Math.max(0,(when-audioCtx.currentTime)*1000);
+-    const boundaryEvent=setTimeout(function(){handleTransportBoundary(step,when)},delay);
+-    transportEvents.push(boundaryEvent);
+-   }
++   transportBoundaryEmitter.emit(step,when,meterSteps,transportBoundaryStride());
+    return {stepDuration:stepDur,meterSteps:meterSteps};
+ }
++const transportBoundaryEmitter=GeraTransportBoundaries.createBoundaryEmitter({
++ currentTime:function(){return audioCtx.currentTime},
++ onBoundary:handleTransportBoundary,
++ trackEvent:function(boundaryEvent){transportEvents.push(boundaryEvent)}
++});
+
+--- /dev/null
++++ GERA-PWA-v3.15.07-etapa-6D-fronteiras-compasso/js/transport/boundaries.js
+@@
++Novo módulo clássico que expõe `GeraTransportBoundaries.describeStep()` e
++`GeraTransportBoundaries.createBoundaryEmitter()`, preservando a condição
++`step % boundaryStride === 0` e o atraso
++`Math.max(0, (when - currentTime()) * 1000)`.
+
+--- GERA-PWA-v3.15.06-etapa-6C-scheduler/sw.js
++++ GERA-PWA-v3.15.07-etapa-6D-fronteiras-compasso/sw.js
+@@
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.06';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.07';
+@@
+     "./js/transport/scheduler.js",
++    "./js/transport/boundaries.js",
+
+--- GERA-PWA-v3.15.06-etapa-6C-scheduler/manifest.json
++++ GERA-PWA-v3.15.07-etapa-6D-fronteiras-compasso/manifest.json
+@@
+-    "version": "3.15.06"
++    "version": "3.15.07"
+
+As outras duas ocorrências visuais da versão no `index.html` foram alteradas de 3.15.06 para 3.15.07. Os testes e documentos de referência foram acrescentados ou atualizados sem integrar o carregamento do aplicativo.

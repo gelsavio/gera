@@ -1,0 +1,157 @@
+--- GERA-PWA-v3.15.05-etapa-6B-calculos-relogio/index.html	2026-08-04 19:18:06.850565134 +0530
++++ GERA-PWA-v3.15.06-etapa-6C-scheduler/index.html	2026-08-04 19:29:08.354550790 +0530
+@@ -15,7 +15,7 @@
+ <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+ <link rel="apple-touch-icon" href="./icons/icon-192.png">
+ <meta name="screen-orientation" content="landscape">
+-<title>GERA v3.15.05</title>
++<title>GERA v3.15.06</title>
+ <script>
+ (function(){
+  try{
+@@ -37,7 +37,7 @@
+ <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
+ <header class="app-header">
+   <div class="header-brand">
+-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.05</small></h1>
++    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.06</small></h1>
+   </div>
+   <div class="header-actions">
+     <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
+@@ -162,7 +162,7 @@
+   <div class="redesign-brandmark">
+     <span class="redesign-logo">GERA</span>
+     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
+-    <small>v3.15.05</small>
++    <small>v3.15.06</small>
+   </div>
+   <button class="redesign-song-pill" id="redesign-song-pill" type="button" title="Escolher música">♫ <span id="redesign-song-name">Nenhuma música</span></button>
+   <div id="redesign-header-text-preview" class="sequence-text-preview sequence-text-preview-floating" aria-live="polite">
+@@ -805,6 +805,7 @@
+ <script src="./js/chords.js"></script>
+ <script src="./js/state.js"></script>
+ <script src="./js/transport/clock.js"></script>
++<script src="./js/transport/scheduler.js"></script>
+ <script src="./js/audio/core.js"></script>
+ <script>
+ "use strict";
+@@ -5678,15 +5679,7 @@
+  const segmentStart=step*duration/meterSteps;
+  executeBarSegment(latchedRoot,latchedType,latchedButton,segmentStart,Math.min(duration,segmentStart+boundaryDuration));
+ }
+-function transportScheduler(){
+- if(!transportRunning)return;
+- if(accompanimentStopEventScheduled)return;
+- ensureAudio();
+- const lookAhead=.12;
+- while(transportNextTime<audioCtx.currentTime+lookAhead){
+-   const step=transportStep;
+-   const when=transportNextTime;
+-
++function handleTransportSchedulerPulse(step,when){
+    if(step===0&&pendingBpm!==null){
+     const nextBpm=normalizedBpm(pendingBpm);
+     pendingBpm=null;
+@@ -5704,7 +5697,7 @@
+     const stopEvent=setTimeout(finishAccompanimentsAtBarEnd,delay);
+     transportEvents.push(stopEvent);
+     accompanimentStopEventScheduled=true;
+-    return;
++    return null;
+    }
+    if(step===0&&drumPatternAtAlignedSequenceStart){
+     drumPattern=drumPatternAtAlignedSequenceStart;
+@@ -5727,11 +5720,21 @@
+     const boundaryEvent=setTimeout(function(){handleTransportBoundary(step,when)},delay);
+     transportEvents.push(boundaryEvent);
+    }
+-   transportNextTime+=stepDur;
+-   transportStep=(transportStep+1)%meterSteps;
+- }
+- transportTimer=setTimeout(transportScheduler,25);
++   return {stepDuration:stepDur,meterSteps:meterSteps};
+ }
++const runTransportScheduler=GeraTransportScheduler.createScheduler({
++ isRunning:function(){return transportRunning},
++ isBlocked:function(){return accompanimentStopEventScheduled},
++ ensureAudio:ensureAudio,
++ currentTime:function(){return audioCtx.currentTime},
++ getStep:function(){return transportStep},
++ setStep:function(value){transportStep=value},
++ getNextTime:function(){return transportNextTime},
++ setNextTime:function(value){transportNextTime=value},
++ setTimer:function(value){transportTimer=value},
++ onPulse:handleTransportSchedulerPulse
++});
++function transportScheduler(){runTransportScheduler()}
+ function drumScheduler(){ensureMasterTransport()}
+ function startDrums(pattern=drumPattern){
+  ensureAudio();
+--- GERA-PWA-v3.15.05-etapa-6B-calculos-relogio/sw.js	2026-08-04 19:18:06.998565130 +0530
++++ GERA-PWA-v3.15.06-etapa-6C-scheduler/sw.js	2026-08-04 19:29:08.434550788 +0530
+@@ -2,7 +2,7 @@
+ 
+ const CACHE_PREFIX = 'gera-pwa-';
+ const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.05';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.06';
+ const OFFLINE_URL = './offline.html';
+ 
+ const PRECACHE_URLS = [
+@@ -14,6 +14,7 @@
+     "./js/chords.js",
+     "./js/state.js",
+     "./js/transport/clock.js",
++    "./js/transport/scheduler.js",
+     "./js/audio/core.js",
+     "./kit-acustico-selecionado/MAPEAMENTO.txt",
+     "./kit-acustico-selecionado/cymbals/crash-1.wav",
+--- GERA-PWA-v3.15.05-etapa-6B-calculos-relogio/manifest.json	2026-08-04 19:18:06.922565132 +0530
++++ GERA-PWA-v3.15.06-etapa-6C-scheduler/manifest.json	2026-08-04 19:29:08.522550786 +0530
+@@ -39,5 +39,5 @@
+             "purpose": "maskable"
+         }
+     ],
+-    "version": "3.15.05"
++    "version": "3.15.06"
+ }
+--- /dev/null	2026-08-04 18:57:14.366592292 +0530
++++ GERA-PWA-v3.15.06-etapa-6C-scheduler/js/transport/scheduler.js	2026-08-04 19:29:08.598550784 +0530
+@@ -0,0 +1,36 @@
++/*
++ * Ciclo temporal do transporte mestre do GERA.
++ *
++ * Este arquivo somente percorre a janela de agendamento, emite os pulsos
++ * legados e rearma a inspeção. As decisões de BPM, bateria, sequência,
++ * fronteiras de compasso e interface permanecem no núcleo legado.
++ */
++'use strict';
++
++(function(global){
++ function createScheduler(options){
++  function scheduler(){
++   if(!options.isRunning())return;
++   if(options.isBlocked())return;
++   options.ensureAudio();
++   const lookAhead=.12;
++   while(options.getNextTime()<options.currentTime()+lookAhead){
++    const step=options.getStep();
++    const when=options.getNextTime();
++    const pulse=options.onPulse(step,when);
++    if(!pulse)return;
++    options.setNextTime(options.getNextTime()+pulse.stepDuration);
++    options.setStep((options.getStep()+1)%pulse.meterSteps);
++   }
++   options.setTimer(setTimeout(scheduler,25));
++  }
++  return scheduler;
++ }
++
++ Object.defineProperty(global,'GeraTransportScheduler',{
++  configurable:false,
++  enumerable:true,
++  writable:false,
++  value:Object.freeze({createScheduler:createScheduler})
++ });
++})(typeof window!=='undefined'?window:globalThis);
+

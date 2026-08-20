@@ -1,0 +1,160 @@
+--- a/index.html
++++ b/index.html
+@@ -15,11 +15,12 @@
+ <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+ <link rel="apple-touch-icon" href="./icons/icon-192.png">
+ <meta name="screen-orientation" content="landscape">
+-<title>GERA v3.15.14</title>
++<title>GERA v3.15.15</title>
++<script src="./js/storage.js"></script>
+ <script>
+ (function(){
+  try{
+-  var saved=localStorage.getItem('geraTheme');
++  var saved=GeraStorage.preferences.getTheme();
+  if(saved==='neutral'||saved==='light'||saved==='dark'||saved==='ocean'||saved==='forest'||saved==='violet'){
+@@ -37,7 +38,7 @@
+ <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
+ <header class="app-header">
+   <div class="header-brand">
+-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.14</small></h1>
++    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.15</small></h1>
+@@ -162,7 +163,7 @@
+   <div class="redesign-brandmark">
+     <span class="redesign-logo">GERA</span>
+     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
+-    <small>v3.15.14</small>
++    <small>v3.15.15</small>
+@@ -827,7 +828,6 @@
+ const $=id=>document.getElementById(id);
+ 
+-const GERA_THEME_KEY='geraTheme';
+ const GERA_THEMES=['dark','neutral','light','ocean','forest','violet'];
+@@ -865,12 +865,12 @@
+  const meta=document.querySelector('meta[name="theme-color"]');
+  if(meta)meta.setAttribute('content',themeColorFor(theme));
+  if(savePreference!==false){
+-  try{localStorage.setItem(GERA_THEME_KEY,theme)}catch(error){}
++  GeraStorage.preferences.setTheme(theme);
+  }
+ }
+ function initializeGeraTheme(){
+  let saved='neutral';
+- try{saved=localStorage.getItem(GERA_THEME_KEY)||'neutral'}catch(error){}
++ saved=GeraStorage.preferences.getTheme()||'neutral';
+@@ -7217,7 +7217,7 @@
+  function activateTab(name){
+   document.querySelectorAll('.redesign-rail-btn').forEach(function(button){button.classList.toggle('active',button.dataset.redesignTab===name)});
+   document.querySelectorAll('.redesign-tabpanel').forEach(function(panel){panel.classList.toggle('active',panel.id==='redesign-tab-'+name)});
+-  try{localStorage.setItem('geraRedesignTab',name)}catch(error){}
++  GeraStorage.preferences.setRedesignTab(name);
+@@ -7597,7 +7597,6 @@
+  function setupMovableMute(){
+   const button=byId('global-mute-float');
+   if(!button)return;
+-  const key='geraGlobalMutePositionV1';
+   let drag=null;
+@@ -7614,7 +7613,7 @@
+   }
+   function restore(){
+    try{
+-    const saved=JSON.parse(localStorage.getItem(key)||'null');
++    const saved=GeraStorage.preferences.getGlobalMutePosition();
+@@ -7636,12 +7635,12 @@
+    button.classList.remove('dragging');
+    if(dragged){
+     const rect=button.getBoundingClientRect();
+-    try{localStorage.setItem(key,JSON.stringify({left:Math.round(rect.left),top:Math.round(rect.top)}))}catch(error){}
++    GeraStorage.preferences.setGlobalMutePosition({left:Math.round(rect.left),top:Math.round(rect.top)});
+    }
+    drag=null;
+   });
+   button.addEventListener('click',function(event){if(dragged){event.preventDefault();event.stopImmediatePropagation();dragged=false}},true);
+-  window.addEventListener('resize',function(){const rect=button.getBoundingClientRect();const point=apply(rect.left,rect.top);try{localStorage.setItem(key,JSON.stringify(point))}catch(error){}});
++  window.addEventListener('resize',function(){const rect=button.getBoundingClientRect();const point=apply(rect.left,rect.top);GeraStorage.preferences.setGlobalMutePosition(point)});
+@@ -8171,12 +8170,12 @@
+   }
+   if(rail)rail.setAttribute('aria-label',collapsed?'Navegação principal recolhida':'Navegação principal');
+-  try{localStorage.setItem('geraRedesignRailCollapsed',collapsed?'1':'0')}catch(error){}
++  GeraStorage.preferences.setRedesignRailCollapsed(collapsed?'1':'0');
+  }
+  function restoreRedesignRailState(){
+   let collapsed=false;
+   try{
+-   const saved=localStorage.getItem('geraRedesignRailCollapsed');
++   const saved=GeraStorage.preferences.getRedesignRailCollapsed();
+@@ -8276,7 +8275,7 @@
+ 
+  assemble();bindSequenceRecordDialog();bind();restoreRedesignRailState();buildDial();setupMovableMute();
+- let savedTab='acordes';try{savedTab=localStorage.getItem('geraRedesignTab')||'acordes'}catch(error){}
++ let savedTab=GeraStorage.preferences.getRedesignTab()||'acordes';
+--- a/sw.js
++++ b/sw.js
+@@ -2,7 +2,7 @@
+ const CACHE_PREFIX = 'gera-pwa-';
+ const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
+-const CACHE_NAME = CACHE_PREFIX + 'v3.15.14';
++const CACHE_NAME = CACHE_PREFIX + 'v3.15.15';
+@@ -11,6 +11,7 @@
+     "./icons/icon-maskable-512.png",
+     "./index.html",
++    "./js/storage.js",
+--- a/manifest.json
++++ b/manifest.json
+@@ -39,5 +39,5 @@
+-    "version": "3.15.14"
++    "version": "3.15.15"
+--- /dev/null
++++ b/js/storage.js
+@@ -0,0 +1,51 @@
++/*
++ * Acesso centralizado ao localStorage do GERA.
++ *
++ * Etapa 7A: somente preferências visuais e tema. As chaves e os valores
++ * persistidos continuam idênticos aos da versão legada.
++ */
++(function(global){
++ 'use strict';
++
++ const keys=Object.freeze({
++  theme:'geraTheme',
++  redesignTab:'geraRedesignTab',
++  globalMutePosition:'geraGlobalMutePositionV1',
++  redesignRailCollapsed:'geraRedesignRailCollapsed'
++ });
++
++ function storage(){return global.localStorage}
++ function read(key,fallback){
++  try{
++   const value=storage().getItem(key);
++   return value===null?fallback:value;
++  }catch(error){return fallback}
++ }
++ function write(key,value){
++  try{storage().setItem(key,value);return true}catch(error){return false}
++ }
++ function readJson(key,fallback){
++  const raw=read(key,null);
++  if(raw===null||raw==='')return fallback;
++  try{return JSON.parse(raw)}catch(error){return fallback}
++ }
++ function writeJson(key,value){
++  try{return write(key,JSON.stringify(value))}catch(error){return false}
++ }
++
++ const preferences=Object.freeze({
++  getTheme:function(){return read(keys.theme,null)},
++  setTheme:function(value){return write(keys.theme,value)},
++  getRedesignTab:function(){return read(keys.redesignTab,null)},
++  setRedesignTab:function(value){return write(keys.redesignTab,value)},
++  getGlobalMutePosition:function(){return readJson(keys.globalMutePosition,null)},
++  setGlobalMutePosition:function(value){return writeJson(keys.globalMutePosition,value)},
++  getRedesignRailCollapsed:function(){return read(keys.redesignRailCollapsed,null)},
++  setRedesignRailCollapsed:function(value){return write(keys.redesignRailCollapsed,value)}
++ });
++
++ global.GeraStorage=Object.freeze({
++  keys:keys,
++  preferences:preferences
++ });
++})(typeof window!=='undefined'?window:this);
