@@ -103,12 +103,12 @@ test('reprodução normal continua respeitando AUTO com repetição zero',functi
  assert.equal(calls.includes('playing:false'),true);
 });
 
-test('versão 3.15.50 contém as guardas da prévia e do roteiro',function(){
+test('versão 3.15.53 contém as guardas da prévia e do roteiro',function(){
  assert.match(index,/if\(!sequenceRecordPreviewActive&&\(typeof playbackPlanRuntimeActive==='undefined'\|\|!playbackPlanRuntimeActive\)&&\(sequenceAuto\|\|sequenceAutoEnd\)&&sectionRepeatValue\(activeSequenceSection\)===0\)/);
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.50';"));
- assert.equal(manifest.version,'3.15.50');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.53';"));
+ assert.equal(manifest.version,'3.15.53');
 });
 
 test('prévia concluída restaura gravação e o botão Testar 1x',function(){
@@ -157,12 +157,13 @@ test('iniciador compartilhado ativa o modo de uma passagem para o editor de letr
   sequencePreviewOwner:'',
   sequenceRecordPreviewActive:false,
   sequencePlaybackItemStartedAtMs:90,
+  sequencePreviewStartIndex:0,
   sequencePlaying:false,
   sequenceStartQueued:false,
   sequenceRecording:true,
   activeSequenceSection:'verse',
   SEQUENCE_SECTION_LABELS:{verse:'A'},
-  currentChordSequence:function(){return[{}]},
+  currentChordSequence:function(){return[{},{},{},{}]},
   setStatus:function(message){calls.push('status:'+message)},
   syncSequenceRecordButton:function(){calls.push('record')},
   syncSequenceRecordPreviewButton:function(){calls.push('button')},
@@ -171,11 +172,30 @@ test('iniciador compartilhado ativa o modo de uma passagem para o editor de letr
  };
  vm.createContext(context);
  vm.runInContext(extractFunction('startSequencePreviewOnce'),context);
- const started=vm.runInContext("startSequencePreviewOnce('lyrics')",context);
+ const started=vm.runInContext("startSequencePreviewOnce('lyrics',2)",context);
  assert.equal(started,true);
  assert.equal(context.sequencePreviewOwner,'lyrics');
  assert.equal(context.sequenceRecordPreviewActive,true);
  assert.equal(context.sequencePlaybackItemStartedAtMs,0);
+ assert.equal(context.sequencePreviewStartIndex,2);
  assert.equal(context.sequenceRecording,true);
  assert.deepEqual(calls,['play:lyrics']);
+});
+
+test('transporte da prévia pode começar diretamente em qualquer item',function(){
+ const calls=[];
+ const context={
+  sequenceRecordPreviewActive:true,
+  sequencePreviewStartIndex:3,
+  sequenceIndex:-1,
+  currentChordSequence:function(){return[{},{},{},{},{}]},
+  loadSequenceItem:function(index,time){calls.push([index,time]);context.sequenceIndex=index;return true}
+ };
+ vm.createContext(context);
+ vm.runInContext(extractFunction('loadSequenceTransportItem'),context);
+ const started=vm.runInContext('loadSequenceTransportItem(0,1.25)',context);
+ assert.equal(started,true);
+ assert.deepEqual(calls,[[3,1.25]]);
+ assert.equal(context.sequencePreviewStartIndex,0);
+ assert.equal(context.sequenceIndex,3);
 });

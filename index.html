@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <meta name="screen-orientation" content="landscape">
-<title>GERA v3.15.50</title>
+<title>GERA v3.15.53</title>
 <script src="./js/storage.js"></script>
 <script src="./js/folder-backup.js"></script>
 <script>
@@ -39,7 +39,7 @@
 <div id="rotate-msg"><div class="icon">📱</div><h2>Gire o dispositivo</h2><p>O GERA foi organizado para uso horizontal.</p></div>
 <header class="app-header">
   <div class="header-brand">
-    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.50</small></h1>
+    <h1><span class="gera-brand-mark" aria-hidden="true"><img src="icons/icon-192.png" alt=""></span><span class="gera-title">GERA</span><span class="gera-subtitle">Gerador de Acompanhamentos</span><small class="app-version">v3.15.53</small></h1>
   </div>
   <div class="header-actions">
     <button type="button" id="theme-cycle" class="secondary compact-theme-button" aria-label="Alterar tema do aplicativo" title="Alterar tema">🎨 Escuro</button>
@@ -164,7 +164,7 @@
   <div class="redesign-brandmark">
     <span class="redesign-logo">GERA</span>
     <span class="redesign-tagline">Gerador de Acompanhamentos</span>
-    <small>v3.15.50</small>
+    <small>v3.15.53</small>
   </div>
   <button class="redesign-song-pill" id="redesign-song-pill" type="button" title="Escolher música">♫ <span id="redesign-song-name">Nenhuma música</span></button>
   <div id="redesign-header-text-preview" class="sequence-text-preview sequence-text-preview-floating" aria-live="polite">
@@ -1087,7 +1087,7 @@ let openHatVoice=null,drumEngine="acoustic",drumSamplesReady=false,drumSamplesLo
 let sequenceGroup={enabled:false,start:'verse',end:'prechorus',repeats:2,next:'chorus'},sequenceGroupPass=1;
 let playbackPlan={enabled:false,blocks:[]},playbackPlanQueue=[],playbackPlanCursor=-1,playbackPlanRuntimeActive=false;
 let sequenceLyricPassageCounts={},sequenceLyricActivePassage=1;
-let sequencePreviewOwner='',sequenceLyricsPreviewPassage=1,sequencePlaybackItemStartedAtMs=0;
+let sequencePreviewOwner='',sequenceLyricsPreviewPassage=1,sequencePlaybackItemStartedAtMs=0,sequencePreviewStartIndex=0;
 let songAutosaveTimer=null,songSaveDirty=false,songAutosaveSuspended=0,songSaveState='idle',lastSongSavedSignature='';
 let sequenceConfiguredReturnCounts={};
 let globalAudioMuted=true;
@@ -5179,7 +5179,7 @@ function stopChordSequence(message='Sequência parada'){
  sequenceGroupPass=1;
  resetPlaybackPlanRuntime();
  resetConfiguredReturnCounts();
- clearTimeout(sequenceTimer);sequenceTimer=null;sequencePlaying=false;sequenceStartQueued=false;queuedSequenceSection=null;sequenceIndex=-1;sequencePlaybackItemStartedAtMs=0;sequenceEighthUnitsRemaining=0;sequenceContinuousItem=false;sequencePendingTransition=null;sequenceEndActionInProgress="";drumActionMuteFrom=0;drumActionMuteUntil=0;drumFillQueued=false;drumEndingQueued=false;clearChordLatchState(180);
+ clearTimeout(sequenceTimer);sequenceTimer=null;sequencePlaying=false;sequenceStartQueued=false;queuedSequenceSection=null;sequenceIndex=-1;sequencePlaybackItemStartedAtMs=0;sequencePreviewStartIndex=0;sequenceEighthUnitsRemaining=0;sequenceContinuousItem=false;sequencePendingTransition=null;sequenceEndActionInProgress="";drumActionMuteFrom=0;drumActionMuteUntil=0;drumFillQueued=false;drumEndingQueued=false;clearChordLatchState(180);
  if(sequencePlaybackOriginalChordMode==='together'||sequencePlaybackOriginalChordMode==='arpeggio')chordMode=sequencePlaybackOriginalChordMode;
  sequencePlaybackOriginalChordMode=null;
  syncChordModeButtons();
@@ -5576,6 +5576,15 @@ function loadSequenceItem(index,boundaryAudioTime){
 }
 function advanceSequenceBoundary(step,boundaryAudioTime){
  return sequenceTransportConsumer.advanceBoundary(step,boundaryAudioTime);
+}
+function loadSequenceTransportItem(index,boundaryAudioTime){
+ let targetIndex=index;
+ if(sequenceRecordPreviewActive&&index===0&&sequenceIndex<0){
+  const sequence=currentChordSequence();
+  targetIndex=Math.max(0,Math.min(Math.max(0,sequence.length-1),Math.round(Number(sequencePreviewStartIndex)||0)));
+  sequencePreviewStartIndex=0;
+ }
+ return loadSequenceItem(targetIndex,boundaryAudioTime);
 }
 function nextNonEmptySequence(section){
  const order=sequenceOrder.slice();
@@ -6319,7 +6328,7 @@ const sequenceTransportConsumer=GeraTransportChordSequenceSync.createConsumer({
  setUnitsRemaining:function(value){sequenceEighthUnitsRemaining=value},
  isContinuousItem:function(){return sequenceContinuousItem},
  setContinuousItem:function(value){sequenceContinuousItem=value},
- loadItem:loadSequenceItem,
+ loadItem:loadSequenceTransportItem,
  onStarted:function(){
   setStatus('Reproduzindo '+SEQUENCE_SECTION_LABELS[activeSequenceSection]+((sequenceAuto||sequenceAutoEnd)?(sequenceAutoEnd?' em Auto Fim':' em modo automático'):' em repetição contínua'));
  },
@@ -7174,7 +7183,7 @@ function normalizedLyricsPreviewPassage(value){
  if(!Number.isFinite(number))return 1;
  return Math.max(1,Math.min(GeraLyrics.MAX_PASSAGE,number));
 }
-function startLyricsSequencePreview(section,passage){
+function startLyricsSequencePreview(section,passage,startIndex){
  if(!SEQUENCE_SECTION_LABELS[section]||!(sequenceSections[section]||[]).length){
   setStatus((SEQUENCE_SECTION_LABELS[section]||section)+' está vazia');
   return false;
@@ -7189,9 +7198,10 @@ function startLyricsSequencePreview(section,passage){
   setStatus('O controlador de execução da sequência ainda não está disponível');
   return false;
  }
- const started=sequenceRecordUiBridge.startPreview('lyrics');
+ const requestedStartIndex=Math.max(0,Math.min(sequenceSections[section].length-1,Math.round(Number(startIndex)||0)));
+ const started=sequenceRecordUiBridge.startPreview('lyrics',requestedStartIndex);
  if(!started)return false;
- setStatus('Executando '+SEQUENCE_SECTION_LABELS[section]+' uma vez para ajustar a entrada das letras');
+ setStatus('Executando '+SEQUENCE_SECTION_LABELS[section]+(requestedStartIndex>0?' a partir do item '+(requestedStartIndex+1):' uma vez')+' para ajustar a entrada das letras');
  return true;
 }
 function stopLyricsSequencePreview(message){
@@ -8410,7 +8420,7 @@ bindPlaybackPlanControls();
   renderSequenceRecordExisting();
  }
 
- function startSequencePreviewOnce(owner){
+ function startSequencePreviewOnce(owner,startIndex){
   const requestedOwner=owner==='lyrics'?'lyrics':'record';
   const items=currentChordSequence();
   if(!items.length){
@@ -8426,11 +8436,15 @@ bindPlaybackPlanControls();
   sequencePreviewOwner=requestedOwner;
   sequenceRecordPreviewActive=true;
   sequencePlaybackItemStartedAtMs=0;
+  sequencePreviewStartIndex=requestedOwner==='lyrics'
+   ?Math.max(0,Math.min(items.length-1,Math.round(Number(startIndex)||0)))
+   :0;
   playChordSequence();
 
   if(!sequencePlaying&&!sequenceStartQueued){
    sequenceRecordPreviewActive=false;
    sequencePreviewOwner='';
+   sequencePreviewStartIndex=0;
    if(requestedOwner==='record'){
     const dialog=byId('sequence-record-dialog');
     if(dialog&&dialog.open){
@@ -8468,7 +8482,7 @@ bindPlaybackPlanControls();
    return;
   }
 
-  startSequencePreviewOnce('record');
+  startSequencePreviewOnce('record',0);
  }
 
  function cancelSequenceRecordDialog(){

@@ -10,6 +10,7 @@ const root=path.resolve(__dirname,'..');
 const index=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const modelSource=fs.readFileSync(path.join(root,'js','lyrics.js'),'utf8');
 const uiSource=fs.readFileSync(path.join(root,'js','ui','lyrics-editor.js'),'utf8');
+const styles=fs.readFileSync(path.join(root,'styles','inline-style-01.css'),'utf8');
 const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
 
 function model(){
@@ -148,6 +149,7 @@ test('cadastro saiu do editor de acordes e ganhou modal e chamadas próprias',fu
  assert.match(index,/id="sequence-lyrics-passage"/);
  assert.match(index,/id="sequence-lyrics-items"/);
  assert.match(index,/id="sequence-lyrics-play"/);
+ assert.doesNotMatch(index,/id="sequence-lyrics-pause"/);
  assert.match(index,/id="sequence-lyrics-preview-status"/);
  assert.match(uiSource,/Atraso da entrada vocal/);
  assert.match(uiSource,/dataset\.lyricsDelayIndex/);
@@ -162,7 +164,7 @@ test('modal executa uma passagem e apresenta cronômetro progressivo em cada aco
  assert.match(uiSource,/setInterval\(updatePreview,50\)/);
  assert.match(uiSource,/Entrada da letra:/);
  assert.match(uiSource,/Preparando execução/);
- assert.match(index,/function startLyricsSequencePreview\(section,passage\)/);
+ assert.match(index,/function startLyricsSequencePreview\(section,passage,startIndex\)/);
  assert.match(index,/function lyricsSequencePreviewState\(\)/);
  assert.match(index,/sequencePlaybackItemStartedAtMs\+=Math\.max/);
  assert.match(index,/sequencePreviewOwner==='lyrics'/);
@@ -186,7 +188,7 @@ test('clique da prévia libera o áudio e usa o mesmo iniciador de Testar 1x',fu
   sequencePreviewOwner:'',
   sequenceRecordPreviewActive:false,
   sequencePlaybackItemStartedAtMs:0,
-  sequenceRecordUiBridge:{startPreview:function(owner){calls.push('preview:'+owner);return true}},
+  sequenceRecordUiBridge:{startPreview:function(owner,startIndex){calls.push('preview:'+owner+':'+startIndex);return true}},
   setStatus:function(){},
   GeraLyrics:{MAX_PASSAGE:99}
  };
@@ -194,14 +196,14 @@ test('clique da prévia libera o áudio e usa o mesmo iniciador de Testar 1x',fu
  vm.runInContext(extractFunction('startLyricsSequencePreview'),context);
  const started=vm.runInContext("startLyricsSequencePreview('verse',1)",context);
  assert.equal(started,true);
- assert.deepEqual(calls.slice(0,3),['audio','mute:false:false','preview:lyrics']);
+ assert.deepEqual(calls,['audio','mute:false:false','preview:lyrics:0']);
 });
 
 test('modal e Testar 1x compartilham o iniciador real de uma passagem',function(){
- assert.match(index,/function startSequencePreviewOnce\(owner\)/);
+ assert.match(index,/function startSequencePreviewOnce\(owner,startIndex\)/);
  assert.match(index,/sequenceRecordUiBridge\.startPreview=startSequencePreviewOnce/);
- assert.match(index,/sequenceRecordUiBridge\.startPreview\('lyrics'\)/);
- assert.match(index,/startSequencePreviewOnce\('record'\)/);
+ assert.match(index,/sequenceRecordUiBridge\.startPreview\('lyrics',requestedStartIndex\)/);
+ assert.match(index,/startSequencePreviewOnce\('record',0\)/);
  assert.doesNotMatch(extractFunction('startLyricsSequencePreview'),/playChordSequence\(/);
 });
 
@@ -223,6 +225,37 @@ test('estado da prévia informa o tempo progressivo do acorde ativo',function(){
  assert.equal(state.section,'chorus');
  assert.equal(state.index,2);
  assert.equal(state.itemElapsedMs,475);
+});
+
+test('cada item oferece reinício próprio e a pausa foi retirada integralmente',function(){
+ assert.match(uiSource,/sequence-lyrics-start-here/);
+ assert.match(uiSource,/▶ Começar daqui/);
+ assert.match(uiSource,/restartPreviewAt\(index\)/);
+ assert.doesNotMatch(index,/sequence-lyrics-pause|pauseLyricsSequencePreview|resumeLyricsSequencePreview/);
+ assert.doesNotMatch(uiSource,/previewPaused|togglePreviewPause|pausePreview|resumePreview|▶ Continuar/);
+});
+
+test('barra mantém posições fixas para a letra atual e a próxima',function(){
+ assert.match(styles,/\.sequence-text-preview \.sequence-text-now\{[\s\S]*?min-height:1\.05rem/);
+ assert.match(styles,/\.sequence-text-preview \.sequence-text-next\{[\s\S]*?min-height:\.82rem/);
+ assert.match(styles,/\.sequence-text-preview-floating\{[\s\S]*?min-height:54px/);
+ assert.match(index,/class="sequence-text-now"/);
+ assert.match(index,/class="sequence-text-next"/);
+});
+
+test('placar compacto reserva três linhas mesmo quando uma passagem não tem letra',function(){
+ assert.match(styles,/\.compact-carousel-lyrics\{[\s\S]*?grid-template-rows:repeat\(3,minmax\(20px,auto\)\)[\s\S]*?height:96px/);
+ assert.match(styles,/\.compact-carousel-lyric-current\{[\s\S]*?min-height:20px/);
+ assert.match(styles,/\.compact-carousel-lyric-next\{[\s\S]*?min-height:20px/);
+ assert.match(styles,/\.compact-carousel-lyric-current:not\(\.has-text\),[\s\S]*?visibility:hidden/);
+ assert.doesNotMatch(styles,/\.compact-carousel-lyric-current:not\(\.has-text\),[^}]*display:none/);
+});
+
+test('campo vazio de letra usa instrução visual diferente do texto preenchido',function(){
+ assert.match(uiSource,/Digite a letra desta passagem…/);
+ assert.match(uiSource,/Digite o texto padrão…/);
+ assert.match(styles,/\.sequence-lyrics-item textarea::placeholder\{[^}]*opacity:\.58[^}]*font-style:italic/);
+ assert.match(styles,/\.sequence-lyrics-item textarea:placeholder-shown\{[^}]*border-style:dashed/);
 });
 
 test('término da execução do modal retorna ao controlador de letras',function(){

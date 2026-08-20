@@ -97,7 +97,7 @@ test('scripts externos carregam uma vez, existem e respeitam a ordem de dependê
  assert.equal(scripts[23],'./js/audio/core.js');
 });
 
-test('DOM possui 355 identificadores únicos após o status da prévia de letras',function(){
+test('DOM possui 355 identificadores únicos após a retirada da pausa das letras',function(){
  const ids=Array.from(index.matchAll(/\bid=["']([^"']+)["']/g),function(match){return match[1]});
  assert.equal(ids.length,355);
  assert.equal(new Set(ids).size,355);
@@ -142,14 +142,14 @@ test('HTML e SERVICE WORKER referenciam exatamente os mesmos scripts funcionais'
  scripts.forEach(function(script){assert.equal(urls.filter(function(url){return url===script}).length,1,script)});
 });
 
-test('manifesto e identificação visual usam somente a versão 3.15.50',function(){
- assert.equal(manifest.version,'3.15.50');
- assert.equal(count(index,/3\.15\.50/g),3);
+test('manifesto e identificação visual usam somente a versão 3.15.53',function(){
+ assert.equal(manifest.version,'3.15.53');
+ assert.equal(count(index,/3\.15\.53/g),3);
  assert.equal(count(index,/3\.15\.30/g),0);
  assert.equal(count(index,/3\.15\.29/g),0);
  assert.equal(count(index,/3\.15\.28/g),0);
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.50';"));
- assert.equal(count(sw,/v3\.15\.50/g),1);
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.53';"));
+ assert.equal(count(sw,/v3\.15\.53/g),1);
 });
 
 test('SERVICE WORKER mantém instalação, atualização, limpeza e fallback offline',function(){

@@ -11,6 +11,7 @@
   let selectedPassage=1;
   let previewTimer=null;
   let previewActive=false;
+  let previewStartIndex=0;
   let previewLastState=null;
 
   function clone(value){return JSON.parse(JSON.stringify(value))}
@@ -101,11 +102,18 @@
     name.textContent=itemLabel(item,index);
     const duration=documentRef.createElement('small');
     duration.textContent=itemDuration(item);
-    head.append(position,name,duration);
+    const startHere=documentRef.createElement('button');
+    startHere.type='button';
+    startHere.className='sequence-lyrics-start-here';
+    startHere.textContent='▶ Começar daqui';
+    startHere.title='Executar a sequência a partir deste item';
+    startHere.dataset.lyricsStartIndex=String(index);
+    startHere.onclick=function(){restartPreviewAt(index)};
+    head.append(position,name,duration,startHere);
     const input=documentRef.createElement('textarea');
     input.rows=2;
     input.maxLength=global.GeraLyrics.MAX_TEXT_LENGTH;
-    input.placeholder=selectedPassage==='default'?'Texto usado como padrão':'Letra desta passagem';
+    input.placeholder=selectedPassage==='default'?'Digite o texto padrão…':'Digite a letra desta passagem…';
     input.value=global.GeraLyrics.textForEditor(item,selectedPassage);
     input.dataset.lyricsItemIndex=String(index);
     input.setAttribute('aria-label','Letra de '+itemLabel(item,index));
@@ -187,7 +195,7 @@
     const duration=itemDurationMs(item);
     let elapsed=0;
     if(matching){
-     if(index<state.index)elapsed=duration;
+     if(index<state.index&&index>=previewStartIndex)elapsed=duration;
      else if(index===state.index)elapsed=Math.max(0,Math.min(duration,Number(state.itemElapsedMs)||0));
     }
     const delay=global.GeraLyrics.delayMsForEditor(item,selectedPassage);
@@ -208,7 +216,7 @@
     counter.classList.toggle('entry-reached',reached);
     if(card){
      card.classList.toggle('preview-active',active);
-     card.classList.toggle('preview-complete',!!(matching&&index<state.index));
+     card.classList.toggle('preview-complete',!!(matching&&index<state.index&&index>=previewStartIndex));
     }
    });
   }
@@ -220,10 +228,11 @@
   }
   function syncPreviewButton(){
    const button=element('sequence-lyrics-play');
-   if(!button)return;
-   button.textContent=previewActive?'■ Parar execução':'▶ Executar sequência';
-   button.classList.toggle('active',previewActive);
-   button.title=previewActive?'Interromper a execução da sequência':'Executar uma vez a sequência selecionada, sem bateria';
+   if(button){
+    button.textContent=previewActive?'■ Parar execução':'▶ Executar sequência';
+    button.classList.toggle('active',previewActive);
+    button.title=previewActive?'Interromper a execução da sequência':'Executar uma vez a sequência selecionada, sem bateria';
+   }
   }
   function setPreviewStatus(message,state){
    const status=element('sequence-lyrics-preview-status');
@@ -237,27 +246,24 @@
    const state=options.previewState?options.previewState():null;
    if(!state||!state.active){finishPreview('',false);return}
    previewLastState=state;
+   syncPreviewButton();
    updateCounterCards(state);
    if(state.index<0)setPreviewStatus('Preparando execução…','playing');
    else setPreviewStatus('Executando item '+(state.index+1)+' de '+currentItems().length+' · '+formatCounter(state.itemElapsedMs),'playing');
   }
-  function startPreview(){
-   if(previewActive){
-    if(options.stopPreview)options.stopPreview('Execução interrompida no editor de letras');
-    else finishPreview('',false);
-    return;
-   }
+  function beginPreview(startIndex){
    if(!currentItems().length){
     if(options.emptyPreview)options.emptyPreview(selectedSection);
     setPreviewStatus('A sequência selecionada está vazia','error');
     return;
    }
+   previewStartIndex=Math.max(0,Math.min(currentItems().length-1,Math.round(Number(startIndex)||0)));
    previewLastState={section:selectedSection,index:-1,itemElapsedMs:0};
    updateCounterCards(previewLastState);
    setPreviewStatus('Preparando execução…','playing');
    let started=false;
    try{
-    started=options.startPreview?options.startPreview(selectedSection,selectedPassage):false;
+    started=options.startPreview?options.startPreview(selectedSection,selectedPassage,previewStartIndex):false;
    }catch(error){
     if(options.previewError)options.previewError(error);
     setPreviewStatus('Não foi possível iniciar a execução','error');
@@ -270,6 +276,21 @@
    clearInterval(previewTimer);
    previewTimer=setInterval(updatePreview,50);
    updatePreview();
+  }
+  function togglePreview(){
+   if(previewActive){
+    if(options.stopPreview)options.stopPreview('Execução interrompida no editor de letras');
+    else finishPreview('',false);
+    return;
+   }
+   beginPreview(0);
+  }
+  function restartPreviewAt(index){
+   if(previewActive){
+    if(options.stopPreview)options.stopPreview('Reiniciando a execução em outro item');
+    else finishPreview('',false);
+   }
+   beginPreview(index);
   }
   function finishPreview(message,completed){
    clearInterval(previewTimer);
@@ -303,6 +324,9 @@
   }
   function open(section){
    if(options.canEdit&&!options.canEdit())return false;
+   previewActive=false;
+   previewStartIndex=0;
+   previewLastState=null;
    draft=clone(options.getSections());
    selectedSection=options.sectionLabels[section]?section:(options.sectionLabels[options.activeSection()]?options.activeSection():'verse');
    selectedPassage=1;
@@ -319,6 +343,7 @@
    clearInterval(previewTimer);
    previewTimer=null;
    previewActive=false;
+   previewStartIndex=0;
    draft=null;
    const dialog=element('sequence-lyrics-dialog');
    if(dialog&&dialog.open)dialog.close();
@@ -387,7 +412,7 @@
    if(add)add.onclick=addPassage;
    if(remove)remove.onclick=removePassage;
    if(duplicate)duplicate.onclick=duplicatePrevious;
-   if(play)play.onclick=startPreview;
+   if(play)play.onclick=togglePreview;
    if(saveButton)saveButton.onclick=save;
    if(cancel)cancel.onclick=close;
    if(closeButton)closeButton.onclick=close;

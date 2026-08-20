@@ -122,11 +122,11 @@ test('HTML carrega o teclado antes do núcleo e remove os listeners diretos ante
  assert.equal(html.includes("keyboardEl.addEventListener('touchstart'"),false);
 });
 
-test('SERVICE WORKER mantém o teclado no pré-cache 3.15.50',function(){
+test('SERVICE WORKER mantém o teclado no pré-cache 3.15.53',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.50';"));
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.53';"));
  assert.equal((sw.match(/\.\/js\/ui\/keyboard\.js/g)||[]).length,1);
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.50');
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.53');
 });
 
 test('reversão exclusiva da 8C recompõe a versão 3.15.22 byte a byte',function(){
