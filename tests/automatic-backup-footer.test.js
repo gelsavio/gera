@@ -28,6 +28,8 @@ function createHarness(options){
  const files=new Map();
  const writes=[];
  const reads=[];
+ const sizes=[];
+ const fileEvents=[];
  const parses=[];
  const stringifies=[];
  const timers=[];
@@ -43,11 +45,15 @@ function createHarness(options){
    }
    if(!files.has(name))files.set(name,'');
    return {
-    getFile:async function(){return {text:async function(){
-     reads.push(name);
-     if(options.beforeRead)await options.beforeRead(name);
-     return files.get(name);
-    }}},
+    getFile:async function(){return {
+     get size(){sizes.push(name);fileEvents.push('size:'+name);return Buffer.byteLength(files.get(name),'utf8')},
+     text:async function(){
+      reads.push(name);
+      fileEvents.push('text:'+name);
+      if(options.beforeRead)await options.beforeRead(name);
+      return files.get(name);
+     }
+    }},
     createWritable:async function(){
      return {
       write:async function(content){files.set(name,String(content));writes.push(name)},
@@ -57,9 +63,31 @@ function createHarness(options){
    };
   }
  };
+ function makeElement(){
+  const element={
+   children:[],
+   dataset:{},
+   open:false,
+   appendChild:function(child){this.children.push(child);return child},
+   click:function(){return this.onclick?this.onclick():undefined},
+   remove:function(){},
+   showModal:function(){this.open=true},
+   close:function(){this.open=false}
+  };
+  let html='';
+  Object.defineProperty(element,'innerHTML',{
+   get:function(){return html},
+   set:function(value){html=String(value);element.children.length=0}
+  });
+  return element;
+ }
+ const elements={};
+ if(options.recoveryDom){
+  ['folder-backup-recovery-dialog','folder-backup-recovery-title','folder-backup-recovery-message','folder-backup-recovery-list'].forEach(function(id){elements[id]=makeElement()});
+ }
  const document={
-  getElementById:function(){return null},
-  createElement:function(){return {click:function(){},remove:function(){}}}
+  getElementById:function(id){return elements[id]||null},
+  createElement:function(){return makeElement()}
  };
  const fakeUrl={createObjectURL:function(){return 'blob:backup'},revokeObjectURL:function(){}};
  const window={
@@ -77,11 +105,11 @@ function createHarness(options){
  window.window=window;
  window.globalThis=window;
  const trackedJson={
-  parse:function(value){parses.push(value);return JSON.parse(value)},
+  parse:function(value){parses.push(value);fileEvents.push('parse');return JSON.parse(value)},
   stringify:function(value,replacer,space){stringifies.push(value);return JSON.stringify(value,replacer,space)}
  };
  vm.runInNewContext(source,{window:window,globalThis:window,console:console,Blob:Blob,URL:fakeUrl,JSON:trackedJson});
- return {api:window.GeraFolderBackup,directory:directory,files:files,reads:reads,writes:writes,parses:parses,stringifies:stringifies,timers:timers};
+ return {api:window.GeraFolderBackup,directory:directory,elements:elements,files:files,reads:reads,writes:writes,sizes:sizes,fileEvents:fileEvents,parses:parses,stringifies:stringifies,timers:timers};
 }
 
 test('módulo calcula a redução crítica e usa os dois arquivos de segurança',function(){
@@ -150,6 +178,70 @@ test('trava impede leituras concorrentes de backup',async function(){
  assert.equal(harness.reads.length,1);
  releaseRead();
  assert.equal(await first,true);
+});
+
+test('recuperação lista somente metadados e relê apenas o arquivo escolhido',async function(){
+ const restored=[];
+ const harness=createHarness({recoveryDom:true});
+ await harness.api.initialize({
+  data:data(['LOCAL']),
+  notify:function(){},
+  restore:async function(value,sourceInfo){restored.push({value:value,sourceInfo:sourceInfo});return true}
+ });
+ assert.equal(await harness.api.chooseFolder(),true);
+ harness.files.set('gera-backup.json',JSON.stringify(harness.api.makeBackup(data(['MAIN_SENTINEL']),'main')));
+ harness.files.set('gera-backup-anterior.json',JSON.stringify(harness.api.makeBackup(data(['PREVIOUS_SENTINEL']),'before-reduction')));
+
+ assert.equal(await harness.api.openRecovery(),true);
+ assert.deepEqual(harness.reads,['gera-backup.json','gera-backup-anterior.json']);
+ assert.equal(harness.parses.length,2);
+ assert.deepEqual(harness.fileEvents,[
+  'size:gera-backup.json','text:gera-backup.json','parse',
+  'size:gera-backup-anterior.json','text:gera-backup-anterior.json','parse'
+ ]);
+
+ const buttons=harness.elements['folder-backup-recovery-list'].children;
+ assert.equal(buttons.length,2);
+ assert.doesNotMatch(buttons[0].innerHTML,/MAIN_SENTINEL/);
+ assert.doesNotMatch(buttons[1].innerHTML,/PREVIOUS_SENTINEL/);
+ assert.match(buttons[0].onclick.toString(),/restoreFile\(name\)/);
+ assert.doesNotMatch(buttons[0].onclick.toString(),/item|backup/);
+ assert.doesNotMatch(source.slice(source.indexOf('function renderRecoveryList'),source.indexOf('async function openRecoveryOperation')),/item\.backup/);
+
+ assert.equal(await buttons[0].click(),true);
+ assert.equal(harness.reads.filter(function(name){return name==='gera-backup.json'}).length,2);
+ assert.equal(harness.reads.filter(function(name){return name==='gera-backup-anterior.json'}).length,1);
+ assert.equal(harness.parses.length,3);
+ assert.equal(restored.length,1);
+ assert.equal(Object.keys(restored[0].value.songsStore.songs)[0],'MAIN_SENTINEL');
+ assert.equal(restored[0].sourceInfo.label,'gera-backup.json');
+ assert.equal(typeof restored[0].sourceInfo.size,'number');
+});
+
+test('importação manual consulta tamanho, lê e interpreta uma única vez',async function(){
+ const restored=[];
+ const order=[];
+ const harness=createHarness();
+ await harness.api.initialize({
+  data:data(['LOCAL']),
+  notify:function(){},
+  restore:async function(value,sourceInfo){restored.push({value:value,sourceInfo:sourceInfo});return true}
+ });
+ const text=JSON.stringify(harness.api.makeBackup(data(['MANUAL']),'main'));
+ const file={
+  name:'manual.json',
+  get size(){order.push('size');return Buffer.byteLength(text,'utf8')},
+  text:async function(){order.push('text');return text}
+ };
+ const input={files:[file],value:'manual.json'};
+
+ assert.equal(await harness.api.selectManualFile(input),true);
+ assert.deepEqual(order,['size','text']);
+ assert.equal(harness.parses.length,1);
+ assert.equal(restored.length,1);
+ assert.equal(Object.keys(restored[0].value.songsStore.songs)[0],'MANUAL');
+ assert.equal(restored[0].sourceInfo.size,Buffer.byteLength(text,'utf8'));
+ assert.equal(input.value,'');
 });
 
 test('acervo vazio nunca substitui o backup em pasta',async function(){

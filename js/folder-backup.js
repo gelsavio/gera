@@ -145,13 +145,20 @@
   }
   return false;
  }
+ function getFileSize(file){
+  const size=file&&file.size;
+  return typeof size==='number'&&Number.isFinite(size)&&size>=0?size:null;
+ }
  async function readJsonFile(name){
   if(!directoryHandle)return null;
   try{
    const handle=await directoryHandle.getFileHandle(name);
    const file=await handle.getFile();
-   const text=await file.text();
-   return text.trim()?JSON.parse(text):null;
+   const size=getFileSize(file);
+   let text=await file.text();
+   const value=/\S/.test(text)?JSON.parse(text):null;
+   text=null;
+   return {value:value,size:size};
   }catch(error){
    if(error&&error.name==='NotFoundError')return null;
    throw error;
@@ -197,7 +204,8 @@
   if(!(await checkPermission(directoryHandle,false))){setStatus('Backup requer autorização','warning');return false}
   try{
    let currentBackup=null;
-   const raw=await readJsonFile(MAIN_FILE);
+   const loaded=await readJsonFile(MAIN_FILE);
+   const raw=loaded&&loaded.value;
    if(raw){
     try{currentBackup=validateBackup(raw)}
     catch(error){
@@ -319,16 +327,30 @@
   ];
   for(const definition of definitions){
    try{
-    const raw=await readJsonFile(definition.name);
-    if(!raw)continue;
-    result.push({name:definition.name,label:definition.label,backup:validateBackup(raw)});
+    const metadata=await readBackupMetadata(definition);
+    if(metadata)result.push(metadata);
    }catch(error){if(global.console)global.console.warn('Backup ignorado:',definition.name,error)}
   }
   return result;
  }
+ async function readBackupMetadata(definition){
+  const loaded=await readJsonFile(definition.name);
+  if(!loaded||!loaded.value)return null;
+  const backup=validateBackup(loaded.value);
+  const info=backup.summary||summary(backup.data);
+  return {
+   name:definition.name,
+   label:definition.label,
+   updatedAt:backup.updatedAt||null,
+   summary:{songs:info.songs,lists:info.lists,patterns:info.patterns},
+   size:loaded.size
+  };
+ }
  function recoveryDialog(){return byId('folder-backup-recovery-dialog')}
  function closeRecovery(){const dialog=recoveryDialog();if(dialog&&dialog.open)dialog.close()}
- async function restoreBackup(backup,label){
+ async function restoreBackup(backup,source){
+  const label=source&&source.label?source.label:String(source||'backup');
+  const size=source&&typeof source.size==='number'?source.size:null;
   const info=backup.summary||summary(backup.data);
   const accepted=await confirmAction(
    'Restaurar '+info.songs+(info.songs===1?' música':' músicas')+' de '+label+' e substituir o acervo atual?',
@@ -336,7 +358,7 @@
    'Restaurar'
   );
   if(!accepted)return false;
-  if(!callbacks.restore||!(await callbacks.restore(backup.data))){
+  if(!callbacks.restore||!(await callbacks.restore(backup.data,{label:label,size:size}))){
    notify('Não foi possível restaurar o backup.');
    return false;
   }
@@ -347,8 +369,9 @@
  }
  async function restoreFileOperation(name){
   try{
-   const backup=validateBackup(await readJsonFile(name));
-   return restoreBackup(backup,name);
+   const loaded=await readJsonFile(name);
+   const backup=validateBackup(loaded&&loaded.value);
+   return restoreBackup(backup,{label:name,size:loaded&&loaded.size});
   }catch(error){
    if(global.console)global.console.error('Erro ao restaurar backup:',error);
    notify('O backup não pôde ser restaurado: '+error.message);
@@ -360,6 +383,15 @@
   operationInProgress=true;
   try{return await restoreFileOperation(name)}
   finally{operationInProgress=false}
+ }
+ function formatFileSize(size){
+  if(typeof size!=='number')return '';
+  if(size<1024)return size+' B';
+  if(size<1048576)return (size/1024).toFixed(1)+' KB';
+  return (size/1048576).toFixed(1)+' MB';
+ }
+ function recoveryButtonAction(name){
+  return function(){return restoreFile(name)};
  }
  function renderRecoveryList(backups){
   const list=byId('folder-backup-recovery-list');
@@ -373,12 +405,14 @@
    return;
   }
   backups.forEach(function(item){
-   const info=item.backup.summary||summary(item.backup.data);
+   const name=item.name;
+   const info=item.summary;
+   const sizeText=typeof item.size==='number'?' · '+formatFileSize(item.size):'';
    const button=global.document.createElement('button');
    button.type='button';
    button.className='folder-backup-option';
-   button.innerHTML='<strong>'+item.label+'</strong><span>'+formatDate(item.backup.updatedAt)+'</span><span>'+info.songs+' músicas · '+info.lists+' listas · '+info.patterns+' ritmos</span>';
-   button.onclick=function(){restoreFile(item.name)};
+   button.innerHTML='<strong>'+item.label+'</strong><span>'+formatDate(item.updatedAt)+'</span><span>'+info.songs+' músicas · '+info.lists+' listas · '+info.patterns+' ritmos'+sizeText+'</span>';
+   button.onclick=recoveryButtonAction(name);
    list.appendChild(button);
   });
  }
@@ -414,7 +448,15 @@
  async function selectManualFileOperation(input){
   const file=input&&input.files?input.files[0]:null;
   if(!file)return false;
-  try{return await restoreBackup(validateBackup(JSON.parse(await file.text())),file.name)}
+  try{
+   const size=getFileSize(file);
+   let text=await file.text();
+   let value=JSON.parse(text);
+   text=null;
+   const backup=validateBackup(value);
+   value=null;
+   return await restoreBackup(backup,{label:file.name,size:size});
+  }
   catch(error){
    if(global.console)global.console.error('Arquivo de backup inválido:',error);
    notify('O arquivo selecionado não é um backup válido do GERA.');
@@ -459,8 +501,8 @@
    if(await checkPermission(directoryHandle,false)){
     setStatus('Backup automático em pasta ativo','active');
     try{
-     const raw=await readJsonFile(MAIN_FILE);
-     if(raw)setLastBackup(validateBackup(raw));
+     const loaded=await readJsonFile(MAIN_FILE);
+     if(loaded&&loaded.value)setLastBackup(validateBackup(loaded.value));
     }catch(error){setStatus('Backup existente precisa de verificação','error')}
    }else setStatus('Backup requer autorização','warning');
   }else setStatus('Backup automático em pasta não configurado','warning');
