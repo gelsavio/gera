@@ -369,16 +369,16 @@
  function wizardCopy(step){
   const appName=callbacks.appName||'GERA';
   const copy={
-   welcome:{title:'Bem-vindo ao '+appName,message:'Como você deseja começar?'},
-   source:{title:'Onde está seu backup?',message:'Escolha uma pasta compartilhada ou um arquivo JSON.'},
-   authorize:{title:'Autorizar acesso à pasta',message:'O '+appName+' reconheceu a pasta usada anteriormente, mas o navegador precisa de sua autorização para acessá-la novamente.'},
-   'folder-guide':{title:'Escolha uma pasta',message:'Na próxima tela, escolha ou crie a pasta onde seus backups serão mantidos. Depois toque em “Usar esta pasta”.'},
-   connected:{title:'Pasta conectada',message:'A pasta foi configurada com sucesso.'},
-   searching:{title:'Procurando backup',message:'Aguarde enquanto verificamos a pasta selecionada.'},
-   results:{title:'Backup encontrado',message:'Escolha a cópia que deseja restaurar.'},
-   'not-found':{title:'Nenhum backup encontrado',message:'Não encontramos um backup do '+appName+' nesta pasta.'},
-   restored:{title:'Biblioteca recuperada',message:'Seu backup foi restaurado com sucesso.'},
-   'empty-confirm':{title:'Começar uma nova biblioteca',message:'O '+appName+' será iniciado sem músicas.'}
+   welcome:{title:'Bem-vindo ao '+appName,message:'Percebi que este dispositivo ainda não possui sua biblioteca ativa. Se você já usa o '+appName+' em outro aparelho, posso ajudar a recuperar seu backup. Se preferir, você também pode começar com uma biblioteca nova.'},
+   source:{title:'Onde está sua biblioteca?',message:'Escolha a forma mais fácil de localizar sua biblioteca.'},
+   authorize:{title:'Autorizar acesso à pasta',message:'Sua pasta anterior foi reconhecida. Para continuar, o navegador precisa permitir o acesso novamente.'},
+   'folder-guide':{title:'Escolha uma pasta',message:'Escolha ou crie a pasta onde seus backups ficam guardados. Depois, toque em “Usar esta pasta”.'},
+   connected:{title:'Pasta conectada',message:'Tudo certo! Sua pasta está pronta para ser consultada.'},
+   searching:{title:'Procurando seus backups',message:'Estou procurando os backups disponíveis nesta pasta.'},
+   results:{title:'Backup encontrado',message:'Encontrei estas opções. Confira os detalhes e escolha a biblioteca que deseja recuperar.'},
+   'not-found':{title:'Nenhum backup encontrado',message:'Não encontrei um backup do '+appName+' nesta pasta. Você pode tentar outra pasta, escolher um arquivo JSON ou começar uma biblioteca nova.'},
+   restored:{title:'Biblioteca recuperada',message:'Seu backup foi restaurado com sucesso. Suas músicas já estão prontas para uso neste dispositivo.'},
+   'empty-confirm':{title:'Começar uma nova biblioteca',message:'Você começará com uma biblioteca limpa e poderá recuperar um backup depois, quando quiser.'}
   };
   return copy[step]||copy.source;
  }

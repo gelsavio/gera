@@ -935,10 +935,11 @@
 <dialog id="backup-wizard" class="backup-wizard" aria-labelledby="backup-wizard-title" aria-describedby="backup-wizard-message">
   <div class="backup-wizard-card">
     <header class="backup-wizard-header">
+      <div class="backup-wizard-brand-mark" aria-hidden="true">G</div>
       <div class="backup-wizard-heading">
-        <span class="backup-wizard-kicker">Biblioteca e backup</span>
+        <span class="backup-wizard-kicker">Primeiros passos</span>
         <h2 id="backup-wizard-title">Bem-vindo ao GERA</h2>
-        <p id="backup-wizard-message">Como você deseja começar?</p>
+        <p id="backup-wizard-message">Percebi que este dispositivo ainda não possui sua biblioteca ativa. Se você já usa o GERA em outro aparelho, posso ajudar a recuperar seu backup. Se preferir, você também pode começar com uma biblioteca nova.</p>
       </div>
       <button id="backup-wizard-close" type="button" class="backup-wizard-close" aria-label="Fechar assistente">×</button>
     </header>
@@ -950,11 +951,11 @@
       <div class="backup-wizard-choice-grid">
         <button id="backup-wizard-recover" type="button" class="backup-wizard-choice backup-wizard-choice-primary">
           <strong>Recuperar minha biblioteca</strong>
-          <small>Use um backup criado neste ou em outro dispositivo.</small>
+          <small>Traga suas músicas de um backup criado neste ou em outro dispositivo.</small>
         </button>
         <button id="backup-wizard-empty" type="button" class="backup-wizard-choice">
           <strong>Começar com biblioteca vazia</strong>
-          <small>Comece uma nova biblioteca e configure o backup depois.</small>
+          <small>Crie uma biblioteca nova agora e configure o backup quando quiser.</small>
         </button>
       </div>
     </section>
@@ -977,7 +978,7 @@
     </section>
 
     <section id="backup-wizard-step-folder-guide" class="backup-wizard-step" hidden>
-      <p class="backup-wizard-note">Nenhuma música será alterada nesta etapa.</p>
+      <p class="backup-wizard-note">Pode ficar tranquilo: nenhuma música será alterada nesta etapa.</p>
       <div class="backup-wizard-actions">
         <button id="backup-wizard-choose-folder" type="button" class="primary">Escolher pasta</button>
         <button type="button" class="secondary" data-backup-wizard-back>Voltar</button>
@@ -986,7 +987,7 @@
 
     <section id="backup-wizard-step-connected" class="backup-wizard-step" hidden>
       <div class="backup-wizard-success" aria-hidden="true">✓</div>
-      <p class="backup-wizard-note">Agora podemos procurar um backup do GERA nela.</p>
+      <p class="backup-wizard-note">Tudo certo! A pasta foi conectada sem alterar nenhuma música. Agora podemos procurar seu backup nela.</p>
       <div class="backup-wizard-actions backup-wizard-actions-stack">
         <button id="backup-wizard-search" type="button" class="primary">Procurar backup</button>
         <button id="backup-wizard-connected-other" type="button">Escolher outra pasta</button>
@@ -996,7 +997,7 @@
 
     <section id="backup-wizard-step-searching" class="backup-wizard-step" hidden aria-live="polite">
       <div class="backup-wizard-loading" aria-hidden="true"></div>
-      <p class="backup-wizard-loading-text">Procurando backups…</p>
+      <p class="backup-wizard-loading-text">Procurando seus backups…</p>
     </section>
 
     <section id="backup-wizard-step-results" class="backup-wizard-step" hidden>
@@ -1016,7 +1017,7 @@
       </div>
     </section>
 
-    <section id="backup-wizard-step-restored" class="backup-wizard-step" hidden>
+    <section id="backup-wizard-step-restored" class="backup-wizard-step backup-wizard-step-success" hidden>
       <div class="backup-wizard-success" aria-hidden="true">✓</div>
       <div class="backup-wizard-actions">
         <button id="backup-wizard-enter" type="button" class="primary">Entrar no GERA</button>
@@ -1024,7 +1025,7 @@
     </section>
 
     <section id="backup-wizard-step-empty-confirm" class="backup-wizard-step" hidden>
-      <p class="backup-wizard-note">Nenhum backup existente será apagado. Você poderá recuperar um backup posteriormente pelas configurações.</p>
+      <p class="backup-wizard-note">Nenhum backup existente será apagado. Você poderá recuperar sua biblioteca depois, quando quiser, pelas configurações.</p>
       <div class="backup-wizard-actions">
         <button id="backup-wizard-start-empty" type="button" class="primary">Começar agora</button>
         <button type="button" class="secondary" data-backup-wizard-back>Voltar</button>

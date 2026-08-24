@@ -228,7 +228,7 @@ test('biblioteca vazia abre o wizard na tela de boas-vindas',async function(){
 
  assert.equal(harness.elements['backup-wizard'].open,true);
  assert.equal(harness.elements['backup-wizard-title'].textContent,'Bem-vindo ao GERA');
- assert.equal(harness.elements['backup-wizard-message'].textContent,'Como você deseja começar?');
+ assert.equal(harness.elements['backup-wizard-message'].textContent,'Percebi que este dispositivo ainda não possui sua biblioteca ativa. Se você já usa o GERA em outro aparelho, posso ajudar a recuperar seu backup. Se preferir, você também pode começar com uma biblioteca nova.');
  assert.equal(harness.elements['backup-wizard-step-welcome'].hidden,false);
  assert.equal(harness.elements['backup-wizard-step-source'].hidden,true);
  assert.match(index,/Recuperar minha biblioteca/);
