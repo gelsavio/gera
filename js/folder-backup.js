@@ -166,7 +166,12 @@
  }
  async function writeJsonFile(name,value){
   if(!directoryHandle)throw new Error('A pasta de backup não foi configurada.');
-  const handle=await directoryHandle.getFileHandle(name,{create:true});
+  let handle;
+  try{handle=await directoryHandle.getFileHandle(name)}
+  catch(error){
+   if(!error||error.name!=='NotFoundError')throw error;
+   handle=await directoryHandle.getFileHandle(name,{create:true});
+  }
   const writable=await handle.createWritable();
   try{await writable.write(JSON.stringify(value,null,2))}
   finally{await writable.close()}

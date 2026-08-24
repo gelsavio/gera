@@ -30,6 +30,9 @@ function createHarness(options){
  const reads=[];
  const sizes=[];
  const fileEvents=[];
+ const fileHandleRequests=[];
+ const returnedFileHandles=[];
+ const writableFileHandles=[];
  const parses=[];
  const stringifies=[];
  const timers=[];
@@ -38,13 +41,14 @@ function createHarness(options){
   queryPermission:async function(){return 'granted'},
   requestPermission:async function(){return 'granted'},
   getFileHandle:async function(name,fileOptions){
+   fileHandleRequests.push({name:name,create:!!(fileOptions&&fileOptions.create)});
    if(!files.has(name)&&!(fileOptions&&fileOptions.create)){
     const error=new Error('Arquivo não encontrado');
     error.name='NotFoundError';
     throw error;
    }
    if(!files.has(name))files.set(name,'');
-   return {
+   const fileHandle={
     getFile:async function(){return {
      get size(){sizes.push(name);fileEvents.push('size:'+name);return Buffer.byteLength(files.get(name),'utf8')},
      text:async function(){
@@ -55,12 +59,15 @@ function createHarness(options){
      }
     }},
     createWritable:async function(){
+     writableFileHandles.push(fileHandle);
      return {
       write:async function(content){files.set(name,String(content));writes.push(name)},
       close:async function(){}
      };
     }
    };
+   returnedFileHandles.push(fileHandle);
+   return fileHandle;
   }
  };
  function makeElement(){
@@ -109,7 +116,7 @@ function createHarness(options){
   stringify:function(value,replacer,space){stringifies.push(value);return JSON.stringify(value,replacer,space)}
  };
  vm.runInNewContext(source,{window:window,globalThis:window,console:console,Blob:Blob,URL:fakeUrl,JSON:trackedJson});
- return {api:window.GeraFolderBackup,directory:directory,elements:elements,files:files,reads:reads,writes:writes,sizes:sizes,fileEvents:fileEvents,parses:parses,stringifies:stringifies,timers:timers};
+ return {api:window.GeraFolderBackup,directory:directory,elements:elements,files:files,reads:reads,writes:writes,sizes:sizes,fileEvents:fileEvents,fileHandleRequests:fileHandleRequests,returnedFileHandles:returnedFileHandles,writableFileHandles:writableFileHandles,parses:parses,stringifies:stringifies,timers:timers};
 }
 
 test('módulo calcula a redução crítica e usa os dois arquivos de segurança',function(){
@@ -135,13 +142,24 @@ test('redução superior a 75% preserva a cópia anterior antes da principal',as
  assert.equal(harness.writes.length,0);
  assert.equal(await harness.api.runNow(),true);
  harness.writes.length=0;
+ harness.fileHandleRequests.length=0;
+ harness.returnedFileHandles.length=0;
+ harness.writableFileHandles.length=0;
 
  harness.api.schedule(data(['A']));
  assert.equal(harness.timers.at(-1).delay,3000);
  assert.equal(await harness.api.runNow(),true);
 
  assert.equal(confirmationCount,1);
+ assert.deepEqual(harness.fileHandleRequests.map(function(request){return [request.name,request.create]}),[
+  ['gera-backup.json',false],
+  ['gera-backup-anterior.json',false],
+  ['gera-backup-anterior.json',true],
+  ['gera-backup.json',false]
+ ]);
  assert.deepEqual(harness.writes,['gera-backup-anterior.json','gera-backup.json']);
+ assert.equal(harness.writableFileHandles[0],harness.returnedFileHandles[1]);
+ assert.equal(harness.writableFileHandles[1],harness.returnedFileHandles[2]);
  assert.equal(Object.keys(JSON.parse(harness.files.get('gera-backup-anterior.json')).data.songsStore.songs).length,5);
  assert.equal(Object.keys(JSON.parse(harness.files.get('gera-backup.json')).data.songsStore.songs).length,1);
 });
@@ -155,7 +173,33 @@ test('selecionar a pasta apenas salva a configuração, sem ler ou gravar backup
  assert.deepEqual(harness.writes,[]);
  assert.deepEqual(harness.parses,[]);
  assert.deepEqual(harness.stringifies,[]);
+ assert.deepEqual(harness.fileHandleRequests,[]);
  assert.equal(harness.files.has('gera-backup.json'),false);
+});
+
+test('escrita abre arquivo existente sem create true e reutiliza o handle retornado',async function(){
+ const harness=createHarness();
+ await harness.api.initialize({data:data(['A']),notify:function(){},restore:async function(){}});
+ assert.equal(await harness.api.chooseFolder(),true);
+ harness.files.set('gera-backup.json',JSON.stringify(harness.api.makeBackup(data(['A']),'main')));
+
+ assert.equal(await harness.api.runNow(),true);
+ assert.deepEqual(harness.fileHandleRequests.map(function(request){return request.create}),[false,false]);
+ assert.equal(harness.fileHandleRequests.some(function(request){return request.create}),false);
+ assert.equal(harness.writableFileHandles.length,1);
+ assert.equal(harness.writableFileHandles[0],harness.returnedFileHandles[1]);
+});
+
+test('escrita usa create true somente depois de NotFoundError',async function(){
+ const harness=createHarness();
+ await harness.api.initialize({data:data(['A']),notify:function(){},restore:async function(){}});
+ assert.equal(await harness.api.chooseFolder(),true);
+
+ assert.equal(await harness.api.runNow(),true);
+ assert.deepEqual(harness.fileHandleRequests.map(function(request){return request.create}),[false,false,true]);
+ assert.equal(harness.writableFileHandles.length,1);
+ assert.equal(harness.writableFileHandles[0],harness.returnedFileHandles[0]);
+ assert.equal(harness.files.has('gera-backup.json'),true);
 });
 
 test('trava impede leituras concorrentes de backup',async function(){

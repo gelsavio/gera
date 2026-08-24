@@ -2,7 +2,7 @@
 
 const CACHE_PREFIX = 'gera-pwa-';
 const LEGACY_CACHE_PREFIX = 'teclado-virtual-pwa-';
-const CACHE_NAME = CACHE_PREFIX + 'v3.15.53-backup-test-b';
+const CACHE_NAME = CACHE_PREFIX + 'v3.15.53-backup-test-b1';
 const OFFLINE_URL = './offline.html';
 
 const PRECACHE_URLS = [
