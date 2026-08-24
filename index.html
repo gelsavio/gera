@@ -932,22 +932,106 @@
   </div>
 </dialog>
 
-<dialog id="folder-backup-recovery-dialog" class="folder-backup-dialog" aria-labelledby="folder-backup-recovery-title">
-  <div class="folder-backup-dialog-card">
-    <div class="folder-backup-dialog-heading">
-      <div>
-        <h2 id="folder-backup-recovery-title">Restaurar backup em pasta</h2>
-        <p id="folder-backup-recovery-message">Localize a pasta ou selecione um arquivo de backup.</p>
+<dialog id="backup-wizard" class="backup-wizard" aria-labelledby="backup-wizard-title" aria-describedby="backup-wizard-message">
+  <div class="backup-wizard-card">
+    <header class="backup-wizard-header">
+      <div class="backup-wizard-heading">
+        <span class="backup-wizard-kicker">Biblioteca e backup</span>
+        <h2 id="backup-wizard-title">Bem-vindo ao GERA</h2>
+        <p id="backup-wizard-message">Como você deseja começar?</p>
       </div>
-      <button id="folder-backup-recovery-close" type="button" class="secondary" aria-label="Fechar">×</button>
+      <button id="backup-wizard-close" type="button" class="backup-wizard-close" aria-label="Fechar assistente">×</button>
+    </header>
+    <div id="backup-wizard-progress" class="backup-wizard-progress" aria-label="Etapa 1 de 4">
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
     </div>
-    <div id="folder-backup-recovery-list" class="folder-backup-recovery-list"></div>
-    <div class="folder-backup-recovery-actions">
-      <button id="folder-backup-recovery-choose" type="button">📁 Localizar pasta</button>
-      <button id="folder-backup-recovery-reactivate" type="button">🔓 Reativar pasta conhecida</button>
-      <label class="folder-backup-file-button" for="folder-backup-recovery-file">📄 Selecionar arquivo JSON</label>
-      <input id="folder-backup-recovery-file" type="file" accept=".json,application/json" hidden>
-    </div>
+
+    <section id="backup-wizard-step-welcome" class="backup-wizard-step">
+      <div class="backup-wizard-choice-grid">
+        <button id="backup-wizard-recover" type="button" class="backup-wizard-choice backup-wizard-choice-primary">
+          <strong>Recuperar minha biblioteca</strong>
+          <small>Use um backup criado neste ou em outro dispositivo.</small>
+        </button>
+        <button id="backup-wizard-empty" type="button" class="backup-wizard-choice">
+          <strong>Começar com biblioteca vazia</strong>
+          <small>Comece uma nova biblioteca e configure o backup depois.</small>
+        </button>
+      </div>
+    </section>
+
+    <section id="backup-wizard-step-source" class="backup-wizard-step" hidden>
+      <div class="backup-wizard-actions backup-wizard-actions-stack">
+        <button id="backup-wizard-use-known" type="button" class="primary" hidden>Usar pasta anterior</button>
+        <button id="backup-wizard-choose-source" type="button">Escolher pasta</button>
+        <label class="backup-wizard-file-button" for="backup-wizard-file">Selecionar arquivo JSON</label>
+        <button type="button" class="secondary" data-backup-wizard-back>Voltar</button>
+      </div>
+    </section>
+
+    <section id="backup-wizard-step-authorize" class="backup-wizard-step" hidden>
+      <div class="backup-wizard-actions backup-wizard-actions-stack">
+        <button id="backup-wizard-authorize" type="button" class="primary">Autorizar pasta</button>
+        <button id="backup-wizard-authorize-other" type="button">Escolher outra pasta</button>
+        <button type="button" class="secondary" data-backup-wizard-back>Voltar</button>
+      </div>
+    </section>
+
+    <section id="backup-wizard-step-folder-guide" class="backup-wizard-step" hidden>
+      <p class="backup-wizard-note">Nenhuma música será alterada nesta etapa.</p>
+      <div class="backup-wizard-actions">
+        <button id="backup-wizard-choose-folder" type="button" class="primary">Escolher pasta</button>
+        <button type="button" class="secondary" data-backup-wizard-back>Voltar</button>
+      </div>
+    </section>
+
+    <section id="backup-wizard-step-connected" class="backup-wizard-step" hidden>
+      <div class="backup-wizard-success" aria-hidden="true">✓</div>
+      <p class="backup-wizard-note">Agora podemos procurar um backup do GERA nela.</p>
+      <div class="backup-wizard-actions backup-wizard-actions-stack">
+        <button id="backup-wizard-search" type="button" class="primary">Procurar backup</button>
+        <button id="backup-wizard-connected-other" type="button">Escolher outra pasta</button>
+        <button type="button" class="secondary" data-backup-wizard-back>Voltar</button>
+      </div>
+    </section>
+
+    <section id="backup-wizard-step-searching" class="backup-wizard-step" hidden aria-live="polite">
+      <div class="backup-wizard-loading" aria-hidden="true"></div>
+      <p class="backup-wizard-loading-text">Procurando backups…</p>
+    </section>
+
+    <section id="backup-wizard-step-results" class="backup-wizard-step" hidden>
+      <div id="backup-wizard-results" class="backup-wizard-results"></div>
+      <div class="backup-wizard-actions">
+        <button id="backup-wizard-results-other" type="button">Escolher outra pasta</button>
+        <button type="button" class="secondary" data-backup-wizard-back>Voltar</button>
+      </div>
+    </section>
+
+    <section id="backup-wizard-step-not-found" class="backup-wizard-step" hidden>
+      <div class="backup-wizard-actions backup-wizard-actions-stack">
+        <button id="backup-wizard-not-found-other" type="button">Escolher outra pasta</button>
+        <label class="backup-wizard-file-button" for="backup-wizard-file">Selecionar arquivo JSON</label>
+        <button id="backup-wizard-not-found-empty" type="button">Começar com biblioteca vazia</button>
+        <button type="button" class="secondary" data-backup-wizard-back>Voltar</button>
+      </div>
+    </section>
+
+    <section id="backup-wizard-step-restored" class="backup-wizard-step" hidden>
+      <div class="backup-wizard-success" aria-hidden="true">✓</div>
+      <div class="backup-wizard-actions">
+        <button id="backup-wizard-enter" type="button" class="primary">Entrar no GERA</button>
+      </div>
+    </section>
+
+    <section id="backup-wizard-step-empty-confirm" class="backup-wizard-step" hidden>
+      <p class="backup-wizard-note">Nenhum backup existente será apagado. Você poderá recuperar um backup posteriormente pelas configurações.</p>
+      <div class="backup-wizard-actions">
+        <button id="backup-wizard-start-empty" type="button" class="primary">Começar agora</button>
+        <button type="button" class="secondary" data-backup-wizard-back>Voltar</button>
+      </div>
+    </section>
+
+    <input id="backup-wizard-file" type="file" accept=".json,application/json" hidden>
   </div>
 </dialog>
 <script src="./js/chords.js"></script>
