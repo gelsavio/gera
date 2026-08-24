@@ -28,6 +28,7 @@
  let wizardStep='';
  let wizardHistory=[];
  let wizardRequired=false;
+ let recoveryResultCount=0;
  let refusedReductionSignature='';
  let callbacks={};
 
@@ -375,7 +376,7 @@
    'folder-guide':{title:'Escolha uma pasta',message:'Escolha ou crie a pasta onde seus backups ficam guardados. Depois, toque em “Usar esta pasta”.'},
    connected:{title:'Pasta conectada',message:'Tudo certo! Sua pasta está pronta para ser consultada.'},
    searching:{title:'Procurando seus backups',message:'Estou procurando os backups disponíveis nesta pasta.'},
-   results:{title:'Backup encontrado',message:'Encontrei estas opções. Confira os detalhes e escolha a biblioteca que deseja recuperar.'},
+   results:{title:'Backup encontrado',message:recoveryResultCount===1?'Encontrei um backup disponível. Confira os detalhes antes de recuperá-lo.':'Encontrei mais de um backup disponível. Escolha qual deseja recuperar.'},
    'not-found':{title:'Nenhum backup encontrado',message:'Não encontrei um backup do '+appName+' nesta pasta. Você pode tentar outra pasta, escolher um arquivo JSON ou começar uma biblioteca nova.'},
    restored:{title:'Biblioteca recuperada',message:'Seu backup foi restaurado com sucesso. Suas músicas já estão prontas para uso neste dispositivo.'},
    'empty-confirm':{title:'Começar uma nova biblioteca',message:'Você começará com uma biblioteca limpa e poderá recuperar um backup depois, quando quiser.'}
@@ -418,6 +419,7 @@
   }
   const close=byId('backup-wizard-close');
   if(close)close.hidden=wizardRequired;
+  dialog.classList.toggle('backup-wizard-results-view',step==='results');
   if(step==='source')updateWizardSource();
   if(!dialog.open)dialog.showModal();
   return true;
@@ -444,11 +446,18 @@
   const label=source&&source.label?source.label:String(source||'backup');
   const size=source&&typeof source.size==='number'?source.size:null;
   const info=backup.summary||summary(backup.data);
-  const accepted=await confirmAction(
-   'Restaurar '+info.songs+(info.songs===1?' música':' músicas')+' de '+label+' e substituir o acervo atual?',
-   'Restaurar backup do GERA',
-   'Restaurar'
-  );
+  const confirmDialog=byId('app-confirm-dialog');
+  if(confirmDialog)confirmDialog.classList.toggle('backup-restore-confirm',true);
+  let accepted=false;
+  try{
+   accepted=await confirmAction(
+    'Este backup contém '+info.songs+(info.songs===1?' música.':' músicas.')+' Ao continuar, ele substituirá a biblioteca atual deste dispositivo.',
+    'Restaurar este backup?',
+    'Restaurar backup'
+   );
+  }finally{
+   if(confirmDialog)confirmDialog.classList.toggle('backup-restore-confirm',false);
+  }
   if(!accepted)return false;
   if(!callbacks.restore||!(await callbacks.restore(backup.data,{label:label,size:size}))){
    notify('Não foi possível restaurar o backup.');
@@ -488,6 +497,7 @@
  function renderRecoveryList(backups){
   const list=byId('backup-wizard-results');
   if(!list)return;
+  recoveryResultCount=backups.length;
   list.innerHTML='';
   if(!backups.length){
    const empty=global.document.createElement('div');

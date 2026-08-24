@@ -256,6 +256,7 @@ test('wizard só procura backup depois da pasta conectada e do comando explícit
  assert.deepEqual(harness.reads,['gera-backup.json']);
  assert.equal(harness.parses.length,1);
  assert.equal(harness.elements['backup-wizard-title'].textContent,'Backup encontrado');
+ assert.equal(harness.elements['backup-wizard-message'].textContent,'Encontrei um backup disponível. Confira os detalhes antes de recuperá-lo.');
 });
 
 test('pasta conhecida sem permissão abre a etapa de autorização',async function(){
@@ -368,10 +369,12 @@ test('trava impede leituras concorrentes de backup',async function(){
 
 test('recuperação lista somente metadados e relê apenas o arquivo escolhido',async function(){
  const restored=[];
+ const confirmations=[];
  const harness=createHarness({wizardDom:true});
  await harness.api.initialize({
   data:data(['LOCAL']),
   notify:function(){},
+  confirm:async function(message,title,okLabel){confirmations.push({message:message,title:title,okLabel:okLabel});return true},
   restore:async function(value,sourceInfo){restored.push({value:value,sourceInfo:sourceInfo});return true}
  });
  assert.equal(await harness.api.chooseFolder(),true);
@@ -385,6 +388,7 @@ test('recuperação lista somente metadados e relê apenas o arquivo escolhido',
  assert.equal(await harness.elements['backup-wizard-search'].click(),true);
  assert.deepEqual(harness.reads,['gera-backup.json','gera-backup-anterior.json']);
  assert.equal(harness.parses.length,2);
+ assert.equal(harness.elements['backup-wizard-message'].textContent,'Encontrei mais de um backup disponível. Escolha qual deseja recuperar.');
  assert.deepEqual(harness.fileEvents,[
   'size:gera-backup.json','text:gera-backup.json','parse',
   'size:gera-backup-anterior.json','text:gera-backup-anterior.json','parse'
@@ -406,7 +410,13 @@ test('recuperação lista somente metadados e relê apenas o arquivo escolhido',
  assert.equal(Object.keys(restored[0].value.songsStore.songs)[0],'MAIN_SENTINEL');
  assert.equal(restored[0].sourceInfo.label,'gera-backup.json');
  assert.equal(typeof restored[0].sourceInfo.size,'number');
+ assert.deepEqual(confirmations,[{
+  message:'Este backup contém 1 música. Ao continuar, ele substituirá a biblioteca atual deste dispositivo.',
+  title:'Restaurar este backup?',
+  okLabel:'Restaurar backup'
+ }]);
  assert.equal(harness.elements['backup-wizard-title'].textContent,'Biblioteca recuperada');
+ assert.match(css,/\.confirm-dialog-app\.backup-restore-confirm/);
 });
 
 test('importação manual consulta tamanho, lê e interpreta uma única vez',async function(){
