@@ -27,6 +27,9 @@ function createHarness(options){
  options=options||{};
  const files=new Map();
  const writes=[];
+ const reads=[];
+ const parses=[];
+ const stringifies=[];
  const timers=[];
  const directory={
   name:'Backups GERA',
@@ -40,7 +43,11 @@ function createHarness(options){
    }
    if(!files.has(name))files.set(name,'');
    return {
-    getFile:async function(){return {text:async function(){return files.get(name)}}},
+    getFile:async function(){return {text:async function(){
+     reads.push(name);
+     if(options.beforeRead)await options.beforeRead(name);
+     return files.get(name);
+    }}},
     createWritable:async function(){
      return {
       write:async function(content){files.set(name,String(content));writes.push(name)},
@@ -69,8 +76,12 @@ function createHarness(options){
  };
  window.window=window;
  window.globalThis=window;
- vm.runInNewContext(source,{window:window,globalThis:window,console:console,Blob:Blob,URL:fakeUrl});
- return {api:window.GeraFolderBackup,directory:directory,files:files,writes:writes,timers:timers};
+ const trackedJson={
+  parse:function(value){parses.push(value);return JSON.parse(value)},
+  stringify:function(value,replacer,space){stringifies.push(value);return JSON.stringify(value,replacer,space)}
+ };
+ vm.runInNewContext(source,{window:window,globalThis:window,console:console,Blob:Blob,URL:fakeUrl,JSON:trackedJson});
+ return {api:window.GeraFolderBackup,directory:directory,files:files,reads:reads,writes:writes,parses:parses,stringifies:stringifies,timers:timers};
 }
 
 test('módulo calcula a redução crítica e usa os dois arquivos de segurança',function(){
@@ -92,6 +103,9 @@ test('redução superior a 75% preserva a cópia anterior antes da principal',as
   restore:async function(){}
  });
  assert.equal(await harness.api.chooseFolder(),true);
+ assert.equal(harness.reads.length,0);
+ assert.equal(harness.writes.length,0);
+ assert.equal(await harness.api.runNow(),true);
  harness.writes.length=0;
 
  harness.api.schedule(data(['A']));
@@ -102,6 +116,40 @@ test('redução superior a 75% preserva a cópia anterior antes da principal',as
  assert.deepEqual(harness.writes,['gera-backup-anterior.json','gera-backup.json']);
  assert.equal(Object.keys(JSON.parse(harness.files.get('gera-backup-anterior.json')).data.songsStore.songs).length,5);
  assert.equal(Object.keys(JSON.parse(harness.files.get('gera-backup.json')).data.songsStore.songs).length,1);
+});
+
+test('selecionar a pasta apenas salva a configuração, sem ler ou gravar backup',async function(){
+ const harness=createHarness();
+ await harness.api.initialize({data:data(['A']),notify:function(){},restore:async function(){}});
+
+ assert.equal(await harness.api.chooseFolder(),true);
+ assert.deepEqual(harness.reads,[]);
+ assert.deepEqual(harness.writes,[]);
+ assert.deepEqual(harness.parses,[]);
+ assert.deepEqual(harness.stringifies,[]);
+ assert.equal(harness.files.has('gera-backup.json'),false);
+});
+
+test('trava impede leituras concorrentes de backup',async function(){
+ let releaseRead;
+ let signalRead;
+ const readStarted=new Promise(function(resolve){signalRead=resolve});
+ const readGate=new Promise(function(resolve){releaseRead=resolve});
+ const harness=createHarness({beforeRead:async function(){signalRead();await readGate}});
+ await harness.api.initialize({data:data(['A']),notify:function(){},restore:async function(){}});
+ assert.equal(await harness.api.chooseFolder(),true);
+ harness.files.set('gera-backup.json',JSON.stringify(harness.api.makeBackup(data(['A']),'main')));
+
+ const first=harness.api.runNow();
+ await readStarted;
+ assert.equal(await harness.api.runNow(),false);
+ let manualReads=0;
+ const input={files:[{name:'manual.json',text:async function(){manualReads++;return '{}'}}],value:'manual.json'};
+ assert.equal(await harness.api.selectManualFile(input),false);
+ assert.equal(manualReads,0);
+ assert.equal(harness.reads.length,1);
+ releaseRead();
+ assert.equal(await first,true);
 });
 
 test('acervo vazio nunca substitui o backup em pasta',async function(){

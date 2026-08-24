@@ -23,11 +23,11 @@
  let latestData=null;
  let initialized=false;
  let bound=false;
+ let operationInProgress=false;
  let refusedReductionSignature='';
  let callbacks={};
 
  function byId(id){return global.document?global.document.getElementById(id):null}
- function clone(value){return JSON.parse(JSON.stringify(value))}
  function songMap(data){
   const source=data&&data.data&&typeof data.data==='object'?data.data:data;
   const store=source&&source.songsStore&&typeof source.songsStore==='object'?source.songsStore:null;
@@ -57,7 +57,7 @@
    backupType:type||'main',
    updatedAt:new Date().toISOString(),
    summary:summary(data),
-   data:clone(data)
+   data:data
   };
  }
  function validateBackup(value){
@@ -184,12 +184,13 @@
   global.setTimeout(function(){URL.revokeObjectURL(url)},1000);
   return true;
  }
- async function runBackup(data,options){
-  latestData=clone(data||latestData||{});
-  const currentTotal=countSongs(latestData);
+ async function runBackupOperation(data,options){
+  const backupData=data||latestData||{};
+  latestData=backupData;
+  const currentTotal=countSongs(backupData);
   if(currentTotal===0){
    setStatus('Backup protegido: não há músicas locais','warning');
-   if(initialized)await openRecovery(false);
+   if(initialized)await openRecoveryOperation(false);
    return false;
   }
   if(!directoryHandle){setStatus('Alterações locais; backup não configurado','warning');return false}
@@ -227,14 +228,14 @@
       notify('O backup existente foi mantido sem alterações.');
       return false;
      }
-     const previous=clone(currentBackup);
+     const previous=currentBackup;
      previous.backupType='before-reduction';
      previous.preservedAt=new Date().toISOString();
      previous.reason='Redução superior a 75% confirmada pelo usuário';
      await writeJsonFile(PREVIOUS_FILE,previous);
     }
    }
-   const next=makeBackup(latestData,'main');
+   const next=makeBackup(backupData,'main');
    await writeJsonFile(MAIN_FILE,next);
    setLastBackup(next);
    setStatus('Backup automático em pasta atualizado','active');
@@ -248,8 +249,14 @@
    return false;
   }
  }
+ async function runBackup(data,options){
+  if(operationInProgress)return false;
+  operationInProgress=true;
+  try{return await runBackupOperation(data,options)}
+  finally{operationInProgress=false}
+ }
  function schedule(data){
-  latestData=clone(data||{});
+  latestData=data||{};
   global.clearTimeout(backupTimer);
   if(!hasRealData(latestData)){
    setStatus('Backup protegido: não há músicas locais','warning');
@@ -276,9 +283,7 @@
    try{await saveHandle(directoryHandle)}catch(error){
     if(global.console)global.console.warn('A pasta funcionará nesta sessão, mas não pôde ser lembrada:',error);
    }
-   setStatus('Backup automático em pasta ativo','active');
-   if(forRecovery||!hasRealData(latestData))await openRecovery(hasRealData(latestData));
-   else await runBackup(latestData,{manual:true});
+   setStatus('Pasta de backup configurada','active');
    return true;
   }catch(error){
    if(!error||error.name!=='AbortError'){
@@ -340,7 +345,7 @@
   global.setTimeout(function(){global.location.reload()},350);
   return true;
  }
- async function restoreFile(name){
+ async function restoreFileOperation(name){
   try{
    const backup=validateBackup(await readJsonFile(name));
    return restoreBackup(backup,name);
@@ -349,6 +354,12 @@
    notify('O backup não pôde ser restaurado: '+error.message);
    return false;
   }
+ }
+ async function restoreFile(name){
+  if(operationInProgress)return false;
+  operationInProgress=true;
+  try{return await restoreFileOperation(name)}
+  finally{operationInProgress=false}
  }
  function renderRecoveryList(backups){
   const list=byId('folder-backup-recovery-list');
@@ -371,7 +382,7 @@
    list.appendChild(button);
   });
  }
- async function openRecovery(hasLocalData){
+ async function openRecoveryOperation(hasLocalData){
   const dialog=recoveryDialog();
   const title=byId('folder-backup-recovery-title');
   const message=byId('folder-backup-recovery-message');
@@ -394,7 +405,13 @@
   }
   renderRecoveryList(await availableBackups());
  }
- async function selectManualFile(input){
+ async function openRecovery(hasLocalData){
+  if(operationInProgress)return false;
+  operationInProgress=true;
+  try{await openRecoveryOperation(hasLocalData);return true}
+  finally{operationInProgress=false}
+ }
+ async function selectManualFileOperation(input){
   const file=input&&input.files?input.files[0]:null;
   if(!file)return false;
   try{return await restoreBackup(validateBackup(JSON.parse(await file.text())),file.name)}
@@ -403,6 +420,12 @@
    notify('O arquivo selecionado não é um backup válido do GERA.');
    return false;
   }finally{input.value=''}
+ }
+ async function selectManualFile(input){
+  if(operationInProgress)return false;
+  operationInProgress=true;
+  try{return await selectManualFileOperation(input)}
+  finally{operationInProgress=false}
  }
  function bind(){
   if(bound||!global.document)return;
@@ -424,7 +447,7 @@
  }
  async function initialize(options){
   callbacks=options||{};
-  latestData=clone(callbacks.data||{});
+  latestData=callbacks.data||{};
   bind();
   try{directoryHandle=await loadHandle()}
   catch(error){
