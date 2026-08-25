@@ -17,7 +17,7 @@
  const WELCOME_DISMISSED_KEY='geraBackupWelcomeDismissedV1';
  const BACKUP_DELAY_MS=3000;
  const REDUCTION_LIMIT=.75;
- const APP_VERSION='3.15.46';
+ const APP_VERSION='3.15.54';
 
  let directoryHandle=null;
  let backupTimer=null;

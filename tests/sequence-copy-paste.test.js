@@ -138,10 +138,10 @@ test('área de transferência permanece disponível entre músicas e Cancelar re
  assert.match(index,/sequenceDrums=JSON\.parse\(JSON\.stringify\(sequenceRecordSnapshot\.drums\)\)/);
 });
 
-test('versão, cache e manifesto foram atualizados para 3.15.53',function(){
+test('versão, cache e manifesto foram atualizados para 3.15.54',function(){
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
- assert.equal(manifest.version,'3.15.53');
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.53';"));
- assert.equal((index.match(/v3\.15\.53/g)||[]).length,3);
+ assert.equal(manifest.version,'3.15.54');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.54';"));
+ assert.equal((index.match(/v3\.15\.54/g)||[]).length,3);
 });

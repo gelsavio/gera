@@ -191,7 +191,7 @@ test('preserva o arquivo de BPM no SERVICE WORKER e atualiza somente a versão v
  const currentSw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  assert.ok(currentSw.includes('    "./js/transport/tempo.js",'));
  const currentManifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
- assert.equal(currentManifest.version,'3.15.53');
+ assert.equal(currentManifest.version,'3.15.54');
 });
 
 test('todos os demais recursos funcionais permanecem byte a byte iguais',function(){

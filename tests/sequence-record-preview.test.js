@@ -103,12 +103,12 @@ test('reprodução normal continua respeitando AUTO com repetição zero',functi
  assert.equal(calls.includes('playing:false'),true);
 });
 
-test('versão 3.15.53 contém as guardas da prévia e do roteiro',function(){
+test('versão 3.15.54 contém as guardas da prévia e do roteiro',function(){
  assert.match(index,/if\(!sequenceRecordPreviewActive&&\(typeof playbackPlanRuntimeActive==='undefined'\|\|!playbackPlanRuntimeActive\)&&\(sequenceAuto\|\|sequenceAutoEnd\)&&sectionRepeatValue\(activeSequenceSection\)===0\)/);
  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
- assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.53';"));
- assert.equal(manifest.version,'3.15.53');
+ assert.ok(sw.includes("const CACHE_NAME = CACHE_PREFIX + 'v3.15.54';"));
+ assert.equal(manifest.version,'3.15.54');
 });
 
 test('prévia concluída restaura gravação e o botão Testar 1x',function(){

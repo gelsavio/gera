@@ -136,5 +136,5 @@ test('o evento activate remove caches antigos e preserva o cache atual e caches 
  let activation;
  listeners.activate({waitUntil:function(promise){activation=promise}});
  await activation;
- assert.deepEqual(deleted,['gera-pwa-v3.15.04','gera-pwa-v3.15.05','gera-pwa-v3.15.06','gera-pwa-v3.15.07','gera-pwa-v3.15.08','gera-pwa-v3.15.09','gera-pwa-v3.15.10','gera-pwa-v3.15.12','gera-pwa-v3.15.13','gera-pwa-v3.15.16','gera-pwa-v3.15.20','gera-pwa-v3.15.21','gera-pwa-v3.15.22','gera-pwa-v3.15.23','gera-pwa-v3.15.24','gera-pwa-v3.15.25','gera-pwa-v3.15.26','teclado-virtual-pwa-v3.14.97']);
+ assert.deepEqual(deleted,['gera-pwa-v3.15.04','gera-pwa-v3.15.05','gera-pwa-v3.15.06','gera-pwa-v3.15.07','gera-pwa-v3.15.08','gera-pwa-v3.15.09','gera-pwa-v3.15.10','gera-pwa-v3.15.12','gera-pwa-v3.15.13','gera-pwa-v3.15.16','gera-pwa-v3.15.20','gera-pwa-v3.15.21','gera-pwa-v3.15.22','gera-pwa-v3.15.23','gera-pwa-v3.15.24','gera-pwa-v3.15.25','gera-pwa-v3.15.26','gera-pwa-v3.15.53','teclado-virtual-pwa-v3.14.97']);
 });

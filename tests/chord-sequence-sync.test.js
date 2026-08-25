@@ -171,10 +171,10 @@ test('recursos funcionais fora dos pontos autorizados permanecem byte a byte igu
  files.forEach(function(file){assert.deepEqual(fs.readFileSync(path.join(root,file)),fs.readFileSync(path.join(baselineRoot,file)),file)});
 });
 
-test('SERVICE WORKER mantém o módulo da sequência no cache 3.15.53',function(){
+test('SERVICE WORKER mantém o módulo da sequência no cache 3.15.54',function(){
  const currentSw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  const baselineSw=fs.readFileSync(path.join(baselineRoot,'sw.js'),'utf8');
- const reconstructed=currentSw.replace("'v3.15.53'","'v3.15.09'")
+ const reconstructed=currentSw.replace("'v3.15.54'","'v3.15.09'")
   .replace('    "./js/storage.js",\n','')
   .replace('    "./js/folder-backup.js",\n','')
   .replace('    "./js/lyrics.js",\n','')
@@ -193,7 +193,7 @@ test('SERVICE WORKER mantém o módulo da sequência no cache 3.15.53',function(
   .replace('    "./js/ui/songs-library.js",\n','')
   .replace('    "./js/ui/settings-modals.js",\n','');
  assert.equal(restored,baselineSw);
- assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.53');
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).version,'3.15.54');
 });
 
 test('núcleo mantém reprodução interna e transições fora do módulo extraído',function(){

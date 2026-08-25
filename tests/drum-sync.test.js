@@ -163,7 +163,7 @@ test('módulo da bateria permanece no SERVICE WORKER e no núcleo após a etapa 
  assert.ok(currentSw.includes('    "./js/transport/drum-sync.js",'));
  assert.ok(index.includes('const drumTransportConsumer=GeraTransportDrumSync.createConsumer({'));
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
- assert.equal(manifest.version,'3.15.53');
+ assert.equal(manifest.version,'3.15.54');
 });
 
 test('módulo da bateria permanece byte a byte igual à versão validada 3.15.09',function(){

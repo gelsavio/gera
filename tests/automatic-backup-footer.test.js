@@ -171,6 +171,7 @@ test('módulo calcula a redução crítica e usa os dois arquivos de segurança'
  assert.equal(harness.api.constants.delay,3000);
  assert.equal(harness.api.calculateReduction(4,1),.75);
  assert.equal(harness.api.calculateReduction(5,1),.8);
+ assert.equal(harness.api.makeBackup(data(['A']),'release').appVersion,'3.15.54');
 });
 
 test('redução superior a 75% preserva a cópia anterior antes da principal',async function(){
