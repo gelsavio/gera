@@ -416,7 +416,7 @@ test('recuperação lista somente metadados e relê apenas o arquivo escolhido',
   okLabel:'Restaurar backup'
  }]);
  assert.equal(harness.elements['backup-wizard-title'].textContent,'Biblioteca recuperada');
- assert.match(css,/\.confirm-dialog-app\.backup-restore-confirm/);
+ assert.match(css,/dialog\.confirm-dialog-app\{[^}]*background:#fff!important/);
 });
 
 test('importação manual consulta tamanho, lê e interpreta uma única vez',async function(){
